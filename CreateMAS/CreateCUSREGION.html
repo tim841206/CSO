@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<title>新增顧客地區</title>
+	<header>
+		<h1>新增顧客地區</h1>
+	</header>
+</head>
+<table>
+	<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()"></td></tr>
+	<tr><td>通路編號</td><td><input type="text" name="CHANNELNO" id="CHANNELNO" onchange="CHANNELNO()"></td></tr>
+	<tr><td>通路名稱</td><td><input type="text" name="CHANNELNM" id="CHANNELNM" onchange="CHANNELNM()"></td></tr>
+	<tr><td>廠商公司編號</td><td><input type="text" name="COMPANYNO" id="COMPANYNO" onchange="COMPANYNO()"></td></tr>
+	<tr><td>廠商公司名稱</td><td><input type="text" name="COMPANYNM" id="COMPANYNM" onchange="COMPANYNM()"></td></tr>
+	<tr><td>地區編號</td><td><input type="text" name="DISTRICTNO" id="DISTRICTNO" onchange="DISTRICTNO()"></td></tr>
+	<tr><td>敘述</td><td><input type="text" name="DESCRIPTION" id="DESCRIPTION" onchange="DESCRIPTION()"></td></tr>
+</table>
+<button onclick="Create()">新增</button>
+
+<script type="text/javascript">
+	function REGIONNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("廠商暨地區編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("廠商暨地區編號不可超過15字元");
+				}
+				else if (data.state == 3) {
+					alert("此廠商暨地區編號已存在");
+				}
+			}
+		}
+	}
+	function CHANNELNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=CHANNELNO&CHANNELNO=" + document.getElementById("CHANNELNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("通路編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("通路編號不可超過15字元");
+				}
+			}
+		}
+	}
+	function CHANNELNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=CHANNELNM&CHANNELNM=" + document.getElementById("CHANNELNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("通路名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("通路名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function COMPANYNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=COMPANYNO&COMPANYNO=" + document.getElementById("COMPANYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("廠商公司編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("廠商公司編號不可超過15字元");
+				}
+			}
+		}
+	}
+	function COMPANYNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=COMPANYNM&COMPANYNM=" + document.getElementById("COMPANYNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("廠商公司名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("廠商公司名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function DISTRICTNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=DISTRICTNO&DISTRICTNO=" + document.getElementById("DISTRICTNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("地區編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("地區編號不可超過15字元");
+				}
+			}
+		}
+	}
+	function DESCRIPTION() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=DESCRIPTION&DESCRIPTION=" + document.getElementById("DESCRIPTION").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("敘述不可超過50字元");
+				}
+			}
+		}
+	}
+	function Create() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSREGION&option=Create&REGIONNO=" + document.getElementById("REGIONNO").value + "&CHANNELNO=" + document.getElementById("CHANNELNO").value + "&CHANNELNM=" + document.getElementById("CHANNELNM").value + "&COMPANYNO=" + document.getElementById("COMPANYNO").value + "&COMPANYNM=" + document.getElementById("COMPANYNM").value + "&DISTRICTNO=" + document.getElementById("DISTRICTNO").value + "&DESCRIPTION=" + document.getElementById("DESCRIPTION").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("新增成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫新增失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

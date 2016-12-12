@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<title>新增顧客城市</title>
+	<header>
+		<h1>新增顧客城市</h1>
+	</header>
+</head>
+<table>
+	<tr><td>所屬廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()"></td></tr>
+	<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()"></td></tr>
+	<tr><td>城市名稱</td><td><input type="text" name="CITYNM" id="CITYNM" onchange="CITYNM()"></td></tr>
+</table>
+<button onclick="Create()">新增</button>
+
+<script type="text/javascript">
+	function REGIONNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSCITY&option=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("此廠商暨地區編號不存在");
+				}
+			}
+		}
+	}
+	function CITYNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("城市編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("城市編號不可超過15字元");
+				}
+				else if (data.state == 3) {
+					alert("此城市編號已存在");
+				}
+			}
+		}
+	}
+	function CITYNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSCITY&option=CITYNM&CITYNM=" + document.getElementById("CITYNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("城市名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("城市名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function Create() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateCUSCITY&option=Create&REGIONNO=" + document.getElementById("REGIONNO").value + "&CITYNO=" + document.getElementById("CITYNO").value + "&CITYNM=" + document.getElementById("CITYNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("新增成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫新增失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

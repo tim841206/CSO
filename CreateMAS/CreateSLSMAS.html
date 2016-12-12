@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<title>新增銷售員</title>
+	<header>
+		<h1>新增銷售員</h1>
+	</header>
+</head>
+<table>
+	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+	<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()"></td></tr>
+	<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"></td></tr>
+	<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"></td></tr>
+</table>
+<button onclick="Create()">新增</button>
+
+<script type="text/javascript">
+	function SALPERNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateSLSMAS&option=SALPERNO&SALPERNO=" + document.getElementById("SALPERNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("銷售員編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("銷售員編號不可超過15字元");
+				}
+				else if (data.state == 3) {
+					alert("此銷售員編號已存在");
+				}
+			}
+		}
+	}
+	function SALPERNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateSLSMAS&option=SALPERNM&SALPERNM=" + document.getElementById("SALPERNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("銷售員名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("銷售員名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function EMPNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateSLSMAS&option=EMPNO&EMPNO=" + document.getElementById("EMPNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("員工編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("員工編號不可超過15字元");
+				}
+			}
+		}
+	}
+	function COMRATE() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateSLSMAS&option=COMRATE&COMRATE=" + document.getElementById("COMRATE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("酬勞比率為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("酬勞比率不可為負");
+				}
+			}
+		}
+	}
+	function Create() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CreateMAS.php");
+		var data = "module=CreateMAS&event=CreateSLSMAS&option=Create&SALPERNO=" + document.getElementById("SALPERNO").value + "&SALPERNM=" + document.getElementById("SALPERNM").value + "&EMPNO=" + document.getElementById("EMPNO").value + "&COMRATE=" + document.getElementById("COMRATE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("新增成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫新增失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

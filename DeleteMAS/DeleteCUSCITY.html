@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<title>刪除顧客城市</title>
+	<header>
+		<h1>刪除顧客城市</h1>
+	</header>
+</head>
+<table>
+	<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()"></td></tr>
+	<tr><td>城市名稱</td><td><p id="CITYNM"></p></td></tr>
+	<tr><td>所屬廠商暨地區編號</td><td><p id="REGIONNO"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+</table>
+<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+
+<script type="text/javascript">
+	function CITYNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "DeleteMAS.php");
+		var data = "module=DeleteMAS&event=DeleteCUSCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("CITYNM").innerHTML = data.CITYNM;
+					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+					document.getElementById('Delete').style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此城市編號不存在");
+				}
+			}
+		}
+	}
+	function Delete() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "DeleteMAS.php");
+		var data = "module=DeleteMAS&event=DeleteCUSCITY&option=Delete&CITYNO=" + document.getElementById("CITYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("刪除成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫刪除失敗");
+				}
+			}
+		}
+	}
+</script>
