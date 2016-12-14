@@ -64,7 +64,7 @@
 	<? if ($_POST['type'] == 'CrossSearchMAS'){ ?>
 	<select class="" name="event" onchange="document.getElementById('form').submit();">
 		<option value="SLSMASSearchCUSMAS" <? check_selected('event', 'SLSMASSearchCUSMAS') ?>>銷售員查詢顧客</option>
-		<option value="CUSMASSearchCUSCITY" <? check_selected('event', 'CUSMASSearchCUSCITY') ?>>顧客查詢顧客城市</option>
+		<option value="CUSMASSearchCUSCITY" <? check_selected('event', 'CUSMASSearchCUSADD') ?>>顧客查詢顧客地址</option>
 		<option value="CUSREGIONSearchCUSCITY" <? check_selected('event', 'CUSREGIONSearchCUSCITY') ?>>顧客地區查詢顧客城市</option>
 		<option value="CUSCITYSearchRELATION" <? check_selected('event', 'CUSCITYSearchCUSADDCITY') ?>>顧客城市查詢顧客地址城市關聯</option>
 	</select>

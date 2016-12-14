@@ -34,7 +34,7 @@
 	查詢顧客地址城市關聯 (SearchCUSADDCITY)
 跨主檔查詢 (CrossSearchMAS)
 	銷售員查詢顧客 (SLSMASSearchCUSMAS)
-	顧客查詢顧客城市 (CUSMASSearchCUSCITY)
+	顧客查詢顧客地址 (CUSMASSearchCUSADD)
 	顧客地區查詢顧客城市 (CUSREGIONSearchCUSCITY)
 	顧客城市查詢顧客地址城市關聯 (CUSCITYSearchCUSADDCITY)
 訂單主檔維護 (ORDMAS)

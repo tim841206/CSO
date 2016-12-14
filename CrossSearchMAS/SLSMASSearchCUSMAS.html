@@ -9,3 +9,29 @@
 		<h1>銷售員查詢顧客</h1>
 	</header>
 </head>
+<p>請輸入銷售員編號</p>
+<p><input type="text" name="SALPERNO" id="SALPERNO"></p>
+<button id="Search" onclick="Search()">查詢</button>
+<p id="table"></p>
+
+<script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "CrossSearchMAS.php");
+		var data = "module=CrossSearchMAS&event=SLSMASSearchCUSMAS&SALPERNO=" + document.getElementById("SALPERNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					
+				}
+				else if (data.state == 1) {
+					alert("此銷售員編號不存在");
+				}
+			}
+		}
+	}
+</script>
