@@ -9,3 +9,25 @@
 		<h1>輸出顧客城市</h1>
 	</header>
 </head>
+<p>請輸入城市編號範圍</p>
+<p><input type="text" name="FromCITYNO" id="FromCITYNO"> 到 <input type="text" name="ToCITYNO" id="ToCITYNO"></p>
+<button id="Export" onclick="Export()">輸出</button>
+
+<script type="text/javascript">
+	function Export() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ExportMAS.php");
+		var data = "module=ExportMAS&event=ExportCUSCITY&FromCITYNO=" + document.getElementById("FromCITYNO").value + "&ToCITYNO=" + document.getElementById("ToCITYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("已開始下載");
+				}
+			}
+		}
+	}
+</script>

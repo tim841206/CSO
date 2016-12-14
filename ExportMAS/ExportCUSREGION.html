@@ -9,3 +9,25 @@
 		<h1>輸出顧客地區</h1>
 	</header>
 </head>
+<p>請輸入廠商暨地區編號範圍</p>
+<p><input type="text" name="FromREGIONNO" id="FromREGIONNO"> 到 <input type="text" name="ToREGIONNO" id="ToREGIONNO"></p>
+<button id="Export" onclick="Export()">輸出</button>
+
+<script type="text/javascript">
+	function Export() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ExportMAS.php");
+		var data = "module=ExportMAS&event=ExportCUSREGION&FromREGIONNO=" + document.getElementById("FromREGIONNO").value + "&ToREGIONNO=" + document.getElementById("ToREGIONNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("已開始下載");
+				}
+			}
+		}
+	}
+</script>
