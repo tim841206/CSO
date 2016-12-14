@@ -47,6 +47,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("CUSNM").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
 					document.getElementById("CITYNO").innerHTML = data.CITYNO;
 					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;

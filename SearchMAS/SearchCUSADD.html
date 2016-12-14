@@ -9,3 +9,83 @@
 		<h1>查詢顧客地址</h1>
 	</header>
 </head>
+<table>
+	<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO"></td></tr>
+	<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO"></td></tr>
+	<tr><td>地址 1</td><td><p id="ADD_1"></p></td></tr>
+	<tr><td>地址 2</td><td><p id="ADD_2"></p></td></tr>
+	<tr><td>地址 3</td><td><p id="ADD_3"></p></td></tr>
+	<tr><td>所屬城市</td><td><p id="CITY"></p></td></tr>
+	<tr><td>所屬縣市</td><td><p id="COUNTY"></p></td></tr>
+	<tr><td>所屬國家</td><td><p id="COUNTRY"></p></td></tr>
+	<tr><td>郵遞區號</td><td><p id="ZCODE"></p></td></tr>
+	<tr><td>接觸人員</td><td><p id="CNTPER"></p></td></tr>
+	<tr><td>電話</td><td><p id="TEL"></p></td></tr>
+	<tr><td>傳真</td><td><p id="FAX"></p></td></tr>
+	<tr><td>電子信箱</td><td><p id="EMAIL"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+</table>
+<table>
+	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+	<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
+	<tr><td>地址 1</td><td><p id="LastADD_1"></p></td></tr>
+	<tr><td>地址 2</td><td><p id="LastADD_2"></p></td></tr>
+	<tr><td>地址 3</td><td><p id="LastADD_3"></p></td></tr>
+	<tr><td>所屬城市</td><td><p id="LastCITY"></p></td></tr>
+	<tr><td>所屬縣市</td><td><p id="LastCOUNTY"></p></td></tr>
+	<tr><td>所屬國家</td><td><p id="LastCOUNTRY"></p></td></tr>
+	<tr><td>郵遞區號</td><td><p id="LastZCODE"></p></td></tr>
+	<tr><td>接觸人員</td><td><p id="LastCNTPER"></p></td></tr>
+	<tr><td>電話</td><td><p id="LastTEL"></p></td></tr>
+	<tr><td>傳真</td><td><p id="LastFAX"></p></td></tr>
+	<tr><td>電子信箱</td><td><p id="LastEMAIL"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+</table>
+<button id="Search" onclick="Search()">查詢</button>
+
+<script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "SearchMAS.php");
+		var data = "module=SearchMAS&event=SearchCUSADD&option=Search&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("ADDNO").readOnly = true;
+					document.getElementById("ADD_1").innerHTML = data.ADD_1;
+					document.getElementById("ADD_2").innerHTML = data.ADD_2;
+					document.getElementById("ADD_3").innerHTML = data.ADD_3;
+					document.getElementById("CITY").innerHTML = data.CITY;
+					document.getElementById("COUNTY").innerHTML = data.COUNTY;
+					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
+					document.getElementById("ZCODE").innerHTML = data.ZCODE;
+					document.getElementById("CNTPER").innerHTML = data.CNTPER;
+					document.getElementById("TEL").innerHTML = data.TEL;
+					document.getElementById("FAX").innerHTML = data.FAX;
+					document.getElementById("EMAIL").innerHTML = data.EMAIL;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+				}
+				else if (data.state == 1) {
+					alert("此顧客編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客已刪除");
+				}
+				else if (data.state == 3) {
+					alert("此地址編號不存在");
+				}
+				else if (data.state == 4) {
+					alert("此顧客地址已刪除");
+				}
+			}
+		}
+	}
+</script>

@@ -9,3 +9,95 @@
 		<h1>修改顧客城市</h1>
 	</header>
 </head>
+<table>
+	<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()"></td></tr>
+	<tr><td>城市名稱</td><td><input type="text" name="CITYNM" id="CITYNM" onchange="CITYNM()" style="visibility: hidden;"></td></tr>
+	<tr><td>所屬廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()" style="visibility: hidden;"></td></tr>
+</table>
+<button onclick="Edit()">修改</button>
+
+<script type="text/javascript">
+	function CITYNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("CITYNO").readOnly = true;
+					document.getElementById("CITYNM").innerHTML = data.CITYNM;
+					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
+					document.getElementById("CITYNM").style.visibility = 'visible';
+					document.getElementById("REGIONNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此城市編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客城市已刪除");
+				}
+			}
+		}
+	}
+	function CITYNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSCITY&option=CITYNM&CITYNM=" + document.getElementById("CITYNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("城市名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("城市名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function REGIONNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSCITY&option=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("此廠商暨地區編號不存在");
+				}
+			}
+		}
+	}
+	function Edit() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSCITY&option=Edit&REGIONNO=" + document.getElementById("REGIONNO").value + "&CITYNO=" + document.getElementById("CITYNO").value + "&CITYNM=" + document.getElementById("CITYNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("修改成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫修改失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

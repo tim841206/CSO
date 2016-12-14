@@ -34,6 +34,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("REGIONNO").readOnly = true;
 					document.getElementById("CHANNELNO").innerHTML = data.CHANNELNO;
 					document.getElementById("CHANNELNM").innerHTML = data.CHANNELNM;
 					document.getElementById("COMPANYNO").innerHTML = data.COMPANYNO;

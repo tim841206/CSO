@@ -9,3 +9,59 @@
 		<h1>查詢顧客地區</h1>
 	</header>
 </head>
+<table>
+	<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO"></td></tr>
+	<tr><td>通路編號</td><td><p id="CHANNELNO"></p></td></tr>
+	<tr><td>通路名稱</td><td><p id="CHANNELNM"></p></td></tr>
+	<tr><td>廠商公司編號</td><td><p id="COMPANYNO"></p></td></tr>
+	<tr><td>廠商公司名稱</td><td><p id="COMPANYNM"></p></td></tr>
+	<tr><td>地區編號</td><td><p id="DISTRICTNO"></p></td></tr>
+	<tr><td>敘述</td><td><p id="DESCRIPTION"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+</table>
+<table>
+	<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+	<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
+	<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
+	<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
+	<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
+	<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
+	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+</table>
+<button id="Search" onclick="Search()">查詢</button>
+
+<script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "SearchMAS.php");
+		var data = "module=SearchMAS&event=SearchCUSREGION&option=Search&REGIONNO=" + document.getElementById("REGIONNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("REGIONNO").readOnly = true;
+					document.getElementById("CHANNELNO").innerHTML = data.CHANNELNO;
+					document.getElementById("CHANNELNM").innerHTML = data.CHANNELNM;
+					document.getElementById("COMPANYNO").innerHTML = data.COMPANYNO;
+					document.getElementById("COMPANYNM").innerHTML = data.COMPANYNM;
+					document.getElementById("DISTRICTNO").innerHTML = data.DISTRICTNO;
+					document.getElementById("DESCRIPTION").innerHTML = data.DESCRIPTION;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+				}
+				else if (data.state == 1) {
+					alert("此廠商暨地區編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客地區已刪除");
+				}
+			}
+		}
+	}
+</script>

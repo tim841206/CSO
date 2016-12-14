@@ -9,3 +9,290 @@
 		<h1>修改顧客地址</h1>
 	</header>
 </head>
+<table>
+	<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+	<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
+	<tr><td>地址 1</td><td><input type="text" name="ADD_1" id="ADD_1" onchange="ADD_1()" style="visibility: hidden;"></td></tr>
+	<tr><td>地址 2</td><td><input type="text" name="ADD_2" id="ADD_2" onchange="ADD_2()" style="visibility: hidden;"></td></tr>
+	<tr><td>地址 3</td><td><input type="text" name="ADD_3" id="ADD_3" onchange="ADD_3()" style="visibility: hidden;"></td></tr>
+	<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()" style="visibility: hidden;"></td></tr>
+	<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()" style="visibility: hidden;"></td></tr>
+	<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()" style="visibility: hidden;"></td></tr>
+	<tr><td>郵遞區號</td><td><input type="text" name="ZCODE" id="ZCODE" onchange="ZCODE()" style="visibility: hidden;"></td></tr>
+	<tr><td>接觸人員</td><td><input type="text" name="CNTPER" id="CNTPER" onchange="CNTPER()" style="visibility: hidden;"></td></tr>
+	<tr><td>電話</td><td><input type="text" name="TEL" id="TEL" onchange="TEL()" style="visibility: hidden;"></td></tr>
+	<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()" style="visibility: hidden;"></td></tr>
+	<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()" style="visibility: hidden;"></td></tr>
+</table>
+<button onclick="Edit()">修改</button>
+
+<script type="text/javascript">
+	function CUSNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=CUSNO&CUSNO=" + document.getElementById("CUSNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("ADDNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1){
+					alert("此顧客編號不存在");
+				}
+				else if (data.state == 2){
+					alert("此顧客已刪除");
+				}
+			}
+		}
+	}
+	function ADDNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ADDNO").readOnly = true;
+					document.getElementById("ADD_1").innerHTML = data.ADD_1;
+					document.getElementById("ADD_2").innerHTML = data.ADD_2;
+					document.getElementById("ADD_3").innerHTML = data.ADD_3;
+					document.getElementById("CITY").innerHTML = data.CITY;
+					document.getElementById("COUNTY").innerHTML = data.COUNTY;
+					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
+					document.getElementById("ZCODE").innerHTML = data.ZCODE;
+					document.getElementById("CNTPER").innerHTML = data.CNTPER;
+					document.getElementById("TEL").innerHTML = data.TEL;
+					document.getElementById("FAX").innerHTML = data.FAX;
+					document.getElementById("EMAIL").innerHTML = data.EMAIL;
+					document.getElementById("ADD_1").style.visibility = 'visible';
+					document.getElementById("ADD_2").style.visibility = 'visible';
+					document.getElementById("ADD_3").style.visibility = 'visible';
+					document.getElementById("CITY").style.visibility = 'visible';
+					document.getElementById("COUNTY").style.visibility = 'visible';
+					document.getElementById("COUNTRY").style.visibility = 'visible';
+					document.getElementById("ZCODE").style.visibility = 'visible';
+					document.getElementById("CNTPER").style.visibility = 'visible';
+					document.getElementById("TEL").style.visibility = 'visible';
+					document.getElementById("FAX").style.visibility = 'visible';
+					document.getElementById("EMAIL").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此地址編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客地址已刪除");
+				}
+			}
+		}
+	}
+	function ADD_1() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=ADD_1&ADD_1=" + document.getElementById("ADD_1").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("地址 1 為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("地址 1 不可超過50字元");
+				}
+			}
+		}
+	}
+	function ADD_2() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=ADD_2&ADD_2=" + document.getElementById("ADD_2").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("地址 2 不可超過50字元");
+				}
+			}
+		}
+	}
+	function ADD_3() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=ADD_3&ADD_3=" + document.getElementById("ADD_3").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("地址 3 不可超過50字元");
+				}
+			}
+		}
+	}
+	function CITY() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=CITY&CITY=" + document.getElementById("CITY").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("所屬城市不可超過50字元");
+				}
+			}
+		}
+	}
+	function COUNTY() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=COUNTY&COUNTY=" + document.getElementById("COUNTY").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("所屬縣市不可超過50字元");
+				}
+			}
+		}
+	}
+	function COUNTRY() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=COUNTRY&COUNTRY=" + document.getElementById("COUNTRY").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("所屬國家不可超過50字元");
+				}
+			}
+		}
+	}
+	function ZCODE() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=ZCODE&ZCODE=" + document.getElementById("ZCODE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("郵遞區號不可超過15字元");
+				}
+			}
+		}
+	}
+	function CNTPER() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=CNTPER&CNTPER=" + document.getElementById("CNTPER").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("接觸人員不可超過50字元");
+				}
+			}
+		}
+	}
+	function TEL() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=TEL&TEL=" + document.getElementById("TEL").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("電話不可超過15字元");
+				}
+			}
+		}
+	}
+	function FAX() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=FAX&FAX=" + document.getElementById("FAX").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("傳真不可超過15字元");
+				}
+			}
+		}
+	}
+	function EMAIL() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=EMAIL&EMAIL=" + document.getElementById("EMAIL").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("電子信箱不可超過50字元");
+				}
+			}
+		}
+	}
+	function Edit() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditCUSADD&option=Create&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value + "&ADD_1=" + document.getElementById("ADD_1").value + "&ADD_2=" + document.getElementById("ADD_2").value + "&ADD_3=" + document.getElementById("ADD_3").value + "&CITY=" + document.getElementById("CITY").value + "&COUNTY=" + document.getElementById("COUNTY").value + "&COUNTRY=" + document.getElementById("COUNTRY").value + "&ZCODE=" + document.getElementById("ZCODE").value + "&CNTPER=" + document.getElementById("CNTPER").value + "&TEL=" + document.getElementById("TEL").value + "&FAX=" + document.getElementById("FAX").value + "&EMAIL=" + document.getElementById("EMAIL").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("修改成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫修改失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

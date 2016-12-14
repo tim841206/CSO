@@ -56,6 +56,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("ADDNO").readOnly = true;
 					document.getElementById("ADD_1").innerHTML = data.ADD_1;
 					document.getElementById("ADD_2").innerHTML = data.ADD_2;
 					document.getElementById("ADD_3").innerHTML = data.ADD_3;

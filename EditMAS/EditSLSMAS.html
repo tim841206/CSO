@@ -9,3 +9,120 @@
 		<h1>修改銷售員</h1>
 	</header>
 </head>
+<table>
+	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+	<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
+	<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
+	<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
+</table>
+<button onclick="Edit()">修改</button>
+
+<script type="text/javascript">
+	function SALPERNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditSLSMAS&option=SALPERNO&SALPERNO=" + document.getElementById("SALPERNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("SALPERNO").readOnly = true;
+					document.getElementById("SALPERNM").innerHTML = data.SALPERNM;
+					document.getElementById("EMPNO").innerHTML = data.EMPNO;
+					document.getElementById("COMRATE").innerHTML = data.COMRATE;
+					document.getElementById("SALPERNM").style.visibility = 'visible';
+					document.getElementById("EMPNO").style.visibility = 'visible';
+					document.getElementById("COMRATE").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此銷售員編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此銷售員已刪除");
+				}
+			}
+		}
+	}
+	function SALPERNM() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditSLSMAS&option=SALPERNM&SALPERNM=" + document.getElementById("SALPERNM").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("銷售員名稱為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("銷售員名稱不可超過50字元");
+				}
+			}
+		}
+	}
+	function EMPNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditSLSMAS&option=EMPNO&EMPNO=" + document.getElementById("EMPNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("員工編號為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("員工編號不可超過15字元");
+				}
+			}
+		}
+	}
+	function COMRATE() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditSLSMAS&option=COMRATE&COMRATE=" + document.getElementById("COMRATE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 1) {
+					alert("酬勞比率為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("酬勞比率不可為負");
+				}
+			}
+		}
+	}
+	function Edit() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "EditMAS.php");
+		var data = "module=EditMAS&event=EditSLSMAS&option=Edit&SALPERNO=" + document.getElementById("SALPERNO").value + "&SALPERNM=" + document.getElementById("SALPERNM").value + "&EMPNO=" + document.getElementById("EMPNO").value + "&COMRATE=" + document.getElementById("COMRATE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("修改成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫修改失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+</script>

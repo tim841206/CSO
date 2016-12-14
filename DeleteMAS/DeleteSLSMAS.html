@@ -34,6 +34,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("SALPERNO").readOnly = true;
 					document.getElementById("SALPERNM").innerHTML = data.SALPERNM;
 					document.getElementById("EMPNO").innerHTML = data.EMPNO;
 					document.getElementById("COMRATE").innerHTML = data.COMRATE;

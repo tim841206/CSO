@@ -30,6 +30,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CITYNO").readOnly = true;
 					document.getElementById("CITYNM").innerHTML = data.CITYNM;
 					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
 					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
