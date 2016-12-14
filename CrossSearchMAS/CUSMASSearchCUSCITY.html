@@ -26,10 +26,16 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					
+					document.getElementById("table").innetHTML = data.table;
 				}
 				else if (data.state == 1) {
 					alert("此顧客編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客已刪除");
+				}
+				else if (data.state == 3) {
+					alert("查無資料");
 				}
 			}
 		}

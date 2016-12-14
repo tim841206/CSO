@@ -2,23 +2,83 @@
 if ($_POST['module'] == "CrossSearchMAS") {
 	if ($_POST['event'] == "CUSMASSearchCUSADD") {
 		$CUSNO = $_POST['CUSNO'];
-		$resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO=$CUSNO");
-		Search("CUSADD", $resource);
+		$check = Check("CUSMAS", $CUSNO);
+		if ($check != 0) {
+			echo json_encode(array('state' => $check));
+			return;
+		}
+		else {
+			$resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO=$CUSNO");
+			$result = Search("CUSADD", $resource);
+			if ($result == 0) {
+				echo json_encode(array('state' => 3));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'table' => $result));
+				return;
+			}
+		}
 	}
 	elseif ($_POST['event'] == "CUSREGIONSearchCUSCITY") {
 		$REGIONNO = $_POST['REGIONNO'];
-		$resource = mysql_query("SELECT * FROM CUSCITY WHERE REGIONNO=$REGIONNO");
-		Search("CUSCITY", $resource);
+		$check = Check("CUSREGION", $REGIONNO);
+		if ($check != 0) {
+			echo json_encode(array('state' => $check));
+			return;
+		}
+		else {
+			$resource = mysql_query("SELECT * FROM CUSCITY WHERE REGIONNO=$REGIONNO");
+			$result = Search("CUSCITY", $resource);
+			if ($result == 0) {
+				echo json_encode(array('state' => 3));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'table' => $result));
+				return;
+			}
+		}
 	}
 	elseif ($_POST['event'] == "SLSMASSearchCUSMAS") {
 		$SALPERNO = $_POST['SALPERNO'];
-		$resource = mysql_query("SELECT * FROM CUSMAS WHERE SALPERNO=$SALPERNO");
-		Search("CUSMAS", $resource);
+		$check = Check("SLSMAS", $SALPERNO);
+		if ($check != 0) {
+			echo json_encode(array('state' => $check));
+			return;
+		}
+		else {
+			$resource = mysql_query("SELECT * FROM CUSMAS WHERE SALPERNO=$SALPERNO");
+			$result = Search("CUSMAS", $resource);
+			if ($result == 0) {
+				echo json_encode(array('state' => 3));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'table' => $result));
+				return;
+			}
+		}
 	}
 	elseif ($_POST['event'] == "CUSCITYSearchCUSADDCITY") {
 		$CITYNO = $_POST['CITYNO'];
-		$resource = mysql_query("SELECT * FROM CUSADDCITY WHERE CITYNO=$CITYNO");
-		Search("CUSADDCITY", $resource);
+		$check = Check("CUSCITY", $CITYNO);
+		if ($check != 0) {
+			echo json_encode(array('state' => $check));
+			return;
+		}
+		else {
+			$resource = mysql_query("SELECT * FROM CUSADDCITY WHERE CITYNO=$CITYNO");
+			$result = Search("CUSADDCITY", $resource);
+			if ($result == 0) {
+				echo json_encode(array('state' => 3));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'table' => $result));
+				return;
+			}
+		}
 	}
 	else {
 		echo json_encode(array('state' => 400));
@@ -30,9 +90,68 @@ else {
 	return;
 }
 
+function Check($master, $value) {
+	if ($master == "CUSMAS") {
+		$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$value";
+		$result = mysql_query($sql);
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return 0; // ok
+		}
+		else if ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
+		else {
+			return 1; // 不存在
+		}
+	}
+	elseif ($master == "CUSREGION") {
+		$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$value";
+		$result = mysql_query($sql);
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return 0; // ok
+		}
+		else if ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
+		else {
+			return 1; // 不存在
+		}
+	}
+	elseif ($master == "SLSMAS") {
+		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$value";
+		$result = mysql_query($sql);
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return 0; // ok
+		}
+		else if ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
+		else {
+			return 1; // 不存在
+		}
+	}
+	elseif ($master == "CUSCITY") {
+		$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$value";
+		$result = mysql_query($sql);
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return 0; // ok
+		}
+		else if ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
+		else {
+			return 1; // 不存在
+		}
+	}
+}
+
 function Search($title, $resource) {
 	if (mysql_num_rows($resource) == 0) {
-		return 0;
+		return 0; // 無資料
 	}
 	else {
 		$table = '<table>';
