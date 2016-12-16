@@ -14,7 +14,12 @@
 	<tr><td>城市名稱</td><td><input type="text" name="CITYNM" id="CITYNM" onchange="CITYNM()" style="visibility: hidden;"></td></tr>
 	<tr><td>所屬廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()" style="visibility: hidden;"></td></tr>
 </table>
-<button onclick="Edit()">修改</button>
+<table id="Last">
+	<tr><td>城市編號</td><td><p id="LastCITYNO"></p></td></tr>
+	<tr><td>城市名稱</td><td><p id="LastCITYNM"></p></td></tr>
+	<tr><td>所屬廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+</table>
+<button id="Edit" onclick="Edit()">修改</button>
 
 <script type="text/javascript">
 	function CITYNO() {
@@ -90,6 +95,15 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
+					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
+					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
+					document.getElementById("CITYNO").value = null;
+					document.getElementById("CITYNM").value = null;
+					document.getElementById("REGIONNO").value = null;
+					document.getElementById("CITYNO").readOnly = false;
+					document.getElementById("CITYNM").style.visibility = 'hidden';
+					document.getElementById("REGIONNO").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

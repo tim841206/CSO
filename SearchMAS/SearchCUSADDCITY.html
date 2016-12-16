@@ -17,15 +17,16 @@
 	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
 	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
 </table>
-<table>
-	<tr><td>顧客編號</td><td><p id="CUSNO"></p></td></tr>
-	<tr><td>顧客名稱</td><td><p id="CUSNM"></p></td></tr>
-	<tr><td>地址編號</td><td><p id="ADDNO"></p></td></tr>
-	<tr><td>所屬城市編號</td><td><p id="CITYNO"></p></td></tr>
-	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
-	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+<table id="Last">
+	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+	<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
+	<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
+	<tr><td>所屬城市編號</td><td><p id="LastCITYNO"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
 </table>
 <button id="Search" onclick="Search()">查詢</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function Search() {
@@ -60,5 +61,21 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+		document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
+		document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
+		document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
+		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUSNM").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("CITYNO").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
 	}
 </script>

@@ -14,7 +14,12 @@
 	<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()"></td></tr>
 	<tr><td>城市名稱</td><td><input type="text" name="CITYNM" id="CITYNM" onchange="CITYNM()"></td></tr>
 </table>
-<button onclick="Create()">新增</button>
+<table id="Last" style="visibility: hidden;">
+	<tr><td>所屬廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+	<tr><td>城市編號</td><td><p id="LastCITYNO"></p></td></tr>
+	<tr><td>城市名稱</td><td><p id="LastCITYNM"></p></td></tr>
+</table>
+<button id="Create" onclick="Create()">新增</button>
 
 <script type="text/javascript">
 	function REGIONNO() {
@@ -86,6 +91,12 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
+					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
+					document.getElementById("CITYNO").value = null;
+					document.getElementById("CITYNM").value = null;
+					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");

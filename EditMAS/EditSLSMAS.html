@@ -15,7 +15,13 @@
 	<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
 	<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
 </table>
-<button onclick="Edit()">修改</button>
+<table id="Last">
+	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+	<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
+</table>
+<button id="Edit" onclick="Edit()">修改</button>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -115,6 +121,18 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
+					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
+					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
+					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
+					document.getElementById("SALPERNO").value = null;
+					document.getElementById("SALPERNM").value = null;
+					document.getElementById("EMPNO").value = null;
+					document.getElementById("COMRATE").value = null;
+					document.getElementById("SALPERNO").readOnly = false;
+					document.getElementById("SALPERNM").style.visibility = 'hidden';
+					document.getElementById("EMPNO").style.visibility = 'hidden';
+					document.getElementById("COMRATE").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

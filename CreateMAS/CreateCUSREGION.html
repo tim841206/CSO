@@ -18,7 +18,16 @@
 	<tr><td>地區編號</td><td><input type="text" name="DISTRICTNO" id="DISTRICTNO" onchange="DISTRICTNO()"></td></tr>
 	<tr><td>敘述</td><td><input type="text" name="DESCRIPTION" id="DESCRIPTION" onchange="DESCRIPTION()"></td></tr>
 </table>
-<button onclick="Create()">新增</button>
+<table id="Last" style="visibility: hidden;">
+	<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+	<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
+	<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
+	<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
+	<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
+	<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
+	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
+</table>
+<button id="Create" onclick="Create()">新增</button>
 
 <script type="text/javascript">
 	function REGIONNO() {
@@ -166,6 +175,21 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
+					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCHANNELNO").value = document.getElementById("CHANNELNO").value;
+					document.getElementById("LastCHANNELNM").value = document.getElementById("CHANNELNM").value;
+					document.getElementById("LastCOMPANYNO").value = document.getElementById("COMPANYNO").value;
+					document.getElementById("LastCOMPANYNM").value = document.getElementById("COMPANYNM").value;
+					document.getElementById("LastDISTRICTNO").value = document.getElementById("DISTRICTNO").value;
+					document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
+					document.getElementById("REGIONNO").value = null;
+					document.getElementById("CHANNELNO").value = null;
+					document.getElementById("CHANNELNM").value = null;
+					document.getElementById("COMPANYNO").value = null;
+					document.getElementById("COMPANYNM").value = null;
+					document.getElementById("DISTRICTNO").value = null;
+					document.getElementById("DESCRIPTION").value = null;
+					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");

@@ -24,7 +24,22 @@
 	<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()" style="visibility: hidden;"></td></tr>
 	<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()" style="visibility: hidden;"></td></tr>
 </table>
-<button onclick="Edit()">修改</button>
+<table id="Last">
+	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+	<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
+	<tr><td>地址 1</td><td><p id="LastADD_1"></p></td></tr>
+	<tr><td>地址 2</td><td><p id="LastADD_2"></p></td></tr>
+	<tr><td>地址 3</td><td><p id="LastADD_3"></p></td></tr>
+	<tr><td>所屬城市</td><td><p id="LastCITY"></p></td></tr>
+	<tr><td>所屬縣市</td><td><p id="LastCOUNTY"></p></td></tr>
+	<tr><td>所屬國家</td><td><p id="LastCOUNTRY"></p></td></tr>
+	<tr><td>郵遞區號</td><td><p id="LastZCODE"></p></td></tr>
+	<tr><td>接觸人員</td><td><p id="LastCNTPER"></p></td></tr>
+	<tr><td>電話</td><td><p id="LastTEL"></p></td></tr>
+	<tr><td>傳真</td><td><p id="LastFAX"></p></td></tr>
+	<tr><td>電子信箱</td><td><p id="LastEMAIL"></p></td></tr>
+</table>
+<button id="Edit" onclick="Edit()">修改</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -285,6 +300,45 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
+					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
+					document.getElementById("LastADD_1").value = document.getElementById("ADD_1").value;
+					document.getElementById("LastADD_2").value = document.getElementById("ADD_2").value;
+					document.getElementById("LastADD_3").value = document.getElementById("ADD_3").value;
+					document.getElementById("LastCITY").value = document.getElementById("CITY").value;
+					document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
+					document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
+					document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
+					document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
+					document.getElementById("LastTEL").value = document.getElementById("TEL").value;
+					document.getElementById("LastFAX").value = document.getElementById("FAX").value;
+					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+					document.getElementById("ADDNO").value = null;
+					document.getElementById("ADD_1").value = null;
+					document.getElementById("ADD_2").value = null;
+					document.getElementById("ADD_3").value = null;
+					document.getElementById("CITY").value = null;
+					document.getElementById("COUNTY").value = null;
+					document.getElementById("COUNTRY").value = null;
+					document.getElementById("ZCODE").value = null;
+					document.getElementById("CNTPER").value = null;
+					document.getElementById("TEL").value = null;
+					document.getElementById("FAX").value = null;
+					document.getElementById("EMAIL").value = null;
+					document.getElementById("CUSNO").readOnly = false;
+					document.getElementById("ADDNO").readOnly = false;
+					document.getElementById("ADDNO").style.visibility = 'hidden';
+					document.getElementById("ADD_1").style.visibility = 'hidden';
+					document.getElementById("ADD_2").style.visibility = 'hidden';
+					document.getElementById("ADD_3").style.visibility = 'hidden';
+					document.getElementById("CITY").style.visibility = 'hidden';
+					document.getElementById("COUNTY").style.visibility = 'hidden';
+					document.getElementById("COUNTRY").style.visibility = 'hidden';
+					document.getElementById("ZCODE").style.visibility = 'hidden';
+					document.getElementById("CNTPER").style.visibility = 'hidden';
+					document.getElementById("TEL").style.visibility = 'hidden';
+					document.getElementById("FAX").style.visibility = 'hidden';
+					document.getElementById("EMAIL").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

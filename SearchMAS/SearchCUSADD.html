@@ -26,7 +26,7 @@
 	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
 	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
 </table>
-<table>
+<table id="Last">
 	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
 	<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
 	<tr><td>地址 1</td><td><p id="LastADD_1"></p></td></tr>
@@ -44,6 +44,7 @@
 	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
 </table>
 <button id="Search" onclick="Search()">查詢</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function Search() {
@@ -87,5 +88,39 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+		document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
+		document.getElementById("LastADD_1").value = document.getElementById("ADD_1").value;
+		document.getElementById("LastADD_2").value = document.getElementById("ADD_2").value;
+		document.getElementById("LastADD_3").value = document.getElementById("ADD_3").value;
+		document.getElementById("LastCITY").value = document.getElementById("CITY").value;
+		document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
+		document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
+		document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
+		document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
+		document.getElementById("LastTEL").value = document.getElementById("TEL").value;
+		document.getElementById("LastFAX").value = document.getElementById("FAX").value;
+		document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("ADD_1").value = null;
+		document.getElementById("ADD_2").value = null;
+		document.getElementById("ADD_3").value = null;
+		document.getElementById("CITY").value = null;
+		document.getElementById("COUNTY").value = null;
+		document.getElementById("COUNTRY").value = null;
+		document.getElementById("ZCODE").value = null;
+		document.getElementById("CNTPER").value = null;
+		document.getElementById("TEL").value = null;
+		document.getElementById("FAX").value = null;
+		document.getElementById("EMAIL").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
 	}
 </script>

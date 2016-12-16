@@ -13,12 +13,23 @@
 	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
 	<tr><td>銷售員名稱</td><td><p id="SALPERNM"></p></td></tr>
 	<tr><td>員工編號</td><td><p id="EMPNO"></p></td></tr>
-	<tr><td>酬勞比率(%)</td><td><p id="COMRATE"></td></tr>
-	<tr><td>年結帳至今銷售額</td><td><p id="SALEAMTYTD"></td></tr>
-	<tr><td>季結帳至今銷售額</td><td><p id="SALEAMTSTD"></td></tr>
-	<tr><td>月結帳至今銷售額</td><td><p id="SALEAMTMTD"></td></tr>
-	<tr><td>建立日期</td><td><p id="CREATEDATE"></td></tr>
-	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></td></tr>
+	<tr><td>酬勞比率(%)</td><td><p id="COMRATE"></p></td></tr>
+	<tr><td>年結帳至今銷售額</td><td><p id="SALEAMTYTD"></p></td></tr>
+	<tr><td>季結帳至今銷售額</td><td><p id="SALEAMTSTD"></p></td></tr>
+	<tr><td>月結帳至今銷售額</td><td><p id="SALEAMTMTD"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+</table>
+<table id="Last" style="visibility: hidden;">
+	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+	<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></td></tr>
+	<tr><td>年結帳至今銷售額</td><td><p id="LastSALEAMTYTD"></td></tr>
+	<tr><td>季結帳至今銷售額</td><td><p id="LastSALEAMTSTD"></td></tr>
+	<tr><td>月結帳至今銷售額</td><td><p id="LastSALEAMTMTD"></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></td></tr>
 </table>
 <button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
 
@@ -63,6 +74,25 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("刪除成功");
+					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
+					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
+					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
+					document.getElementById("LastSALEAMTYTD").value = document.getElementById("SALEAMTYTD").value;
+					document.getElementById("LastSALEAMTSTD").value = document.getElementById("SALEAMTSTD").value;
+					document.getElementById("LastSALEAMTMTD").value = document.getElementById("SALEAMTMTD").value;
+					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("SALPERNO").value = null;
+					document.getElementById("SALPERNM").value = null;
+					document.getElementById("EMPNO").value = null;
+					document.getElementById("COMRATE").value = null;
+					document.getElementById("SALEAMTYTD").value = null;
+					document.getElementById("SALEAMTSTD").value = null;
+					document.getElementById("SALEAMTMTD").value = null;
+					document.getElementById("CREATEDATE").value = null;
+					document.getElementById("UPDATEDATE").value = null;
+					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

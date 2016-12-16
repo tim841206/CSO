@@ -41,7 +41,7 @@
 	<tr><td>建立時間</td><td><p id="CREATEDATE"></p></td></tr>
 	<tr><td>最後修改時間</td><td><p id="UPDATEDATE"></p></td></tr>
 </table>
-<table>
+<table id="Last">
 	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
 	<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
 	<tr><td>地址編號 1</td><td><p id="LastADDNO_1"></p></td></tr>
@@ -74,6 +74,7 @@
 	<tr><td>最後修改時間</td><td><p id="LastUPDATEDATE"></p></td></tr>
 </table>
 <button id="Search" onclick="Search()">查詢</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function Search() {
@@ -125,5 +126,68 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+		document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
+		document.getElementById("LastADDNO_1").value = document.getElementById("ADDNO_1").value;
+		document.getElementById("LastADDNO_2").value = document.getElementById("ADDNO_2").value;
+		document.getElementById("LastADDNO_3").value = document.getElementById("ADDNO_3").value;
+		document.getElementById("LastCITY").value = document.getElementById("CITY").value;
+		document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
+		document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
+		document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
+		document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
+		document.getElementById("LastTEL").value = document.getElementById("TEL").value;
+		document.getElementById("LastFAX").value = document.getElementById("FAX").value;
+		document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+		document.getElementById("LastWSITE").value = document.getElementById("WSITE").value;
+		document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+		document.getElementById("LastDFSHIPNO").value = document.getElementById("DFSHIPNO").value;
+		document.getElementById("LastDFBILLNO").value = document.getElementById("DFBILLNO").value;
+		document.getElementById("LastSALEAMTYTD").value = document.getElementById("SALEAMTYTD").value;
+		document.getElementById("LastSALEAMTSTD").value = document.getElementById("SALEAMTSTD").value;
+		document.getElementById("LastSALEAMTMTD").value = document.getElementById("SALEAMTMTD").value;
+		document.getElementById("LastCURAR").value = document.getElementById("CURAR").value;
+		document.getElementById("LastAR30_60").value = document.getElementById("AR30_60").value;
+		document.getElementById("LastAR60_90").value = document.getElementById("AR60_90").value;
+		document.getElementById("LastAR90_120").value = document.getElementById("AR90_120").value;
+		document.getElementById("LastM120AR").value = document.getElementById("M120AR").value;
+		document.getElementById("LastSPEINS").value = document.getElementById("SPEINS").value;
+		document.getElementById("LastCREDITSTAT").value = document.getElementById("CREDITSTAT").value;
+		document.getElementById("LastTAXID").value = document.getElementById("TAXID").value;
+		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUSNM").value = null;
+		document.getElementById("ADDNO_1").value = null;
+		document.getElementById("ADDNO_2").value = null;
+		document.getElementById("ADDNO_3").value = null;
+		document.getElementById("CITY").value = null;
+		document.getElementById("COUNTY").value = null;
+		document.getElementById("COUNTRY").value = null;
+		document.getElementById("ZCODE").value = null;
+		document.getElementById("CNTPER").value = null;
+		document.getElementById("TEL").value = null;
+		document.getElementById("FAX").value = null;
+		document.getElementById("EMAIL").value = null;
+		document.getElementById("WSITE").value = null;
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("DFSHIPNO").value = null;
+		document.getElementById("DFBILLNO").value = null;
+		document.getElementById("SALEAMTYTD").value = null;
+		document.getElementById("SALEAMTSTD").value = null;
+		document.getElementById("SALEAMTMTD").value = null;
+		document.getElementById("CURAR").value = null;
+		document.getElementById("AR30_60").value = null;
+		document.getElementById("AR60_90").value = null;
+		document.getElementById("AR90_120").value = null;
+		document.getElementById("M120AR").value = null;
+		document.getElementById("SPEINS").value = null;
+		document.getElementById("CREDITSTAT").value = null;
+		document.getElementById("TAXID").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CUSNO").readOnly = false;
 	}
 </script>

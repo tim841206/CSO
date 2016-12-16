@@ -16,6 +16,13 @@
 	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
 	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
 </table>
+<table id="Last" style="visibility: hidden;">
+	<tr><td>城市編號</td><td><p id="LastCITYNO"></p></td></tr>
+	<tr><td>城市名稱</td><td><p id="LastCITYNM"></p></td></tr>
+	<tr><td>所屬廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+</table>
 <button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
 
 <script type="text/javascript">
@@ -55,6 +62,17 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("刪除成功");
+					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
+					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("CITYNO").value = null;
+					document.getElementById("CITYNM").value = null;
+					document.getElementById("REGIONNO").value = null;
+					document.getElementById("CREATEDATE").value = null;
+					document.getElementById("UPDATEDATE").value = null;
+					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

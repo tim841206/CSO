@@ -26,11 +26,30 @@
 	<tr><td>網址</td><td><input type="text" name="WSITE" id="WSITE" onchange="WSITE()" style="visibility: hidden;"></td></tr>
 	<tr><td>所屬銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()" style="visibility: hidden;"></td></tr>
 	<tr><td>特殊要求</td><td><input type="text" name="SPEINS" id="SPEINS" onchange="SPEINS()" style="visibility: hidden;"></td></tr>
-	<tr><td>信用狀態</td><td><select type="text" name="CREDITSTAT" id="CREDITSTAT"><option value="A" style="visibility: hidden;">A : 付現</option>
-	<option value="B">B : 30天內</option><option value="C">C : 無限制</option></select></td></tr>
+	<tr><td>信用狀態</td><td><select type="text" name="CREDITSTAT" id="CREDITSTAT" style="visibility: hidden;"><option value="A">A : 付現</option><option value="B">B : 30天內</option><option value="C">C : 無限制</option></select></td></tr>
 	<tr><td>統一編號</td><td><input type="text" name="TAXID" id="TAXID" onchange="TAXID()" style="visibility: hidden;"></td></tr>
 </table>
-<button onclick="Edit()">修改</button>
+<table id="Last">
+	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+	<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
+	<tr><td>地址編號 1</td><td><p id="LastADDNO_1"></p></td></tr>
+	<tr><td>地址編號 2</td><td><p id="LastADDNO_2"></p></td></tr>
+	<tr><td>地址編號 3</td><td><p id="LastADDNO_3"></p></td></tr>
+	<tr><td>所屬城市</td><td><p id="LastCITY"></p></td></tr>
+	<tr><td>所屬縣市</td><td><p id="LastCOUNTY"></p></td></tr>
+	<tr><td>所屬國家</td><td><p id="LastCOUNTRY"></p></td></tr>
+	<tr><td>郵遞區號</td><td><p id="LastZCODE"></p></td></tr>
+	<tr><td>接觸人員</td><td><p id="LastCNTPER"></p></td></tr>
+	<tr><td>電話</td><td><p id="LastTEL"></p></td></tr>
+	<tr><td>傳真</td><td><p id="LastFAX"></p></td></tr>
+	<tr><td>電子信箱</td><td><p id="LastEMAIL"></p></td></tr>
+	<tr><td>網址</td><td><p id="LastWSITE"></p></td></tr>
+	<tr><td>所屬銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+	<tr><td>特殊要求</td><td><p id="LastSPEINS"></p></td></tr>
+	<tr><td>信用狀態</td><td><p id="LastCREDITSTAT"></p></td></tr>
+	<tr><td>統一編號</td><td><p id="LastTAXID"></p></td></tr>
+</table>
+<button id="Edit" onclick="Edit()">修改</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -60,6 +79,7 @@
 					document.getElementById("WSITE").innerHTML = data.WSITE;
 					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
 					document.getElementById("SPEINS").innerHTML = data.SPEINS;
+					document.getElementById("CREDITSTAT").value = data.CREDITSTAT;
 					document.getElementById("TAXID").innerHTML = data.TAXID;
 					document.getElementById("CUSNM").style.visibility = 'visible';
 					document.getElementById("ADDNO_1").style.visibility = 'visible';
@@ -76,6 +96,7 @@
 					document.getElementById("WSITE").style.visibility = 'visible';
 					document.getElementById("SALPERNO").style.visibility = 'visible';
 					document.getElementById("SPEINS").style.visibility = 'visible';
+					document.getElementById("CREDITSTAT").style.visibility = 'visible';
 					document.getElementById("TAXID").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
@@ -370,6 +391,60 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
+					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
+					document.getElementById("LastADDNO_1").value = document.getElementById("ADDNO_1").value;
+					document.getElementById("LastADDNO_2").value = document.getElementById("ADDNO_2").value;
+					document.getElementById("LastADDNO_3").value = document.getElementById("ADDNO_3").value;
+					document.getElementById("LastCITY").value = document.getElementById("CITY").value;
+					document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
+					document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
+					document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
+					document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
+					document.getElementById("LastTEL").value = document.getElementById("TEL").value;
+					document.getElementById("LastFAX").value = document.getElementById("FAX").value;
+					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+					document.getElementById("LastWSITE").value = document.getElementById("WSITE").value;
+					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSPEINS").value = document.getElementById("SPEINS").value;
+					document.getElementById("LastCREDITSTAT").value = document.getElementById("CREDITSTAT").value;
+					document.getElementById("LastTAXID").value = document.getElementById("TAXID").value;
+					document.getElementById("CUSNO").value = null;
+					document.getElementById("CUSNM").value = null;
+					document.getElementById("ADDNO_1").value = null;
+					document.getElementById("ADDNO_2").value = null;
+					document.getElementById("ADDNO_3").value = null;
+					document.getElementById("CITY").value = null;
+					document.getElementById("COUNTY").value = null;
+					document.getElementById("COUNTRY").value = null;
+					document.getElementById("ZCODE").value = null;
+					document.getElementById("CNTPER").value = null;
+					document.getElementById("TEL").value = null;
+					document.getElementById("FAX").value = null;
+					document.getElementById("EMAIL").value = null;
+					document.getElementById("WSITE").value = null;
+					document.getElementById("SALPERNO").value = null;
+					document.getElementById("SPEINS").value = null;
+					document.getElementById("CREDITSTAT").value = null;
+					document.getElementById("TAXID").value = null;
+					document.getElementById("CUSNO").readOnly = false;
+					document.getElementById("CUSNM").style.visibility = 'hidden';
+					document.getElementById("ADDNO_1").style.visibility = 'hidden';
+					document.getElementById("ADDNO_2").style.visibility = 'hidden';
+					document.getElementById("ADDNO_3").style.visibility = 'hidden';
+					document.getElementById("CITY").style.visibility = 'hidden';
+					document.getElementById("COUNTY").style.visibility = 'hidden';
+					document.getElementById("COUNTRY").style.visibility = 'hidden';
+					document.getElementById("ZCODE").style.visibility = 'hidden';
+					document.getElementById("CNTPER").style.visibility = 'hidden';
+					document.getElementById("TEL").style.visibility = 'hidden';
+					document.getElementById("FAX").style.visibility = 'hidden';
+					document.getElementById("EMAIL").style.visibility = 'hidden';
+					document.getElementById("WSITE").style.visibility = 'hidden';
+					document.getElementById("SALPERNO").style.visibility = 'hidden';
+					document.getElementById("SPEINS").style.visibility = 'hidden';
+					document.getElementById("CREDITSTAT").style.visibility = 'hidden';
+					document.getElementById("TAXID").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
