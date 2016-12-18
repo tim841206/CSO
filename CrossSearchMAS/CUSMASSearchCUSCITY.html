@@ -29,12 +29,15 @@
 					document.getElementById("table").innetHTML = data.table;
 				}
 				else if (data.state == 1) {
+					document.getElementById("table").innetHTML = null;
 					alert("此顧客編號不存在");
 				}
 				else if (data.state == 2) {
+					document.getElementById("table").innetHTML = null;
 					alert("此顧客已刪除");
 				}
 				else if (data.state == 3) {
+					document.getElementById("table").innetHTML = null;
 					alert("查無資料");
 				}
 			}

@@ -12,7 +12,7 @@
 <table>
 	<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
 	<tr><td>顧客名稱</td><td><p id="CUSNM"></p></td></tr>
-	<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()"></td></tr>
+	<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
 	<tr><td>所屬城市編號</td><td><p id="CITYNO"></p></td></tr>
 	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
 	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
@@ -26,6 +26,7 @@
 	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
 </table>
 <button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -38,6 +39,11 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("CUSNM").innerHTML = data.CUSNM;
+					document.getElementById("ADDNO").style.visibility = 'visible';
+				}
 				if (data.state == 1) {
 					alert("此顧客編號不存在");
 				}
@@ -55,9 +61,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("CUSNO").readOnly = true;
-					document.getElementById("CUSNM").readOnly = true;
-					document.getElementById("CUSNM").innerHTML = data.CUSNM;
+					document.getElementById("ADDNO").readOnly = true;
 					document.getElementById("CITYNO").innerHTML = data.CITYNO;
 					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
 					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
@@ -87,18 +91,30 @@
 					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
-					document.getElementById("CUSNO").value = null;
-					document.getElementById("CUSNM").value = null;
+					document.getElementById("ADDNO").readOnly = false;
 					document.getElementById("ADDNO").value = null;
 					document.getElementById("CITYNO").value = null;
 					document.getElementById("CREATEDATE").value = null;
 					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
+					document.getElementById('Delete').style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
+		document.getElementById("ADDNO").style.visibility = 'hidden';
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUSNM").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("CITYNO").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById('Delete').style.visibility = 'hidden';
 	}
 </script>

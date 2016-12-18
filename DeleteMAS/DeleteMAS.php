@@ -176,7 +176,8 @@ if ($_POST['module'] == "DeleteMAS") {
 		if ($_POST['check'] == "CUSNO") {
 			$result = check_CUSNO($_POST['CUSNO']);
 			if (is_resource($result)) {
-				echo json_encode(array('state' => 0));
+				$fetch = mysql_fetch_array($result);
+				echo json_encode(array('state' => 0, 'CUSNM' => $fetch['CUSNM']));
 				return;
 			}
 			else {
@@ -188,7 +189,7 @@ if ($_POST['module'] == "DeleteMAS") {
 			$result = check_ADDNO_CUSADDCITY($_POST['CUSNO'], $_POST['ADDNO']);
 			if (is_resource($result)) {
 				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'CUSNM' => $fetch['CUSNM'], 'CITYNO' => $fetch['CITYNO'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+				echo json_encode(array('state' => 0, 'CITYNO' => $fetch['CITYNO'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
 				return;
 			}
 			else {

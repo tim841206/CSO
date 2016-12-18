@@ -40,6 +40,7 @@
 	<tr><td>電子信箱</td><td><p id="LastEMAIL"></p></td></tr>
 </table>
 <button id="Create" onclick="Create()">新增</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -303,5 +304,20 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("ADD_1").value = null;
+		document.getElementById("ADD_2").value = null;
+		document.getElementById("ADD_3").value = null;
+		document.getElementById("CITY").value = null;
+		document.getElementById("COUNTY").value = null;
+		document.getElementById("COUNTRY").value = null;
+		document.getElementById("ZCODE").value = null;
+		document.getElementById("CNTPER").value = null;
+		document.getElementById("TEL").value = null;
+		document.getElementById("FAX").value = null;
+		document.getElementById("EMAIL").value = null;
 	}
 </script>

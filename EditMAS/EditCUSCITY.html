@@ -19,7 +19,8 @@
 	<tr><td>城市名稱</td><td><p id="LastCITYNM"></p></td></tr>
 	<tr><td>所屬廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CITYNO() {
@@ -38,6 +39,7 @@
 					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
 					document.getElementById("CITYNM").style.visibility = 'visible';
 					document.getElementById("REGIONNO").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此城市編號不存在");
@@ -104,6 +106,7 @@
 					document.getElementById("CITYNO").readOnly = false;
 					document.getElementById("CITYNM").style.visibility = 'hidden';
 					document.getElementById("REGIONNO").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -113,5 +116,14 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CITYNO").value = null;
+		document.getElementById("CITYNM").value = null;
+		document.getElementById("REGIONNO").value = null;
+		document.getElementById("CITYNO").readOnly = false;
+		document.getElementById("CITYNM").style.visibility = 'hidden';
+		document.getElementById("REGIONNO").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>

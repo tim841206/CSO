@@ -49,7 +49,8 @@
 	<tr><td>信用狀態</td><td><p id="LastCREDITSTAT"></p></td></tr>
 	<tr><td>統一編號</td><td><p id="LastTAXID"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -98,6 +99,7 @@
 					document.getElementById("SPEINS").style.visibility = 'visible';
 					document.getElementById("CREDITSTAT").style.visibility = 'visible';
 					document.getElementById("TAXID").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此顧客編號不存在");
@@ -445,6 +447,7 @@
 					document.getElementById("SPEINS").style.visibility = 'hidden';
 					document.getElementById("CREDITSTAT").style.visibility = 'hidden';
 					document.getElementById("TAXID").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -454,5 +457,44 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUSNM").value = null;
+		document.getElementById("ADDNO_1").value = null;
+		document.getElementById("ADDNO_2").value = null;
+		document.getElementById("ADDNO_3").value = null;
+		document.getElementById("CITY").value = null;
+		document.getElementById("COUNTY").value = null;
+		document.getElementById("COUNTRY").value = null;
+		document.getElementById("ZCODE").value = null;
+		document.getElementById("CNTPER").value = null;
+		document.getElementById("TEL").value = null;
+		document.getElementById("FAX").value = null;
+		document.getElementById("EMAIL").value = null;
+		document.getElementById("WSITE").value = null;
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("SPEINS").value = null;
+		document.getElementById("CREDITSTAT").value = null;
+		document.getElementById("TAXID").value = null;
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("CUSNM").style.visibility = 'hidden';
+		document.getElementById("ADDNO_1").style.visibility = 'hidden';
+		document.getElementById("ADDNO_2").style.visibility = 'hidden';
+		document.getElementById("ADDNO_3").style.visibility = 'hidden';
+		document.getElementById("CITY").style.visibility = 'hidden';
+		document.getElementById("COUNTY").style.visibility = 'hidden';
+		document.getElementById("COUNTRY").style.visibility = 'hidden';
+		document.getElementById("ZCODE").style.visibility = 'hidden';
+		document.getElementById("CNTPER").style.visibility = 'hidden';
+		document.getElementById("TEL").style.visibility = 'hidden';
+		document.getElementById("FAX").style.visibility = 'hidden';
+		document.getElementById("EMAIL").style.visibility = 'hidden';
+		document.getElementById("WSITE").style.visibility = 'hidden';
+		document.getElementById("SALPERNO").style.visibility = 'hidden';
+		document.getElementById("SPEINS").style.visibility = 'hidden';
+		document.getElementById("CREDITSTAT").style.visibility = 'hidden';
+		document.getElementById("TAXID").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>

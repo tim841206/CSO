@@ -21,7 +21,8 @@
 	<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
 	<tr><td>所屬城市編號</td><td><p id="LastCITYNO"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -63,6 +64,7 @@
 					document.getElementById("ADDNO").readOnly = true;
 					document.getElementById("CITYNO").innerHTML = data.CITYNO;
 					document.getElementById("CITYNO").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此地址編號不存在");
@@ -105,15 +107,11 @@
 					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
 					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
 					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("CUSNO").value = null;
-					document.getElementById("CUSNM").value = null;
 					document.getElementById("ADDNO").value = null;
 					document.getElementById("CITYNO").value = null;
-					document.getElementById("CUSNO").readOnly = false;
 					document.getElementById("ADDNO").readOnly = false;
-					document.getElementById("CUSNM").style.visibility = 'hidden';
-					document.getElementById("ADDNO").style.visibility = 'hidden';
 					document.getElementById("CITYNO").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -123,5 +121,17 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUSNM").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("CITYNO").value = null;
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
+		document.getElementById("CUSNM").style.visibility = 'hidden';
+		document.getElementById("ADDNO").style.visibility = 'hidden';
+		document.getElementById("CITYNO").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>

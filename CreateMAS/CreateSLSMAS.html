@@ -22,6 +22,7 @@
 	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
 </table>
 <button id="Create" onclick="Create()">新增</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -133,5 +134,11 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("SALPERNM").value = null;
+		document.getElementById("EMPNO").value = null;
+		document.getElementById("COMRATE").value = null;
 	}
 </script>

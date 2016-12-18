@@ -39,7 +39,8 @@
 	<tr><td>傳真</td><td><p id="LastFAX"></p></td></tr>
 	<tr><td>電子信箱</td><td><p id="LastEMAIL"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CUSNO() {
@@ -99,6 +100,7 @@
 					document.getElementById("TEL").style.visibility = 'visible';
 					document.getElementById("FAX").style.visibility = 'visible';
 					document.getElementById("EMAIL").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此地址編號不存在");
@@ -327,7 +329,6 @@
 					document.getElementById("EMAIL").value = null;
 					document.getElementById("CUSNO").readOnly = false;
 					document.getElementById("ADDNO").readOnly = false;
-					document.getElementById("ADDNO").style.visibility = 'hidden';
 					document.getElementById("ADD_1").style.visibility = 'hidden';
 					document.getElementById("ADD_2").style.visibility = 'hidden';
 					document.getElementById("ADD_3").style.visibility = 'hidden';
@@ -339,6 +340,7 @@
 					document.getElementById("TEL").style.visibility = 'hidden';
 					document.getElementById("FAX").style.visibility = 'hidden';
 					document.getElementById("EMAIL").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -348,5 +350,35 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("ADDNO").value = null;
+		document.getElementById("ADD_1").value = null;
+		document.getElementById("ADD_2").value = null;
+		document.getElementById("ADD_3").value = null;
+		document.getElementById("CITY").value = null;
+		document.getElementById("COUNTY").value = null;
+		document.getElementById("COUNTRY").value = null;
+		document.getElementById("ZCODE").value = null;
+		document.getElementById("CNTPER").value = null;
+		document.getElementById("TEL").value = null;
+		document.getElementById("FAX").value = null;
+		document.getElementById("EMAIL").value = null;
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
+		document.getElementById("ADDNO").style.visibility = 'hidden';
+		document.getElementById("ADD_1").style.visibility = 'hidden';
+		document.getElementById("ADD_2").style.visibility = 'hidden';
+		document.getElementById("ADD_3").style.visibility = 'hidden';
+		document.getElementById("CITY").style.visibility = 'hidden';
+		document.getElementById("COUNTY").style.visibility = 'hidden';
+		document.getElementById("COUNTRY").style.visibility = 'hidden';
+		document.getElementById("ZCODE").style.visibility = 'hidden';
+		document.getElementById("CNTPER").style.visibility = 'hidden';
+		document.getElementById("TEL").style.visibility = 'hidden';
+		document.getElementById("FAX").style.visibility = 'hidden';
+		document.getElementById("EMAIL").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>

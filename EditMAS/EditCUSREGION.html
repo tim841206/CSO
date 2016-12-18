@@ -27,7 +27,8 @@
 	<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
 	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function REGIONNO() {
@@ -54,7 +55,7 @@
 					document.getElementById("COMPANYNM").style.visibility = 'visible';
 					document.getElementById("DISTRICTNO").style.visibility = 'visible';
 					document.getElementById("DESCRIPTION").style.visibility = 'visible';
-
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此廠商暨地區編號不存在");
@@ -209,6 +210,7 @@
 					document.getElementById("COMPANYNM").style.visibility = 'hidden';
 					document.getElementById("DISTRICTNO").style.visibility = 'hidden';
 					document.getElementById("DESCRIPTION").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -218,5 +220,22 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("REGIONNO").value = null;
+		document.getElementById("CHANNELNO").value = null;
+		document.getElementById("CHANNELNM").value = null;
+		document.getElementById("COMPANYNO").value = null;
+		document.getElementById("COMPANYNM").value = null;
+		document.getElementById("DISTRICTNO").value = null;
+		document.getElementById("DESCRIPTION").value = null;
+		document.getElementById("REGIONNO").readOnly = false;
+		document.getElementById("CHANNELNO").style.visibility = 'hidden';
+		document.getElementById("CHANNELNM").style.visibility = 'hidden';
+		document.getElementById("COMPANYNO").style.visibility = 'hidden';
+		document.getElementById("COMPANYNM").style.visibility = 'hidden';
+		document.getElementById("DISTRICTNO").style.visibility = 'hidden';
+		document.getElementById("DESCRIPTION").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>

@@ -24,6 +24,7 @@
 	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
 </table>
 <button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function CITYNO() {
@@ -67,17 +68,28 @@
 					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("CITYNO").readOnly = false;
 					document.getElementById("CITYNO").value = null;
 					document.getElementById("CITYNM").value = null;
 					document.getElementById("REGIONNO").value = null;
 					document.getElementById("CREATEDATE").value = null;
 					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
+					document.getElementById('Delete').style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("CITYNO").readOnly = false;
+		document.getElementById("CITYNO").value = null;
+		document.getElementById("CITYNM").value = null;
+		document.getElementById("REGIONNO").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById('Delete').style.visibility = 'hidden';
 	}
 </script>

@@ -28,6 +28,7 @@
 	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
 </table>
 <button id="Create" onclick="Create()">新增</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function REGIONNO() {
@@ -199,5 +200,14 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("REGIONNO").value = null;
+		document.getElementById("CHANNELNO").value = null;
+		document.getElementById("CHANNELNM").value = null;
+		document.getElementById("COMPANYNO").value = null;
+		document.getElementById("COMPANYNM").value = null;
+		document.getElementById("DISTRICTNO").value = null;
+		document.getElementById("DESCRIPTION").value = null;
 	}
 </script>

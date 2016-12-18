@@ -21,7 +21,8 @@
 	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
 	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
 </table>
-<button id="Edit" onclick="Edit()">修改</button>
+<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -42,6 +43,7 @@
 					document.getElementById("SALPERNM").style.visibility = 'visible';
 					document.getElementById("EMPNO").style.visibility = 'visible';
 					document.getElementById("COMRATE").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此銷售員編號不存在");
@@ -133,6 +135,7 @@
 					document.getElementById("SALPERNM").style.visibility = 'hidden';
 					document.getElementById("EMPNO").style.visibility = 'hidden';
 					document.getElementById("COMRATE").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
@@ -142,5 +145,16 @@
 				}
 			}
 		}
+	}
+	function Refresh() {
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("SALPERNM").value = null;
+		document.getElementById("EMPNO").value = null;
+		document.getElementById("COMRATE").value = null;
+		document.getElementById("SALPERNO").readOnly = false;
+		document.getElementById("SALPERNM").style.visibility = 'hidden';
+		document.getElementById("EMPNO").style.visibility = 'hidden';
+		document.getElementById("COMRATE").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
 	}
 </script>
