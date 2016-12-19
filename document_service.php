@@ -147,9 +147,6 @@ function search_content() {
 	elseif ($_POST['type'] == 'Transaction'){
 		
 	}
-	else {
-		// unknown request type
-	}
 	$content .= "</table>";
 	return $content;
 }
