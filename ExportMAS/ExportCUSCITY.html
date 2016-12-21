@@ -11,9 +11,26 @@
 </head>
 <p>請輸入城市編號範圍</p>
 <p><input type="text" name="FromCITYNO" id="FromCITYNO"> 到 <input type="text" name="ToCITYNO" id="ToCITYNO"></p>
+<button id="Search" onclick="Search()">查詢</button>
 <button id="Export" onclick="Export()">輸出</button>
+<p id="result"></p>
 
 <script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ExportMAS.php");
+		var data = "module=ExportMAS&event=ExportCUSADD&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				
+			}
+		}
+	}
+	
 	function Export() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
