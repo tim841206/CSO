@@ -9,7 +9,7 @@
 		<option value="CrossSearchMAS" <? check_selected('type', 'CrossSearchMAS') ?>>跨主檔查詢</option>
 		<option value="ORDMAS" <? check_selected('type', 'ORDMAS') ?>>訂單主檔維護</option>
 		<option value="SearchORDMAS" <? check_selected('type', 'SearchORDMAS') ?>>查詢訂單主檔</option>
-		<option value="PublishORDMAS" <? check_selected('type', 'PublishORDMAS') ?>>發布訂單</option>
+		<option value="PublishORDMAS" <? check_selected('type', 'PublishORDMAS') ?>>發佈訂單</option>
 		<option value="Transaction" <? check_selected('type', 'Transaction') ?>>交易檔維護</option>
 	</select>
 	<? if ($_POST['type'] == 'CreateMAS'){ ?>
@@ -89,7 +89,7 @@
 	<? } ?>
 	<? if ($_POST['type'] == 'PublishORDMAS'){ ?>
 	<select class="" name="event" onchange="document.getElementById('form').submit();">
-		<option value="R_ORDMAS" <? check_selected('event', 'R_ORDMAS') ?>>發布訂單</option>
+		<option value="R_ORDMAS" <? check_selected('event', 'R_ORDMAS') ?>>發佈訂單</option>
 		<option value="C_ORDMAS" <? check_selected('event', 'C_ORDMAS') ?>>正常關閉訂單</option>
 		<option value="F_ORDMAS" <? check_selected('event', 'F_ORDMAS') ?>>強制關閉訂單</option>
 		<option value="RR_ORDMAS" <? check_selected('event', 'RR_ORDMAS') ?>>重生訂單</option>

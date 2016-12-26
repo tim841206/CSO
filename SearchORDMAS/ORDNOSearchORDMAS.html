@@ -9,3 +9,127 @@
 		<h1>訂單編號查詢訂單主檔</h1>
 	</header>
 </head>
+<table>
+	<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO"></td></tr>
+	<tr><td>訂單種類</td><td><p id="ORDTYPE"></p></td></tr>
+	<tr><td>顧客編號</td><td><p id="CUSNO"></p></td></tr>
+	<tr><td>顧客訂單編號</td><td><p id="CUS_PO_NO"></p></td></tr>
+	<tr><td>運送地編號</td><td><p id="SHIP_ADD_NO"></p></td></tr>
+	<tr><td>帳單地編號</td><td><p id="BILL_ADD_NO"></p></td></tr>
+	<tr><td>缺貨狀態碼</td><td><p id="BACKCODE"></p></td></tr>
+	<tr><td>發票編號</td><td><p id="INVOICENO"></p></td></tr>
+	<tr><td>銷售員編號</td><td><p id="SALPERNO"></p></td></tr>
+	<tr><td>訂單總值</td><td><p id="TO_ORD_AMT"></p></td></tr>
+	<tr><td>運送總值</td><td><p id="TO_SHP_AMT"></p></td></tr>
+	<tr><td>訂單額外附加指令</td><td><p id="ORD_INST"></p></td></tr>
+	<tr><td>原始訂單開啟日期</td><td><p id="DATEORDORG"></p></td></tr>
+	<tr><td>訂單完成百分比</td><td><p id="ORDCOMPER"></p></td></tr>
+	<tr><td>訂單狀態</td><td><p id="ORD_STAT"></p></td></tr>
+	<tr><td>訂單要求完成日期</td><td><p id="DATE_REQ"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+</table>
+<table id="Last">
+	<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
+	<tr><td>訂單種類</td><td><p id="LastORDTYPE"></p></td></tr>
+	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+	<tr><td>顧客訂單編號</td><td><p id="LastCUS_PO_NO"></p></td></tr>
+	<tr><td>運送地編號</td><td><p id="LastSHIP_ADD_NO"></p></td></tr>
+	<tr><td>帳單地編號</td><td><p id="LastBILL_ADD_NO"></p></td></tr>
+	<tr><td>缺貨狀態碼</td><td><p id="LastBACKCODE"></p></td></tr>
+	<tr><td>發票編號</td><td><p id="LastINVOICENO"></p></td></tr>
+	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+	<tr><td>訂單總值</td><td><p id="LastTO_ORD_AMT"></p></td></tr>
+	<tr><td>運送總值</td><td><p id="LastTO_SHP_AMT"></p></td></tr>
+	<tr><td>訂單額外附加指令</td><td><p id="LastORD_INST"></p></td></tr>
+	<tr><td>原始訂單開啟日期</td><td><p id="LastDATEORDORG"></p></td></tr>
+	<tr><td>訂單完成百分比</td><td><p id="LastORDCOMPER"></p></td></tr>
+	<tr><td>訂單狀態</td><td><p id="LastORD_STAT"></p></td></tr>
+	<tr><td>訂單要求完成日期</td><td><p id="LastDATE_REQ"></p></td></tr>
+	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+</table>
+<button id="Search" onclick="Search()">查詢</button>
+<button id="Refresh" onclick="Refresh()">重新整理</button>
+<p id="table"></p>
+
+<script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "SearchORDMAS.php");
+		var data = "module=SearchORDMAS&event=ORDNOSearchORDMAS&ORDNO=" + document.getElementById("ORDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ORDNO").readOnly = true;
+					document.getElementById("ORDTYPE").innerHTML = data.ORDTYPE;
+					document.getElementById("CUSNO").innerHTML = data.CUSNO;
+					document.getElementById("CUS_PO_NO").innerHTML = data.CUS_PO_NO;
+					document.getElementById("SHIP_ADD_NO").innerHTML = data.SHIP_ADD_NO;
+					document.getElementById("BILL_ADD_NO").innerHTML = data.BILL_ADD_NO;
+					document.getElementById("BACKCODE").innerHTML = data.BACKCODE;
+					document.getElementById("INVOICENO").innerHTML = data.INVOICENO;
+					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
+					document.getElementById("TO_ORD_AMT").innerHTML = data.TO_ORD_AMT;
+					document.getElementById("TO_SHP_AMT").innerHTML = data.TO_SHP_AMT;
+					document.getElementById("ORD_INST").innerHTML = data.ORD_INST;
+					document.getElementById("DATEORDORG").innerHTML = data.DATEORDORG;
+					document.getElementById("ORDCOMPER").innerHTML = data.ORDCOMPER;
+					document.getElementById("ORD_STAT").innerHTML = data.ORD_STAT;
+					document.getElementById("DATE_REQ").innerHTML = data.DATE_REQ;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+				}
+				else if (data.state == 1) {
+					alert("此訂單編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此訂單已刪除");
+				}
+			}
+		}
+	}
+	function Refresh() {
+		document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
+		document.getElementById("LastORDTYPE").value = document.getElementById("ORDTYPE").value;
+		document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+		document.getElementById("LastCUS_PO_NO").value = document.getElementById("CUS_PO_NO").value;
+		document.getElementById("LastSHIP_ADD_NO").value = document.getElementById("SHIP_ADD_NO").value;
+		document.getElementById("LastBILL_ADD_NO").value = document.getElementById("BILL_ADD_NO").value;
+		document.getElementById("LastBACKCODE").value = document.getElementById("BACKCODE").value;
+		document.getElementById("LastINVOICENO").value = document.getElementById("INVOICENO").value;
+		document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+		document.getElementById("LastTO_ORD_AMT").value = document.getElementById("TO_ORD_AMT").value;
+		document.getElementById("LastTO_SHP_AMT").value = document.getElementById("TO_SHP_AMT").value;
+		document.getElementById("LastORD_INST").value = document.getElementById("ORD_INST").value;
+		document.getElementById("LastLastDATEORDORG").value = document.getElementById("DATEORDORG").value;
+		document.getElementById("LastORDCOMPER").value = document.getElementById("ORDCOMPER").value;
+		document.getElementById("LastORD_STAT").value = document.getElementById("ORD_STAT").value;
+		document.getElementById("LastDATE_REQ").value = document.getElementById("DATE_REQ").value;
+		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("ORDNO").value = null;
+		document.getElementById("ORDTYPE").value = null;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("CUS_PO_NO").value = null;
+		document.getElementById("SHIP_ADD_NO").value = null;
+		document.getElementById("BILL_ADD_NO").value = null;
+		document.getElementById("BACKCODE").value = null;
+		document.getElementById("INVOICENO").value = null;
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("TO_ORD_AMT").value = null;
+		document.getElementById("TO_SHP_AMT").value = null;
+		document.getElementById("ORD_INST").value = null;
+		document.getElementById("DATEORDORG").value = null;
+		document.getElementById("ORDCOMPER").value = null;
+		document.getElementById("ORD_STAT").value = null;
+		document.getElementById("DATE_REQ").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("ORDNO").readOnly = false;
+	}
+</script>

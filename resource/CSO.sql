@@ -122,7 +122,7 @@ CREATE TABLE `CUSMAS` (
 -- 資料表結構 `CUSORD`
 --
 
-CREATE TABLE `CUSORD` (
+CREATE TABLE `ORDMAS` (
   `ORDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ORDTYPE` varchar(1) COLLATE utf8_bin NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
@@ -137,7 +137,6 @@ CREATE TABLE `CUSORD` (
   `SALEAMTYTD` double NOT NULL,
   `SALEAMTSTD` double NOT NULL,
   `SALEAMTMTD` double NOT NULL,
-  `CREDITSTAT` varchar(1) COLLATE utf8_bin NOT NULL,
   `ORD_INST` varchar(50) COLLATE utf8_bin NOT NULL,
   `DATEORDORG` date NOT NULL,
   `ORDCOMPER` double NOT NULL,
