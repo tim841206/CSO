@@ -639,7 +639,7 @@ function check_ADDNO($CUSNO, $ADDNO) {
 	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
-	if ($fetch['ADDNO_1'] != $ADDNO && $fetch['ADDNO_2'] != $ADDNO && $fetch['ADDNO_3'] =!= $ADDNO) {
+	if ($fetch['ADDNO_1'] != $ADDNO && $fetch['ADDNO_2'] != $ADDNO && $fetch['ADDNO_3'] != $ADDNO) {
 		return 1; // 不存在
 	} 
 	else {
