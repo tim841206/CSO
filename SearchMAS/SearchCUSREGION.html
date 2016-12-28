@@ -9,30 +9,33 @@
 		<h1>查詢顧客地區</h1>
 	</header>
 </head>
-<table>
-	<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO"></td></tr>
-	<tr><td>通路編號</td><td><p id="CHANNELNO"></p></td></tr>
-	<tr><td>通路名稱</td><td><p id="CHANNELNM"></p></td></tr>
-	<tr><td>廠商公司編號</td><td><p id="COMPANYNO"></p></td></tr>
-	<tr><td>廠商公司名稱</td><td><p id="COMPANYNM"></p></td></tr>
-	<tr><td>地區編號</td><td><p id="DISTRICTNO"></p></td></tr>
-	<tr><td>敘述</td><td><p id="DESCRIPTION"></p></td></tr>
-	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
-	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
-</table>
-<table id="Last">
-	<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
-	<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
-	<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
-	<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
-	<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
-	<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
-	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
-	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
-	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
-</table>
-<button id="Search" onclick="Search()">查詢</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO"></td></tr>
+		<tr><td>通路編號</td><td><p id="CHANNELNO"></p></td></tr>
+		<tr><td>通路名稱</td><td><p id="CHANNELNM"></p></td></tr>
+		<tr><td>廠商公司編號</td><td><p id="COMPANYNO"></p></td></tr>
+		<tr><td>廠商公司名稱</td><td><p id="COMPANYNM"></p></td></tr>
+		<tr><td>地區編號</td><td><p id="DISTRICTNO"></p></td></tr>
+		<tr><td>敘述</td><td><p id="DESCRIPTION"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+	</table>
+	<table id="Last">
+		<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+		<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
+		<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
+		<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
+		<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
+		<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
+		<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+	</table>
+	<button id="Search" onclick="Search()">查詢</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function Search() {
@@ -85,5 +88,16 @@
 		document.getElementById("CREATEDATE").value = null;
 		document.getElementById("UPDATEDATE").value = null;
 		document.getElementById("REGIONNO").readOnly = false;
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

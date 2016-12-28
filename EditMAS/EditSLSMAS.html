@@ -9,20 +9,23 @@
 		<h1>修改銷售員</h1>
 	</header>
 </head>
-<table>
-	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-	<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
-	<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
-	<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
-</table>
-<table id="Last">
-	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
-	<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
-	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
-	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
-</table>
-<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+		<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
+		<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
+		<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
+	</table>
+	<table id="Last">
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
+	</table>
+	<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -148,5 +151,16 @@
 		document.getElementById("EMPNO").style.visibility = 'hidden';
 		document.getElementById("COMRATE").style.visibility = 'hidden';
 		document.getElementById("Edit").style.visibility = 'hidden';
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

@@ -9,11 +9,14 @@
 		<h1>輸出顧客地址</h1>
 	</header>
 </head>
-<p>請輸入顧客編號範圍</p>
-<p><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></p>
-<button id="Search" onclick="Search()">查詢</button>
-<button id="Export" onclick="Export()">輸出</button>
-<p id="result"></p>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<p>請輸入顧客編號範圍</p>
+	<p><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></p>
+	<button id="Search" onclick="Search()">查詢</button>
+	<button id="Export" onclick="Export()">輸出</button>
+	<p id="result"></p>
+</body>
 
 <script type="text/javascript">
 	function Search() {
@@ -46,5 +49,16 @@
 				}
 			}
 		}
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

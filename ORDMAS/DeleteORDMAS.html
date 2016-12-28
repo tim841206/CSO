@@ -9,34 +9,37 @@
 		<h1>刪除訂單主檔</h1>
 	</header>
 </head>
-<table>
-	<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
-	<tr><td>訂單種類</td><td><p id="ORDTYPE" style="visibility: hidden;"></p></td></tr>
-	<tr><td>顧客編號</td><td><p id="CUSNO" style="visibility: hidden;"></p></td></tr>
-	<tr><td>銷售員編號</td><td><p id="SALPERNO" style="visibility: hidden;"></p></td></tr>
-	<tr><td>顧客訂單編號</td><td><p id="CUS_PO_NO" style="visibility: hidden;"></p></td></tr>
-	<tr><td>運送地編號</td><td><p id="SHIP_ADD_NO" style="visibility: hidden;"></p></td></tr>
-	<tr><td>帳單地編號</td><td><p id="BILL_ADD_NO" style="visibility: hidden;"></p></td></tr>
-	<tr><td>訂單額外附加指令</td><td><p id="ORD_INST" style="visibility: hidden;"></p></td></tr>
-	<tr><td>訂單要求完成日期</td><td><p id="DATE_REQ" style="visibility: hidden;"></p></td></tr>
-	<tr><td>建立時間</td><td><p id="CREATEDATE" style="visibility: hidden;"></p></td></tr>
-	<tr><td>最後修改時間</td><td><p id="UPDATEDATE" style="visibility: hidden;"></p></td></tr>
-</table>
-<table id="Last" style="visibility: hidden;">
-	<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
-	<tr><td>訂單種類</td><td><p id="LastORDTYPE"></p></td></tr>
-	<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
-	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
-	<tr><td>顧客訂單編號</td><td><p id="LastCUS_PO_NO"></p></td></tr>
-	<tr><td>運送地編號</td><td><p id="LastSHIP_ADD_NO"></p></td></tr>
-	<tr><td>帳單地編號</td><td><p id="LastBILL_ADD_NO"></p></td></tr>
-	<tr><td>訂單額外附加指令</td><td><p id="LastORD_INST"></p></td></tr>
-	<tr><td>訂單要求完成日期</td><td><p id="LastDATE_REQ"></p></td></tr>
-	<tr><td>建立時間</td><td><p id="LastCREATEDATE"></p></td></tr>
-	<tr><td>最後修改時間</td><td><p id="LastUPDATEDATE"></p></td></tr>
-</table>
-<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+		<tr><td>訂單種類</td><td><p id="ORDTYPE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>顧客編號</td><td><p id="CUSNO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>銷售員編號</td><td><p id="SALPERNO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>顧客訂單編號</td><td><p id="CUS_PO_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>運送地編號</td><td><p id="SHIP_ADD_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>帳單地編號</td><td><p id="BILL_ADD_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>訂單額外附加指令</td><td><p id="ORD_INST" style="visibility: hidden;"></p></td></tr>
+		<tr><td>訂單要求完成日期</td><td><p id="DATE_REQ" style="visibility: hidden;"></p></td></tr>
+		<tr><td>建立時間</td><td><p id="CREATEDATE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>最後修改時間</td><td><p id="UPDATEDATE" style="visibility: hidden;"></p></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
+		<tr><td>訂單種類</td><td><p id="LastORDTYPE"></p></td></tr>
+		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>顧客訂單編號</td><td><p id="LastCUS_PO_NO"></p></td></tr>
+		<tr><td>運送地編號</td><td><p id="LastSHIP_ADD_NO"></p></td></tr>
+		<tr><td>帳單地編號</td><td><p id="LastBILL_ADD_NO"></p></td></tr>
+		<tr><td>訂單額外附加指令</td><td><p id="LastORD_INST"></p></td></tr>
+		<tr><td>訂單要求完成日期</td><td><p id="LastDATE_REQ"></p></td></tr>
+		<tr><td>建立時間</td><td><p id="LastCREATEDATE"></p></td></tr>
+		<tr><td>最後修改時間</td><td><p id="LastUPDATEDATE"></p></td></tr>
+	</table>
+	<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function ORDNO() {
@@ -115,5 +118,16 @@
 		document.getElementById("CREATEDATE").value = null;
 		document.getElementById("UPDATEDATE").value = null;
 		document.getElementById('Delete').style.visibility = 'hidden';
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

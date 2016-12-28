@@ -9,30 +9,33 @@
 		<h1>刪除銷售員</h1>
 	</header>
 </head>
-<table>
-	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-	<tr><td>銷售員名稱</td><td><p id="SALPERNM"></p></td></tr>
-	<tr><td>員工編號</td><td><p id="EMPNO"></p></td></tr>
-	<tr><td>酬勞比率(%)</td><td><p id="COMRATE"></p></td></tr>
-	<tr><td>年結帳至今銷售額</td><td><p id="SALEAMTYTD"></p></td></tr>
-	<tr><td>季結帳至今銷售額</td><td><p id="SALEAMTSTD"></p></td></tr>
-	<tr><td>月結帳至今銷售額</td><td><p id="SALEAMTMTD"></p></td></tr>
-	<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
-	<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
-</table>
-<table id="Last" style="visibility: hidden;">
-	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
-	<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
-	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
-	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></td></tr>
-	<tr><td>年結帳至今銷售額</td><td><p id="LastSALEAMTYTD"></td></tr>
-	<tr><td>季結帳至今銷售額</td><td><p id="LastSALEAMTSTD"></td></tr>
-	<tr><td>月結帳至今銷售額</td><td><p id="LastSALEAMTMTD"></td></tr>
-	<tr><td>建立日期</td><td><p id="LastCREATEDATE"></td></tr>
-	<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></td></tr>
-</table>
-<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="SALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="EMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="COMRATE"></p></td></tr>
+		<tr><td>年結帳至今銷售額</td><td><p id="SALEAMTYTD"></p></td></tr>
+		<tr><td>季結帳至今銷售額</td><td><p id="SALEAMTSTD"></p></td></tr>
+		<tr><td>月結帳至今銷售額</td><td><p id="SALEAMTMTD"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
+		<tr><td>年結帳至今銷售額</td><td><p id="LastSALEAMTYTD"></p></td></tr>
+		<tr><td>季結帳至今銷售額</td><td><p id="LastSALEAMTSTD"></p></td></tr>
+		<tr><td>月結帳至今銷售額</td><td><p id="LastSALEAMTMTD"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+	</table>
+	<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -105,5 +108,16 @@
 		document.getElementById("CREATEDATE").value = null;
 		document.getElementById("UPDATEDATE").value = null;
 		document.getElementById('Delete').style.visibility = 'hidden';
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

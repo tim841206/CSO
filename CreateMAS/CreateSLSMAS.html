@@ -9,20 +9,23 @@
 		<h1>新增銷售員</h1>
 	</header>
 </head>
-<table>
-	<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-	<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()"></td></tr>
-	<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"></td></tr>
-	<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"></td></tr>
-</table>
-<table id="Last" style="visibility: hidden;">
-	<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
-	<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
-	<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
-	<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
-</table>
-<button id="Create" onclick="Create()">新增</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+		<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()"></td></tr>
+		<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"></td></tr>
+		<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
+	</table>
+	<button id="Create" onclick="Create()">新增</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function SALPERNO() {
@@ -116,10 +119,10 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
-					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
-					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSALPERNM").innerHTML = document.getElementById("SALPERNM").value;
+					document.getElementById("LastEMPNO").innerHTML = document.getElementById("EMPNO").value;
+					document.getElementById("LastCOMRATE").innerHTML = document.getElementById("COMRATE").value;
 					document.getElementById("SALPERNO").value = null;
 					document.getElementById("SALPERNM").value = null;
 					document.getElementById("EMPNO").value = null;
@@ -140,5 +143,16 @@
 		document.getElementById("SALPERNM").value = null;
 		document.getElementById("EMPNO").value = null;
 		document.getElementById("COMRATE").value = null;
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

@@ -9,10 +9,13 @@
 		<h1>顧客城市查詢顧客地址城市關聯</h1>
 	</header>
 </head>
-<p>請輸入城市編號</p>
-<p><input type="text" name="CITYNO" id="CITYNO"></p>
-<button id="Search" onclick="Search()">查詢</button>
-<p id="table"></p>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<p>請輸入城市編號</p>
+	<p><input type="text" name="CITYNO" id="CITYNO"></p>
+	<button id="Search" onclick="Search()">查詢</button>
+	<p id="table"></p>
+</body>
 
 <script type="text/javascript">
 	function Search() {
@@ -42,5 +45,16 @@
 				}
 			}
 		}
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>

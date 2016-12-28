@@ -9,26 +9,29 @@
 		<h1>新增顧客地區</h1>
 	</header>
 </head>
-<table>
-	<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()"></td></tr>
-	<tr><td>通路編號</td><td><input type="text" name="CHANNELNO" id="CHANNELNO" onchange="CHANNELNO()"></td></tr>
-	<tr><td>通路名稱</td><td><input type="text" name="CHANNELNM" id="CHANNELNM" onchange="CHANNELNM()"></td></tr>
-	<tr><td>廠商公司編號</td><td><input type="text" name="COMPANYNO" id="COMPANYNO" onchange="COMPANYNO()"></td></tr>
-	<tr><td>廠商公司名稱</td><td><input type="text" name="COMPANYNM" id="COMPANYNM" onchange="COMPANYNM()"></td></tr>
-	<tr><td>地區編號</td><td><input type="text" name="DISTRICTNO" id="DISTRICTNO" onchange="DISTRICTNO()"></td></tr>
-	<tr><td>敘述</td><td><input type="text" name="DESCRIPTION" id="DESCRIPTION" onchange="DESCRIPTION()"></td></tr>
-</table>
-<table id="Last" style="visibility: hidden;">
-	<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
-	<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
-	<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
-	<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
-	<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
-	<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
-	<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
-</table>
-<button id="Create" onclick="Create()">新增</button>
-<button id="Refresh" onclick="Refresh()">重新整理</button>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()"></td></tr>
+		<tr><td>通路編號</td><td><input type="text" name="CHANNELNO" id="CHANNELNO" onchange="CHANNELNO()"></td></tr>
+		<tr><td>通路名稱</td><td><input type="text" name="CHANNELNM" id="CHANNELNM" onchange="CHANNELNM()"></td></tr>
+		<tr><td>廠商公司編號</td><td><input type="text" name="COMPANYNO" id="COMPANYNO" onchange="COMPANYNO()"></td></tr>
+		<tr><td>廠商公司名稱</td><td><input type="text" name="COMPANYNM" id="COMPANYNM" onchange="COMPANYNM()"></td></tr>
+		<tr><td>地區編號</td><td><input type="text" name="DISTRICTNO" id="DISTRICTNO" onchange="DISTRICTNO()"></td></tr>
+		<tr><td>敘述</td><td><input type="text" name="DESCRIPTION" id="DESCRIPTION" onchange="DESCRIPTION()"></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
+		<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
+		<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
+		<tr><td>廠商公司編號</td><td><p id="LastCOMPANYNO"></p></td></tr>
+		<tr><td>廠商公司名稱</td><td><p id="LastCOMPANYNM"></p></td></tr>
+		<tr><td>地區編號</td><td><p id="LastDISTRICTNO"></p></td></tr>
+		<tr><td>敘述</td><td><p id="LastDESCRIPTION"></p></td></tr>
+	</table>
+	<button id="Create" onclick="Create()">新增</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+</body>
 
 <script type="text/javascript">
 	function REGIONNO() {
@@ -209,5 +212,16 @@
 		document.getElementById("COMPANYNM").value = null;
 		document.getElementById("DISTRICTNO").value = null;
 		document.getElementById("DESCRIPTION").value = null;
+	}
+	function time() {
+		today = new Date();
+		Year = today.getYear() + 1900;
+		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
+		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
+		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
+		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
+		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
+		setTimeout("time()", 1000);
 	}
 </script>
