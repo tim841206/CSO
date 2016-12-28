@@ -68,14 +68,8 @@
 					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
-					document.getElementById("CITYNO").readOnly = false;
-					document.getElementById("CITYNO").value = null;
-					document.getElementById("CITYNM").value = null;
-					document.getElementById("REGIONNO").value = null;
-					document.getElementById("CREATEDATE").value = null;
-					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
-					document.getElementById('Delete').style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

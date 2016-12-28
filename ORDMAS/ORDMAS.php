@@ -19,7 +19,7 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "ORDNO") {
-			$result = check_ORDNO($_POST['ORDNO'], $_POST['ORDTYPE']);
+			$result = check_ORDNO_exist($_POST['ORDNO'], $_POST['ORDTYPE']);
 			if ($result == 1) {
 				echo json_encode(array('state' => $result));
 				return;
@@ -61,7 +61,7 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		else {
 			echo json_encode(array('state' => 400));
-    		return;
+			return;
 		}
 	}
 	elseif ($_POST['event'] == "CreateORDMAT") {
@@ -90,17 +90,118 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		else {
 			echo json_encode(array('state' => 400));
-    		return;
+			return;
 		}
 	}
 	elseif ($_POST['event'] == "EditORDMAS") {
-		
+		if ($_POST['option'] == "ORDNO") {
+			$result = check_ORDNO($_POST['ORDNO']);
+			if (is_resource($result)) {
+				$fetch = mysql_fetch_array($result);
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'SALPERNO' => $fetch['SALPERNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'ORD_INST' => $fetch['ORD_INST'], 'DATE_REQ' => $fetch['DATE_REQ']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "CUS_PO_NO") {
+			$result = check_50($_POST['CUSNO']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "SHIP_ADD_NO") {
+			$result = check_ADDNO_exist($_POST['CUSNO'], $_POST['SHIP_ADD_NO']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "BILL_ADD_NO") {
+			$result = check_ADDNO_exist($_POST['CUSNO'], $_POST['BILL_ADD_NO']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "ORD_INST") {
+			$result = check_50($_POST['ORD_INST']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "DATE_REQ") {
+			$result = check_notnull($_POST['DATE_REQ']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "Edit") {
+			$ORDNO = $_POST['ORDNO'];
+			$CUS_PO_NO = $_POST['CUS_PO_NO'];
+			$SHIP_ADD_NO = $_POST['SHIP_ADD_NO'];
+			$BILL_ADD_NO= $_POST['BILL_ADD_NO'];
+			$BILL_ADD_NO= $_POST['ORD_INST'];
+			$BILL_ADD_NO= $_POST['DATE_REQ'];
+			$result1 = is_resource(check_ORDNO($ORDNO))? 0 : check_ORDNO($ORDNO);
+			$result2 = check_50($CUS_PO_NO);
+			$result3 = check_ADDNO_exist($SHIP_ADD_NO);
+			$result4 = check_ADDNO_exist($BILL_ADD_NO);
+			$result5 = check_50($ORD_INST);
+			$result6 = check_notnull($DATE_REQ);
+			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
+			if ($result == 0) {
+				date_default_timezone_set('Asia/Taipei');
+				$UPDATEDATE = date("Y-m-d H:i:s");
+				$sql = "UPDATE ORDMAS SET CUS_PO_NO=$CUS_PO_NO, SHIP_ADD_NO=$SHIP_ADD_NO, BILL_ADD_NO=$BILL_ADD_NO, ORD_INST=$ORD_INST, DATE_REQ=$DATE_REQ, UPDATEDATE=$UPDATEDATE WHERE ORDNO=$ORDNO";
+				if (mysql_query($sql)) {
+					echo json_encode(array('state' => 0));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 1));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 2));
+				return;
+			}
+		}
+		else {
+			echo json_encode(array('state' => 400));
+			return;
+		}
 	}
 	elseif ($_POST['event'] == "EditORDMAT") {
 		
 	}
 	elseif ($_POST['event'] == "DeleteORDMAS") {
-		
+		if ($_POST['option'] == "ORDNO") {
+			$result = check_ORDNO($_POST['ORDNO']);
+			if (is_resource($result)) {
+				$fetch = mysql_fetch_array($result);
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'SALPERNO' => $fetch['SALPERNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'ORD_INST' => $fetch['ORD_INST'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "Delete") {
+			$ORDNO = $_POST['ORDNO'];
+			date_default_timezone_set('Asia/Taipei');
+			$UPDATEDATE = date("Y-m-d H:i:s");
+			$sql = "UPDATE ORDMAS SET UPDATEDATE=$UPDATEDATE, ACTCODE=0 WHERE ORDNO=$ORDNO";
+			if (mysql_query($sql)) {
+				echo json_encode(array('state' => 0));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+		}
+		else {
+			echo json_encode(array('state' => 400));
+			return;
+		}
 	}
 	elseif ($_POST['event'] == "DeleteORDMAT") {
 		
@@ -169,7 +270,7 @@ function check_ADDNO_exist($CUSNO, $ADDNO) {
 	}
 }
 
-function check_ORDNO($ORDNO, $ORDTYPE) {
+function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 	$sql = "SELECT ORDNO FROM ORDMAS WHERE ORDNO=$ORDNO";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result)
@@ -197,6 +298,17 @@ function check_WHOUSE_exist($WHOUSE) {
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return 0; // ok
+	}
+	else {
+		return 1; // 不存在
+	}
+}
+
+function check_ORDNO($ORDNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO";
+	$result = mysql_query($sql);
+	if (mysql_fetch_row($result)) {
+		return $result; // ok
 	}
 	else {
 		return 1; // 不存在

@@ -84,18 +84,8 @@
 					document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
-					document.getElementById("REGIONNO").readOnly = false;
-					document.getElementById("REGIONNO").value = null;
-					document.getElementById("CHANNELNO").value = null;
-					document.getElementById("CHANNELNM").value = null;
-					document.getElementById("COMPANYNO").value = null;
-					document.getElementById("COMPANYNM").value = null;
-					document.getElementById("DISTRICTNO").value = null;
-					document.getElementById("DESCRIPTION").value = null;
-					document.getElementById("CREATEDATE").value = null;
-					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
-					document.getElementById('Delete').style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

@@ -127,23 +127,8 @@
 					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
-					document.getElementById("ADDNO").readOnly = false;
-					document.getElementById("ADDNO").value = null;
-					document.getElementById("ADD_1").value = null;
-					document.getElementById("ADD_2").value = null;
-					document.getElementById("ADD_3").value = null;
-					document.getElementById("CITY").value = null;
-					document.getElementById("COUNTY").value = null;
-					document.getElementById("COUNTRY").value = null;
-					document.getElementById("ZCODE").value = null;
-					document.getElementById("CNTPER").value = null;
-					document.getElementById("TEL").value = null;
-					document.getElementById("FAX").value = null;
-					document.getElementById("EMAIL").value = null;
-					document.getElementById("CREATEDATE").value = null;
-					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
-					document.getElementById('Delete').style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

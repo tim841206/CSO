@@ -100,13 +100,7 @@
 					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
 					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
 					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-					document.getElementById("CITYNO").value = null;
-					document.getElementById("CITYNM").value = null;
-					document.getElementById("REGIONNO").value = null;
-					document.getElementById("CITYNO").readOnly = false;
-					document.getElementById("CITYNM").style.visibility = 'hidden';
-					document.getElementById("REGIONNO").style.visibility = 'hidden';
-					document.getElementById("Edit").style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

@@ -84,18 +84,8 @@
 					document.getElementById("LastSALEAMTMTD").value = document.getElementById("SALEAMTMTD").value;
 					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
 					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
-					document.getElementById("SALPERNO").readOnly = false;
-					document.getElementById("SALPERNO").value = null;
-					document.getElementById("SALPERNM").value = null;
-					document.getElementById("EMPNO").value = null;
-					document.getElementById("COMRATE").value = null;
-					document.getElementById("SALEAMTYTD").value = null;
-					document.getElementById("SALEAMTSTD").value = null;
-					document.getElementById("SALEAMTMTD").value = null;
-					document.getElementById("CREATEDATE").value = null;
-					document.getElementById("UPDATEDATE").value = null;
 					document.getElementById("Last").style.visibility = 'visible';
-					document.getElementById('Delete').style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刪除失敗");

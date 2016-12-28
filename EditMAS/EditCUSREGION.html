@@ -196,21 +196,7 @@
 					document.getElementById("LastCOMPANYNM").value = document.getElementById("COMPANYNM").value;
 					document.getElementById("LastDISTRICTNO").value = document.getElementById("DISTRICTNO").value;
 					document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
-					document.getElementById("REGIONNO").value = null;
-					document.getElementById("CHANNELNO").value = null;
-					document.getElementById("CHANNELNM").value = null;
-					document.getElementById("COMPANYNO").value = null;
-					document.getElementById("COMPANYNM").value = null;
-					document.getElementById("DISTRICTNO").value = null;
-					document.getElementById("DESCRIPTION").value = null;
-					document.getElementById("REGIONNO").readOnly = false;
-					document.getElementById("CHANNELNO").style.visibility = 'hidden';
-					document.getElementById("CHANNELNM").style.visibility = 'hidden';
-					document.getElementById("COMPANYNO").style.visibility = 'hidden';
-					document.getElementById("COMPANYNM").style.visibility = 'hidden';
-					document.getElementById("DISTRICTNO").style.visibility = 'hidden';
-					document.getElementById("DESCRIPTION").style.visibility = 'hidden';
-					document.getElementById("Edit").style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

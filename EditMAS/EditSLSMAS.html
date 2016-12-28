@@ -127,15 +127,7 @@
 					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
 					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
 					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
-					document.getElementById("SALPERNO").value = null;
-					document.getElementById("SALPERNM").value = null;
-					document.getElementById("EMPNO").value = null;
-					document.getElementById("COMRATE").value = null;
-					document.getElementById("SALPERNO").readOnly = false;
-					document.getElementById("SALPERNM").style.visibility = 'hidden';
-					document.getElementById("EMPNO").style.visibility = 'hidden';
-					document.getElementById("COMRATE").style.visibility = 'hidden';
-					document.getElementById("Edit").style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");

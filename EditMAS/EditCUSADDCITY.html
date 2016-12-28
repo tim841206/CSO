@@ -107,11 +107,7 @@
 					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
 					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
 					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("ADDNO").value = null;
-					document.getElementById("CITYNO").value = null;
-					document.getElementById("ADDNO").readOnly = false;
-					document.getElementById("CITYNO").style.visibility = 'hidden';
-					document.getElementById("Edit").style.visibility = 'hidden';
+					Refresh();
 				}
 				else if (data.state == 1) {
 					alert("資料庫修改失敗");
