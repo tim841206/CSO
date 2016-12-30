@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
+	<script src="../resource/attachment.js"></script>
 	<title>修改訂單主檔</title>
 	<header>
 		<h1>修改訂單主檔</h1>
@@ -35,6 +36,7 @@
 	</table>
 	<button id="Edit" onclick="Edit()" style="visibility: hidden;">新增</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
@@ -198,16 +200,5 @@
 		document.getElementById("ORD_INST").style.visibility = 'hidden';
 		document.getElementById("DATE_REQ").style.visibility = 'hidden';
 		document.getElementById('Edit').style.visibility = 'hidden';
-	}
-	function time() {
-		today = new Date();
-		Year = today.getYear() + 1900;
-		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
-		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
-		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
-		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
-		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
-		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
-		setTimeout("time()", 1000);
 	}
 </script>

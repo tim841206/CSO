@@ -1,4 +1,6 @@
 <?
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "BI") {
 	if ($_POST['event'] == "REG-CITY-ADD") {
 		if ($_POST['option'] == "Renew") {

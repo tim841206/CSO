@@ -1,4 +1,6 @@
 <?
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "SearchORDMAS") {
 	if ($_POST['event'] == "ORDNOSearchORDMAS") {
 		$ORDNO = $_POST['ORDNO'];

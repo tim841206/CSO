@@ -1,4 +1,6 @@
 <?
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "CrossSearchMAS") {
 	if ($_POST['event'] == "CUSMASSearchCUSADD") {
 		$CUSNO = $_POST['CUSNO'];

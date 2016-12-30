@@ -1,7 +1,8 @@
 <?
 header('Content-type:application/vnd.ms-excel');
 header('Content-Disposition: attachment; filename=CSO_Export.xls');
-// 連接資料庫
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "ExportMAS") {
     if ($_POST['event'] == "ExportSLSMAS") {
         $FromSALPERNO = $_POST['FromSALPERNO'];

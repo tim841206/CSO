@@ -1,4 +1,6 @@
 <?
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "ORDMAS") {
 	if ($_POST['event'] == "CreateORDMAS") {
 		if ($_POST['option'] == "SALPERNO") {

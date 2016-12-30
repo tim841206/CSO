@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
+	<script src="../resource/attachment.js"></script>
 	<title>重生訂單</title>
 	<header>
 		<h1>重生訂單</h1>
@@ -20,6 +21,7 @@
 	</table>
 	<button id="Search" onclick="Search()">查詢</button>
 	<button id="Check" onclick="Check()">確定</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
 	<p id="result"></p>
 </body>
 
@@ -87,16 +89,5 @@
 				}
 			}
 		}
-	}
-	function time() {
-		today = new Date();
-		Year = today.getYear() + 1900;
-		Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
-		Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
-		Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
-		Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();
-		Second = today.getSeconds() <= 9 ? "0"+today.getSeconds() : today.getSeconds();
-		document.getElementById("now").innerHTML = Year + "-" + Month + "-" + Day + " " + Hour + ":" + Minute + ":" + Second;
-		setTimeout("time()", 1000);
 	}
 </script>

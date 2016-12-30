@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2016 年 10 月 26 日 05:41
+-- 產生時間： 2016 年 12 月 30 日 07:36
 -- 伺服器版本: 10.1.13-MariaDB
--- PHP 版本： 5.6.23
+-- PHP 版本： 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,8 +17,57 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `C&SO`
+-- 資料庫： `CSO`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `CSO_setup`
+--
+
+CREATE TABLE `CSO_setup` (
+  `TYPENO` varchar(2) COLLATE utf8_bin NOT NULL,
+  `DESCRIPTS` varchar(50) COLLATE utf8_bin NOT NULL,
+  `VALUE` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客與銷售訂單系統設定檔';
+
+--
+-- 資料表的匯出資料 `CSO_setup`
+--
+
+INSERT INTO `CSO_setup` (`TYPENO`, `DESCRIPTS`, `VALUE`) VALUES
+('OG', '下一筆正常訂單編號', 100001),
+('OS', '下一筆特殊訂單編號', 900001),
+('PG', '下一筆正常訂單揀貨單編號', 1000001),
+('PS', '下一筆特殊訂單揀貨單編號', 9000001),
+('IG', '下一筆正常發票編號', 10000001),
+('IS', '下一筆特殊發票編號', 90000001);
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `CUSADD`
+--
+
+CREATE TABLE `CUSADD` (
+  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADD_1` varchar(50) COLLATE utf8_bin NOT NULL,
+  `ADD_2` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ADD_3` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `CITY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `COUNTY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `COUNTRY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ZCODE` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CNTPER` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `TEL` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `FAX` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `EMAIL` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `CREATEDATE` datetime NOT NULL,
+  `UPDATEDATE` datetime NOT NULL,
+  `ACTCODE` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客地址主檔';
 
 -- --------------------------------------------------------
 
@@ -35,31 +84,6 @@ CREATE TABLE `CUSADDCITY` (
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客運送地址城市關係主檔';
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `CUSADDRESS`
---
-
-CREATE TABLE `CUSADD` (
-  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `ADD_1` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ADD_2` varchar(50) COLLATE utf8_bin,
-  `ADD_3` varchar(50) COLLATE utf8_bin,
-  `CITY` varchar(50) COLLATE utf8_bin,
-  `COUNTY` varchar(50) COLLATE utf8_bin,
-  `COUNTRY` varchar(50) COLLATE utf8_bin,
-  `ZCODE` varchar(15) COLLATE utf8_bin,
-  `CNTPER` varchar(50) COLLATE utf8_bin,
-  `TEL` varchar(15) COLLATE utf8_bin,
-  `FAX` varchar(15) COLLATE utf8_bin,
-  `EMAIL` varchar(50) COLLATE utf8_bin,
-  `CREATEDATE` datetime NOT NULL,
-  `UPDATEDATE` datetime NOT NULL,
-  `ACTCODE` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客地址主檔';
 
 -- --------------------------------------------------------
 
@@ -86,17 +110,17 @@ CREATE TABLE `CUSMAS` (
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `CUSNM` varchar(50) COLLATE utf8_bin NOT NULL,
   `ADDNO_1` varchar(15) COLLATE utf8_bin NOT NULL,
-  `ADDNO_2` varchar(15) COLLATE utf8_bin,
-  `ADDNO_3` varchar(15) COLLATE utf8_bin,
-  `CITY` varchar(50) COLLATE utf8_bin,
-  `COUNTY` varchar(50) COLLATE utf8_bin,
-  `COUNTRY` varchar(50) COLLATE utf8_bin,
-  `ZCODE` varchar(15) COLLATE utf8_bin,
-  `CNTPER` varchar(50) COLLATE utf8_bin,
-  `TEL` varchar(15) COLLATE utf8_bin,
-  `FAX` varchar(15) COLLATE utf8_bin,
-  `EMAIL` varchar(50) COLLATE utf8_bin,
-  `WSITE` varchar(50) COLLATE utf8_bin,
+  `ADDNO_2` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `ADDNO_3` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CITY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `COUNTY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `COUNTRY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ZCODE` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CNTPER` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `TEL` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `FAX` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `EMAIL` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `WSITE` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `DFSHIPNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `DFBILLNO` varchar(15) COLLATE utf8_bin NOT NULL,
@@ -108,9 +132,9 @@ CREATE TABLE `CUSMAS` (
   `AR60_90` double NOT NULL,
   `AR90_120` double NOT NULL,
   `M120AR` double NOT NULL,
-  `SPEINS` varchar(50) COLLATE utf8_bin,
+  `SPEINS` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `CREDITSTAT` varchar(1) COLLATE utf8_bin NOT NULL,
-  `TAXID` varchar(15) COLLATE utf8_bin,
+  `TAXID` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `CREATEDATE` datetime NOT NULL,
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
@@ -128,8 +152,8 @@ CREATE TABLE `CUSREGION` (
   `CHANNELNM` varchar(50) COLLATE utf8_bin NOT NULL,
   `COMPANYNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `COMPANYNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `DISTRICTNO` varchar(15) COLLATE utf8_bin,
-  `DESCRIPTION` varchar(50) COLLATE utf8_bin,
+  `DISTRICTNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `DESCRIPTION` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `CREATEDATE` datetime NOT NULL,
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
@@ -176,19 +200,19 @@ CREATE TABLE `ORDMAS` (
   `ORDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ORDTYPE` varchar(1) COLLATE utf8_bin NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CUS_PO_NO` varchar(50) COLLATE utf8_bin,
+  `CUS_PO_NO` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `SHIP_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `BILL_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `BACKCODE` varchar(1) COLLATE utf8_bin NOT NULL,
-  `INVOICENO` varchar(15) COLLATE utf8_bin,
+  `INVOICENO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
   `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `TO_ORD_AMT` double NOT NULL,
   `TO_SHP_AMT` double NOT NULL,
   `SALEAMTYTD` double NOT NULL,
   `SALEAMTSTD` double NOT NULL,
   `SALEAMTMTD` double NOT NULL,
-  `ORD_INST` varchar(50) COLLATE utf8_bin,
-  `DATEORDORG` date,
+  `ORD_INST` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `DATEORDORG` date DEFAULT NULL,
   `ORDCOMPER` double NOT NULL,
   `ORD_STAT` varchar(1) COLLATE utf8_bin NOT NULL,
   `DATE_REQ` date NOT NULL,
@@ -267,58 +291,21 @@ CREATE TABLE `SLSMAS` (
   `ACTCODE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售員資料主檔';
 
--- --------------------------------------------------------
-
---
--- 資料表結構 `PCKLST`
---
-
-CREATE TABLE `REG_CITY_ADD` (
-  `LEVEL` tinyint(1) NOT NULL,
-  `REGIONNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CITYNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CITYNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CUSNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `QTYTRAN` int(11) NOT NULL,
-  `NET_SALES` int(11) NOT NULL,
-  `CREATEDATE` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='揀貨單交易檔';
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `PCKLST`
---
-
-CREATE TABLE `SLS_CUS_ADD` (
-  `LEVEL` tinyint(1) NOT NULL,
-  `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `SALPERNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CUSNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `QTYTRAN` int(11) NOT NULL,
-  `NET_SALES` int(11) NOT NULL,
-  `CREATEDATE` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='揀貨單交易檔';
-
 --
 -- 已匯出資料表的索引
 --
 
 --
--- 資料表索引 `CUSADDCITY`
---
-ALTER TABLE `CUSADDCITY`
-  ADD PRIMARY KEY (`CUSNO`,`ADDRESSNO`,`CITYNO`);
-
---
--- 資料表索引 `CUSADDRESS`
+-- 資料表索引 `CUSADD`
 --
 ALTER TABLE `CUSADD`
   ADD PRIMARY KEY (`CUSNO`,`ADDNO`);
+
+--
+-- 資料表索引 `CUSADDCITY`
+--
+ALTER TABLE `CUSADDCITY`
+  ADD PRIMARY KEY (`CUSNO`,`ADDNO`,`CITYNO`);
 
 --
 -- 資料表索引 `CUSCITY`
@@ -333,12 +320,6 @@ ALTER TABLE `CUSMAS`
   ADD PRIMARY KEY (`CUSNO`);
 
 --
--- 資料表索引 `CUSORD`
---
-ALTER TABLE `CUSORD`
-  ADD PRIMARY KEY (`ORDNO`);
-
---
 -- 資料表索引 `CUSREGION`
 --
 ALTER TABLE `CUSREGION`
@@ -349,6 +330,12 @@ ALTER TABLE `CUSREGION`
 --
 ALTER TABLE `INVOICE`
   ADD PRIMARY KEY (`INVOICENO`,`PCKLSTNO`,`PCKINDEX`);
+
+--
+-- 資料表索引 `ORDMAS`
+--
+ALTER TABLE `ORDMAS`
+  ADD PRIMARY KEY (`ORDNO`);
 
 --
 -- 資料表索引 `ORDMAT`

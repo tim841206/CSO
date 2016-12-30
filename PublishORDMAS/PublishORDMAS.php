@@ -1,4 +1,6 @@
 <?
+include_once("../resource/database.php");
+
 if ($_POST['module'] == "PublishORDMAS") {
 	if ($_POST['event'] == "C_ORDMAS") {
 		if ($_POST['option'] == "init") {
