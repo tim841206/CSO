@@ -34,7 +34,7 @@ if ($_POST['module'] == "ORDMAS") {
 			return;
 		}
 		elseif ($_POST['option'] == "CUS_PO_NO") {
-			$result = check_50($_POST['CUSNO']);
+			$result = check_50($_POST['CUS_PO_NO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -59,7 +59,41 @@ if ($_POST['module'] == "ORDMAS") {
 			return;
 		}
 		elseif ($_POST['option'] == "Create") {
-			
+			$SALPERNO = $_POST['SALPERNO'];
+			$CUSNO = $_POST['CUSNO'];
+			$ORDTYPE = $_POST['ORDTYPE'];
+			$CUS_PO_NO = $_POST['CUS_PO_NO'];
+			$SHIP_ADD_NO = $_POST['SHIP_ADD_NO'];
+			$BILL_ADD_NO = $_POST['BILL_ADD_NO'];
+			$ORD_INST = $_POST['ORD_INST'];
+			$DATE_REQ = $_POST['DATE_REQ'];
+			$result1 = check_SALPERNO_exist($SALPERNO);
+			$result2 = check_CUSNO_exist($_POST['SALPERNO'], $_POST['CUSNO']);
+			$result3 = check_ORDNO_exist($_POST['ORDNO'], $_POST['ORDTYPE']);
+			$result4 = check_50($_POST['CUS_PO_NO']);
+			$result1 = check_ADDNO_exist($_POST['CUSNO'], $_POST['SHIP_ADD_NO']);
+			$result2 = check_ADDNO_exist($_POST['CUSNO'], $_POST['BILL_ADD_NO']);
+			$result3 = check_50($_POST['ORD_INST']);
+			$result4 = check_notnull($_POST['DATE_REQ']);
+			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6 + $result7 + $result8;
+			if ($result == 0) {
+				date_default_timezone_set('Asia/Taipei');
+				$CREATEDATE = date("Y-m-d H:i:s");
+				$UPDATEDATE = date("Y-m-d H:i:s");
+				$sql = "INSERT INTO ORDMAS (ORDNO, ORDTYPE, CUSNO, CUS_PO_NO, SHIP_ADD_NO, BILL_ADD_NO, BACKCODE, INVOICENO, SALPERNO, TO_ORD_AMT, TO_SHP_AMT, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, ORD_INST, ORDCOMPER, ORD_STAT, DATE_REQ, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($ORDNO, $ORDTYPE, $CUSNO, $CUS_PO_NO, $SHIP_ADD_NO, $BILL_ADD_NO, 0, 0, $SALPERNO, 0, 0, 0, 0, 0, $ORD_INST, 0, 'E', $DATE_REQ, $CREATEDATE, $UPDATEDATE, 1)";
+				if (mysql_query($sql)) {
+					echo json_encode(array('state' => 0));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 1));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 2));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 400));

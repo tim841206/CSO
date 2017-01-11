@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2016 年 12 月 30 日 07:36
+-- 產生時間： 2017 年 01 月 11 日 10:34
 -- 伺服器版本: 10.1.13-MariaDB
--- PHP 版本： 5.6.21
+-- PHP 版本： 5.6.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -275,6 +275,26 @@ CREATE TABLE `PCKLST` (
 -- --------------------------------------------------------
 
 --
+-- 資料表結構 `REG_CITY_ADD`
+--
+
+CREATE TABLE `REG_CITY_ADD` (
+  `LEVEL` tinyint(1) NOT NULL,
+  `REGIONNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `CITYNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `SALEAMTMTD` int(11) NOT NULL,
+  `SALEAMTSTD` int(11) NOT NULL,
+  `SALEAMTYTD` int(11) NOT NULL,
+  `SALEAMT` int(11) NOT NULL,
+  `PRODUCER` varchar(1) COLLATE utf8_bin NOT NULL,
+  `PRODUCE_TIME` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='地區-城市-地址';
+
+-- --------------------------------------------------------
+
+--
 -- 資料表結構 `SLSMAS`
 --
 
@@ -290,6 +310,25 @@ CREATE TABLE `SLSMAS` (
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售員資料主檔';
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `SLS_CUS_ADD`
+--
+
+CREATE TABLE `SLS_CUS_ADD` (
+  `LEVEL` tinyint(1) NOT NULL,
+  `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `SALEAMTMTD` int(11) NOT NULL,
+  `SALEAMTSTD` int(11) NOT NULL,
+  `SALEAMTYTD` int(11) NOT NULL,
+  `SALEAMT` int(11) NOT NULL,
+  `PRODUCER` varchar(1) COLLATE utf8_bin NOT NULL,
+  `PRODUCE_TIME` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售員-顧客-地址';
 
 --
 -- 已匯出資料表的索引

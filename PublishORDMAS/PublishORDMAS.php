@@ -194,16 +194,16 @@ function init($type) {
 
 function Search($type, $data) {
 	if ($type == 'C_ORDMAS') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
 	}
 	elseif ($type == 'F_ORDMAS') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	elseif ($type == 'R_ORDMAS') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='E' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='E' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	elseif ($type == 'RR_ORDMAS') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='F' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='F' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	if (mysql_num_rows($resource) == 0) {
 		return 1; // 無資料
@@ -221,16 +221,16 @@ function Search($type, $data) {
 
 function Check($type, $data) {
 	if ($type == 'C_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='C' WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
+		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='C' WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
 	}
 	elseif ($type == 'F_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='F' WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='F' WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	elseif ($type == 'R_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='E' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='E' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	elseif ($type == 'RR_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='F' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO>=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO>=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO>=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ>=$data['ToDATE_REQ']");
+		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='F' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
 	}
 	if (mysql_query($resource)) {
 		return 0;

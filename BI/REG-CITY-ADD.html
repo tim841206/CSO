@@ -11,14 +11,58 @@
 	</header>
 </head>
 <body onload="time()">
-	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>資料最後更新時間</td><td><p id="renew_time"></p></td></tr>
-		<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO"></td></tr>
-		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO"></td></tr>
-		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO"></td></tr>
-	</table>
-	<p id="table"></p>
+	<div class="container">
+		<p>現在時間：<span id="now"></span></p>
+		<ul class="nav nav-tabs">
+			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
+			<li><a data-toggle="tab" href="#season">當季內</a></li>
+			<li><a data-toggle="tab" href="#year">當年內</a></li>
+			<li><a data-toggle="tab" href="#ever">累積</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="month" class="tab-pane fade in active">
+				<table>
+					<tr><td>資料最後更新時間</td><td><p id="renew_month"></p></td></tr>
+					<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO_month" id="SALPERNO_month"></td></tr>
+					<tr><td>城市編號</td><td><input type="text" name="CITYNO_month" id="CUSNO_month"></td></tr>
+					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_month" id="ADDNO_month"></td></tr>
+					<tr><td>地址編號</td><td><input type="text" name="ADDNO_month" id="ADDNO_month"></td></tr>
+				</table>
+				<p id="table_month"></p>
+			</div>
+			<div id="season" class="tab-pane fade">
+				<table>
+					<tr><td>資料最後更新時間</td><td><p id="renew_season"></p></td></tr>
+					<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO_season" id="SALPERNO_month"></td></tr>
+					<tr><td>城市編號</td><td><input type="text" name="CITYNO_season" id="CUSNO_month"></td></tr>
+					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_season" id="ADDNO_month"></td></tr>
+					<tr><td>地址編號</td><td><input type="text" name="ADDNO_season" id="ADDNO_month"></td></tr>
+				</table>
+				<p id="table_season"></p>
+			</div>
+			<div id="year" class="tab-pane fade">
+				<table>
+					<tr><td>資料最後更新時間</td><td><p id="renew_month"></p></td></tr>
+					<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO_year" id="SALPERNO_month"></td></tr>
+					<tr><td>城市編號</td><td><input type="text" name="CITYNO_year" id="CUSNO_month"></td></tr>
+					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_year" id="ADDNO_month"></td></tr>
+					<tr><td>地址編號</td><td><input type="text" name="ADDNO_year" id="ADDNO_month"></td></tr>
+				</table>
+				<p id="table_year"></p>
+			</div>
+			<div id="ever" class="tab-pane fade">
+				<table>
+					<tr><td>資料最後更新時間</td><td><p id="renew_month"></p></td></tr>
+					<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO_ever" id="SALPERNO_month"></td></tr>
+					<tr><td>城市編號</td><td><input type="text" name="CITYNO_ever" id="CUSNO_month"></td></tr>
+					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_ever" id="ADDNO_month"></td></tr>
+					<tr><td>地址編號</td><td><input type="text" name="ADDNO_ever" id="ADDNO_month"></td></tr>
+				</table>
+				<p id="table_ever"></p>
+			</div>
+		</div>
+	</div>
 	<button id="Renew" onclick="Renew()">刷新</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
