@@ -65,6 +65,7 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("result").innerHTML = data.result;
+					document.getElementById("Check").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("查無資料");
@@ -83,6 +84,9 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("result").innerHTML = '';
+					document.getElementById("Check").style.visibility = 'hidden';
+					init();
 					alert("成功正常關閉訂單");
 				}
 				else if (data.state == 1) {

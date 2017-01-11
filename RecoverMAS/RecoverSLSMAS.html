@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<script src="../resource/attachment.js"></script>
+	<title>恢復銷售員</title>
+	<header>
+		<h1>恢復銷售員</h1>
+	</header>
+</head>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO"></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="SALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="EMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="COMRATE"></p></td></tr>
+		<tr><td>年結帳至今銷售額</td><td><p id="SALEAMTYTD"></p></td></tr>
+		<tr><td>季結帳至今銷售額</td><td><p id="SALEAMTSTD"></p></td></tr>
+		<tr><td>月結帳至今銷售額</td><td><p id="SALEAMTMTD"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="CREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="UPDATEDATE"></p></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
+		<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
+		<tr><td>酬勞比率(%)</td><td><p id="LastCOMRATE"></p></td></tr>
+		<tr><td>年結帳至今銷售額</td><td><p id="LastSALEAMTYTD"></p></td></tr>
+		<tr><td>季結帳至今銷售額</td><td><p id="LastSALEAMTSTD"></p></td></tr>
+		<tr><td>月結帳至今銷售額</td><td><p id="LastSALEAMTMTD"></p></td></tr>
+		<tr><td>建立日期</td><td><p id="LastCREATEDATE"></p></td></tr>
+		<tr><td>最後修改日期</td><td><p id="LastUPDATEDATE"></p></td></tr>
+	</table>
+	<button id="Search" onclick="Search()">搜尋</button>
+	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
+</body>
+
+<script type="text/javascript">
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "RecoverMAS.php");
+		var data = "module=RecoverMAS&event=RecoverSLSMAS&option=Search&SALPERNO=" + document.getElementById("SALPERNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("SALPERNM").innerHTML = data.SALPERNM;
+					document.getElementById("EMPNO").innerHTML = data.EMPNO;
+					document.getElementById("COMRATE").innerHTML = data.COMRATE;
+					document.getElementById("SALEAMTYTD").innerHTML = data.SALEAMTYTD;
+					document.getElementById("SALEAMTSTD").innerHTML = data.SALEAMTSTD;
+					document.getElementById("SALEAMTMTD").innerHTML = data.SALEAMTMTD;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+					document.getElementById('Recover').style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此銷售員未被刪除");
+				}
+				else if (data.state == 2) {
+					alert("此銷售員編號不存在");
+				}
+			}
+		}
+	}
+	function Recover() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "RecoverMAS.php");
+		var data = "module=RecoverMAS&event=RecoverSLSMAS&option=Recover&SALPERNO=" + document.getElementById("SALPERNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("恢復成功");
+					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
+					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
+					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
+					document.getElementById("LastSALEAMTYTD").value = document.getElementById("SALEAMTYTD").value;
+					document.getElementById("LastSALEAMTSTD").value = document.getElementById("SALEAMTSTD").value;
+					document.getElementById("LastSALEAMTMTD").value = document.getElementById("SALEAMTMTD").value;
+					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("Last").style.visibility = 'visible';
+					Refresh();
+				}
+				else if (data.state == 1) {
+					alert("資料庫恢復失敗");
+				}
+			}
+		}
+	}
+	function Refresh() {
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("SALPERNM").value = null;
+		document.getElementById("EMPNO").value = null;
+		document.getElementById("COMRATE").value = null;
+		document.getElementById("SALEAMTYTD").value = null;
+		document.getElementById("SALEAMTSTD").value = null;
+		document.getElementById("SALEAMTMTD").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("SALPERNM").style.visibility = 'hidden';
+		document.getElementById("EMPNO").style.visibility = 'hidden';
+		document.getElementById("COMRATE").style.visibility = 'hidden';
+		document.getElementById("SALEAMTYTD").style.visibility = 'hidden';
+		document.getElementById("SALEAMTSTD").style.visibility = 'hidden';
+		document.getElementById("SALEAMTMTD").style.visibility = 'hidden';
+		document.getElementById("CREATEDATE").style.visibility = 'hidden';
+		document.getElementById("UPDATEDATE").style.visibility = 'hidden';
+		document.getElementById("Recover").style.visibility = 'hidden';
+	}
+</script>
