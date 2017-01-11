@@ -12,8 +12,110 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
+	<p>請輸入以下資料範圍</p>
+	<table onload="init()">
+		<tr><td>銷售員編號</td><td><input type="text" name="FromSALPERNO" id="FromSALPERNO"> 到 <input type="text" name="ToSALPERNO" id="ToSALPERNO"></td></tr>
+		<tr><td>顧客編號</td><td><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></td></tr>
+		<tr><td>訂單編號</td><td><input type="text" name="FromORDNO" id="FromORDNO"> 到 <input type="text" name="ToORDNO" id="ToORDNO"></td></tr>
+		<tr><td>訂單要求完成日期</td><td><input type="text" name="FromDATE_REQ" id="FromDATE_REQ"> 到 <input type="text" name="ToDATE_REQ" id="ToDATE_REQ"></td></tr>
+	</table>
+	<button id="Search" onclick="Search()">查詢</button>
+	<button id="Check" onclick="Check()">確定</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
+	<p id="result_1"></p>
+	<p id="result_2"></p>
 </body>
 
 <script type="text/javascript">
-	
+	function init() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=PrintPCK&option=init";
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("FromSALPERNO").value = data.FromSALPERNO;
+					document.getElementById("ToSALPERNO").value = data.ToSALPERNO;
+					document.getElementById("FromCUSNO").value = data.FromCUSNO;
+					document.getElementById("ToCUSNO").value = data.ToCUSNO;
+					document.getElementById("FromORDNO").value = data.FromORDNO;
+					document.getElementById("ToORDNO").value = data.ToORDNO;
+					document.getElementById("FromDATE_REQ").value = data.FromDATE_REQ;
+					document.getElementById("ToDATE_REQ").value = data.ToDATE_REQ;
+				}
+				else if (data.state == 1) {
+					alert("欄位數據初始化失敗");
+				}
+			}
+		}
+	}
+	function Search() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=PrintPCK&option=Search&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("result_1").innerHTML = data.result1;
+					document.getElementById("result_2").innerHTML = data.result2;
+					document.getElementById("Check").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("查無資料");
+				}
+			}
+		}
+	}
+	function Check() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=PrintPCK&option=Check&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("result_1").innerHTML = '';
+					document.getElementById("Check").style.visibility = 'hidden';
+					init();
+					alert("成功列印揀貨單");
+				}
+				else if (data.state == 1) {
+					alert("資料庫操作失敗");
+				}
+			}
+		}
+	}
+	function Check() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=PrintPCK&option=Check&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("result_1").innerHTML = '';
+					document.getElementById("Check").style.visibility = 'hidden';
+					init();
+					alert("成功重印揀貨單");
+				}
+				else if (data.state == 1) {
+					alert("資料庫操作失敗");
+				}
+			}
+		}
+	}
 </script>

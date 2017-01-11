@@ -152,7 +152,6 @@ else {
 	return;
 }
 
-// 連接資料庫
 function init($type) {
 	$FromSALPERNO = 9999999;
 	$ToSALPERNO = 0;

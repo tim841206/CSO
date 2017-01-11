@@ -264,7 +264,7 @@ CREATE TABLE `PCKLST` (
   `DATEPRTORG` date NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `PRINTAG` varchar(15) COLLATE utf8_bin NOT NULL,
-  `DATE_SHIP` date NOT NULL,
+  `DATE_SHIP` date DEFAULT NULL,
   `SHIP_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `WHOUSE` varchar(5) COLLATE utf8_bin NOT NULL,
   `LOCNO` varchar(5) COLLATE utf8_bin NOT NULL,
