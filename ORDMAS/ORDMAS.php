@@ -252,8 +252,6 @@ else {
     return;
 }
 
-// 連接資料庫
-
 function notnull($value) {
 	if (empty($value)) {
 		return 1; // 無輸入
@@ -317,6 +315,7 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 		return query_ORDNO($ORDTYPE); // 還原
 	}
 }
+
 function query_ORDNO($ORDTYPE) {
 	if ($ORDTYPE == 'G') {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OG'";

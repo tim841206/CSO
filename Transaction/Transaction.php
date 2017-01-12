@@ -243,7 +243,7 @@ function Check($type, $data) {
 	if ($type == 'PrintPCK') {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return 2; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($resource)) {
@@ -251,16 +251,24 @@ function Check($type, $data) {
 				if (mysql_num_rows($query) == 0) {
 					$result = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$fetch['ORDNO']");
 					if (mysql_num_rows($result) != 0) {
-						$PCKLSTNO = query_PCKLSTNO(); // 函數未定義
+						$PCKLSTNO = query_PCKLSTNO($fetch['ORDTYPE']);
 						$PCKINDEX = 0;
 						date_default_timezone_set('Asia/Taipei');
 						$DATEPRTORG = date("Y-m-d H:i:s");
+						while ($query = mysql_fetch_array($result)) {
+							$PCKINDEX += 1;
+							mysql_query("INSERT INTO PCKLST (PCKLSTNO, PCKINDEX, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, LOCNO, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $PCKINDEX, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], /*LOCNO*/, $fetch['SALPERNO'], 0)");
+						}
+						$pdf = curl_init();
+						curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php"); // pdf.php待補
+						curl_setopt($pdf, CURLOPT_POST, true);
+						curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("ORDNO" => $fetch['ORDNO'], "PCKLSTNO" => $PCKLSTNO)));
+						$output = curl_exec($ch);
+						curl_close($ch);
+						if ($output == 1) {
+							return 1;
+						}
 					}
-					while ($query = mysql_fetch_array($result)) {
-						$PCKINDEX += 1;
-						mysql_query("INSERT INTO PCKLST (PCKLSTNO, PCKINDEX, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, LOCNO, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $PCKINDEX, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], /*LOCNO*/, $fetch['SALPERNO'], 0)");
-					}
-					// 印
 				}
 			}
 			return 0;
@@ -287,17 +295,37 @@ function Reprint($type, $data) {
 	if ($type == 'PrintPCK') {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return 2; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($resource)) {
 				$record = mysql_query("SELECT * FROM PCKLST WHERE ORDNO=$fetch['ORDNO']");
 				if (mysql_num_rows($record) != 0) {
-					// 印
+					$pdf = curl_init();
+					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php"); // pdf.php待補
+					curl_setopt($pdf, CURLOPT_POST, true);
+					curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("ORDNO" => $fetch['ORDNO'])));
+					$output = curl_exec($ch);
+					curl_close($ch);
+					if ($output == 1) {
+						return 1;
+					}
 				}
 				$update = mysql_query("UPDATE PCKLST SET PRINTAG = PRINTAG+1 WHERE ORDNO=$fetch['ORDNO']");
 			}
 			return 0;
 		}
 	}
+}
+
+function query_PCKLSTNO($ORDTYPE) {
+	if ($ORDTYPE == 'G') {
+		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='PG'";
+	}
+	elseif ($ORDTYPE == 'S') {
+		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='PS'";
+	}
+	$result = mysql_query($sql);
+	$fetch = mysql_fetch_array($result)
+	return $fetch['VALUE'];
 }
