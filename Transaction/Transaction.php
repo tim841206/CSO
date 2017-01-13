@@ -9,7 +9,33 @@ if ($_POST['module'] == "Transaction") {
 		
 	}
 	elseif ($_POST['event'] == "SearchINV") {
-		
+		if ($_POST['option'] == "init") {
+			$result = init('SearchINV');
+			if ($result == 1) {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'FromINVOICENO' => $result['FromINVOICENO'], 'ToINVOICENO' => $result['ToINVOICENO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "Search") {
+			$data = array('FromINVOICENO' => $_POST['FromINVOICENO'], 'ToINVOICENO' => $_POST['ToINVOICENO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+			$result = Search('SearchINV', $data);
+			if ($result == 1) {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0, 'result' => $result));
+				return;
+			}
+		}
+		else {
+			echo json_encode(array('state' => 400));
+			return;
+		}
 	}
 	elseif ($_POST['event'] == "PergePCK") {
 		if ($_POST['option'] == "init") {
@@ -89,7 +115,7 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 			else {
-				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromORDNO' => $result['FromORDNO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO']));
+				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO']));
 				return;
 			}
 		}
@@ -104,6 +130,10 @@ if ($_POST['module'] == "Transaction") {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+		}
+		else {
+			echo json_encode(array('state' => 400));
+			return;
 		}
 	}
 	else {
@@ -184,6 +214,27 @@ function init($type) {
 		}
 		return array('FromSALPERNO' => $FromSALPERNO, 'ToSALPERNO' => $ToSALPERNO, 'FromORDNO' => $FromORDNO, 'ToORDNO' => $ToORDNO, 'FromPCKLSTNO' => $FromPCKLSTNO, 'ToPCKLSTNO' => $ToPCKLSTNO);
 	}
+	elseif ($type == 'SearchINV') {
+		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0");
+		if (mysql_num_rows($result) == 0) {
+			return 1; // 無資料
+		}
+		else {
+			while ($fetch = mysql_fetch_array($result)) {
+				$FromINVOICENO = ($fetch['INVOICENO'] < $FromINVOICENO) ? $fetch['INVOICENO'] : $FromINVOICENO;
+				$ToINVOICENO = ($fetch['INVOICENO'] > $ToINVOICENO) ? $fetch['INVOICENO'] : $ToINVOICENO;
+				$FromPCKLSTNO = ($fetch['PCKLSTNO'] < $FromPCKLSTNO) ? $fetch['PCKLSTNO'] : $FromPCKLSTNO;
+				$ToPCKLSTNO = ($fetch['PCKLSTNO'] > $ToPCKLSTNO) ? $fetch['PCKLSTNO'] : $ToPCKLSTNO;
+				$FromCUSNO = ($fetch['CUSNO'] < $FromCUSNO) ? $fetch['CUSNO'] : $FromCUSNO;
+				$ToCUSNO = ($fetch['CUSNO'] > $ToCUSNO) ? $fetch['CUSNO'] : $ToCUSNO;
+				$FromORDNO = ($fetch['ORDNO'] < $FromORDNO) ? $fetch['ORDNO'] : $FromORDNO;
+				$ToORDNO = ($fetch['ORDNO'] > $ToORDNO) ? $fetch['ORDNO'] : $ToORDNO;
+				$FromDATE_REQ = ($fetch['DATE_REQ'] < $FromDATE_REQ) ? $fetch['DATE_REQ'] : $FromDATE_REQ;
+				$ToDATE_REQ = ($fetch['DATE_REQ'] > $ToDATE_REQ) ? $fetch['DATE_REQ'] : $ToDATE_REQ;
+			}
+		}
+		return array('FromINVOICENO' => $FromINVOICENO, 'ToINVOICENO' => $ToINVOICENO, 'FromPCKLSTNO' => $FromPCKLSTNO, 'ToPCKLSTNO' => $ToPCKLSTNO, 'FromCUSNO' => $FromCUSNO, 'ToCUSNO' => $ToCUSNO, 'FromORDNO' => $FromORDNO, 'ToORDNO' => $ToORDNO, 'FromDATE_REQ' => $FromDATE_REQ, 'ToDATE_REQ' => $ToDATE_REQ);
+	}
 }
 
 function Search($type, $data) {
@@ -232,6 +283,20 @@ function Search($type, $data) {
 			$table = '<table><tr><th>揀貨單編號</th><th>訂單編號</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
 				$table .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['DATE_REQ'].'</td></tr>';
+			}
+			$table .= '</table>';
+			return $table;
+		}
+	}
+	elseif ($type == 'SearchINV') {
+		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0 AND INVOICENO>=$data['FromINVOICENO'] AND INVOICENO<=$data['ToINVOICENO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
+		if (mysql_num_rows($resource) == 0) {
+			return 1; // 無資料
+		}
+		else {
+			$table = '<table><tr><th>發票編號</th><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>貨品要求運送時間</th><th>運送時間</th><th>運送數量</th></tr>';
+			while ($fetch = mysql_fetch_array($resource)) {
+				$table .= '<tr><td>'.$fetch['INVOICENO'].'</td><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['DATE_REQ'].'</td><td>'.$fetch['DATE_TRAN'].'</td><td>'.$fetch['QTYTRAN'].'</td></tr>';
 			}
 			$table .= '</table>';
 			return $table;

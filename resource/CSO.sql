@@ -246,7 +246,7 @@ CREATE TABLE `ORDMAT` (
   `CREATEDATE` datetime NOT NULL,
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單材料檔';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單物料檔';
 
 -- --------------------------------------------------------
 
