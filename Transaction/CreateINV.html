@@ -12,8 +12,161 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>揀貨單編號</td><td><input type="text" name="PCKLSTNO" id="PCKLSTNO" onchange="PCKLSTNO()"></td></tr>
+		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+		<tr><td>物料編號</td><td><input type="text" name="ITEMNO" id="ITEMNO" onchange="ITEMNO()" style="visibility: hidden;"></td></tr>
+		<tr><td>倒置碼</td><td><select name="REV_CODE" id="REV_CODE" style="visibility: hidden;"><option value="C">正常</option><option value="D">倒置</option></select></td></tr>
+		<tr><td>存貨位置編號</td><td><input type="text" name="LOCNO" id="LOCNO" onchange="LOCNO()" style="visibility: hidden;"></td></tr>
+		<tr><td>交易數量</td><td><input type="text" name="QTYTRAN" id="QTYTRAN" onchange="QTYTRAN()" style="visibility: hidden;"></td></tr>
+		<tr><td>交易日期</td><td><input type="date" name="DATE_TRAN" id="DATE_TRAN" style="visibility: hidden;"></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>揀貨單編號</td><td><p id="LastPCKLSTNO"></p></td></tr>
+		<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
+		<tr><td>物料編號</td><td><p id="LastITEMNO"></p></td></tr>
+		<tr><td>倒置碼</td><td><p id="LastREV_CODE"></p></td></tr>
+		<tr><td>存貨位置編號</td><td><p id="LastLOCNO"></p></td></tr>
+		<tr><td>交易數量</td><td><p id="LastQTYTRAN"></p></td></tr>
+		<tr><td>交易日期</td><td><p id="LastDATE_TRAN"></p></td></tr>
+	</table>
+	<button id="Create" onclick="Create()" style="visibility: hidden;">新增</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
-	
+	function PCKLSTNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=CreateINV&option=PCKLSTNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ORDNO").value = data.ORDNO;
+					document.getElementById("PCKLSTNO").readOnly = true;
+					document.getElementById("ORDNO").readOnly = true;
+					document.getElementById("ITEMNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此揀貨單不存在");
+				}
+				else if (data.state == 2) {
+					alert("此揀貨單已完成，無法新增發票交易");
+				}
+				else if (data.state == 3) {
+					alert("此揀貨單已作廢，無法新增發票交易");
+				}
+			}
+		}
+	}
+	function ORDNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=CreateINV&option=ORDNO&ORDNO=" + document.getElementById("ORDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("PCKLSTNO").value = data.PCKLSTNO;
+					document.getElementById("PCKLSTNO").readOnly = true;
+					document.getElementById("ORDNO").readOnly = true;
+					document.getElementById("ITEMNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此訂單編號之揀貨單不存在");
+				}
+				else if (data.state == 2) {
+					alert("此訂單編號之揀貨單已完成，無法新增發票交易");
+				}
+				else if (data.state == 3) {
+					alert("此訂單編號之揀貨單已作廢，無法新增發票交易");
+				}
+			}
+		}
+	}
+	function ITEMNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=CreateINV&option=ITEMNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ITEMNO").readOnly = true;
+					document.getElementById("REV_CODE").style.visibility = 'visible';
+					document.getElementById("LOCNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此揀貨單無此物料");
+				}
+			}
+		}
+	}
+	function LOCNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=CreateINV&option=LOCNO&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("REV_CODE").readOnly = true;
+					document.getElementById("LOCNO").readOnly = true;
+					document.getElementById("QTYTRAN").style.visibility = 'visible';
+					document.getElementById("DATE_TRAN").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此存貨位置無指定的物料");
+				}
+				else if (data.state == 2) {
+					alert("指定的倉庫無此存貨位置");
+				}
+			}
+		}
+	}
+	function QTYTRAN() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		var data = "module=Transaction&event=CreateINV&option=QTYTRAN&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value + "&QTYTRAN=" + document.getElementById("QTYTRAN").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("Create").style.visibility = true;
+				}
+				else if (data.state == 1) {
+					alert("此存貨位置無足夠的物料");
+				}
+				else if (data.state == 2) {
+					alert("此物料無足夠的存貨");
+				}
+			}
+		}
+	}
+	function DATE_TRAN() {
+
+	}
+	function Create() {
+
+	}
+	function Refresh() {
+
+	}
 </script>

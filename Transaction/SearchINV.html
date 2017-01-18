@@ -57,7 +57,7 @@
 	function Search() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "Transaction.php");
-		var data = "module=Transaction&event=SearchINV&option=Search&FromINVOICENO=" + document.getElementById("FromINVOICENO").value + "&ToINVOICENO=" + document.getElementById("ToINVOICENO").value + "&FromPCKLSTNO=" + document.getElementById("FromPCKLSTNO").value + "&ToPCKLSTNO=" + document.getElementById("ToPCKLSTNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToCUSToDATE_REQNO").value;
+		var data = "module=Transaction&event=SearchINV&option=Search&FromINVOICENO=" + document.getElementById("FromINVOICENO").value + "&ToINVOICENO=" + document.getElementById("ToINVOICENO").value + "&FromPCKLSTNO=" + document.getElementById("FromPCKLSTNO").value + "&ToPCKLSTNO=" + document.getElementById("ToPCKLSTNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 

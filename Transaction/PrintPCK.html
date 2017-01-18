@@ -93,13 +93,16 @@
 				else if (data.state == 1) {
 					alert("資料庫操作失敗");
 				}
+				else if (data.state == 2) {
+					alert("查無資料");
+				}
 			}
 		}
 	}
-	function Check() {
+	function Reprint() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "Transaction.php");
-		var data = "module=Transaction&event=PrintPCK&option=Check&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value;
+		var data = "module=Transaction&event=PrintPCK&option=Reprint&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -114,6 +117,9 @@
 				}
 				else if (data.state == 1) {
 					alert("資料庫操作失敗");
+				}
+				else if (data.state == 2) {
+					alert("查無資料");
 				}
 			}
 		}
