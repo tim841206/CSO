@@ -46,14 +46,83 @@ $pdf->SetFont('helvetica', 'B', 20);
 // add a page
 $pdf->AddPage();
 
-$pdf->Write(0, '揀貨單', '', 0, 'L', true, 0, false, false, 0);
-
 $pdf->SetFont('helvetica', '', 8);
 
-// -----------------------------------------------------------------------------
+if (isset($_POST['ORDNO']) && isset($_POST['PCKLSTNO'])) { // 列印揀貨單
+  $pdf->Write(0, '揀貨單', '', 0, 'L', true, 0, false, false, 0);
+  $ORDNO = $_POST['ORDNO'];
+  $PCKLSTNO = $_POST['PCKLSTNO'];
+  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $count = 0;
+  while($fetch = mysql_fetch_array($query)) {
+    if ($count > 0) {
+      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$fetch[''].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
+      $pdf->writeHTML($tbl, true, false, false, false, '');
+    }
+    $count += 1;
+    $tbl = '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYSHIPREQ'].'</td><td>'.$fetch['LOCNO'].'</td><td>'.$fetch['DATE_SHIP'].'</td></tr>';
+  }
+  $tbl .= '</table>';
+  $pdf->writeHTML($tbl, true, false, false, false, '');
+  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+}
 
-// NON-BREAKING TABLE (nobr="true")
+elseif (isset($_POST['PCKLSTNO']) && isset($_POST['INVOICENO'])) { // 列印發票
+  $pdf->Write(0, '發票', '', 0, 'L', true, 0, false, false, 0);
+  $PCKLSTNO = $_POST['PCKLSTNO'];
+  $INVOICENO = $_POST['INVOICENO'];
+  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $count = 0;
+  while($fetch = mysql_fetch_array($query)) {
+    if ($count > 0) {
+      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>帳單地址</td><td>'.$fetch[''].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+      $pdf->writeHTML($tbl, true, false, false, false, '');
+    }
+    $count += 1;
+    $tbl = '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_CNT'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td></tr>';
+  }
+  $tbl .= '</table>';
+  $pdf->writeHTML($tbl, true, false, false, false, '');
+  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+}
 
+elseif (isset($_POST['ORDNO'])) { // 重印揀貨單
+  $pdf->Write(0, '揀貨單', '', 0, 'L', true, 0, false, false, 0);
+  $ORDNO = $_POST['ORDNO'];
+  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $count = 0;
+  while($fetch = mysql_fetch_array($query)) {
+    if ($count > 0) {
+      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$fetch[''].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
+      $pdf->writeHTML($tbl, true, false, false, false, '');
+    }
+    $count += 1;
+    $tbl = '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYSHIPREQ'].'</td><td>'.$fetch['LOCNO'].'</td><td>'.$fetch['DATE_SHIP'].'</td></tr>';
+  }
+  $tbl .= '</table>';
+  $pdf->writeHTML($tbl, true, false, false, false, '');
+  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+}
+
+elseif (isset($_POST['INVOICENO'])) { // 重印發票
+  $pdf->Write(0, '發票', '', 0, 'L', true, 0, false, false, 0);
+  $INVOICENO = $_POST['INVOICENO'];
+  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $count = 0;
+  while($fetch = mysql_fetch_array($query)) {
+    if ($count > 0) {
+      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>帳單地址</td><td>'.$fetch[''].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+      $pdf->writeHTML($tbl, true, false, false, false, '');
+    }
+    $count += 1;
+    $tbl = '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_CNT'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td></tr>';
+  }
+  $tbl .= '</table>';
+  $pdf->writeHTML($tbl, true, false, false, false, '');
+  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+}
+
+/*
 $tbl = <<<EOD
 <table border="1" cellpadding="2" cellspacing="2" nobr="true">
  <tr>
@@ -76,10 +145,4 @@ $tbl = <<<EOD
  </tr>
 </table>
 EOD;
-
-$pdf->writeHTML($tbl, true, false, false, false, '');
-
-// -----------------------------------------------------------------------------
-
-//Close and output PDF document
-$pdf->Output('example_048.pdf', 'I');
+*/
