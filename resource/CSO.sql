@@ -168,7 +168,6 @@ CREATE TABLE `CUSREGION` (
 CREATE TABLE `INVOICE` (
   `INVOICENO` varchar(15) COLLATE utf8_bin NOT NULL,
   `PCKLSTNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `PCKINDEX` varchar(15) COLLATE utf8_bin NOT NULL,
   `ORDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ITEMNO` varchar(15) COLLATE utf8_bin NOT NULL,
@@ -256,7 +255,6 @@ CREATE TABLE `ORDMAT` (
 
 CREATE TABLE `PCKLST` (
   `PCKLSTNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `PCKINDEX` varchar(15) COLLATE utf8_bin NOT NULL,
   `ORDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ITEMNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `DATE_REQ` date NOT NULL,

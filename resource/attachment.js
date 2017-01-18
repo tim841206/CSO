@@ -1,7 +1,7 @@
 function time() {
 	today = new Date();
 	Year = today.getYear() + 1900;
-	Month = today.getMonth() <= 9 ? "0"+today.getMonth() : today.getMonth();
+	Month = today.getMonth()+1 <= 9 ? "0"+(today.getMonth()+1) : today.getMonth()+1;
 	Day = today.getDate() <= 9 ? "0"+today.getDate() : today.getDate();
 	Hour = today.getHours() <= 9 ? "0"+today.getHours() : today.getHours();
 	Minute = today.getMinutes() <= 9 ? "0"+today.getMinutes() : today.getMinutes();

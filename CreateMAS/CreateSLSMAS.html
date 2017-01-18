@@ -125,10 +125,7 @@
 					document.getElementById("LastSALPERNM").innerHTML = document.getElementById("SALPERNM").value;
 					document.getElementById("LastEMPNO").innerHTML = document.getElementById("EMPNO").value;
 					document.getElementById("LastCOMRATE").innerHTML = document.getElementById("COMRATE").value;
-					document.getElementById("SALPERNO").value = null;
-					document.getElementById("SALPERNM").value = null;
-					document.getElementById("EMPNO").value = null;
-					document.getElementById("COMRATE").value = null;
+					Refresh();
 					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {

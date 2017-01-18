@@ -149,7 +149,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("Create").style.visibility = true;
+					document.getElementById("Create").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此存貨位置無足夠的物料");
@@ -160,13 +160,55 @@
 			}
 		}
 	}
-	function DATE_TRAN() {
-
-	}
 	function Create() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "Transaction.php");
+		PCKLSTNO ORDNO ITEMNO REV_CODE LOCNO QTYTRAN DATE_TRAN
+		var data = "module=Transaction&event=CreateINV&option=Create&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value + "&QTYTRAN=" + document.getElementById("QTYTRAN").value + "&DATE_TRAN=" + document.getElementById("DATE_TRAN").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
 
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("新增成功");
+					document.getElementById("LastPCKLSTNO").value = document.getElementById("PCKLSTNO").value;
+					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
+					document.getElementById("LastITEMNO").value = document.getElementById("ITEMNO").value;
+					document.getElementById("LastREV_CODE").value = document.getElementById("REV_CODE").value;
+					document.getElementById("LastLOCNO").value = document.getElementById("LOCNO").value;
+					document.getElementById("LastQTYTRAN").value = document.getElementById("QTYTRAN").value;
+					document.getElementById("LastDATE_TRAN").value = document.getElementById("DATE_TRAN").value;
+					document.getElementById("Last").style.visibility = 'visible';
+					Refresh();
+				}
+				else if (data.state == 1) {
+					alert("資料庫新增失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
 	}
 	function Refresh() {
-
+		document.getElementById("PCKLSTNO").value = null;
+		document.getElementById("ORDNO").value = null;
+		document.getElementById("ITEMNO").value = null;
+		document.getElementById("LOCNO").value = null;
+		document.getElementById("QTYTRAN").value = null;
+		document.getElementById("DATE_TRAN").value = null;
+		document.getElementById("PCKLSTNO").readOnly = false;
+		document.getElementById("ORDNO").readOnly = false;
+		document.getElementById("ITEMNO").readOnly = false;
+		document.getElementById("REV_CODE").readOnly = false;
+		document.getElementById("LOCNO").readOnly = false;
+		document.getElementById("ITEMNO").style.visibility = 'hidden';
+		document.getElementById("REV_CODE").style.visibility = 'hidden';
+		document.getElementById("LOCNO").style.visibility = 'hidden';
+		document.getElementById("QTYTRAN").style.visibility = 'hidden';
+		document.getElementById("DATE_TRAN").style.visibility = 'hidden';
+		document.getElementById("Create").style.visibility = 'hidden';
 	}
 </script>

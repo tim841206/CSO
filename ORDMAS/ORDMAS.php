@@ -60,21 +60,22 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		elseif ($_POST['option'] == "Create") {
 			$SALPERNO = $_POST['SALPERNO'];
-			$CUSNO = $_POST['CUSNO'];
 			$ORDTYPE = $_POST['ORDTYPE'];
+			$CUSNO = $_POST['CUSNO'];
+			$ORDNO = $_POST['ORDNO'];
 			$CUS_PO_NO = $_POST['CUS_PO_NO'];
 			$SHIP_ADD_NO = $_POST['SHIP_ADD_NO'];
 			$BILL_ADD_NO = $_POST['BILL_ADD_NO'];
 			$ORD_INST = $_POST['ORD_INST'];
 			$DATE_REQ = $_POST['DATE_REQ'];
 			$result1 = check_SALPERNO_exist($SALPERNO);
-			$result2 = check_CUSNO_exist($_POST['SALPERNO'], $_POST['CUSNO']);
-			$result3 = check_ORDNO_exist($_POST['ORDNO'], $_POST['ORDTYPE']);
-			$result4 = check_50($_POST['CUS_PO_NO']);
-			$result1 = check_ADDNO_exist($_POST['CUSNO'], $_POST['SHIP_ADD_NO']);
-			$result2 = check_ADDNO_exist($_POST['CUSNO'], $_POST['BILL_ADD_NO']);
-			$result3 = check_50($_POST['ORD_INST']);
-			$result4 = check_notnull($_POST['DATE_REQ']);
+			$result2 = check_CUSNO_exist($SALPERNO, $CUSNO);
+			$result3 = check_ORDNO_exist($ORDNO, $ORDTYPE);
+			$result4 = check_50($CUS_PO_NO);
+			$result5 = check_ADDNO_exist($CUSNO, $SHIP_ADD_NO);
+			$result6 = check_ADDNO_exist($CUSNO, $BILL_ADD_NO);
+			$result7 = check_50($ORD_INST);
+			$result8 = check_notnull($DATE_REQ);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6 + $result7 + $result8;
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');

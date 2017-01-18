@@ -90,6 +90,36 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST['module']) && !empty($
 			return;
 		}
 	}
+	elseif ($_POST['module'] == 'RecoverMAS'){
+		if ($_POST['event'] == 'RecoverSLSMAS'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverSLSMAS.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverCUSMAS'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverCUSMAS.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverCUSADD'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverCUSADD.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverCUSREGION'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverCUSREGION.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverCUSCITY'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverCUSCITY.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverCUSADDCITY'){
+			echo json_encode(array('state' => 0, 'destination' => 'RecoverMAS/RecoverCUSADDCITY.html'));
+			return;
+		}
+		else {
+			echo json_encode(array('state' => 3));
+			return;
+		}
+	}
 	elseif ($_POST['module'] == 'ExportMAS'){
 		if ($_POST['event'] == 'ExportSLSMAS'){
 			echo json_encode(array('state' => 0, 'destination' => 'ExportMAS/ExportSLSMAS.html'));

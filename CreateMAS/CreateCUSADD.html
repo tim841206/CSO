@@ -287,6 +287,7 @@
 					document.getElementById("LastTEL").value = document.getElementById("TEL").value;
 					document.getElementById("LastFAX").value = document.getElementById("FAX").value;
 					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("ADDNO").value = null;
 					document.getElementById("ADD_1").value = null;
 					document.getElementById("ADD_2").value = null;
@@ -299,7 +300,6 @@
 					document.getElementById("TEL").value = null;
 					document.getElementById("FAX").value = null;
 					document.getElementById("EMAIL").value = null;
-					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");

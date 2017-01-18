@@ -402,6 +402,7 @@
 					document.getElementById("LastSPEINS").value = document.getElementById("SPEINS").value;
 					document.getElementById("LastCREDITSTAT").value = document.getElementById("CREDITSTAT").value;
 					document.getElementById("LastTAXID").value = document.getElementById("TAXID").value;
+					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("CUSNO").value = null;
 					document.getElementById("CUSNM").value = null;
 					document.getElementById("ADDNO_1").value = null;
@@ -419,7 +420,6 @@
 					document.getElementById("SPEINS").value = null;
 					document.getElementById("CREDITSTAT").value = 'A';
 					document.getElementById("TAXID").value = null;
-					document.getElementById("Last").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");
@@ -450,6 +450,7 @@
 		document.getElementById("CREDITSTAT").style.visibility = 'hidden';
 		document.getElementById("TAXID").style.visibility = 'hidden';
 		document.getElementById("Create").style.visibility = 'hidden';
+		document.getElementById("SALPERNO").value = null;
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("CUSNM").value = null;
 		document.getElementById("ADDNO_1").value = null;

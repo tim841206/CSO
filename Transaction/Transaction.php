@@ -30,6 +30,55 @@ if ($_POST['module'] == "Transaction") {
 			echo json_encode(array('state' => $result));
 			return;
 		}
+		elseif ($_POST['option'] == "LOCNO") {
+			$result = check_LOCNO($_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO']); // 待補
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "QTYTRAN") {
+			$result = check_QTYTRAN($_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO'], $_POST['QTYTRAN']); // 待補
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "Create") {
+			$PCKLSTNO = $_POST['PCKLSTNO'];
+			$ORDNO = $_POST['ORDNO'];
+			$ITEMNO = $_POST['ITEMNO'];
+			$REV_CODE = $_POST['REV_CODE'];
+			$LOCNO = $_POST['LOCNO'];
+			$QTYTRAN = $_POST['QTYTRAN'];
+			$DATE_TRAN = $_POST['DATE_TRAN'];
+			$result1 = (check_PCKLSTNO($PCKLSTNO)>3)? 0 : check_PCKLSTNO($PCKLSTNO);
+			$result2 = (check_ORDNO($ORDNO)>3)? 0 : check_ORDNO($ORDNO);
+			$result3 = check_ITEMNO($PCKLSTNO, $ITEMNO);
+			$result4 = check_LOCNO($ITEMNO, $REV_CODE, $LOCNO);
+			$result5 = check_QTYTRAN($ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
+			$result = $result1 + $result2 + $result3 + $result4 + $result5;
+			if ($result == 0) {
+				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO");
+				$fetchORDMAT = mysql_fetch_array($queryORDMAT);
+				$queryORDMAS = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO");
+				$fetchORDMAS = mysql_fetch_array($queryORDMAS);
+				date_default_timezone_set('Asia/Taipei');
+				$DATE_L_MNT = date("Y-m-d H:i:s");
+				$sql = "INSERT INTO INVOICE (INVOICENO, PCKLSTNO, PCKINDEX, ORDNO, CUSNO, ITEMNO, DATE_TRAN, UNI_COST, ITEMCLASS, QTYTRAN, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, DATE_REQ, SHIP_ADD_NO, BILL_ADD_NO, REV_CODE, DATE_L_MNT, PRINTAG) VALUES (0, $PCKLSTNO, $ORDNO, $fetchORDMAS['CUSNO'], $ITEMNO, $DATE_TRAN, $fetchORDMAT['UNI_COST'], $fetchORDMAT['ITEMCLASS'], $QTYTRAN, $fetchORDMAT['BASE_PRICE'], $fetchORDMAT['PRICE_CNT'], $fetchORDMAT['PERCENTDIS'], $fetchORDMAT['PRICE_SELL'], $fetchORDMAT['NET_SALES'], $fetchORDMAT['TAX_CODE'], $fetchORDMAS['DATE_REQ'], $fetchORDMAS['SHIP_ADD_NO'], $fetchORDMAS['BILL_ADD_NO'], $REV_CODE, $DATE_L_MNT, 0)";
+				if (mysql_query($sql)) {
+					echo json_encode(array('state' => 0));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 1));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 2));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "Refresh") {
+			
+		}
 	}
 	elseif ($_POST['event'] == "PrintINV") {
 		if ($_POST['option'] == "init") {
@@ -267,6 +316,14 @@ function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 	}
 }
 
+function check_LOCNO($ITEMNO, $REV_CODE, $LOCNO) {
+
+}
+
+function check_QTYTRAN($ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
+
+}
+
 function init($type) {
 	$FromSALPERNO = 9999999;
 	$ToSALPERNO = 0;
@@ -484,10 +541,8 @@ function Check($type, $data) {
 					$result = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$fetch['ORDNO']");
 					if (mysql_num_rows($result) != 0) {
 						$PCKLSTNO = query_PCKLSTNO($fetch['ORDTYPE']);
-						$PCKINDEX = 0;
 						while ($query = mysql_fetch_array($result)) {
-							$PCKINDEX += 1;
-							mysql_query("INSERT INTO PCKLST (PCKLSTNO, PCKINDEX, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, LOCNO, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $PCKINDEX, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], /*LOCNO*/, $fetch['SALPERNO'], 0)");
+							mysql_query("INSERT INTO PCKLST (PCKLSTNO, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, LOCNO, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], /*LOCNO*/, $fetch['SALPERNO'], 0)");
 						}
 						$pdf = curl_init();
 						curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
