@@ -6,7 +6,22 @@ if ($_POST['module'] == "BI") {
 		if ($_POST['option'] == "Renew") {
 			$sql = "DELETE * FROM REG_CITY_ADD WHERE PRODUCER='U'";
 			if (mysql_query($sql)) {
-				$sql = "SELECT * FROM INVOICE WHERE INVNO>0 ORDER BY DATE_L_MNT DESC";
+				date_default_timezone_set('Asia/Taipei');
+				$PRODUCE_TIME = date("Y-m-d H:i:s");
+				$query_1 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY (CUSNO, ADDNO) ASC";
+				while ($fetch = mysql_fetch_array($query_1)) {
+					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $fetch['REGIONNO'], $fetch['CITYNO'], $fetch['CUSNO'], $fetch['ADDNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				$query_2 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY CITYNO ASC";
+				while ($fetch = mysql_fetch_array($query_2)) {
+					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (2, $fetch['REGIONNO'], $fetch['CITYNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				$query_3 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY REGIONNO ASC";
+				while ($fetch = mysql_fetch_array($query_3)) {
+					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (1, $fetch['REGIONNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				echo json_encode(array('state' => 0));
+				return;
 			}
 			else {
 				echo json_encode(array('state' => 1));
@@ -16,9 +31,9 @@ if ($_POST['module'] == "BI") {
 		elseif ($_POST['option'] == "init") {
 			$sql = "SELECT * FROM REG_CITY_ADD";
 			$result = mysql_query($sql);
-			$table = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+			$table = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 			while ($fetch = mysql_fetch_array($result)) {
-				$table .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+				$table .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
 			}
 			$table .= '</table>';
 		}
@@ -40,7 +55,22 @@ if ($_POST['module'] == "BI") {
 		if ($_POST['option'] == "Renew") {
 			$sql = "DELETE * FROM SLS_CUS_ADD WHERE PRODUCER='U'";
 			if (mysql_query($sql)) {
-				$sql = "SELECT * FROM INVOICE WHERE INVNO>0 ORDER BY DATE_L_MNT DESC";
+				date_default_timezone_set('Asia/Taipei');
+				$PRODUCE_TIME = date("Y-m-d H:i:s");
+				$query_1 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY (CUSNO, ADDNO)");
+				while ($fetch = mysql_fetch_array($query_1)) {
+					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $fetch['SALPERNO'], $fetch['CUSNO'], $fetch['ADDNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				$query_2 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY CUSNO");
+				while ($fetch = mysql_fetch_array($query_1)) {
+					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (2, $fetch['SALPERNO'], $fetch['CUSNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				$query_3 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY SALPERNO");
+				while ($fetch = mysql_fetch_array($query_1)) {
+					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (1, $fetch['SALPERNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				}
+				echo json_encode(array('state' => 0));
+				return;
 			}
 			else {
 				echo json_encode(array('state' => 1));
@@ -50,9 +80,9 @@ if ($_POST['module'] == "BI") {
 		elseif ($_POST['option'] == "init") {
 			$sql = "SELECT * FROM SLS_CUS_ADD";
 			$result = mysql_query($sql);
-			$table = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+			$table = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 			while ($fetch = mysql_fetch_array($result)) {
-				$table .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+				$table .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
 			}
 			$table .= '</table>';
 		}

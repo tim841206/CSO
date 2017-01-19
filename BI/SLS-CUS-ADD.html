@@ -13,6 +13,12 @@
 <body onload="time()">
 	<div class="container">
 		<p>現在時間：<span id="now"></span></p>
+		<p>資料最後更新時間：<span id="renew"></span></p>
+		<table>
+			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO"></td></tr>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO"></td></tr>
+			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO"></td></tr>
+		</table>
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
 			<li><a data-toggle="tab" href="#season">當季內</a></li>
@@ -22,39 +28,15 @@
 
 		<div class="tab-content">
 			<div id="month" class="tab-pane fade in active">
-				<table>
-					<tr><td>資料最後更新時間</td><td><p id="renew_month"></p></td></tr>
-					<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO_month" id="SALPERNO_month"></td></tr>
-					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_month" id="CUSNO_month"></td></tr>
-					<tr><td>地址編號</td><td><input type="text" name="ADDNO_month" id="ADDNO_month"></td></tr>
-				</table>
 				<p id="table_month"></p>
 			</div>
 			<div id="season" class="tab-pane fade">
-				<table>
-					<tr><td>資料最後更新時間</td><td><p id="renew_season"></p></td></tr>
-					<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO_season" id="SALPERNO_season"></td></tr>
-					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_season" id="CUSNO_season"></td></tr>
-					<tr><td>地址編號</td><td><input type="text" name="ADDNO_season" id="ADDNO_season"></td></tr>
-				</table>
 				<p id="table_season"></p>
 			</div>
 			<div id="year" class="tab-pane fade">
-				<table>
-					<tr><td>資料最後更新時間</td><td><p id="renew_year"></p></td></tr>
-					<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO_year" id="SALPERNO_year"></td></tr>
-					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_year" id="CUSNO_year"></td></tr>
-					<tr><td>地址編號</td><td><input type="text" name="ADDNO_year" id="ADDNO_year"></td></tr>
-				</table>
 				<p id="table_year"></p>
 			</div>
 			<div id="ever" class="tab-pane fade">
-				<table>
-					<tr><td>資料最後更新時間</td><td><p id="renew_ever"></p></td></tr>
-					<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO_ever" id="SALPERNO_ever"></td></tr>
-					<tr><td>顧客編號</td><td><input type="text" name="CUSNO_ever" id="CUSNO_ever"></td></tr>
-					<tr><td>地址編號</td><td><input type="text" name="ADDNO_ever" id="ADDNO_ever"></td></tr>
-				</table>
 				<p id="table_ever"></p>
 			</div>
 		</div>
