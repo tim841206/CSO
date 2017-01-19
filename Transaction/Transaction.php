@@ -31,12 +31,12 @@ if ($_POST['module'] == "Transaction") {
 			return;
 		}
 		elseif ($_POST['option'] == "LOCNO") {
-			$result = check_LOCNO($_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO']); // 待補
+			$result = check_LOCNO($_POST['PCKLSTNO'], $_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		elseif ($_POST['option'] == "QTYTRAN") {
-			$result = check_QTYTRAN($_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO'], $_POST['QTYTRAN']); // 待補
+			$result = check_QTYTRAN($_POST['PCKLSTNO'], $_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO'], $_POST['QTYTRAN']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -61,13 +61,21 @@ if ($_POST['module'] == "Transaction") {
 				$fetchORDMAS = mysql_fetch_array($queryORDMAS);
 				date_default_timezone_set('Asia/Taipei');
 				$DATE_L_MNT = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO INVOICE (INVOICENO, PCKLSTNO, PCKINDEX, ORDNO, CUSNO, ITEMNO, DATE_TRAN, UNI_COST, ITEMCLASS, QTYTRAN, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, DATE_REQ, SHIP_ADD_NO, BILL_ADD_NO, REV_CODE, DATE_L_MNT, PRINTAG) VALUES (0, $PCKLSTNO, $ORDNO, $fetchORDMAS['CUSNO'], $ITEMNO, $DATE_TRAN, $fetchORDMAT['UNI_COST'], $fetchORDMAT['ITEMCLASS'], $QTYTRAN, $fetchORDMAT['BASE_PRICE'], $fetchORDMAT['PRICE_CNT'], $fetchORDMAT['PERCENTDIS'], $fetchORDMAT['PRICE_SELL'], $fetchORDMAT['NET_SALES'], $fetchORDMAT['TAX_CODE'], $fetchORDMAS['DATE_REQ'], $fetchORDMAS['SHIP_ADD_NO'], $fetchORDMAS['BILL_ADD_NO'], $REV_CODE, $DATE_L_MNT, 0)";
-				if (mysql_query($sql)) {
-					echo json_encode(array('state' => 0));
+				$sql = "INSERT INTO INVOICE (INVOICENO, PCKLSTNO, ORDNO, CUSNO, ITEMNO, DATE_TRAN, UNI_COST, ITEMCLASS, QTYTRAN, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, DATE_REQ, SHIP_ADD_NO, BILL_ADD_NO, REV_CODE, DATE_L_MNT, PRINTAG) VALUES (0, $PCKLSTNO, $ORDNO, $fetchORDMAS['CUSNO'], $ITEMNO, $DATE_TRAN, $fetchORDMAT['UNI_COST'], $fetchORDMAT['ITEMCLASS'], $QTYTRAN, $fetchORDMAT['BASE_PRICE'], $fetchORDMAT['PRICE_CNT'], $fetchORDMAT['PERCENTDIS'], $fetchORDMAT['PRICE_SELL'], $fetchORDMAT['PRICE_SELL']*$QTYTRAN, $fetchORDMAT['TAX_CODE'], $fetchORDMAS['DATE_REQ'], $fetchORDMAS['SHIP_ADD_NO'], $fetchORDMAS['BILL_ADD_NO'], $REV_CODE, $DATE_L_MNT, 0)";
+				if (!mysql_query($sql)) {
+					echo json_encode(array('state' => 1));
 					return;
 				}
-				else {
-					echo json_encode(array('state' => 1));
+				if (change_ITM() != 0) { // 待補
+					echo json_encode(array('state' => 3));
+					return;
+				}
+				if (change_MAS($fetchORDMAT['PRICE_SELL']*$QTYTRAN, $fetchORDMAS['CUSNO'], $fetchORDMAS['SALPERNO'], $ORDNO, $QTYTRAN, $ITEMNO, $REV_CODE) != 0) {
+					echo json_encode(array('state' => 4));
+					return;
+				}
+				if (change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE) != 0) {
+					echo json_encode(array('state' => 5));
 					return;
 				}
 			}
@@ -316,12 +324,98 @@ function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 	}
 }
 
-function check_LOCNO($ITEMNO, $REV_CODE, $LOCNO) {
+function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO=$PCKLSTNO");
+	$fetch = mysql_fetch_array($query);
+	$WHOUSE = $fetch['WHOUSE'];
+	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
+	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
+	if ($REV_CODE == 'C') {
+		if (mysql_fetch_row($queryLOCBAL) == 0) {
+			return 1;
+		}
+	}
+	elseif ($REV_CODE == 'D') {
+		if (mysql_fetch_row($queryLOCMAS) == 0) {
+			return 2;
+		}
+		else {
+			return 0;
+		}
+	}
+}
+
+function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO=$PCKLSTNO");
+	$fetch = mysql_fetch_array($query);
+	$WHOUSE = $fetch['WHOUSE'];
+	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
+	$fetchLOCMAS = mysql_fetch_array($queryLOCMAS);
+	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
+	$fetchLOCBAL = mysql_fetch_array($queryLOCBAL);
+	$queryITMBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+	$fetchITMBAL = mysql_fetch_array($queryITMBAL);
+	if ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCMAS['qtytotal']) {
+		return 1;
+	}
+	elseif ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCBAL['qtyonhand']) {
+		return 1;
+	}
+	elseif ($REV_CODE == 'C' && $QTYTRAN > $fetchITMBAL['qtyonhand']) {
+		return 2;
+	}
+	else {
+		return 0;
+	}
+}
+
+function change_ITM() {
 
 }
 
-function check_QTYTRAN($ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
+function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $REV_CODE) {
+	if ($REV_CODE == 'C') {
+		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD+$NET_SALES, SALEAMTSTD=SALEAMTSTD+$NET_SALES, SALEAMTMTD=SALEAMTMTD+$NET_SALES WHERE CUSNO=$CUSNO";
+		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD+$NET_SALES, SALEAMTSTD=SALEAMTSTD+$NET_SALES, SALEAMTMTD=SALEAMTMTD+$NET_SALES WHERE SALPERNO=$SALPERNO";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+$NET_SALES, SALEAMTSTD=SALEAMTSTD+$NET_SALES, SALEAMTMTD=SALEAMTMTD+$NET_SALES, INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+$NET_SALES, ORDCOMPER=(TO_SHP_AMT+$NET_SALES)/TO_ORD_AMT WHERE ORDNO=$ORDNO";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+$QTYTRAN, QTYBAKORD=QTYORD-QTYSHIP-$QTYTRAN, NET_SALES=NET_SALES+$NET_SALES WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+	}
+	elseif ($REV_CODE == 'D') {
+		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD-$NET_SALES, SALEAMTSTD=SALEAMTSTD-$NET_SALES, SALEAMTMTD=SALEAMTMTD-$NET_SALES WHERE CUSNO=$CUSNO";
+		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD-$NET_SALES, SALEAMTSTD=SALEAMTSTD-$NET_SALES, SALEAMTMTD=SALEAMTMTD-$NET_SALES WHERE SALPERNO=$SALPERNO";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-$NET_SALES, SALEAMTSTD=SALEAMTSTD-$NET_SALES, SALEAMTMTD=SALEAMTMTD-$NET_SALES, INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-$NET_SALES, ORDCOMPER=(TO_SHP_AMT-$NET_SALES)/TO_ORD_AMT WHERE ORDNO=$ORDNO";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-$QTYTRAN, QTYBAKORD=QTYORD-QTYSHIP+$QTYTRAN, NET_SALES=NET_SALES-$NET_SALES WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+	}
+	if (!mysql_query($sql_1)) {
+		return 1;
+	}
+	if (!mysql_query($sql_2)) {
+		return 2;
+	}
+	if (!mysql_query($sql_3)) {
+		return 3;
+	}
+	if (!mysql_query($sql_4)) {
+		return 4;
+	}
+	else {
+		return 0;
+	}
+}
 
+function change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE) {
+	if ($REV_CODE == 'C') {
+		$sql = "UPDATE PCKLST SET DATE_SHIP=$DATE_TRAN, ACTCODE=1, QTYSHIPREQ=QTYSHIPREQ-$QTYTRAN, LOCNO=$LOCNO WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO";
+	}
+	elseif ($REV_CODE == 'D') {
+		$sql = "UPDATE PCKLST SET DATE_SHIP=$DATE_TRAN, QTYSHIPREQ=QTYSHIPREQ+$QTYTRAN, LOCNO=$LOCNO WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO";
+	}
+	if (!mysql_query($sql)) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }
 
 function init($type) {
@@ -542,7 +636,7 @@ function Check($type, $data) {
 					if (mysql_num_rows($result) != 0) {
 						$PCKLSTNO = query_PCKLSTNO($fetch['ORDTYPE']);
 						while ($query = mysql_fetch_array($result)) {
-							mysql_query("INSERT INTO PCKLST (PCKLSTNO, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, LOCNO, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], /*LOCNO*/, $fetch['SALPERNO'], 0)");
+							mysql_query("INSERT INTO PCKLST (PCKLSTNO, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, SALPERNO, ACTCODE) VALUES ($PCKLSTNO, $fetch['ORDNO'], $query['ITEMNO'], $fetch['DATE_REQ'], $query['QTYORD'], $DATEPRTORG, $fetch['CUSNO'], 1, $fetch['SHIP_ADD_NO'], $query['WHOUSE'], $fetch['SALPERNO'], 0)");
 						}
 						$pdf = curl_init();
 						curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
@@ -588,8 +682,9 @@ function Check($type, $data) {
 				if ($fetch['PCKLSTNO'] != $PCKLSTNO) {
 					$result = mysql_query("SELECT ORDTYPE FROM ORDMAS WHERE ORDNO=$fetch['ORDNO']");
 					$query = mysql_fetch_array($result);
-					$PCKLSTNO = $fetch['PCKLSTNO'];
 					$INVOICENO = query_INVOICENO($query['ORDTYPE']);
+					$PCKLSTNO = $fetch['PCKLSTNO'];
+					mysql_query("UPDATE PCKLST SET ACTCODE=2 WHERE PCKLSTNO=$PCKLSTNO");
 					mysql_query("UPDATE INVOICE SET INVOICENO=$INVOICENO, DATE_L_MNT=$DATE_L_MNT WHERE PCKLSTNO=$PCKLSTNO");
 					$pdf = curl_init();
 					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");

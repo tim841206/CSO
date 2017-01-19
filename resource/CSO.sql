@@ -265,7 +265,7 @@ CREATE TABLE `PCKLST` (
   `DATE_SHIP` date DEFAULT NULL,
   `SHIP_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `WHOUSE` varchar(5) COLLATE utf8_bin NOT NULL,
-  `LOCNO` varchar(5) COLLATE utf8_bin NOT NULL,
+  `LOCNO` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='揀貨單交易檔';
