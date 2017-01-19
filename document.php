@@ -74,9 +74,11 @@
 		<option value="CreateORDMAS" <? check_selected('event', 'CreateORDMAS') ?>>新增訂單主檔</option>
 		<option value="EditORDMAS" <? check_selected('event', 'EditORDMAS') ?>>修改訂單主檔</option>
 		<option value="DeleteORDMAS" <? check_selected('event', 'DeleteORDMAS') ?>>刪除訂單主檔</option>
+		<option value="RecoverORDMAS" <? check_selected('event', 'RecoverORDMAS') ?>>恢復訂單主檔</option>
 		<option value="CreateORDMAT" <? check_selected('event', 'CreateORDMAT') ?>>新增訂單物料</option>
 		<option value="EditORDMAT" <? check_selected('event', 'EditORDMAT') ?>>修改訂單物料</option>
 		<option value="DeleteORDMAT" <? check_selected('event', 'DeleteORDMAT') ?>>刪除訂單物料</option>
+		<option value="RecoverORDMAT" <? check_selected('event', 'RecoverORDMAT') ?>>恢復訂單物料</option>
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'SearchORDMAS'){ ?>

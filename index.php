@@ -211,6 +211,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST['module']) && !empty($
 			echo json_encode(array('state' => 0, 'destination' => 'ORDMAS/DeleteORDMAS.html'));
 			return;
 		}
+		elseif ($_POST['event'] == 'RecoverORDMAS'){
+			echo json_encode(array('state' => 0, 'destination' => 'ORDMAS/RecoverORDMAS.html'));
+			return;
+		}
 		elseif ($_POST['event'] == 'CreateORDMAT'){
 			echo json_encode(array('state' => 0, 'destination' => 'ORDMAS/CreateORDMAT.html'));
 			return;
@@ -221,6 +225,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST['module']) && !empty($
 		}
 		elseif ($_POST['event'] == 'DeleteORDMAT'){
 			echo json_encode(array('state' => 0, 'destination' => 'ORDMAS/DeleteORDMAT.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'RecoverORDMAT'){
+			echo json_encode(array('state' => 0, 'destination' => 'ORDMAS/RecoverORDMAT.html'));
 			return;
 		}
 		else {
