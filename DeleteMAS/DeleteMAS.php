@@ -231,7 +231,7 @@ else {
 
 // 連接資料庫
 function check_SALPERNO($SALPERNO) {
-	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO";
+	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok
@@ -242,7 +242,7 @@ function check_SALPERNO($SALPERNO) {
 }
 
 function check_CUSNO($CUSNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok
@@ -253,7 +253,7 @@ function check_CUSNO($CUSNO) {
 }
 
 function check_REGIONNO($REGIONNO) {
-	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO";
+	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok
@@ -264,7 +264,7 @@ function check_REGIONNO($REGIONNO) {
 }
 
 function check_CITYNO($CITYNO) {
-	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO";
+	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok
@@ -275,7 +275,7 @@ function check_CITYNO($CITYNO) {
 }
 
 function check_ADDNO_CUSADD($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok
@@ -286,7 +286,7 @@ function check_ADDNO_CUSADD($CUSNO, $ADDNO) {
 }
 
 function check_ADDNO_CUSADDCITY($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_fetch_row($result)) {
 		return $result; // ok

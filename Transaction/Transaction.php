@@ -66,7 +66,7 @@ if ($_POST['module'] == "Transaction") {
 					echo json_encode(array('state' => 1));
 					return;
 				}
-				if (change_ITM() != 0) { // 待補
+				if (change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN, $fetchORDMAT['PRICE_SELL']*$QTYTRAN) != 0) {
 					echo json_encode(array('state' => 3));
 					return;
 				}
@@ -347,14 +347,14 @@ function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
 }
 
 function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
-	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO=$PCKLSTNO");
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
 	$fetch = mysql_fetch_array($query);
 	$WHOUSE = $fetch['WHOUSE'];
 	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
 	$fetchLOCMAS = mysql_fetch_array($queryLOCMAS);
 	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
 	$fetchLOCBAL = mysql_fetch_array($queryLOCBAL);
-	$queryITMBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
 	$fetchITMBAL = mysql_fetch_array($queryITMBAL);
 	if ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCMAS['qtytotal']) {
 		return 1;
@@ -370,8 +370,38 @@ function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
 	}
 }
 
-function change_ITM() {
-
+function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN, $NET_SALES) {
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
+	$fetch = mysql_fetch_array($query);
+	$WHOUSE = $fetch['WHOUSE'];
+	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+	if ($REV_CODE == 'C') {
+		$sql_1 = "UPDATE LOCMAS SET date_qty=$DATE_TRAN, qtytotal=qtytotal-$QTYTRAN WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO";
+		$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand-$QTYTRAN, date_onhnd=$DATE_TRAN, date_fifo=$DATE_TRAN WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO";
+		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd+$QTYTRAN, saleamtptd=saleamtptd+$NET_SALES, qtysoldstd=qtysoldstd+$QTYTRAN, saleamtstd=saleamtstd+$NET_SALES, qtysoldytd=qtysoldytd+$QTYTRAN, saleamtytd=saleamtytd+$NET_SALES, qtyonhand=qtyonhand-$QTYTRAN, date_onhnd=$DATE_TRAN, date_sales=$DATE_TRAN";
+	}
+	elseif ($REV_CODE == 'D') {
+		$sql_1 = "UPDATE LOCMAS SET date_qty=$DATE_TRAN, qtytotal=qtytotal+$QTYTRAN";
+		if (mysql_fetch_row($queryITMBAL) == 0) {
+			$sql_2 = "INSERT INTO LOCBAL (whouse, itemno, locno, qtyonhand, qtyperend, date_l_mnt, date_onhnd, date_fifo, Act_code) VALUES ($WHOUSE, $ITEMNO, $LOCNO, $QTYTRAN, 0, $DATE_TRAN, $DATE_TRAN, $DATE_TRAN, 0)";
+		}
+		else {
+			$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand+$QTYTRAN, date_onhnd=$DATE_TRAN, date_fifo=$DATE_TRAN";
+		}
+		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd-$QTYTRAN, saleamtptd=saleamtptd-$NET_SALES, qtysoldstd=qtysoldstd-$QTYTRAN, saleamtstd=saleamtstd-$NET_SALES, qtysoldytd=qtysoldytd-$QTYTRAN, saleamtytd=saleamtytd-$NET_SALES, qtyonhand=qtyonhand+$QTYTRAN, date_onhnd=$DATE_TRAN, date_sales=$DATE_TRAN";
+	}
+	if (!mysql_query($sql_1)) {
+		return 1;
+	}
+	if (!mysql_query($sql_2)) {
+		return 2;
+	}
+	if (!mysql_query($sql_3)) {
+		return 3;
+	}
+	else {
+		return 0;
+	}
 }
 
 function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $REV_CODE) {

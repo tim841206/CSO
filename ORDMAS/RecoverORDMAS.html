@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="顧客與銷售訂單系統">
+	<meta name="author" content="冷俊瑩">
+	<script src="../resource/attachment.js"></script>
+	<title>恢復訂單主檔</title>
+	<header>
+		<h1>恢復訂單主檔</h1>
+	</header>
+</head>
+<body onload="time()">
+	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+		<tr><td>訂單種類</td><td><p id="ORDTYPE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>顧客編號</td><td><p id="CUSNO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>銷售員編號</td><td><p id="SALPERNO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>顧客訂單編號</td><td><p id="CUS_PO_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>運送地編號</td><td><p id="SHIP_ADD_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>帳單地編號</td><td><p id="BILL_ADD_NO" style="visibility: hidden;"></p></td></tr>
+		<tr><td>訂單額外附加指令</td><td><p id="ORD_INST" style="visibility: hidden;"></p></td></tr>
+		<tr><td>訂單要求完成日期</td><td><p id="DATE_REQ" style="visibility: hidden;"></p></td></tr>
+		<tr><td>建立時間</td><td><p id="CREATEDATE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>最後修改時間</td><td><p id="UPDATEDATE" style="visibility: hidden;"></p></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
+		<tr><td>訂單種類</td><td><p id="LastORDTYPE"></p></td></tr>
+		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
+		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
+		<tr><td>顧客訂單編號</td><td><p id="LastCUS_PO_NO"></p></td></tr>
+		<tr><td>運送地編號</td><td><p id="LastSHIP_ADD_NO"></p></td></tr>
+		<tr><td>帳單地編號</td><td><p id="LastBILL_ADD_NO"></p></td></tr>
+		<tr><td>訂單額外附加指令</td><td><p id="LastORD_INST"></p></td></tr>
+		<tr><td>訂單要求完成日期</td><td><p id="LastDATE_REQ"></p></td></tr>
+		<tr><td>建立時間</td><td><p id="LastCREATEDATE"></p></td></tr>
+		<tr><td>最後修改時間</td><td><p id="LastUPDATEDATE"></p></td></tr>
+	</table>
+	<button id="Delete" onclick="Recover()" style="visibility: hidden;">恢復</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
+</body>
+
+<script type="text/javascript">
+	function ORDNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=RecoverORDMAS&option=ORDNO&ORDNO=" + document.getElementById("ORDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ORDNO").readOnly = true;
+					document.getElementById("ORDTYPE").value = data.ORDTYPE;
+					document.getElementById("CUSNO").value = data.CUSNO;
+					document.getElementById("SALPERNO").value = data.SALPERNO;
+					document.getElementById("CUS_PO_NO").value = data.CUS_PO_NO;
+					document.getElementById("SHIP_ADD_NO").value = data.SHIP_ADD_NO;
+					document.getElementById("BILL_ADD_NO").value = data.BILL_ADD_NO;
+					document.getElementById("ORD_INST").value = data.ORD_INST;
+					document.getElementById("DATE_REQ").value = data.DATE_REQ;
+					document.getElementById("CREATEDATE").value = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").value = data.UPDATEDATE;
+					document.getElementById('Delete').style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此訂單編號不存在");
+				}
+			}
+		}
+	}
+	function Recover() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=RecoverORDMAS&option=Recover&ORDNO=" + document.getElementById("ORDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("恢復成功");
+					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
+					document.getElementById("LastORDTYPE").value = document.getElementById("ORDTYPE").value;
+					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
+					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
+					document.getElementById("LastCUS_PO_NO").value = document.getElementById("CUS_PO_NO").value;
+					document.getElementById("LastSHIP_ADD_NO").value = document.getElementById("SHIP_ADD_NO").value;
+					document.getElementById("LastBILL_ADD_NO").value = document.getElementById("BILL_ADD_NO").value;
+					document.getElementById("LastORD_INST").value = document.getElementById("ORD_INST").value;
+					document.getElementById("LastDATE_REQ").value = document.getElementById("DATE_REQ").value;
+					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
+					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("Last").style.visibility = 'visible';
+					Refresh();
+				}
+				else if (data.state == 1) {
+					alert("資料庫恢復失敗");
+				}
+			}
+		}
+	}
+	function Refresh() {
+		document.getElementById("ORDNO").readOnly = false;
+		document.getElementById("ORDNO").value = null;
+		document.getElementById("ORDTYPE").value = null;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("SALPERNO").value = null;
+		document.getElementById("CUS_PO_NO").value = null;
+		document.getElementById("SHIP_ADD_NO").value = null;
+		document.getElementById("BILL_ADD_NO").value = null;
+		document.getElementById("ORD_INST").value = null;
+		document.getElementById("DATE_REQ").value = null;
+		document.getElementById("CREATEDATE").value = null;
+		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById('Delete').style.visibility = 'hidden';
+	}
+</script>
