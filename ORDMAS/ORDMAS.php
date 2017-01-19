@@ -83,6 +83,12 @@ if ($_POST['module'] == "ORDMAS") {
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "INSERT INTO ORDMAS (ORDNO, ORDTYPE, CUSNO, CUS_PO_NO, SHIP_ADD_NO, BILL_ADD_NO, BACKCODE, INVOICENO, SALPERNO, TO_ORD_AMT, TO_SHP_AMT, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, ORD_INST, ORDCOMPER, ORD_STAT, DATE_REQ, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($ORDNO, $ORDTYPE, $CUSNO, $CUS_PO_NO, $SHIP_ADD_NO, $BILL_ADD_NO, 0, 0, $SALPERNO, 0, 0, 0, 0, 0, $ORD_INST, 0, 'E', $DATE_REQ, $CREATEDATE, $UPDATEDATE, 1)";
 				if (mysql_query($sql)) {
+					if ($ORDTYPE == 'G') {
+						mysql_query("UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='OG'");
+					}
+					elseif ($ORDTYPE == 'S') {
+						mysql_query("UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='OS'");
+					}
 					echo json_encode(array('state' => 0));
 					return;
 				}
@@ -317,18 +323,6 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 	}
 }
 
-function query_ORDNO($ORDTYPE) {
-	if ($ORDTYPE == 'G') {
-		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OG'";
-	}
-	elseif ($ORDTYPE == 'S') {
-		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OS'";
-	}
-	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
-	return $fetch['VALUE'];
-}
-
 function check_WHOUSE_exist($WHOUSE) {
 	$sql = "SELECT WHOUSE FROM WAREHOUSE WHERE WHOUSE=$WHOUSE";
 	$result = mysql_query($sql);
@@ -349,4 +343,16 @@ function check_ORDNO($ORDNO) {
 	else {
 		return 1; // 不存在
 	}
+}
+
+function query_ORDNO($ORDTYPE) {
+	if ($ORDTYPE == 'G') {
+		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OG'";
+	}
+	elseif ($ORDTYPE == 'S') {
+		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OS'";
+	}
+	$result = mysql_query($sql);
+	$fetch = mysql_fetch_array($result)
+	return $fetch['VALUE'];
 }

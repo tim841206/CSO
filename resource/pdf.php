@@ -52,11 +52,15 @@ if (isset($_POST['ORDNO']) && isset($_POST['PCKLSTNO'])) { // 列印揀貨單
   $pdf->Write(0, '揀貨單', '', 0, 'L', true, 0, false, false, 0);
   $ORDNO = $_POST['ORDNO'];
   $PCKLSTNO = $_POST['PCKLSTNO'];
-  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $query = mysql_query("SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
   $count = 0;
   while($fetch = mysql_fetch_array($query)) {
     if ($count > 0) {
-      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$fetch[''].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
+      date_default_timezone_set('Asia/Taipei');
+      $DATEPRTORG = date("Y-m-d H:i:s");
+      $queryADDRESS = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']");
+      $fetchADDRESS = mysql_fetch_array($queryADDRESS);
+      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS['ADD_1'].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$DATEPRTORG.'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
       $pdf->writeHTML($tbl, true, false, false, false, '');
     }
     $count += 1;
@@ -64,7 +68,7 @@ if (isset($_POST['ORDNO']) && isset($_POST['PCKLSTNO'])) { // 列印揀貨單
   }
   $tbl .= '</table>';
   $pdf->writeHTML($tbl, true, false, false, false, '');
-  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+  $pdf->Output('PCK_'.$PCKLSTNO.'.pdf', 'I');
 }
 
 elseif (isset($_POST['PCKLSTNO']) && isset($_POST['INVOICENO'])) { // 列印發票
@@ -75,7 +79,11 @@ elseif (isset($_POST['PCKLSTNO']) && isset($_POST['INVOICENO'])) { // 列印發�
   $count = 0;
   while($fetch = mysql_fetch_array($query)) {
     if ($count > 0) {
-      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>帳單地址</td><td>'.$fetch[''].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+      $queryADDRESS1 = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']");
+      $fetchADDRESS1 = mysql_fetch_array($queryADDRESS);
+      $queryADDRESS2 = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['BILL_ADD_NO']");
+      $fetchADDRESS2 = mysql_fetch_array($queryADDRESS);
+      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS1['ADD_1'].'</td></tr><tr><td>帳單地址</td><td>'.$fetchADDRESS2['ADD_1'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
       $pdf->writeHTML($tbl, true, false, false, false, '');
     }
     $count += 1;
@@ -86,14 +94,18 @@ elseif (isset($_POST['PCKLSTNO']) && isset($_POST['INVOICENO'])) { // 列印發�
   $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
 }
 
-elseif (isset($_POST['ORDNO'])) { // 重印揀貨單
+elseif (isset($_POST['PCKLSTNO'])) { // 重印揀貨單
   $pdf->Write(0, '揀貨單', '', 0, 'L', true, 0, false, false, 0);
-  $ORDNO = $_POST['ORDNO'];
-  $query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=$INVOICENO");
+  $PCKLSTNO = $_POST['PCKLSTNO'];
+  $query = mysql_query("SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
   $count = 0;
   while($fetch = mysql_fetch_array($query)) {
     if ($count > 0) {
-      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$fetch[''].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
+      date_default_timezone_set('Asia/Taipei');
+      $DATEPRTORG = date("Y-m-d H:i:s");
+      $queryADDRESS = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']");
+      $fetchADDRESS = mysql_fetch_array($queryADDRESS);
+      $tbl = '<table><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS['ADD_1'].'</td></tr><tr><td>倉庫編號</td><td>'.$fetch['WHOUSE'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>印製時間</td><td>'.$DATEPRTORG.'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>要求數量</th><th>存貨位置編號</th><th>運送日期</th></tr>';
       $pdf->writeHTML($tbl, true, false, false, false, '');
     }
     $count += 1;
@@ -101,7 +113,7 @@ elseif (isset($_POST['ORDNO'])) { // 重印揀貨單
   }
   $tbl .= '</table>';
   $pdf->writeHTML($tbl, true, false, false, false, '');
-  $pdf->Output('INV_'.$INVOICENO.'.pdf', 'I');
+  $pdf->Output('PCK_'.$PCKLSTNO.'.pdf', 'I');
 }
 
 elseif (isset($_POST['INVOICENO'])) { // 重印發票
@@ -111,7 +123,11 @@ elseif (isset($_POST['INVOICENO'])) { // 重印發票
   $count = 0;
   while($fetch = mysql_fetch_array($query)) {
     if ($count > 0) {
-      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetch[''].'</td></tr><tr><td>帳單地址</td><td>'.$fetch[''].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+      $queryADDRESS1 = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']");
+      $fetchADDRESS1 = mysql_fetch_array($queryADDRESS);
+      $queryADDRESS2 = mysql_query("SELECT ADD_1 FROM CUSADD WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['BILL_ADD_NO']");
+      $fetchADDRESS2 = mysql_fetch_array($queryADDRESS);
+      $tbl = '<table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS1['ADD_1'].'</td></tr><tr><td>帳單地址</td><td>'.$fetchADDRESS2['ADD_1'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>--------------------------------------------------------------------------------</p><table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
       $pdf->writeHTML($tbl, true, false, false, false, '');
     }
     $count += 1;

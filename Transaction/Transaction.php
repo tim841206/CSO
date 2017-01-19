@@ -84,8 +84,9 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "Refresh") {
-			
+		else {
+			echo json_encode(array('state' => 400));
+			return;
 		}
 	}
 	elseif ($_POST['event'] == "PrintINV") {
@@ -712,10 +713,11 @@ function Reprint($type, $data) {
 			while ($fetch = mysql_fetch_array($resource)) {
 				$record = mysql_query("SELECT * FROM PCKLST WHERE ORDNO=$fetch['ORDNO']");
 				if (mysql_num_rows($record) != 0) {
+					$PCKLSTNO = mysql_fetch_array($record);
 					$pdf = curl_init();
 					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
 					curl_setopt($pdf, CURLOPT_POST, true);
-					curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("ORDNO" => $fetch['ORDNO'])));
+					curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("PCKLSTNO" => $PCKLSTNO['PCKLSTNO'])));
 					$output = curl_exec($pdf);
 					curl_close($pdf);
 					if ($output == 1) {
@@ -753,23 +755,31 @@ function Reprint($type, $data) {
 function query_PCKLSTNO($ORDTYPE) {
 	if ($ORDTYPE == 'G') {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='PG'";
+		$update = "UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='PG'";
 	}
 	elseif ($ORDTYPE == 'S') {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='PS'";
+		$update = "UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='PS'";
 	}
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
-	return $fetch['VALUE'];
+	$fetch = mysql_fetch_array($result);
+	if (mysql_query($update)) {
+		return $fetch['VALUE'];
+	}
 }
 
 function query_INVOICENO($ORDTYPE) {
 	if ($ORDTYPE == 'G') {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='IG'";
+		$update = "UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='IG'";
 	}
 	elseif ($ORDTYPE == 'S') {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='IS'";
+		$update = "UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='IS'";
 	}
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
-	return $fetch['VALUE'];
+	$fetch = mysql_fetch_array($result);
+	if (mysql_query($update)) {
+		return $fetch['VALUE'];
+	}
 }
