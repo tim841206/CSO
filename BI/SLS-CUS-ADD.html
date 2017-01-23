@@ -11,13 +11,13 @@
 	</header>
 </head>
 <body onload="time()">
-	<div class="container">
+	<div class="container" onload="init()">
 		<p>現在時間：<span id="now"></span></p>
 		<p>資料最後更新時間：<span id="renew"></span></p>
 		<table>
-			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO"></td></tr>
-			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO"></td></tr>
-			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO"></td></tr>
+			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="update()"></td></tr>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
+			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
 		</table>
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
@@ -47,32 +47,77 @@
 </body>
 
 <script type="text/javascript">
-	function Renew() {
+	function init() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=SLS-CUS-ADD&option=Renew&SALPERNO=" + document.getElementById("SALPERNO").value;
+		var data = "module=BI&event=REG-CITY-ADD&option=init";
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
-					alert("銷售員編號為必填欄位");
+				if (data.state == 0) {
+					document.getElementById("table_month").value = data.table_month;
+					document.getElementById("table_season").value = data.table_season;
+					document.getElementById("table_year").value = data.table_year;
+					document.getElementById("table_ever").value = data.table_ever;
+				}
+				else if (data.state == 1) {
+					alert("資料庫讀取失敗");
+				}
+			}
+		}
+	}
+	function update() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "BI.php");
+		var data = "module=BI&event=SLS-CUS-ADD&option=update&SALPERNO=" + document.getElementById("SALPERNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("table_month").value = data.table_month;
+					document.getElementById("table_season").value = data.table_season;
+					document.getElementById("table_year").value = data.table_year;
+					document.getElementById("table_ever").value = data.table_ever;
+				}
+				else if (data.state == 1) {
+					alert("資料庫讀取失敗");
 				}
 				else if (data.state == 2) {
-					alert("銷售員編號不可超過15字元");
+					alert("查無資料");
 				}
-				else if (data.state == 3) {
-					alert("此銷售員編號已存在");
+			}
+		}
+	}
+	function Renew() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "BI.php");
+		var data = "module=BI&event=SLS-CUS-ADD&option=Renew";
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("renew").value = data.renew;
+					alert("刷新成功");
+				}
+				else if (data.state == 1) {
+					alert("資料庫刷新失敗");
 				}
 			}
 		}
 	}
 	function Refresh() {
 		document.getElementById("SALPERNO").value = null;
-		document.getElementById("SALPERNM").value = null;
-		document.getElementById("EMPNO").value = null;
-		document.getElementById("COMRATE").value = null;
+		document.getElementById("CUSNO").value = null;
+		document.getElementById("ADDNO").value = null;
+		init();
 	}
 </script>

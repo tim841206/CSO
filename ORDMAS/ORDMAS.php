@@ -283,7 +283,93 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "EditORDMAT") {
-		
+		if ($_POST['option'] == "ORDNO") {
+			$result = check_ORDNO_valid($_POST['ORDNO']);
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif ($_POST['option'] == "ITEMNO") {
+			$result = check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'WHOUSE' => $fetch['WHOUSE'], 'ITEMCLASS' => $fetch['ITEMCLASS'], 'UNI_COST' => $fetch['UNI_COST'], 'QTYORD' => $fetch['QTYORD'], 'BASE_PRICE' => $fetch['BASE_PRICE'], 'PRICE_CNT' => $fetch['PRICE_CNT'], 'PERCENTDIS' => $fetch['PERCENTDIS'], 'PRICE_SELL' => $fetch['PRICE_SELL'], 'NET_SALES' => $fetch['NET_SALES'], 'TAX_CODE' => $fetch['TAX_CODE']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "QTYORD") {
+			$result = positive_notnull($_POST['QTYORD']);
+			if ($result == 0) {
+				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+				echo json_encode(array('state' => $result, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "PRICE_CNT") {
+			if (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT'])) {
+				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "PERCENTDIS") {
+			if ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100)) {
+				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+		}
+		elseif ($_POST['option'] == "Edit") {
+			$ORDNO = $_POST['ORDNO'];
+			$ITEMNO = $_POST['ITEMNO'];
+			$QTYORD = $_POST['QTYORD'];
+			$PRICE_CNT = $_POST['PRICE_CNT'];
+			$PERCENTDIS = $_POST['PERCENTDIS'];
+			$PRICE_SELL = $_POST['PRICE_SELL'];
+			$NET_SALES = $_POST['NET_SALES'];
+			$TAX_CODE = $_POST['TAX_CODE'];
+			$result1 = check_ORDNO_valid($_POST['ORDNO']);
+			$result2 = check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
+			$result3 = positive_notnull($_POST['QTYORD']);
+			$result4 = (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT']))? 0 : 1;
+			$result5 = ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100))? 0 : 1;
+			$result = $result1 + $result2 + $result3 + $result4 + $result5;
+			if ($result == 0) {
+				date_default_timezone_set('Asia/Taipei');
+				$UPDATEDATE = date("Y-m-d H:i:s");
+				$sql = "UPDATE ORDMAT SET QTYORD=$QTYORD, PRICE_CNT=$PRICE_CNT, PERCENTDIS=$PERCENTDIS, PRICE_SELL=$PRICE_SELL, NET_SALES=$NET_SALES, TAX_CODE=$TAX_CODE, UPDATEDATE=$UPDATEDATE WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+				if (mysql_query($sql)) {
+					echo json_encode(array('state' => 0));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 1));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 2));
+				return;
+			}
+		}
+		else {
+			echo json_encode(array('state' => 400));
+			return;
+		}
 	}
 	elseif ($_POST['event'] == "DeleteORDMAS") {
 		if ($_POST['option'] == "ORDNO") {

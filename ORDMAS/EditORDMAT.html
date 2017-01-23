@@ -12,8 +12,254 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
+	<table>
+		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+		<tr><td>物料編號</td><td><input type="text" name="ITEMNO" id="ITEMNO" onchange="ITEMNO()" style="visibility: hidden;"></td></tr>
+		<tr><td>倉庫編號</td><td><p id="WHOUSE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>物料分類</td><td><p id="ITEMCLASS" style="visibility: hidden;"></p></td></tr>
+		<tr><td>單位成本</td><td><p id="UNI_COST" style="visibility: hidden;"></p></td></tr>
+		<tr><td>訂單數量</td><td><input type="text" name="QTYORD" id="QTYORD" onchange="QTYORD()" style="visibility: hidden;"></td></tr>
+		<tr><td>基本價格</td><td><p id="BASE_PRICE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>簽約價格</td><td><input type="text" name="PRICE_CNT" id="PRICE_CNT" onchange="PRICE_CNT()" style="visibility: hidden;"></td></tr>
+		<tr><td>折扣率(%)</td><td><input type="text" name="PERCENTDIS" id="PERCENTDIS" onchange="PERCENTDIS()" style="visibility: hidden;"></td></tr>
+		<tr><td>賣出價格</td><td><p id="PRICE_SELL" style="visibility: hidden;"></p></td></tr>
+		<tr><td>銷售總額</td><td><p id="NET_SALES" style="visibility: hidden;"></p></td></tr>
+		<tr><td>稅狀態碼</td><td><select id="TAX_CODE" style="visibility: hidden;"><option value="I">含稅</option><option value="N">不含稅</option></select></td></tr>
+	</table>
+	<table id="Last" style="visibility: hidden;">
+		<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
+		<tr><td>物料編號</td><td><p id="LastITEMNO"></p></td></tr>
+		<tr><td>倉庫編號</td><td><p id="LastWHOUSE"></p></td></tr>
+		<tr><td>物料分類</td><td><p id="LastITEMCLASS"></p></td></tr>
+		<tr><td>單位成本</td><td><p id="LastUNI_COST"></p></td></tr>
+		<tr><td>訂單數量</td><td><p id="LastQTYORD"></p></td></tr>
+		<tr><td>基本價格</td><td><p id="LastBASE_PRICE"></p></td></tr>
+		<tr><td>簽約價格</td><td><p id="LastPRICE_CNT"></p></td></tr>
+		<tr><td>折扣率(%)</td><td><p id="LastPERCENTDIS"></p></td></tr>
+		<tr><td>賣出價格</td><td><p id="LastPRICE_SELL"></p></td></tr>
+		<tr><td>銷售總額</td><td><p id="LastNET_SALES"></p></td></tr>
+		<tr><td>稅狀態碼</td><td><p id="LastTAX_CODE"></p></td></tr>
+	</table>
+	<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+	<button id="Refresh" onclick="Refresh()">重新整理</button>
+	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
+	function ORDNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=ORDNO&ORDNO=" + document.getElementById("ORDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
 
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ORDNO").readOnly = true;
+					document.getElementById("ITEMNO").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此訂單編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此訂單已刪除");
+				}
+				else if (data.state == 3) {
+					alert("此訂單處於不可更動狀態");
+				}
+			}
+		}
+	}
+	function ITEMNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=ITEMNO&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ITEMNO").readOnly = true;
+					document.getElementById("WHOUSE").value = data.WHOUSE;
+					document.getElementById("ITEMCLASS").value = data.ITEMCLASS;
+					document.getElementById("UNI_COST").value = data.UNI_COST;
+					document.getElementById("QTYORD").value = data.QTYORD;
+					document.getElementById("BASE_PRICE").value = data.BASE_PRICE;
+					document.getElementById("PRICE_CNT").value = data.PRICE_CNT;
+					document.getElementById("PERCENTDIS").value = data.PERCENTDIS;
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
+					document.getElementById("TAX_CODE").value = data.TAX_CODE;
+					document.getElementById("WHOUSE").style.visibility = 'visible';
+					document.getElementById("ITEMCLASS").style.visibility = 'visible';
+					document.getElementById("UNI_COST").rstyle.visibility = 'visible';
+					document.getElementById("QTYORD").style.visibility = 'visible';
+					document.getElementById("BASE_PRICE").style.visibility = 'visible';
+					document.getElementById("PRICE_CNT").style.visibility = 'visible';
+					document.getElementById("PERCENTDIS").style.visibility = 'visible';
+					document.getElementById("PRICE_SELL").style.visibility = 'visible';
+					document.getElementById("NET_SALES").style.visibility = 'visible';
+					document.getElementById("TAX_CODE").style.visibility = 'visible';
+					document.getElementById("Edit").style.visibility = 'visible';
+				}
+				else if (data.state == 1) {
+					alert("此物料編號不存在");
+				}
+			}
+		}
+	}
+	function QTYORD() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=QTYORD&BASE_PRICE=" + document.getElementById("BASE_PRICE").value + "&PRICE_CNT=" + document.getElementById("PRICE_CNT").value + "&PERCENTDIS=" + document.getElementById("PERCENTDIS").value + "&QTYORD=" + document.getElementById("QTYORD").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
+				}
+				else if (data.state == 1) {
+					alert("訂單數量為必填欄位");
+				}
+				else if (data.state == 2) {
+					alert("訂單數量必須為正整數");
+				}
+			}
+		}
+	}
+	function PRICE_CNT() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=PRICE_CNT&BASE_PRICE=" + document.getElementById("BASE_PRICE").value + "&PRICE_CNT=" + document.getElementById("PRICE_CNT").value + "&PERCENTDIS=" + document.getElementById("PERCENTDIS").value + "&QTYORD=" + document.getElementById("QTYORD").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
+				}
+				else if (data.state == 1) {
+					alert("簽約價格必須為數字");
+				}
+			}
+		}
+	}
+	function PERCENTDIS() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=PERCENTDIS&BASE_PRICE=" + document.getElementById("BASE_PRICE").value + "&PRICE_CNT=" + document.getElementById("PRICE_CNT").value + "&PERCENTDIS=" + document.getElementById("PERCENTDIS").value + "&QTYORD=" + document.getElementById("QTYORD").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
+				}
+				else if (data.state == 1) {
+					alert("折扣率必須為不大於100的正數");
+				}
+			}
+		}
+	}
+	function Edit() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "ORDMAS.php");
+		var data = "module=ORDMAS&event=EditORDMAT&option=Edit&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value + "&QTYORD=" + document.getElementById("QTYORD").value + "&PRICE_CNT=" + document.getElementById("PRICE_CNT").value + "&PERCENTDIS=" + document.getElementById("PERCENTDIS").value + "&TAX_CODE=" + document.getElementById("TAX_CODE").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					alert("修改成功");
+					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
+					document.getElementById("LastITEMNO").value = document.getElementById("ITEMNO").value;
+					document.getElementById("LastWHOUSE").value = document.getElementById("WHOUSE").value;
+					document.getElementById("LastITEMCLASS").value = document.getElementById("ITEMCLASS").value;
+					document.getElementById("LastUNI_COST").value = document.getElementById("UNI_COST").value;
+					document.getElementById("LastQTYORD").value = document.getElementById("QTYORD").value;
+					document.getElementById("LastBASE_PRICE").value = document.getElementById("BASE_PRICE").value;
+					document.getElementById("LastPRICE_CNT").value = document.getElementById("PRICE_CNT").value;
+					document.getElementById("LastPERCENTDIS").value = document.getElementById("PERCENTDIS").value;
+					document.getElementById("LastPRICE_SELL").value = document.getElementById("PRICE_SELL").value;
+					document.getElementById("LastNET_SALES").value = document.getElementById("NET_SALES").value;
+					document.getElementById("LastTAX_CODE").value = document.getElementById("TAX_CODE").value;
+					document.getElementById("Last").style.visibility = 'visible';
+					document.getElementById("ITEMNO").value = null;
+					document.getElementById("WHOUSE").value = null;
+					document.getElementById("ITEMCLASS").value = null;
+					document.getElementById("UNI_COST").value = null;
+					document.getElementById("QTYORD").value = null;
+					document.getElementById("BASE_PRICE").value = null;
+					document.getElementById("PRICE_CNT").value = null;
+					document.getElementById("PERCENTDIS").value = null;
+					document.getElementById("PRICE_SELL").value = null;
+					document.getElementById("NET_SALES").value = null;
+					document.getElementById("TAX_CODE").value = null;
+					document.getElementById("WHOUSE").readOnly = false;
+					document.getElementById("ITEMNO").readOnly = false;
+					document.getElementById("WHOUSE").style.visibility = 'hidden';
+					document.getElementById("ITEMCLASS").style.visibility = 'hidden';
+					document.getElementById("UNI_COST").style.visibility = 'hidden';
+					document.getElementById("QTYORD").style.visibility = 'hidden';
+					document.getElementById("BASE_PRICE").style.visibility = 'hidden';
+					document.getElementById("PRICE_CNT").style.visibility = 'hidden';
+					document.getElementById("PERCENTDIS").style.visibility = 'hidden';
+					document.getElementById("PRICE_SELL").style.visibility = 'hidden';
+					document.getElementById("NET_SALES").style.visibility = 'hidden';
+					document.getElementById("TAX_CODE").style.visibility = 'hidden';
+					document.getElementById("Edit").style.visibility = 'hidden';
+				}
+				else if (data.state == 1) {
+					alert("資料庫修改失敗");
+				}
+				else if (data.state == 2) {
+					alert("請重新檢查以上欄位");
+				}
+			}
+		}
+	}
+	function Refresh() {
+		document.getElementById("ORDNO").value = null;
+		document.getElementById("ITEMNO").value = null;
+		document.getElementById("WHOUSE").value = null;
+		document.getElementById("ITEMCLASS").value = null;
+		document.getElementById("UNI_COST").value = null;
+		document.getElementById("QTYORD").value = null;
+		document.getElementById("BASE_PRICE").value = null;
+		document.getElementById("PRICE_CNT").value = null;
+		document.getElementById("PERCENTDIS").value = null;
+		document.getElementById("PRICE_SELL").value = null;
+		document.getElementById("NET_SALES").value = null;
+		document.getElementById("TAX_CODE").value = null;
+		document.getElementById("ORDNO").readOnly = false;
+		document.getElementById("ITEMNO").readOnly = false;
+		document.getElementById("ITEMNO").style.visibility = 'hidden';
+		document.getElementById("WHOUSE").style.visibility = 'hidden';
+		document.getElementById("ITEMCLASS").style.visibility = 'hidden';
+		document.getElementById("UNI_COST").style.visibility = 'hidden';
+		document.getElementById("QTYORD").style.visibility = 'hidden';
+		document.getElementById("BASE_PRICE").style.visibility = 'hidden';
+		document.getElementById("PRICE_CNT").style.visibility = 'hidden';
+		document.getElementById("PERCENTDIS").style.visibility = 'hidden';
+		document.getElementById("PRICE_SELL").style.visibility = 'hidden';
+		document.getElementById("NET_SALES").style.visibility = 'hidden';
+		document.getElementById("TAX_CODE").style.visibility = 'hidden';
+		document.getElementById("Edit").style.visibility = 'hidden';
+	}
 </script>

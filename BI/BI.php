@@ -7,17 +7,82 @@ if ($_POST['module'] == "BI") {
 			$sql = "DELETE * FROM REG_CITY_ADD WHERE PRODUCER='U'";
 			if (mysql_query($sql)) {
 				date_default_timezone_set('Asia/Taipei');
-				$PRODUCE_TIME = date("Y-m-d H:i:s");
-				$query_1 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY (CUSNO, ADDNO) ASC";
-				while ($fetch = mysql_fetch_array($query_1)) {
-					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $fetch['REGIONNO'], $fetch['CITYNO'], $fetch['CUSNO'], $fetch['ADDNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				$PRODUCE_TIME = date("Y-m-d");
+				$NOW = explode('-', $PRODUCE_TIME);
+				$query = mysql_query("SELECT * FROM INVOICE GROUP BY CUSNO, SHIP_ADD_NO, REV_CODE ORDER BY CUSNO, SHIP_ADD_NO");
+				$CUSNO = '';
+				$SHIP_ADD_NO = '';
+				while ($fetch = mysql_fetch_array($query)) {
+					$DATE_TRAN = explode('-', $fetch['DATE_TRAN']);
+					if ($fetch['CUSNO'] == $CUSNO && $fetch['SHIP_ADD_NO'] == $SHIP_ADD_NO) {
+						if ($fetch['REV_CODE'] == 'C') {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTMTD=SALEAMTMTD+$fetch['NET_SALES'], SALEAMTSTD=SALEAMTSTD+$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTSTD=SALEAMTSTD+$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							else {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+						}
+						else {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTMTD=SALEAMTMTD-$fetch['NET_SALES'], SALEAMTSTD=SALEAMTSTD-$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTSTD=SALEAMTSTD-$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							else {
+								mysql_query("UPDATE REG_CITY_ADD SET SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+						}
+					}
+					else {
+						$CUSNO = $fetch['CUSNO'];
+						$SHIP_ADD_NO = $fetch['SHIP_ADD_NO'];
+						if ($fetch['REV_CODE'] == 'C') {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							else {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, 0, $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+						}
+						else {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							else {
+								mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $REGIONNO, $CITYNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, 0, -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+						}
+					}
 				}
-				$query_2 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY CITYNO ASC";
-				while ($fetch = mysql_fetch_array($query_2)) {
+				$query = mysql_query("SELECT REGIONNO, CITYNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT FROM REG_CITY_ADD GROUP BY REGIONNO, CITYNO");
+				while ($fetch = mysql_fetch_array($query)) {
 					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, CITYNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (2, $fetch['REGIONNO'], $fetch['CITYNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
 				}
-				$query_3 = "SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY REGIONNO ASC";
-				while ($fetch = mysql_fetch_array($query_3)) {
+				$query = mysql_query("SELECT REGIONNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT FROM REG_CITY_ADD GROUP BY REGIONNO");
+				while ($fetch = mysql_fetch_array($query)) {
 					mysql_query("INSERT INTO REG_CITY_ADD (LEVEL, REGIONNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (1, $fetch['REGIONNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
 				}
 				echo json_encode(array('state' => 0));
@@ -30,21 +95,103 @@ if ($_POST['module'] == "BI") {
 		}
 		elseif ($_POST['option'] == "init") {
 			$sql = "SELECT * FROM REG_CITY_ADD";
-			$result = mysql_query($sql);
-			$table = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
-			while ($fetch = mysql_fetch_array($result)) {
-				$table .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+			if ($result = mysql_query($sql)) {
+				if (mysql_fetch_row($result) == 0) {
+					// 刷新
+				}
+				else {
+					$table_month = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_season = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_year = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_ever = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					while ($fetch = mysql_fetch_array($result)) {
+						$table_month .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
+						$table_season .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
+						$table_year .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
+						$table_ever .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+					}
+					$table_month .= '</table>';
+					$table_season .= '</table>';
+					$table_year .= '</table>';
+					$table_ever .= '</table>';
+					echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+					return;
+				}
 			}
-			$table .= '</table>';
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "REGIONNO") {
-			$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO";
-		}
-		elseif ($_POST['option'] == "CITYNO") {
-			$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO AND CITYNO=$CITYNO";
-		}
-		elseif ($_POST['option'] == "ADDNO") {
-			$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO AND CITYNO=$CITYNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+		elseif ($_POST['option'] == "update") {
+			$REGIONNO = $_POST['REGIONNO'];
+			$CITYNO = $_POST['CITYNO'];
+			$CUSNO = $_POST['CUSNO'];
+			$ADDNO = $_POST['ADDNO'];
+			if (empty($REGIONNO)) {
+				if (empty($CITYNO)) {
+					if (empty($CUSNO) || empty($ADDNO)) {
+						// Do nothing
+					}
+					else {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+				else {
+					if (empty($CUSNO) || empty($ADDNO)) {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE CITYNO=$CITYNO";
+					}
+					else {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE CITYNO=$CITYNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+			}
+			else {
+				if (empty($CITYNO)) {
+					if (empty($CUSNO) || empty($ADDNO)) {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO";
+					}
+					else {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+				else {
+					if (empty($CUSNO) || empty($ADDNO)) {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO AND CITYNO=$CITYNO";
+					}
+					else {
+						$sql = "SELECT * FROM REG_CITY_ADD WHERE REGIONNO=$REGIONNO AND CITYNO=$CITYNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+			}
+			if ($result = mysql_query($sql)) {
+				if (mysql_fetch_row($result) == 0) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				else {
+					$table_month = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_season = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_year = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_ever = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					while ($fetch = mysql_fetch_array($result)) {
+						$table_month .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
+						$table_season .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
+						$table_year .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
+						$table_ever .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+					}
+					$table_month .= '</table>';
+					$table_season .= '</table>';
+					$table_year .= '</table>';
+					$table_ever .= '</table>';
+					echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 400));
@@ -56,17 +203,82 @@ if ($_POST['module'] == "BI") {
 			$sql = "DELETE * FROM SLS_CUS_ADD WHERE PRODUCER='U'";
 			if (mysql_query($sql)) {
 				date_default_timezone_set('Asia/Taipei');
-				$PRODUCE_TIME = date("Y-m-d H:i:s");
-				$query_1 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY (CUSNO, ADDNO)");
-				while ($fetch = mysql_fetch_array($query_1)) {
-					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $fetch['SALPERNO'], $fetch['CUSNO'], $fetch['ADDNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
+				$PRODUCE_TIME = date("Y-m-d");
+				$NOW = explode('-', $PRODUCE_TIME);
+				$query = mysql_query("SELECT * FROM INVOICE GROUP BY CUSNO, SHIP_ADD_NO, REV_CODE ORDER BY CUSNO, SHIP_ADD_NO");
+				$CUSNO = '';
+				$SHIP_ADD_NO = '';
+				while ($fetch = mysql_fetch_array($query)) 
+					$DATE_TRAN = explode('-', $fetch['DATE_TRAN']);
+					if ($fetch['CUSNO'] == $CUSNO && $fetch['SHIP_ADD_NO'] == $SHIP_ADD_NO) {
+						if ($fetch['REV_CODE'] == 'C') {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTMTD=SALEAMTMTD+$fetch['NET_SALES'], SALEAMTSTD=SALEAMTSTD+$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTSTD=SALEAMTSTD+$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTYTD=SALEAMTYTD+$fetch['NET_SALES'], SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							else {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMT=SALEAMT+$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+						}
+						else {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTMTD=SALEAMTMTD-$fetch['NET_SALES'], SALEAMTSTD=SALEAMTSTD-$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTSTD=SALEAMTSTD-$fetch['NET_SALES'], SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMTYTD=SALEAMTYTD-$fetch['NET_SALES'], SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+							else {
+								mysql_query("UPDATE SLS_CUS_ADD SET SALEAMT=SALEAMT-$fetch['NET_SALES'] WHERE CUSNO=$fetch['CUSNO'] AND ADDNO=$fetch['SHIP_ADD_NO']")
+							}
+						}
+					}
+					else {
+						$CUSNO = $fetch['CUSNO'];
+						$SHIP_ADD_NO = $fetch['SHIP_ADD_NO'];
+						if ($fetch['REV_CODE'] == 'C') {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, $fetch['NET_SALES'], $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, $fetch['NET_SALES'], $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							else {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, 0, $fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+						}
+						else {
+							if (within_month($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_season($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, -$fetch['NET_SALES'], -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							elseif (within_year($DATE_TRAN, $NOW)) {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, -$fetch['NET_SALES'], -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+							else {
+								mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, ADDNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (3, $SALPERNO, $fetch['CUSNO'], $fetch['SHIP_ADD_NO'], 0, 0, 0, -$fetch['NET_SALES'], 'U', $PRODUCE_TIME)");
+							}
+						}
+					}
 				}
-				$query_2 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY CUSNO");
-				while ($fetch = mysql_fetch_array($query_1)) {
+				$query = mysql_query("SELECT SALPERNO, CUSNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT FROM SLS_CUS_ADD GROUP BY SALPERNO, CUSNO");
+				while ($fetch = mysql_fetch_array($query)) {
 					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, CUSNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (2, $fetch['SALPERNO'], $fetch['CUSNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
 				}
-				$query_3 = mysql_query("SELECT * FROM INVOICE WHERE INVNO>0 GROUP BY SALPERNO");
-				while ($fetch = mysql_fetch_array($query_1)) {
+				$query = mysql_query("SELECT SALPERNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT FROM SLS_CUS_ADD GROUP BY SALPERNO");
+				while ($fetch = mysql_fetch_array($query)) {
 					mysql_query("INSERT INTO SLS_CUS_ADD (LEVEL, SALPERNO, SALEAMTMTD, SALEAMTSTD, SALEAMTYTD, SALEAMT, PRODUCER, PRODUCE_TIME) VALUES (1, $fetch['SALPERNO'], $fetch['SALEAMTMTD'], $fetch['SALEAMTSTD'], $fetch['SALEAMTYTD'], $fetch['SALEAMT'], 'U', $PRODUCE_TIME)");
 				}
 				echo json_encode(array('state' => 0));
@@ -79,21 +291,92 @@ if ($_POST['module'] == "BI") {
 		}
 		elseif ($_POST['option'] == "init") {
 			$sql = "SELECT * FROM SLS_CUS_ADD";
-			$result = mysql_query($sql);
-			$table = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
-			while ($fetch = mysql_fetch_array($result)) {
-				$table .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+			if ($result = mysql_query($sql)) {
+				if (mysql_fetch_row($result) == 0) {
+					//刷新
+				}
+				else {
+					$table_month = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_season = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_year = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_ever = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					while ($fetch = mysql_fetch_array($result)) {
+						$table_month .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
+						$table_season .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
+						$table_year .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
+						$table_ever .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+					}
+					$table_month .= '</table>';
+					$table_season .= '</table>';
+					$table_year .= '</table>';
+					$table_ever .= '</table>';
+					echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+					return;
+				}
 			}
-			$table .= '</table>';
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "SALPERNO") {
-			$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO";
-		}
-		elseif ($_POST['option'] == "CUSNO") {
-			$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO AND CUSNO=$CUSNO";
-		}
-		elseif ($_POST['option'] == "ADDNO") {
-			$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+		elseif ($_POST['option'] == "update") {
+			$SALPERNO = $_POST['SALPERNO'];
+			$CUSNO = $_POST['CUSNO'];
+			$ADDNO = $_POST['ADDNO'];
+			if (empty($SALPERNO)) {
+				if (empty($CUSNO)) {
+					// Do nothing
+				}
+				else {
+					if (empty($ADDNO)) {
+						$sql = "SELECT * FROM SLS_CUS_ADD WHERE CUSNO=$CUSNO";
+					}
+					else {
+						$sql = "SELECT * FROM SLS_CUS_ADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+			}
+			else {
+				if (empty($CUSNO)) {
+					$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO";
+				}
+				else {
+					if (empty($ADDNO)) {
+						$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO AND CUSNO=$CUSNO";
+					}
+					else {
+						$sql = "SELECT * FROM SLS_CUS_ADD WHERE SALPERNO=$SALPERNO AND CUSNO=$CUSNO AND ADDNO=$ADDNO";
+					}
+				}
+			}
+			if ($result = mysql_query($sql)) {
+				if (mysql_fetch_row($result) == 0) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				else {
+					$table_month = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_season = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_year = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					$table_ever = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+					while ($fetch = mysql_fetch_array($result)) {
+						$table_month .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
+						$table_season .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
+						$table_year .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
+						$table_ever .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMT'].'</td></tr>';
+					}
+					$table_month .= '</table>';
+					$table_season .= '</table>';
+					$table_year .= '</table>';
+					$table_ever .= '</table>';
+					echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+					return;
+				}
+			}
+			else {
+				echo json_encode(array('state' => 1));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 400));
@@ -108,4 +391,55 @@ if ($_POST['module'] == "BI") {
 else {
 	echo json_encode(array('state' => 400));
 	return;
+}
+
+function within_month($date, $now) {
+	if ($date[0] == $now[0] && $date[1] == $now[1]) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+function within_season($date, $now) {
+	if ($now[1] >= 1 && $now[1] <= 3) {
+		if ($date[0] == $now[0] && $date[1] >= 1 && $date[1] <= 3) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	elseif ($now[1] >= 4 && $now[1] <= 6) {
+		if ($date[0] == $now[0] && $date[1] >= 4 && $date[1] <= 6) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	elseif ($now[1] >= 7 && $now[1] <= 9) {
+		if ($date[0] == $now[0] && $date[1] >= 7 && $date[1] <= 9) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	elseif ($now[1] >= 10 && $now[1] <= 12) {
+		if ($date[0] == $now[0] && $date[1] >= 10 && $date[1] <= 12) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+function within_year($date, $now) {
+	if ($date[0] == $now[0]) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }

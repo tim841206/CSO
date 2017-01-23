@@ -287,7 +287,7 @@ CREATE TABLE `REG_CITY_ADD` (
   `SALEAMTYTD` int(11) NOT NULL,
   `SALEAMT` int(11) NOT NULL,
   `PRODUCER` varchar(1) COLLATE utf8_bin NOT NULL,
-  `PRODUCE_TIME` datetime NOT NULL
+  `PRODUCE_TIME` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='地區-城市-地址';
 
 -- --------------------------------------------------------
@@ -325,7 +325,7 @@ CREATE TABLE `SLS_CUS_ADD` (
   `SALEAMTYTD` int(11) NOT NULL,
   `SALEAMT` int(11) NOT NULL,
   `PRODUCER` varchar(1) COLLATE utf8_bin NOT NULL,
-  `PRODUCE_TIME` datetime NOT NULL
+  `PRODUCE_TIME` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售員-顧客-地址';
 
 --

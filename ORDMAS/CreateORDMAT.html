@@ -35,7 +35,7 @@
 		<tr><td>訂單數量</td><td><p id="LastQTYORD"></p></td></tr>
 		<tr><td>基本價格</td><td><p id="LastBASE_PRICE"></p></td></tr>
 		<tr><td>簽約價格</td><td><p id="LastPRICE_CNT"></p></td></tr>
-		<tr><td>折扣率</td><td><p id="LastPERCENTDIS"></p></td></tr>
+		<tr><td>折扣率(%)</td><td><p id="LastPERCENTDIS"></p></td></tr>
 		<tr><td>賣出價格</td><td><p id="LastPRICE_SELL"></p></td></tr>
 		<tr><td>銷售總額</td><td><p id="LastNET_SALES"></p></td></tr>
 		<tr><td>稅狀態碼</td><td><p id="LastTAX_CODE"></p></td></tr>
@@ -146,7 +146,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
 				}
 				else if (data.state == 1) {
 					alert("訂單數量為必填欄位");
@@ -168,13 +169,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
 				}
 				else if (data.state == 1) {
-					alert("訂單數量為必填欄位");
-				}
-				else if (data.state == 2) {
-					alert("訂單數量必須為正整數");
+					alert("簽約價格必須為數字");
 				}
 			}
 		}
@@ -190,13 +189,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					
+					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
+					document.getElementById("NET_SALES").value = data.NET_SALES;
 				}
 				else if (data.state == 1) {
-					alert("訂單數量為必填欄位");
-				}
-				else if (data.state == 2) {
-					alert("訂單數量必須為正整數");
+					alert("折扣率必須為不大於100的正數");
 				}
 			}
 		}
