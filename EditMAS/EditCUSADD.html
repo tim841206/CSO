@@ -27,7 +27,7 @@
 		<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()" style="visibility: hidden;"></td></tr>
 		<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()" style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
 		<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
 		<tr><td>地址 1</td><td><p id="LastADD_1"></p></td></tr>
@@ -83,17 +83,17 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ADDNO").readOnly = true;
-					document.getElementById("ADD_1").innerHTML = data.ADD_1;
-					document.getElementById("ADD_2").innerHTML = data.ADD_2;
-					document.getElementById("ADD_3").innerHTML = data.ADD_3;
-					document.getElementById("CITY").innerHTML = data.CITY;
-					document.getElementById("COUNTY").innerHTML = data.COUNTY;
-					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
-					document.getElementById("ZCODE").innerHTML = data.ZCODE;
-					document.getElementById("CNTPER").innerHTML = data.CNTPER;
-					document.getElementById("TEL").innerHTML = data.TEL;
-					document.getElementById("FAX").innerHTML = data.FAX;
-					document.getElementById("EMAIL").innerHTML = data.EMAIL;
+					document.getElementById("ADD_1").value = data.ADD_1;
+					document.getElementById("ADD_2").value = data.ADD_2;
+					document.getElementById("ADD_3").value = data.ADD_3;
+					document.getElementById("CITY").value = data.CITY;
+					document.getElementById("COUNTY").value = data.COUNTY;
+					document.getElementById("COUNTRY").value = data.COUNTRY;
+					document.getElementById("ZCODE").value = data.ZCODE;
+					document.getElementById("CNTPER").value = data.CNTPER;
+					document.getElementById("TEL").value = data.TEL;
+					document.getElementById("FAX").value = data.FAX;
+					document.getElementById("EMAIL").value = data.EMAIL;
 					document.getElementById("ADD_1").style.visibility = 'visible';
 					document.getElementById("ADD_2").style.visibility = 'visible';
 					document.getElementById("ADD_3").style.visibility = 'visible';
@@ -307,19 +307,19 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
-					document.getElementById("LastADD_1").value = document.getElementById("ADD_1").value;
-					document.getElementById("LastADD_2").value = document.getElementById("ADD_2").value;
-					document.getElementById("LastADD_3").value = document.getElementById("ADD_3").value;
-					document.getElementById("LastCITY").value = document.getElementById("CITY").value;
-					document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
-					document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
-					document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
-					document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
-					document.getElementById("LastTEL").value = document.getElementById("TEL").value;
-					document.getElementById("LastFAX").value = document.getElementById("FAX").value;
-					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
+					document.getElementById("LastADDNO").innerHTML = document.getElementById("ADDNO").value;
+					document.getElementById("LastADD_1").innerHTML = document.getElementById("ADD_1").value;
+					document.getElementById("LastADD_2").innerHTML = document.getElementById("ADD_2").value;
+					document.getElementById("LastADD_3").innerHTML = document.getElementById("ADD_3").value;
+					document.getElementById("LastCITY").innerHTML = document.getElementById("CITY").value;
+					document.getElementById("LastCOUNTY").innerHTML = document.getElementById("COUNTY").value;
+					document.getElementById("LastCOUNTRY").innerHTML = document.getElementById("COUNTRY").value;
+					document.getElementById("LastZCODE").innerHTML = document.getElementById("ZCODE").value;
+					document.getElementById("LastCNTPER").innerHTML = document.getElementById("CNTPER").value;
+					document.getElementById("LastTEL").innerHTML = document.getElementById("TEL").value;
+					document.getElementById("LastFAX").innerHTML = document.getElementById("FAX").value;
+					document.getElementById("LastEMAIL").innerHTML = document.getElementById("EMAIL").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}

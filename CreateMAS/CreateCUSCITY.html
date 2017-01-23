@@ -102,9 +102,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
-					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
+					document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCITYNO").innerHTML = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").innerHTML = document.getElementById("CITYNM").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("CITYNO").value = null;
 					document.getElementById("CITYNM").value = null;

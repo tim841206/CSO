@@ -17,7 +17,7 @@
 		<tr><td>城市名稱</td><td><input type="text" name="CITYNM" id="CITYNM" onchange="CITYNM()" style="visibility: hidden;"></td></tr>
 		<tr><td>所屬廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="REGIONNO()" style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>城市編號</td><td><p id="LastCITYNO"></p></td></tr>
 		<tr><td>城市名稱</td><td><p id="LastCITYNM"></p></td></tr>
 		<tr><td>所屬廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
@@ -40,8 +40,8 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CITYNO").readOnly = true;
-					document.getElementById("CITYNM").innerHTML = data.CITYNM;
-					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
+					document.getElementById("CITYNM").value = data.CITYNM;
+					document.getElementById("REGIONNO").value = data.REGIONNO;
 					document.getElementById("CITYNM").style.visibility = 'visible';
 					document.getElementById("REGIONNO").style.visibility = 'visible';
 					document.getElementById("Edit").style.visibility = 'visible';
@@ -102,9 +102,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
-					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCITYNO").innerHTML = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").innerHTML = document.getElementById("CITYNM").value;
+					document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}

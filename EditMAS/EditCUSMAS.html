@@ -32,7 +32,7 @@
 		<tr><td>信用狀態</td><td><select type="text" name="CREDITSTAT" id="CREDITSTAT" style="visibility: hidden;"><option value="A">A : 付現</option><option value="B">B : 30天內</option><option value="C">C : 無限制</option></select></td></tr>
 		<tr><td>統一編號</td><td><input type="text" name="TAXID" id="TAXID" onchange="TAXID()" style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
 		<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
 		<tr><td>地址編號 1</td><td><p id="LastADDNO_1"></p></td></tr>
@@ -70,23 +70,23 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CUSNO").readOnly = true;
-					document.getElementById("CUSNM").innerHTML = data.CUSNM;
-					document.getElementById("ADDNO_1").innerHTML = data.ADDNO_1;
-					document.getElementById("ADDNO_2").innerHTML = data.ADDNO_2;
-					document.getElementById("ADDNO_3").innerHTML = data.ADDNO_3;
-					document.getElementById("CITY").innerHTML = data.CITY;
-					document.getElementById("COUNTY").innerHTML = data.COUNTY;
-					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
-					document.getElementById("ZCODE").innerHTML = data.ZCODE;
-					document.getElementById("CNTPER").innerHTML = data.CNTPER;
-					document.getElementById("TEL").innerHTML = data.TEL;
-					document.getElementById("FAX").innerHTML = data.FAX;
-					document.getElementById("EMAIL").innerHTML = data.EMAIL;
-					document.getElementById("WSITE").innerHTML = data.WSITE;
-					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
-					document.getElementById("SPEINS").innerHTML = data.SPEINS;
+					document.getElementById("CUSNM").value = data.CUSNM;
+					document.getElementById("ADDNO_1").value = data.ADDNO_1;
+					document.getElementById("ADDNO_2").value = data.ADDNO_2;
+					document.getElementById("ADDNO_3").value = data.ADDNO_3;
+					document.getElementById("CITY").value = data.CITY;
+					document.getElementById("COUNTY").value = data.COUNTY;
+					document.getElementById("COUNTRY").value = data.COUNTRY;
+					document.getElementById("ZCODE").value = data.ZCODE;
+					document.getElementById("CNTPER").value = data.CNTPER;
+					document.getElementById("TEL").value = data.TEL;
+					document.getElementById("FAX").value = data.FAX;
+					document.getElementById("EMAIL").value = data.EMAIL;
+					document.getElementById("WSITE").value = data.WSITE;
+					document.getElementById("SALPERNO").value = data.SALPERNO;
+					document.getElementById("SPEINS").value = data.SPEINS;
 					document.getElementById("CREDITSTAT").value = data.CREDITSTAT;
-					document.getElementById("TAXID").innerHTML = data.TAXID;
+					document.getElementById("TAXID").value = data.TAXID;
 					document.getElementById("CUSNM").style.visibility = 'visible';
 					document.getElementById("ADDNO_1").style.visibility = 'visible';
 					document.getElementById("ADDNO_2").style.visibility = 'visible';
@@ -398,24 +398,24 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
-					document.getElementById("LastADDNO_1").value = document.getElementById("ADDNO_1").value;
-					document.getElementById("LastADDNO_2").value = document.getElementById("ADDNO_2").value;
-					document.getElementById("LastADDNO_3").value = document.getElementById("ADDNO_3").value;
-					document.getElementById("LastCITY").value = document.getElementById("CITY").value;
-					document.getElementById("LastCOUNTY").value = document.getElementById("COUNTY").value;
-					document.getElementById("LastCOUNTRY").value = document.getElementById("COUNTRY").value;
-					document.getElementById("LastZCODE").value = document.getElementById("ZCODE").value;
-					document.getElementById("LastCNTPER").value = document.getElementById("CNTPER").value;
-					document.getElementById("LastTEL").value = document.getElementById("TEL").value;
-					document.getElementById("LastFAX").value = document.getElementById("FAX").value;
-					document.getElementById("LastEMAIL").value = document.getElementById("EMAIL").value;
-					document.getElementById("LastWSITE").value = document.getElementById("WSITE").value;
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastSPEINS").value = document.getElementById("SPEINS").value;
-					document.getElementById("LastCREDITSTAT").value = document.getElementById("CREDITSTAT").value;
-					document.getElementById("LastTAXID").value = document.getElementById("TAXID").value;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
+					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").value;
+					document.getElementById("LastADDNO_1").innerHTML = document.getElementById("ADDNO_1").value;
+					document.getElementById("LastADDNO_2").innerHTML = document.getElementById("ADDNO_2").value;
+					document.getElementById("LastADDNO_3").innerHTML = document.getElementById("ADDNO_3").value;
+					document.getElementById("LastCITY").innerHTML = document.getElementById("CITY").value;
+					document.getElementById("LastCOUNTY").innerHTML = document.getElementById("COUNTY").value;
+					document.getElementById("LastCOUNTRY").innerHTML = document.getElementById("COUNTRY").value;
+					document.getElementById("LastZCODE").innerHTML = document.getElementById("ZCODE").value;
+					document.getElementById("LastCNTPER").innerHTML = document.getElementById("CNTPER").value;
+					document.getElementById("LastTEL").innerHTML = document.getElementById("TEL").value;
+					document.getElementById("LastFAX").innerHTML = document.getElementById("FAX").value;
+					document.getElementById("LastEMAIL").innerHTML = document.getElementById("EMAIL").value;
+					document.getElementById("LastWSITE").innerHTML = document.getElementById("WSITE").value;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSPEINS").innerHTML = document.getElementById("SPEINS").value;
+					document.getElementById("LastCREDITSTAT").innerHTML = document.getElementById("CREDITSTAT").value;
+					document.getElementById("LastTAXID").innerHTML = document.getElementById("TAXID").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}

@@ -14,11 +14,11 @@
 	<p>現在時間：<span id="now"></span></p>
 	<table>
 		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-		<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNO" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
+		<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNM" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
 		<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
 		<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>銷售員編號</td><td><p id="LastSALPERNO"></p></td></tr>
 		<tr><td>銷售員名稱</td><td><p id="LastSALPERNM"></p></td></tr>
 		<tr><td>員工編號</td><td><p id="LastEMPNO"></p></td></tr>
@@ -42,9 +42,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("SALPERNO").readOnly = true;
-					document.getElementById("SALPERNM").innerHTML = data.SALPERNM;
-					document.getElementById("EMPNO").innerHTML = data.EMPNO;
-					document.getElementById("COMRATE").innerHTML = data.COMRATE;
+					document.getElementById("SALPERNM").value = data.SALPERNM;
+					document.getElementById("EMPNO").value = data.EMPNO;
+					document.getElementById("COMRATE").value = data.COMRATE;
 					document.getElementById("SALPERNM").style.visibility = 'visible';
 					document.getElementById("EMPNO").style.visibility = 'visible';
 					document.getElementById("COMRATE").style.visibility = 'visible';
@@ -128,10 +128,10 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
-					document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
-					document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
+					document.getElementById("LastSALPERNM").innerHTML = document.getElementById("SALPERNM").value;
+					document.getElementById("LastEMPNO").innerHTML = document.getElementById("EMPNO").value;
+					document.getElementById("LastCOMRATE").innerHTML = document.getElementById("COMRATE").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}

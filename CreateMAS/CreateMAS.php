@@ -37,7 +37,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO SLSMAS (SALPERNO, SALPERNM, EMPNO, COMRATE, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($SALPERNO, $SALPERNM, $EMPNO, $COMRATE, 0, 0, 0, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO SLSMAS (SALPERNO, SALPERNM, EMPNO, COMRATE, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$SALPERNO', '$SALPERNM', '$EMPNO', '$COMRATE', 0, 0, 0, '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -58,92 +58,92 @@ if ($_POST['module'] == "CreateMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "CreateCUSMAS") {
-		if ($_POST['check'] == "SALPERNO") {
+		if ($_POST['option'] == "SALPERNO") {
 			$result = check_SALPERNO_exist($_POST['SALPERNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CUSNO") {
+		elseif ($_POST['option'] == "CUSNO") {
 			$result = check_CUSNO($_POST['CUSNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CUSNM") {
+		elseif ($_POST['option'] == "CUSNM") {
 			$result = check_50_notnull($_POST['CUSNM']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_1") {
+		elseif ($_POST['option'] == "ADDNO_1") {
 			$result = check_ADDNO_1($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_2") {
+		elseif ($_POST['option'] == "ADDNO_2") {
 			$result = check_ADDNO_2($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_3") {
+		elseif ($_POST['option'] == "ADDNO_3") {
 			$result = check_ADDNO_3($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CITY") {
+		elseif ($_POST['option'] == "CITY") {
 			$result = check_50($_POST['CITY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "COUNTY") {
+		elseif ($_POST['option'] == "COUNTY") {
 			$result = check_50($_POST['COUNTY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "COUNTRY") {
+		elseif ($_POST['option'] == "COUNTRY") {
 			$result = check_50($_POST['COUNTRY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ZCODE") {
+		elseif ($_POST['option'] == "ZCODE") {
 			$result = check_15($_POST['ZCODE']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CNTPER") {
+		elseif ($_POST['option'] == "CNTPER") {
 			$result = check_50($_POST['CNTPER']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "TEL") {
+		elseif ($_POST['option'] == "TEL") {
 			$result = check_15($_POST['TEL']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "FAX") {
+		elseif ($_POST['option'] == "FAX") {
 			$result = check_15($_POST['FAX']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "EMAIL") {
+		elseif ($_POST['option'] == "EMAIL") {
 			$result = check_50($_POST['EMAIL']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "WSITE") {
+		elseif ($_POST['option'] == "WSITE") {
 			$result = check_50($_POST['WSITE']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "SPEINS") {
+		elseif ($_POST['option'] == "SPEINS") {
 			$result = check_50($_POST['SPEINS']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "TAXID") {
+		elseif ($_POST['option'] == "TAXID") {
 			$result = check_15($_POST['TAXID']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "Create") {
+		elseif ($_POST['option'] == "Create") {
 			$SALPERNO = $_POST['SALPERNO'];
 			$CUSNO = $_POST['CUSNO'];
 			$CUSNM = $_POST['CUSNM'];
@@ -184,7 +184,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSMAS (CUSNO, CUSNM, ADDNO_1, ADDNO_2, ADDNO_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, WSITE, SALPERNO, DFSHIPNO, DFBILLNO, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CURAR, AR30_60, AR60_90, AR90_120, M120AR, SPEINS, CREDITSTAT, TAXID, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($CUSNO, $CUSNM, $ADDNO_1, $ADDNO_2, $ADDNO_3, $CITY, $COUNTY, $COUNTRY, $ZCODE, $CNTPER, $TEL, $FAX, $EMAIL, $WSITE, $SALPERNO, $ADDNO_1, $ADDNO_1, 0, 0, 0, 0, 0, 0, 0, 0, $SPEINS, $CREDITSTAT, $TAXID, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO CUSMAS (CUSNO, CUSNM, ADDNO_1, ADDNO_2, ADDNO_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, WSITE, SALPERNO, DFSHIPNO, DFBILLNO, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CURAR, AR30_60, AR60_90, AR90_120, M120AR, SPEINS, CREDITSTAT, TAXID, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '$CUSNM', '$ADDNO_1', '$ADDNO_2', '$ADDNO_3', '$CITY', '$COUNTY', '$COUNTRY', '$ZCODE', '$CNTPER', '$TEL', '$FAX', '$EMAIL', '$WSITE', '$SALPERNO', '$ADDNO_1', '$ADDNO_1', 0, 0, 0, 0, 0, 0, 0, 0, '$SPEINS', '$CREDITSTAT', '$TAXID', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -302,7 +302,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSADD (CUSNO, ADDNO, ADD_1, ADD_2, ADD_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($CUSNO, $ADDNO, $ADD_1, $ADD_2, $ADD_3, $CITY, $COUNTY, $COUNTRY, $ZCODE, $CNTPER, $TEL, $FAX, $EMAIL, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO CUSADD (CUSNO, ADDNO, ADD_1, ADD_2, ADD_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '$ADDNO', '$ADD_1', '$ADD_2', '$ADD_3', '$CITY', '$COUNTY', '$COUNTRY', '$ZCODE', '$CNTPER', '$TEL', '$FAX', '$EMAIL', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -323,7 +323,7 @@ if ($_POST['module'] == "CreateMAS") {
 		}	
 	}
 	elseif ($_POST['event'] == "CreateCUSREGION") {
-		if ($_POST['check'] == "REGIONNO") {
+		if ($_POST['option'] == "REGIONNO") {
 			$result = check_REGIONNO($_POST['REGIONNO']);
 			echo json_encode(array('state' => $result));
 			return;
@@ -378,7 +378,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSREGION (REGIONNO, CHANNELNO, CHANNELNM, COMPANYNO, COMPANYNM, DISTRICTNO, DESCRIPTION, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($REGIONNO, $CHANNELNO, $CHANNELNM, $COMPANYNO, $COMPANYNM, $DISTRICTNO, $DESCRIPTION, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO CUSREGION (REGIONNO, CHANNELNO, CHANNELNM, COMPANYNO, COMPANYNM, DISTRICTNO, DESCRIPTION, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$REGIONNO', '$CHANNELNO', '$CHANNELNM', '$COMPANYNO', '$COMPANYNM', '$DISTRICTNO', '$DESCRIPTION', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -426,7 +426,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSCITY (CITYNO, CITYNM, REGIONNO, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($CITYNO, $CITYNM, $REGIONNO, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO CUSCITY (CITYNO, CITYNM, REGIONNO, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CITYNO', '$CITYNM', '$REGIONNO', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -447,7 +447,7 @@ if ($_POST['module'] == "CreateMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "CreateCUSADDCITY") {
-		if ($_POST['check'] == "CUSNO") {
+		if ($_POST['option'] == "CUSNO") {
 			$result = check_CUSNO_exist($_POST['CUSNO']);
 			if ($result == 0) {
 				$CUSNM = query_CUSNM($_POST['CUSNO']);
@@ -459,17 +459,17 @@ if ($_POST['module'] == "CreateMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "ADDNO") {
+		elseif ($_POST['option'] == "ADDNO") {
 			$result = check_ADDNO_valid($_POST['CUSNO'], $_POST['ADDNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CITYNO") {
+		elseif ($_POST['option'] == "CITYNO") {
 			$result = check_CITYNO_exist($_POST['CITYNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "Create") {
+		elseif ($_POST['option'] == "Create") {
 			$CUSNO = $_POST['CUSNO'];
 			$CUSNM = $_POST['CUSNM'];
 			$ADDNO = $_POST['ADDNO'];
@@ -482,7 +482,7 @@ if ($_POST['module'] == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSADDCITY (CUSNO, CUSNM, ADDNO, CITYNO, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($CUSNO, $CUSNM, $ADDNO, $CITYNO, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO CUSADDCITY (CUSNO, CUSNM, ADDNO, CITYNO, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '$CUSNM', '$ADDNO', '$CITYNO', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;

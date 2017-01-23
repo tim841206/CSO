@@ -18,7 +18,7 @@
 		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
 		<tr><td>所屬城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()" style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
 		<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
 		<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
@@ -67,7 +67,7 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ADDNO").readOnly = true;
-					document.getElementById("CITYNO").innerHTML = data.CITYNO;
+					document.getElementById("CITYNO").value = data.CITYNO;
 					document.getElementById("CITYNO").style.visibility = 'visible';
 					document.getElementById("Edit").style.visibility = 'visible';
 				}
@@ -108,10 +108,10 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
-					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
-					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
+					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").value;
+					document.getElementById("LastADDNO").innerHTML = document.getElementById("ADDNO").value;
+					document.getElementById("LastCITYNO").innerHTML = document.getElementById("CITYNO").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
@@ -126,7 +126,7 @@
 	}
 	function Refresh() {
 		document.getElementById("CUSNO").value = null;
-		document.getElementById("CUSNM").value = null;
+		document.getElementById("CUSNM").innerHTML = null;
 		document.getElementById("ADDNO").value = null;
 		document.getElementById("CITYNO").value = null;
 		document.getElementById("CUSNO").readOnly = false;

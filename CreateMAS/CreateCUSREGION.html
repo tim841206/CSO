@@ -181,13 +181,13 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
-					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-					document.getElementById("LastCHANNELNO").value = document.getElementById("CHANNELNO").value;
-					document.getElementById("LastCHANNELNM").value = document.getElementById("CHANNELNM").value;
-					document.getElementById("LastCOMPANYNO").value = document.getElementById("COMPANYNO").value;
-					document.getElementById("LastCOMPANYNM").value = document.getElementById("COMPANYNM").value;
-					document.getElementById("LastDISTRICTNO").value = document.getElementById("DISTRICTNO").value;
-					document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
+					document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCHANNELNO").innerHTML = document.getElementById("CHANNELNO").value;
+					document.getElementById("LastCHANNELNM").innerHTML = document.getElementById("CHANNELNM").value;
+					document.getElementById("LastCOMPANYNO").innerHTML = document.getElementById("COMPANYNO").value;
+					document.getElementById("LastCOMPANYNM").innerHTML = document.getElementById("COMPANYNM").value;
+					document.getElementById("LastDISTRICTNO").innerHTML = document.getElementById("DISTRICTNO").value;
+					document.getElementById("LastDESCRIPTION").innerHTML = document.getElementById("DESCRIPTION").value;
 					Refresh();
 					document.getElementById("Last").style.visibility = 'visible';
 				}

@@ -21,7 +21,7 @@
 		<tr><td>地區編號</td><td><input type="text" name="DISTRICTNO" id="DISTRICTNO" onchange="DISTRICTNO()" style="visibility: hidden;"></td></tr>
 		<tr><td>敘述</td><td><input type="text" name="DESCRIPTION" id="DESCRIPTION" onchange="DESCRIPTION()" style="visibility: hidden;"></td></tr>
 	</table>
-	<table id="Last">
+	<table id="Last" style="visibility: hidden;">
 		<tr><td>廠商暨地區編號</td><td><p id="LastREGIONNO"></p></td></tr>
 		<tr><td>通路編號</td><td><p id="LastCHANNELNO"></p></td></tr>
 		<tr><td>通路名稱</td><td><p id="LastCHANNELNM"></p></td></tr>
@@ -48,12 +48,12 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("REGIONNO").readOnly = true;
-					document.getElementById("CHANNELNO").innerHTML = data.CHANNELNO;
-					document.getElementById("CHANNELNM").innerHTML = data.CHANNELNM;
-					document.getElementById("COMPANYNO").innerHTML = data.COMPANYNO;
-					document.getElementById("COMPANYNM").innerHTML = data.COMPANYNM;
-					document.getElementById("DISTRICTNO").innerHTML = data.DISTRICTNO;
-					document.getElementById("DESCRIPTION").innerHTML = data.DESCRIPTION;
+					document.getElementById("CHANNELNO").value = data.CHANNELNO;
+					document.getElementById("CHANNELNM").value = data.CHANNELNM;
+					document.getElementById("COMPANYNO").value = data.COMPANYNO;
+					document.getElementById("COMPANYNM").value = data.COMPANYNM;
+					document.getElementById("DISTRICTNO").value = data.DISTRICTNO;
+					document.getElementById("DESCRIPTION").value = data.DESCRIPTION;
 					document.getElementById("CHANNELNO").style.visibility = 'visible';
 					document.getElementById("CHANNELNM").style.visibility = 'visible';
 					document.getElementById("COMPANYNO").style.visibility = 'visible';
@@ -194,13 +194,13 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-					document.getElementById("LastCHANNELNO").value = document.getElementById("CHANNELNO").value;
-					document.getElementById("LastCHANNELNM").value = document.getElementById("CHANNELNM").value;
-					document.getElementById("LastCOMPANYNO").value = document.getElementById("COMPANYNO").value;
-					document.getElementById("LastCOMPANYNM").value = document.getElementById("COMPANYNM").value;
-					document.getElementById("LastDISTRICTNO").value = document.getElementById("DISTRICTNO").value;
-					document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
+					document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").value;
+					document.getElementById("LastCHANNELNO").innerHTML = document.getElementById("CHANNELNO").value;
+					document.getElementById("LastCHANNELNM").innerHTML = document.getElementById("CHANNELNM").value;
+					document.getElementById("LastCOMPANYNO").innerHTML = document.getElementById("COMPANYNO").value;
+					document.getElementById("LastCOMPANYNM").innerHTML = document.getElementById("COMPANYNM").value;
+					document.getElementById("LastDISTRICTNO").innerHTML = document.getElementById("DISTRICTNO").value;
+					document.getElementById("LastDESCRIPTION").innerHTML = document.getElementById("DESCRIPTION").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
