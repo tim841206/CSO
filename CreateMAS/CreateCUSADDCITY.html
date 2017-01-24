@@ -14,15 +14,15 @@
 	<p>現在時間：<span id="now"></span></p>
 	<table>
 		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
-		<tr><td>顧客名稱</td><td><p id="CUSNM" style="visibility: hidden;"></p></td></tr>
+		<tr><td>顧客名稱</td><td><span id="CUSNM" style="visibility: hidden;"></span></td></tr>
 		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
 		<tr><td>所屬城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()" style="visibility: hidden;"></td></tr>
 	</table>
 	<table id="Last" style="visibility: hidden;">
-		<tr><td>顧客編號</td><td><p id="LastCUSNO"></p></td></tr>
-		<tr><td>顧客名稱</td><td><p id="LastCUSNM"></p></td></tr>
-		<tr><td>地址編號</td><td><p id="LastADDNO"></p></td></tr>
-		<tr><td>所屬城市編號</td><td><p id="LastCITYNO"></p></td></tr>
+		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+		<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
+		<tr><td>地址編號</td><td><span id="LastADDNO"></span></td></tr>
+		<tr><td>所屬城市編號</td><td><span id="LastCITYNO"></span></td></tr>
 	</table>
 	<button id="Create" onclick="Create()" style="visibility: hidden;">新增</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>

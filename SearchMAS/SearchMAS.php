@@ -4,7 +4,7 @@ include_once("../resource/database.php");
 if ($_POST['module'] == "SearchMAS") {
 	if ($_POST['event'] == "SearchSLSMAS") {
 		if ($_POST['option'] == "Search") {
-			$result = SearchSLSMAS($_POST['Search']);
+			$result = SearchSLSMAS($_POST['SALPERNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'SALPERNM' => $result['SALPERNM'], 'EMPNO' => $result['EMPNO'], 'COMRATE' => $result['COMRATE'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
@@ -114,9 +114,8 @@ else {
     return;
 }
 
-// 連接資料庫
 function SearchSLSMAS($SALPERNO) {
-	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO";
+	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
@@ -131,7 +130,7 @@ function SearchSLSMAS($SALPERNO) {
 }
 
 function SearchCUSMAS($CUSNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
@@ -146,7 +145,7 @@ function SearchCUSMAS($CUSNO) {
 }
 
 function SearchCUSREGION($REGIONNO) {
-	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO";
+	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
@@ -161,7 +160,7 @@ function SearchCUSREGION($REGIONNO) {
 }
 
 function SearchCUSCITY($CITYNO) {
-	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO";
+	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
@@ -176,7 +175,7 @@ function SearchCUSCITY($CITYNO) {
 }
 
 function SearchCUSADD($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 0) {
@@ -185,7 +184,7 @@ function SearchCUSADD($CUSNO, $ADDNO) {
 	else if ($fetch['ACTCODE'] != 1){
 		return 1; // 不存在
 	}
-	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
@@ -200,7 +199,7 @@ function SearchCUSADD($CUSNO, $ADDNO) {
 }
 
 function SearchCUSADDCITY($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 0) {
@@ -209,7 +208,7 @@ function SearchCUSADDCITY($CUSNO, $ADDNO) {
 	else if ($fetch['ACTCODE'] != 1){
 		return 1; // 不存在
 	}
-	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {

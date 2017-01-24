@@ -16,29 +16,29 @@
 		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
 		<tr><td>倉庫編號</td><td><input type="text" name="WHOUSE" id="WHOUSE" onchange="WHOUSE()" style="visibility: hidden;"></td></tr>
 		<tr><td>物料編號</td><td><input type="text" name="ITEMNO" id="ITEMNO" onchange="ITEMNO()" style="visibility: hidden;"></td></tr>
-		<tr><td>物料分類</td><td><p id="ITEMCLASS" style="visibility: hidden;"></p></td></tr>
-		<tr><td>單位成本</td><td><p id="UNI_COST" style="visibility: hidden;"></p></td></tr>
+		<tr><td>物料分類</td><td><span id="ITEMCLASS" style="visibility: hidden;"></span></td></tr>
+		<tr><td>單位成本</td><td><span id="UNI_COST" style="visibility: hidden;"></span></td></tr>
 		<tr><td>訂單數量</td><td><input type="text" name="QTYORD" id="QTYORD" onchange="QTYORD()" style="visibility: hidden;"></td></tr>
-		<tr><td>基本價格</td><td><p id="BASE_PRICE" style="visibility: hidden;"></p></td></tr>
+		<tr><td>基本價格</td><td><span id="BASE_PRICE" style="visibility: hidden;"></span></td></tr>
 		<tr><td>簽約價格</td><td><input type="text" name="PRICE_CNT" id="PRICE_CNT" onchange="PRICE_CNT()" style="visibility: hidden;"></td></tr>
 		<tr><td>折扣率(%)</td><td><input type="text" name="PERCENTDIS" id="PERCENTDIS" onchange="PERCENTDIS()" style="visibility: hidden;"></td></tr>
-		<tr><td>賣出價格</td><td><p id="PRICE_SELL" style="visibility: hidden;"></p></td></tr>
-		<tr><td>銷售總額</td><td><p id="NET_SALES" style="visibility: hidden;"></p></td></tr>
+		<tr><td>賣出價格</td><td><span id="PRICE_SELL" style="visibility: hidden;"></span></td></tr>
+		<tr><td>銷售總額</td><td><span id="NET_SALES" style="visibility: hidden;"></span></td></tr>
 		<tr><td>稅狀態碼</td><td><select id="TAX_CODE" style="visibility: hidden;"><option value="I">含稅</option><option value="N">不含稅</option></select></td></tr>
 	</table>
 	<table id="Last" style="visibility: hidden;">
-		<tr><td>訂單編號</td><td><p id="LastORDNO"></p></td></tr>
-		<tr><td>倉庫編號</td><td><p id="LastWHOUSE"></p></td></tr>
-		<tr><td>物料編號</td><td><p id="LastITEMNO"></p></td></tr>
-		<tr><td>物料分類</td><td><p id="LastITEMCLASS"></p></td></tr>
-		<tr><td>單位成本</td><td><p id="LastUNI_COST"></p></td></tr>
-		<tr><td>訂單數量</td><td><p id="LastQTYORD"></p></td></tr>
-		<tr><td>基本價格</td><td><p id="LastBASE_PRICE"></p></td></tr>
-		<tr><td>簽約價格</td><td><p id="LastPRICE_CNT"></p></td></tr>
-		<tr><td>折扣率(%)</td><td><p id="LastPERCENTDIS"></p></td></tr>
-		<tr><td>賣出價格</td><td><p id="LastPRICE_SELL"></p></td></tr>
-		<tr><td>銷售總額</td><td><p id="LastNET_SALES"></p></td></tr>
-		<tr><td>稅狀態碼</td><td><p id="LastTAX_CODE"></p></td></tr>
+		<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
+		<tr><td>倉庫編號</td><td><span id="LastWHOUSE"></span></td></tr>
+		<tr><td>物料編號</td><td><span id="LastITEMNO"></span></td></tr>
+		<tr><td>物料分類</td><td><span id="LastITEMCLASS"></span></td></tr>
+		<tr><td>單位成本</td><td><span id="LastUNI_COST"></span></td></tr>
+		<tr><td>訂單數量</td><td><span id="LastQTYORD"></span></td></tr>
+		<tr><td>基本價格</td><td><span id="LastBASE_PRICE"></span></td></tr>
+		<tr><td>簽約價格</td><td><span id="LastPRICE_CNT"></span></td></tr>
+		<tr><td>折扣率(%)</td><td><span id="LastPERCENTDIS"></span></td></tr>
+		<tr><td>賣出價格</td><td><span id="LastPRICE_SELL"></span></td></tr>
+		<tr><td>銷售總額</td><td><span id="LastNET_SALES"></span></td></tr>
+		<tr><td>稅狀態碼</td><td><span id="LastTAX_CODE"></span></td></tr>
 	</table>
 	<button id="Create" onclick="Create()">新增</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
