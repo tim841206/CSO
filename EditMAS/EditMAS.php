@@ -546,7 +546,6 @@ else {
     return;
 }
 
-// 連接資料庫
 function check_15($value) {
 	if (!empty($value) && strlen($value) > 15) {
 		return 1; // 長度超過上限
