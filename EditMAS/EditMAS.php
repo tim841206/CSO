@@ -596,12 +596,14 @@ function check_50_notnull($value) {
 function SearchSLSMAS($SALPERNO) {
 	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -625,12 +627,14 @@ function check_COMRATE($COMRATE) {
 function SearchCUSREGION($REGIONNO) {
 	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -640,12 +644,14 @@ function SearchCUSREGION($REGIONNO) {
 function SearchCUSMAS($CUSNO) {
 	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -713,12 +719,14 @@ function check_ADDNO_3($ADDNO_1, $ADDNO_2, $ADDNO_3) {
 function SearchCUSCITY($CITYNO) {
 	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -739,12 +747,14 @@ function check_REGIONNO_exist($REGIONNO) {
 function SearchCUSADD($CUSNO, $ADDNO) {
 	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -754,12 +764,14 @@ function SearchCUSADD($CUSNO, $ADDNO) {
 function SearchCUSADDCITY($CUSNO, $ADDNO) {
 	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ACTCODE'] == 1) {
-		return $fetch; // ok
-	}
-	elseif ($fetch['ACTCODE'] == 0) {
-		return 2; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
+		if ($fetch['ACTCODE'] == 1) {
+			return $fetch; // ok
+		}
+		elseif ($fetch['ACTCODE'] == 0) {
+			return 2; // 已刪除
+		}
 	}
 	else {
 		return 1; // 不存在

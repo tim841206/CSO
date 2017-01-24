@@ -5,14 +5,16 @@ if ($_POST['module'] == "SearchORDMAS") {
 	if ($_POST['event'] == "ORDNOSearchORDMAS") {
 		$ORDNO = $_POST['ORDNO'];
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO");
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'BACKCODE' => $fetch['BACKCODE'], 'INVOICENO' => $fetch['INVOICENO'], 'SALPERNO' => $fetch['SALPERNO'], 'TO_ORD_AMT' => $fetch['TO_ORD_AMT'], 'TO_SHP_AMT' => $fetch['TO_SHP_AMT'], 'ORD_INST' => $fetch['ORD_INST'], 'DATEORDORG' => $fetch['DATEORDORG'], 'ORDCOMPER' => $fetch['ORDCOMPER'], 'ORD_STAT' => $fetch['ORD_STAT'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
-			return;
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			echo json_encode(array('state' => 2));
-			return;
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'BACKCODE' => $fetch['BACKCODE'], 'INVOICENO' => $fetch['INVOICENO'], 'SALPERNO' => $fetch['SALPERNO'], 'TO_ORD_AMT' => $fetch['TO_ORD_AMT'], 'TO_SHP_AMT' => $fetch['TO_SHP_AMT'], 'ORD_INST' => $fetch['ORD_INST'], 'DATEORDORG' => $fetch['DATEORDORG'], 'ORDCOMPER' => $fetch['ORDCOMPER'], 'ORD_STAT' => $fetch['ORD_STAT'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+				return;
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				echo json_encode(array('state' => 2));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 1));
@@ -27,7 +29,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO");
+			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ACTCODE=1");
 			$result = Search("ORDMAT", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -47,7 +49,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO=$SALPERNO");
+			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1");
 			$result = Search("ORDMAS", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -62,7 +64,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 	elseif ($_POST['event'] == "ORDMATSearchORDMAS") {
 		$WHOUSE = $_POST['WHOUSE'];
 		$ITEMNO = $_POST['ITEMNO'];
-		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO AND ACTCODE=1");
 		if (mysql_num_rows($resource) == 0) {
 			return 1;
 		}
@@ -72,7 +74,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 				$ORDNO = array_push($ORDNO, $queryORDNO[0]);
 			}
 		}
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO IN $ORDNO");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO IN $ORDNO AND ACTCODE=1");
 		$result = Search("ORDMAS", $resource);
 		echo json_encode(array('state' => 0, 'table' => $result));
 		return;
@@ -91,12 +93,14 @@ function Check($master, $value) {
 	if ($master == "ORDMAS") {
 		$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在
@@ -105,12 +109,14 @@ function Check($master, $value) {
 	elseif ($master == "SLSMAS") {
 		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在

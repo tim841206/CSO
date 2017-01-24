@@ -10,7 +10,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO=$CUSNO");
+			$resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ACTCODE=1");
 			$result = Search("CUSADD", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -30,7 +30,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM CUSCITY WHERE REGIONNO=$REGIONNO");
+			$resource = mysql_query("SELECT * FROM CUSCITY WHERE REGIONNO=$REGIONNO AND ACTCODE=1");
 			$result = Search("CUSCITY", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -50,7 +50,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM CUSMAS WHERE SALPERNO=$SALPERNO");
+			$resource = mysql_query("SELECT * FROM CUSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1");
 			$result = Search("CUSMAS", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -70,7 +70,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM CUSADDCITY WHERE CITYNO=$CITYNO");
+			$resource = mysql_query("SELECT * FROM CUSADDCITY WHERE CITYNO=$CITYNO AND ACTCODE=1");
 			$result = Search("CUSADDCITY", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -96,12 +96,14 @@ function Check($master, $value) {
 	if ($master == "CUSMAS") {
 		$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在
@@ -110,12 +112,14 @@ function Check($master, $value) {
 	elseif ($master == "CUSREGION") {
 		$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在
@@ -124,12 +128,14 @@ function Check($master, $value) {
 	elseif ($master == "SLSMAS") {
 		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在
@@ -138,12 +144,14 @@ function Check($master, $value) {
 	elseif ($master == "CUSCITY") {
 		$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$value";
 		$result = mysql_query($sql);
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return 0; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 2; // 已刪除
+		if (mysql_num_rows($result) > 0) {
+			$fetch = mysql_fetch_array($result);
+			if ($fetch['ACTCODE'] == 1) {
+				return 0; // ok
+			}
+			else if ($fetch['ACTCODE'] == 0) {
+				return 2; // 已刪除
+			}
 		}
 		else {
 			return 1; // 不存在

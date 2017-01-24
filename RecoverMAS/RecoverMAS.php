@@ -200,11 +200,10 @@ else {
     return;
 }
 
-// 連接資料庫
 function check_SALPERNO($SALPERNO) {
 	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO";
 	$result = mysql_query($sql);
-	if ($fetch = mysql_fetch_row($result)) {
+	if ($fetch = mysql_fetch_array($result)) {
 		if ($fetch['ACTCODE'] == 0) {
 			return $fetch; // ok
 		}

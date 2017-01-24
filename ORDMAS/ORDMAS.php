@@ -561,7 +561,7 @@ function check_50($value) {
 }
 
 function check_SALPERNO_exist($SALPERNO) {
-	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO";
+	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		return 0; // 存在
@@ -572,7 +572,7 @@ function check_SALPERNO_exist($SALPERNO) {
 }
 
 function check_CUSNO_exist($SALPERNO, $CUSNO) {
-	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND SALPERNO=$SALPERNO";
+	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
@@ -583,7 +583,7 @@ function check_CUSNO_exist($SALPERNO, $CUSNO) {
 }
 
 function check_ADDNO_exist($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ADDNO_1'] != $ADDNO && $fetch['ADDNO_2'] != $ADDNO && $fetch['ADDNO_3'] != $ADDNO) {
@@ -597,9 +597,14 @@ function check_ADDNO_exist($CUSNO, $ADDNO) {
 function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 	$sql = "SELECT ORDNO FROM ORDMAS WHERE ORDNO=$ORDNO";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
-	if ($fetch['ACTCODE'] == 0) {
-		return 1; // 已刪除
+	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result)
+		if ($fetch['ACTCODE'] == 0) {
+			return 1; // 已刪除
+		}
+		else {
+			return query_ORDNO($ORDTYPE); // 還原
+		}
 	}
 	else {
 		return query_ORDNO($ORDTYPE); // 還原
@@ -626,8 +631,8 @@ function check_WHOUSE_exist($WHOUSE) {
 function check_ORDNO($ORDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=1";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
 	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
 		return $fetch; // ok
 	}
 	else {
@@ -638,8 +643,8 @@ function check_ORDNO($ORDNO) {
 function check_ORDNO_deleted($ORDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=0";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
 	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
 		return $fetch; // ok
 	}
 	else {
@@ -700,8 +705,8 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 function check_ORDMAT($ORDNO, $ITEMNO) {
 	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=1";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
 	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
 		return $fetch;
 	}
 	else {
@@ -712,8 +717,8 @@ function check_ORDMAT($ORDNO, $ITEMNO) {
 function check_ORDMAT_deleted($ORDNO, $ITEMNO) {
 	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=0";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
 	if (mysql_num_rows($result) > 0) {
+		$fetch = mysql_fetch_array($result);
 		return $fetch;
 	}
 	else {
@@ -729,7 +734,7 @@ function query_ORDNO($ORDTYPE) {
 		$sql = "SELECT VALUE FROM CSO_setup WHERE TYPENO='OS'";
 	}
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result)
+	$fetch = mysql_fetch_array($result);
 	return $fetch['VALUE'];
 }
 
