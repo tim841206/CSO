@@ -653,9 +653,9 @@ function SearchCUSMAS($CUSNO) {
 }
 
 function check_SALPERNO_exist($SALPERNO) {
-	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO";
+	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // 存在
 	}
 	else {
@@ -726,9 +726,9 @@ function SearchCUSCITY($CITYNO) {
 }
 
 function check_REGIONNO_exist($REGIONNO) {
-	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO=$REGIONNO";
+	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
@@ -767,9 +767,9 @@ function SearchCUSADDCITY($CUSNO, $ADDNO) {
 }
 
 function check_CITYNO_exist($CITYNO) {
-	$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO=$CITYNO";
+	$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
