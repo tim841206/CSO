@@ -81,7 +81,7 @@ if ($_POST['module'] == "ORDMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO ORDMAS (ORDNO, ORDTYPE, CUSNO, CUS_PO_NO, SHIP_ADD_NO, BILL_ADD_NO, BACKCODE, INVOICENO, SALPERNO, TO_ORD_AMT, TO_SHP_AMT, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, ORD_INST, ORDCOMPER, ORD_STAT, DATE_REQ, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($ORDNO, $ORDTYPE, $CUSNO, $CUS_PO_NO, $SHIP_ADD_NO, $BILL_ADD_NO, 0, 0, $SALPERNO, 0, 0, 0, 0, 0, $ORD_INST, 0, 'E', $DATE_REQ, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO ORDMAS (ORDNO, ORDTYPE, CUSNO, CUS_PO_NO, SHIP_ADD_NO, BILL_ADD_NO, BACKCODE, INVOICENO, SALPERNO, TO_ORD_AMT, TO_SHP_AMT, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, ORD_INST, ORDCOMPER, ORD_STAT, DATE_REQ, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$ORDNO', '$ORDTYPE', '$CUSNO', '$CUS_PO_NO', '$SHIP_ADD_NO', '$BILL_ADD_NO', 0, 0, '$SALPERNO', 0, 0, 0, 0, 0, '$ORD_INST', 0, 'E', '$DATE_REQ', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					if ($ORDTYPE == 'G') {
 						mysql_query("UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='OG'");
@@ -187,7 +187,7 @@ if ($_POST['module'] == "ORDMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO ORDMAT (ORDNO, ITEMNO, WHOUSE, UNI_COST, ITEMCLASS, QTYORD, QTYSHIP, QTYBAKORD, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ($ORDNO, $ITEMNO, $WHOUSE, $UNI_COST, $ITEMCLASS, $QTYORD, 0, $QTYORD, $BASE_PRICE, $PRICE_CNT, $PERCENTDIS, $PRICE_SELL, $NET_SALES, $TAX_CODE, $CREATEDATE, $UPDATEDATE, 1)";
+				$sql = "INSERT INTO ORDMAT (ORDNO, ITEMNO, WHOUSE, UNI_COST, ITEMCLASS, QTYORD, QTYSHIP, QTYBAKORD, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$ORDNO', '$ITEMNO', '$WHOUSE', '$UNI_COST', '$ITEMCLASS', '$QTYORD', 0, '$QTYORD', '$BASE_PRICE', '$PRICE_CNT', '$PERCENTDIS', '$PRICE_SELL', '$NET_SALES', '$TAX_CODE', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -210,9 +210,8 @@ if ($_POST['module'] == "ORDMAS") {
 	elseif ($_POST['event'] == "EditORDMAS") {
 		if ($_POST['option'] == "ORDNO") {
 			$result = check_ORDNO($_POST['ORDNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'SALPERNO' => $fetch['SALPERNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'ORD_INST' => $fetch['ORD_INST'], 'DATE_REQ' => $fetch['DATE_REQ']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $result['ORDTYPE'], 'CUSNO' => $result['CUSNO'], 'SALPERNO' => $result['SALPERNO'], 'CUS_PO_NO' => $result['CUS_PO_NO'], 'SHIP_ADD_NO' => $result['SHIP_ADD_NO'], 'BILL_ADD_NO' => $result['BILL_ADD_NO'], 'ORD_INST' => $result['ORD_INST'], 'DATE_REQ' => $result['DATE_REQ']));
 				return;
 			}
 			else {
@@ -252,7 +251,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$BILL_ADD_NO= $_POST['BILL_ADD_NO'];
 			$BILL_ADD_NO= $_POST['ORD_INST'];
 			$BILL_ADD_NO= $_POST['DATE_REQ'];
-			$result1 = is_resource(check_ORDNO($ORDNO))? 0 : check_ORDNO($ORDNO);
+			$result1 = is_array(check_ORDNO($ORDNO))? 0 : check_ORDNO($ORDNO);
 			$result2 = check_50($CUS_PO_NO);
 			$result3 = check_ADDNO_exist($SHIP_ADD_NO);
 			$result4 = check_ADDNO_exist($BILL_ADD_NO);
@@ -262,7 +261,7 @@ if ($_POST['module'] == "ORDMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE ORDMAS SET CUS_PO_NO=$CUS_PO_NO, SHIP_ADD_NO=$SHIP_ADD_NO, BILL_ADD_NO=$BILL_ADD_NO, ORD_INST=$ORD_INST, DATE_REQ=$DATE_REQ, UPDATEDATE=$UPDATEDATE WHERE ORDNO=$ORDNO";
+				$sql = "UPDATE ORDMAS SET CUS_PO_NO='$CUS_PO_NO', SHIP_ADD_NO='$SHIP_ADD_NO', BILL_ADD_NO='$BILL_ADD_NO', ORD_INST='$ORD_INST', DATE_REQ='$DATE_REQ', UPDATEDATE='$UPDATEDATE' WHERE ORDNO=$ORDNO";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -343,7 +342,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$NET_SALES = $_POST['NET_SALES'];
 			$TAX_CODE = $_POST['TAX_CODE'];
 			$result1 = check_ORDNO_valid($_POST['ORDNO']);
-			$result2 = check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
+			$result2 = is_array(check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']))? 0 : check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
 			$result3 = positive_notnull($_POST['QTYORD']);
 			$result4 = (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT']))? 0 : 1;
 			$result5 = ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100))? 0 : 1;
@@ -351,7 +350,7 @@ if ($_POST['module'] == "ORDMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE ORDMAT SET QTYORD=$QTYORD, PRICE_CNT=$PRICE_CNT, PERCENTDIS=$PERCENTDIS, PRICE_SELL=$PRICE_SELL, NET_SALES=$NET_SALES, TAX_CODE=$TAX_CODE, UPDATEDATE=$UPDATEDATE WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+				$sql = "UPDATE ORDMAT SET QTYORD='$QTYORD', PRICE_CNT='$PRICE_CNT', PERCENTDIS='$PERCENTDIS', PRICE_SELL='$PRICE_SELL', NET_SALES='$NET_SALES', TAX_CODE='$TAX_CODE', UPDATEDATE='$UPDATEDATE' WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -374,9 +373,8 @@ if ($_POST['module'] == "ORDMAS") {
 	elseif ($_POST['event'] == "DeleteORDMAS") {
 		if ($_POST['option'] == "ORDNO") {
 			$result = check_ORDNO($_POST['ORDNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'SALPERNO' => $fetch['SALPERNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'ORD_INST' => $fetch['ORD_INST'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $result['ORDTYPE'], 'CUSNO' => $result['CUSNO'], 'SALPERNO' => $result['SALPERNO'], 'CUS_PO_NO' => $result['CUS_PO_NO'], 'SHIP_ADD_NO' => $result['SHIP_ADD_NO'], 'BILL_ADD_NO' => $result['BILL_ADD_NO'], 'ORD_INST' => $result['ORD_INST'], 'DATE_REQ' => $result['DATE_REQ'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -388,7 +386,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ORDNO = $_POST['ORDNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAS SET UPDATEDATE=$UPDATEDATE, ACTCODE=0 WHERE ORDNO=$ORDNO";
+			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO=$ORDNO";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -406,7 +404,7 @@ if ($_POST['module'] == "ORDMAS") {
 	elseif ($_POST['event'] == "DeleteORDMAT") {
 		if ($_POST['option'] == "ORDNO") {
 			$result = check_ORDNO($_POST['ORDNO']);
-			if (is_resource($result)) {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0));
 				return;
 			}
@@ -417,9 +415,8 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		if ($_POST['option'] == "ITEMNO") {
 			$result = check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'WHOUSE' => $fetch['WHOUSE'], 'UNI_COST' => $fetch['UNI_COST'], 'ITEMCLASS' => $fetch['ITEMCLASS'], 'QTYORD' => $fetch['QTYORD'], 'QTYSHIP' => $fetch['QTYSHIP'], 'QTYBAKORD' => $fetch['QTYBAKORD'], 'BASE_PRICE' => $fetch['BASE_PRICE'], 'PRICE_CNT' => $fetch['PRICE_CNT'], 'PERCENTDIS' => $fetch['PERCENTDIS'], 'PRICE_SELL' => $fetch['PRICE_SELL'], 'NET_SALES' => $fetch['NET_SALES'], 'TAX_CODE' => $fetch['TAX_CODE'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'WHOUSE' => $result['WHOUSE'], 'UNI_COST' => $result['UNI_COST'], 'ITEMCLASS' => $result['ITEMCLASS'], 'QTYORD' => $result['QTYORD'], 'QTYSHIP' => $result['QTYSHIP'], 'QTYBAKORD' => $result['QTYBAKORD'], 'BASE_PRICE' => $result['BASE_PRICE'], 'PRICE_CNT' => $result['PRICE_CNT'], 'PERCENTDIS' => $result['PERCENTDIS'], 'PRICE_SELL' => $result['PRICE_SELL'], 'NET_SALES' => $result['NET_SALES'], 'TAX_CODE' => $result['TAX_CODE'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -432,7 +429,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ITEMNO = $_POST['ITEMNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAT SET UPDATEDATE=$UPDATEDATE, ACTCODE=0 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -450,9 +447,8 @@ if ($_POST['module'] == "ORDMAS") {
 	elseif ($_POST['event'] == "RecoverORDMAS") {
 		if ($_POST['option'] == "ORDNO") {
 			$result = check_ORDNO_deleted($_POST['ORDNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'SALPERNO' => $fetch['SALPERNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'ORD_INST' => $fetch['ORD_INST'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'ORDTYPE' => $result['ORDTYPE'], 'CUSNO' => $result['CUSNO'], 'SALPERNO' => $result['SALPERNO'], 'CUS_PO_NO' => $result['CUS_PO_NO'], 'SHIP_ADD_NO' => $result['SHIP_ADD_NO'], 'BILL_ADD_NO' => $result['BILL_ADD_NO'], 'ORD_INST' => $result['ORD_INST'], 'DATE_REQ' => $result['DATE_REQ'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -464,7 +460,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ORDNO = $_POST['ORDNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAS SET UPDATEDATE=$UPDATEDATE, ACTCODE=1 WHERE ORDNO=$ORDNO";
+			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO=$ORDNO";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -482,7 +478,7 @@ if ($_POST['module'] == "ORDMAS") {
 	elseif ($_POST['event'] == "RecoverORDMAT") {
 		if ($_POST['option'] == "ORDNO") {
 			$result = check_ORDNO($_POST['ORDNO']);
-			if (is_resource($result)) {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0));
 				return;
 			}
@@ -493,9 +489,8 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		if ($_POST['option'] == "ITEMNO") {
 			$result = check_ORDMAT_deleted($_POST['ORDNO'], $_POST['ITEMNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'WHOUSE' => $fetch['WHOUSE'], 'UNI_COST' => $fetch['UNI_COST'], 'ITEMCLASS' => $fetch['ITEMCLASS'], 'QTYORD' => $fetch['QTYORD'], 'QTYSHIP' => $fetch['QTYSHIP'], 'QTYBAKORD' => $fetch['QTYBAKORD'], 'BASE_PRICE' => $fetch['BASE_PRICE'], 'PRICE_CNT' => $fetch['PRICE_CNT'], 'PERCENTDIS' => $fetch['PERCENTDIS'], 'PRICE_SELL' => $fetch['PRICE_SELL'], 'NET_SALES' => $fetch['NET_SALES'], 'TAX_CODE' => $fetch['TAX_CODE'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'WHOUSE' => $result['WHOUSE'], 'UNI_COST' => $result['UNI_COST'], 'ITEMCLASS' => $result['ITEMCLASS'], 'QTYORD' => $result['QTYORD'], 'QTYSHIP' => $result['QTYSHIP'], 'QTYBAKORD' => $result['QTYBAKORD'], 'BASE_PRICE' => $result['BASE_PRICE'], 'PRICE_CNT' => $result['PRICE_CNT'], 'PERCENTDIS' => $result['PERCENTDIS'], 'PRICE_SELL' => $result['PRICE_SELL'], 'NET_SALES' => $result['NET_SALES'], 'TAX_CODE' => $result['TAX_CODE'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -508,7 +503,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ITEMNO = $_POST['ITEMNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAT SET UPDATEDATE=$UPDATEDATE, ACTCODE=1 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -568,7 +563,7 @@ function check_50($value) {
 function check_SALPERNO_exist($SALPERNO) {
 	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // 存在
 	}
 	else {
@@ -579,7 +574,7 @@ function check_SALPERNO_exist($SALPERNO) {
 function check_CUSNO_exist($SALPERNO, $CUSNO) {
 	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND SALPERNO=$SALPERNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
@@ -614,7 +609,7 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 function check_WHOUSE_exist($WHOUSE) {
 	$sql = "SELECT WHOUSE FROM WAREHOUSE WHERE WHOUSE=$WHOUSE";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return 2; // 已刪除
@@ -631,8 +626,9 @@ function check_WHOUSE_exist($WHOUSE) {
 function check_ORDNO($ORDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
-		return $result; // ok
+	$fetch = mysql_fetch_array($result);
+	if (mysql_num_rows($result) > 0) {
+		return $fetch; // ok
 	}
 	else {
 		return 1; // 不存在
@@ -642,8 +638,9 @@ function check_ORDNO($ORDNO) {
 function check_ORDNO_deleted($ORDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=0";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
-		return $result; // ok
+	$fetch = mysql_fetch_array($result);
+	if (mysql_num_rows($result) > 0) {
+		return $fetch; // ok
 	}
 	else {
 		return 1; // 不存在
@@ -653,7 +650,7 @@ function check_ORDNO_deleted($ORDNO) {
 function check_ORDNO_valid($ORDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 0) {
 			return 2; // 已刪除
@@ -671,14 +668,14 @@ function check_ORDNO_valid($ORDNO) {
 function check_ITEMNO($ORDNO, $ITEMNO) {
 	$sql = "SELECT * FROM ITMMAS WHERE ITEMNO=$ITEMNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['salable'] == 'N') {
 			return 2; // 不可賣
 		}
 		else {
 			$query = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO");
-			if (mysql_fetch_row($query)) {
+			if (mysql_num_rows($query) > 0) {
 				$queryORDMAT = mysql_fetch_array($query);
 				if ($queryORDMAT['ACTCODE'] == 0) {
 					return 3; // 已刪除
@@ -703,8 +700,9 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 function check_ORDMAT($ORDNO, $ITEMNO) {
 	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
-		return $result;
+	$fetch = mysql_fetch_array($result)
+	if (mysql_num_rows($result) > 0) {
+		return $fetch;
 	}
 	else {
 		return 1; // 不存在
@@ -714,8 +712,9 @@ function check_ORDMAT($ORDNO, $ITEMNO) {
 function check_ORDMAT_deleted($ORDNO, $ITEMNO) {
 	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=0";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
-		return $result;
+	$fetch = mysql_fetch_array($result)
+	if (mysql_num_rows($result) > 0) {
+		return $fetch;
 	}
 	else {
 		return 1; // 不存在

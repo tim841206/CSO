@@ -24,7 +24,7 @@
 	function Search() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
-		var data = "module=ExportMAS&event=ExportCUSADD&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
+		var data = "module=ExportMAS&event=ExportSLSMAS&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 

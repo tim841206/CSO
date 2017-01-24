@@ -85,7 +85,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("result_1").innerHTML = '';
+					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					init();
 					alert("成功列印發票");
@@ -110,7 +110,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("result_1").innerHTML = '';
+					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					init();
 					alert("成功重印發票");

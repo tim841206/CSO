@@ -71,24 +71,24 @@
 		}
 	}
 	function Refresh() {
-		document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-		document.getElementById("LastSALPERNM").value = document.getElementById("SALPERNM").value;
-		document.getElementById("LastEMPNO").value = document.getElementById("EMPNO").value;
-		document.getElementById("LastCOMRATE").value = document.getElementById("COMRATE").value;
-		document.getElementById("LastSALEAMTYTD").value = document.getElementById("SALEAMTYTD").value;
-		document.getElementById("LastSALEAMTSTD").value = document.getElementById("SALEAMTSTD").value;
-		document.getElementById("LastSALEAMTMTD").value = document.getElementById("SALEAMTMTD").value;
-		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
-		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
+		document.getElementById("LastSALPERNM").innerHTML = document.getElementById("SALPERNM").innerHTML;
+		document.getElementById("LastEMPNO").innerHTML = document.getElementById("EMPNO").innerHTML;
+		document.getElementById("LastCOMRATE").innerHTML = document.getElementById("COMRATE").innerHTML;
+		document.getElementById("LastSALEAMTYTD").innerHTML = document.getElementById("SALEAMTYTD").innerHTML;
+		document.getElementById("LastSALEAMTSTD").innerHTML = document.getElementById("SALEAMTSTD").innerHTML;
+		document.getElementById("LastSALEAMTMTD").innerHTML = document.getElementById("SALEAMTMTD").innerHTML;
+		document.getElementById("LastCREATEDATE").innerHTML = document.getElementById("CREATEDATE").innerHTML;
+		document.getElementById("LastUPDATEDATE").innerHTML = document.getElementById("UPDATEDATE").innerHTML;
 		document.getElementById("SALPERNO").value = null;
-		document.getElementById("SALPERNM").value = null;
-		document.getElementById("EMPNO").value = null;
-		document.getElementById("COMRATE").value = null;
-		document.getElementById("SALEAMTYTD").value = null;
-		document.getElementById("SALEAMTSTD").value = null;
-		document.getElementById("SALEAMTMTD").value = null;
-		document.getElementById("CREATEDATE").value = null;
-		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("SALPERNM").innerHTML = null;
+		document.getElementById("EMPNO").innerHTML = null;
+		document.getElementById("COMRATE").innerHTML = null;
+		document.getElementById("SALEAMTYTD").innerHTML = null;
+		document.getElementById("SALEAMTSTD").innerHTML = null;
+		document.getElementById("SALEAMTMTD").innerHTML = null;
+		document.getElementById("CREATEDATE").innerHTML = null;
+		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById("SALPERNO").readOnly = false;
 	}
 </script>

@@ -52,9 +52,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ORDNO").readOnly = true;
-					document.getElementById("ORDTYPE").value = data.ORDTYPE;
-					document.getElementById("CUSNO").value = data.CUSNO;
-					document.getElementById("SALPERNO").value = data.SALPERNO;
+					document.getElementById("ORDTYPE").innerHTML = data.ORDTYPE;
+					document.getElementById("CUSNO").innerHTML = data.CUSNO;
+					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
 					document.getElementById("CUS_PO_NO").value = data.CUS_PO_NO;
 					document.getElementById("SHIP_ADD_NO").value = data.SHIP_ADD_NO;
 					document.getElementById("BILL_ADD_NO").value = data.BILL_ADD_NO;
@@ -160,15 +160,15 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
-					document.getElementById("LastORDTYPE").value = document.getElementById("ORDTYPE").value;
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastCUS_PO_NO").value = document.getElementById("CUS_PO_NO").value;
-					document.getElementById("LastSHIP_ADD_NO").value = document.getElementById("SHIP_ADD_NO").value;
-					document.getElementById("LastBILL_ADD_NO").value = document.getElementById("BILL_ADD_NO").value;
-					document.getElementById("LastORD_INST").value = document.getElementById("ORD_INST").value;
-					document.getElementById("LastDATE_REQ").value = document.getElementById("DATE_REQ").value;
+					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
+					document.getElementById("LastORDTYPE").innerHTML = document.getElementById("ORDTYPE").innerHTML;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").innerHTML;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").innerHTML;
+					document.getElementById("LastCUS_PO_NO").innerHTML = document.getElementById("CUS_PO_NO").value;
+					document.getElementById("LastSHIP_ADD_NO").innerHTML = document.getElementById("SHIP_ADD_NO").value;
+					document.getElementById("LastBILL_ADD_NO").innerHTML = document.getElementById("BILL_ADD_NO").value;
+					document.getElementById("LastORD_INST").innerHTML = document.getElementById("ORD_INST").value;
+					document.getElementById("LastDATE_REQ").innerHTML = document.getElementById("DATE_REQ").value;
 					Refresh();
 				}
 				else if (data.state == 1) {
@@ -183,9 +183,9 @@
 	function Refresh() {
 		document.getElementById("ORDNO").readOnly = false;
 		document.getElementById("ORDNO").value = null;
-		document.getElementById("ORDTYPE").value = null;
-		document.getElementById("CUSNO").value = null;
-		document.getElementById("SALPERNO").value = null;
+		document.getElementById("ORDTYPE").innerHTML = null;
+		document.getElementById("CUSNO").innerHTML = null;
+		document.getElementById("SALPERNO").innerHTML = null;
 		document.getElementById("CUS_PO_NO").value = null;
 		document.getElementById("SHIP_ADD_NO").value = null;
 		document.getElementById("BILL_ADD_NO").value = null;

@@ -199,15 +199,15 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功，請繼續新增訂單材料");
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastORDTYPE").value = document.getElementById("ORDTYPE").value;
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
-					document.getElementById("LastCUS_PO_NO").value = document.getElementById("CUS_PO_NO").value;
-					document.getElementById("LastSHIP_ADD_NO").value = document.getElementById("SHIP_ADD_NO").value;
-					document.getElementById("LastBILL_ADD_NO").value = document.getElementById("BILL_ADD_NO").value;
-					document.getElementById("LastORD_INST").value = document.getElementById("ORD_INST").value;
-					document.getElementById("LastDATE_REQ").value = document.getElementById("DATE_REQ").value;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
+					document.getElementById("LastORDTYPE").innerHTML = document.getElementById("ORDTYPE").value;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
+					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
+					document.getElementById("LastCUS_PO_NO").innerHTML = document.getElementById("CUS_PO_NO").value;
+					document.getElementById("LastSHIP_ADD_NO").innerHTML = document.getElementById("SHIP_ADD_NO").value;
+					document.getElementById("LastBILL_ADD_NO").innerHTML = document.getElementById("BILL_ADD_NO").value;
+					document.getElementById("LastORD_INST").innerHTML = document.getElementById("ORD_INST").value;
+					document.getElementById("LastDATE_REQ").innerHTML = document.getElementById("DATE_REQ").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("CUSNO").value = null;
 					document.getElementById("ORDNO").value = null;

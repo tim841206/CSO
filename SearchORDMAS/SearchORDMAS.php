@@ -4,8 +4,7 @@ include_once("../resource/database.php");
 if ($_POST['module'] == "SearchORDMAS") {
 	if ($_POST['event'] == "ORDNOSearchORDMAS") {
 		$ORDNO = $_POST['ORDNO'];
-		$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO";
-		$result = mysql_query($sql);
+		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO");
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'BACKCODE' => $fetch['BACKCODE'], 'INVOICENO' => $fetch['INVOICENO'], 'SALPERNO' => $fetch['SALPERNO'], 'TO_ORD_AMT' => $fetch['TO_ORD_AMT'], 'TO_SHP_AMT' => $fetch['TO_SHP_AMT'], 'ORD_INST' => $fetch['ORD_INST'], 'DATEORDORG' => $fetch['DATEORDORG'], 'ORDCOMPER' => $fetch['ORDCOMPER'], 'ORD_STAT' => $fetch['ORD_STAT'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));

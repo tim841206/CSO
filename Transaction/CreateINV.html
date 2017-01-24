@@ -173,13 +173,13 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("新增成功");
-					document.getElementById("LastPCKLSTNO").value = document.getElementById("PCKLSTNO").value;
-					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
-					document.getElementById("LastITEMNO").value = document.getElementById("ITEMNO").value;
-					document.getElementById("LastREV_CODE").value = document.getElementById("REV_CODE").value;
-					document.getElementById("LastLOCNO").value = document.getElementById("LOCNO").value;
-					document.getElementById("LastQTYTRAN").value = document.getElementById("QTYTRAN").value;
-					document.getElementById("LastDATE_TRAN").value = document.getElementById("DATE_TRAN").value;
+					document.getElementById("LastPCKLSTNO").innerHTML = document.getElementById("PCKLSTNO").value;
+					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
+					document.getElementById("LastITEMNO").innerHTML = document.getElementById("ITEMNO").value;
+					document.getElementById("LastREV_CODE").innerHTML = document.getElementById("REV_CODE").value;
+					document.getElementById("LastLOCNO").innerHTML = document.getElementById("LOCNO").value;
+					document.getElementById("LastQTYTRAN").innerHTML = document.getElementById("QTYTRAN").value;
+					document.getElementById("LastDATE_TRAN").innerHTML = document.getElementById("DATE_TRAN").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}

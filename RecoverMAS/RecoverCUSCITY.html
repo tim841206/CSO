@@ -71,11 +71,11 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("恢復成功");
-					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("LastCITYNM").value = document.getElementById("CITYNM").value;
-					document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
-					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("LastCITYNO").innerHTML = document.getElementById("CITYNO").value;
+					document.getElementById("LastCITYNM").innerHTML = document.getElementById("CITYNM").innerHTML;
+					document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").innerHTML;
+					document.getElementById("LastCREATEDATE").innerHTML = document.getElementById("CREATEDATE").innerHTML;
+					document.getElementById("LastUPDATEDATE").innerHTML = document.getElementById("UPDATEDATE").innerHTML;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
@@ -87,10 +87,10 @@
 	}
 	function Refresh() {
 		document.getElementById("CITYNO").value = null;
-		document.getElementById("CITYNM").value = null;
-		document.getElementById("REGIONNO").value = null;
-		document.getElementById("CREATEDATE").value = null;
-		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CITYNM").innerHTML = null;
+		document.getElementById("REGIONNO").innerHTML = null;
+		document.getElementById("CREATEDATE").innerHTML = null;
+		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById("CITYNM").style.visibility = 'hidden';
 		document.getElementById("REGIONNO").style.visibility = 'hidden';
 		document.getElementById("CREATEDATE").style.visibility = 'hidden';

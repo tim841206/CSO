@@ -71,24 +71,24 @@
 		}
 	}
 	function Refresh() {
-		document.getElementById("LastREGIONNO").value = document.getElementById("REGIONNO").value;
-		document.getElementById("LastCHANNELNO").value = document.getElementById("CHANNELNO").value;
-		document.getElementById("LastCHANNELNM").value = document.getElementById("CHANNELNM").value;
-		document.getElementById("LastCOMPANYNO").value = document.getElementById("COMPANYNO").value;
-		document.getElementById("LastCOMPANYNM").value = document.getElementById("COMPANYNM").value;
-		document.getElementById("LastDISTRICTNO").value = document.getElementById("DISTRICTNO").value;
-		document.getElementById("LastDESCRIPTION").value = document.getElementById("DESCRIPTION").value;
-		document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
-		document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+		document.getElementById("LastREGIONNO").innerHTML = document.getElementById("REGIONNO").value;
+		document.getElementById("LastCHANNELNO").innerHTML = document.getElementById("CHANNELNO").innerHTML;
+		document.getElementById("LastCHANNELNM").innerHTML = document.getElementById("CHANNELNM").innerHTML;
+		document.getElementById("LastCOMPANYNO").innerHTML = document.getElementById("COMPANYNO").innerHTML;
+		document.getElementById("LastCOMPANYNM").innerHTML = document.getElementById("COMPANYNM").innerHTML;
+		document.getElementById("LastDISTRICTNO").innerHTML = document.getElementById("DISTRICTNO").innerHTML;
+		document.getElementById("LastDESCRIPTION").innerHTML = document.getElementById("DESCRIPTION").innerHTML;
+		document.getElementById("LastCREATEDATE").innerHTML = document.getElementById("CREATEDATE").innerHTML;
+		document.getElementById("LastUPDATEDATE").innerHTML = document.getElementById("UPDATEDATE").innerHTML;
 		document.getElementById("REGIONNO").value = null;
-		document.getElementById("CHANNELNO").value = null;
-		document.getElementById("CHANNELNM").value = null;
-		document.getElementById("COMPANYNO").value = null;
-		document.getElementById("COMPANYNM").value = null;
-		document.getElementById("DISTRICTNO").value = null;
-		document.getElementById("DESCRIPTION").value = null;
-		document.getElementById("CREATEDATE").value = null;
-		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CHANNELNO").innerHTML = null;
+		document.getElementById("CHANNELNM").innerHTML = null;
+		document.getElementById("COMPANYNO").innerHTML = null;
+		document.getElementById("COMPANYNM").innerHTML = null;
+		document.getElementById("DISTRICTNO").innerHTML = null;
+		document.getElementById("DESCRIPTION").innerHTML = null;
+		document.getElementById("CREATEDATE").innerHTML = null;
+		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById("REGIONNO").readOnly = false;
 	}
 </script>

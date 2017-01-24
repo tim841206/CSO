@@ -58,10 +58,10 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("table_month").value = data.table_month;
-					document.getElementById("table_season").value = data.table_season;
-					document.getElementById("table_year").value = data.table_year;
-					document.getElementById("table_ever").value = data.table_ever;
+					document.getElementById("table_month").innerHTML = data.table_month;
+					document.getElementById("table_season").innerHTML = data.table_season;
+					document.getElementById("table_year").innerHTML = data.table_year;
+					document.getElementById("table_ever").innerHTML = data.table_ever;
 				}
 				else if (data.state == 1) {
 					alert("資料庫讀取失敗");
@@ -80,10 +80,10 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("table_month").value = data.table_month;
-					document.getElementById("table_season").value = data.table_season;
-					document.getElementById("table_year").value = data.table_year;
-					document.getElementById("table_ever").value = data.table_ever;
+					document.getElementById("table_month").innerHTML = data.table_month;
+					document.getElementById("table_season").innerHTML = data.table_season;
+					document.getElementById("table_year").innerHTML = data.table_year;
+					document.getElementById("table_ever").innerHTML = data.table_ever;
 				}
 				else if (data.state == 1) {
 					alert("資料庫讀取失敗");
@@ -105,7 +105,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("renew").value = data.renew;
+					document.getElementById("renew").innerHTML = data.renew;
+					document.getElementById("Renew").style.visibility = 'hidden';
 					alert("刷新成功");
 				}
 				else if (data.state == 1) {

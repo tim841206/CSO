@@ -5,9 +5,8 @@ if ($_POST['module'] == "SearchMAS") {
 	if ($_POST['event'] == "SearchSLSMAS") {
 		if ($_POST['option'] == "Search") {
 			$result = SearchSLSMAS($_POST['Search']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'SALPERNM' => $fetch['SALPERNM'], 'EMPNO' => $fetch['EMPNO'], 'COMRATE' => $fetch['COMRATE'], 'SALEAMTYTD' => $fetch['SALEAMTYTD'], 'SALEAMTSTD' => $fetch['SALEAMTSTD'], 'SALEAMTMTD' => $fetch['SALEAMTMTD'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'SALPERNM' => $result['SALPERNM'], 'EMPNO' => $result['EMPNO'], 'COMRATE' => $result['COMRATE'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -23,9 +22,8 @@ if ($_POST['module'] == "SearchMAS") {
 	elseif ($_POST['event'] == "SearchCUSMAS") {
 		if ($_POST['check'] == "Search") {
 			$result = SearchCUSMAS($_POST['CUSNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'CUSNM' => $fetch['CUSNM'], 'ADDNO_1' => $fetch['ADDNO_1'], 'ADDNO_2' => $fetch['ADDNO_2'], 'ADDNO_3' => $fetch['ADDNO_3'], 'CITY' => $fetch['CITY'], 'COUNTY' => $fetch['COUNTY'], 'COUNTRY' => $fetch['COUNTRY'], 'ZCODE' => $fetch['ZCODE'], 'CNTPER' => $fetch['CNTPER'], 'TEL' => $fetch['TEL'], 'FAX' => $fetch['FAX'], 'EMAIL' => $fetch['EMAIL'], 'WSITE' => $fetch['WSITE'], 'SALPERNO' => $fetch['SALPERNO'], 'DFSHIPNO' => $fetch['DFSHIPNO'], 'DFBILLNO' => $fetch['DFBILLNO'], 'SALEAMTYTD' => $fetch['SALEAMTYTD'], 'SALEAMTSTD' => $fetch['SALEAMTSTD'], 'SALEAMTMTD' => $fetch['SALEAMTMTD'], 'CURAR' => $fetch['CURAR'], 'AR30_60' => $fetch['AR30_60'], 'AR60_90' => $fetch['AR60_90'], 'AR90_120' => $fetch['AR90_120'], 'M120AR' => $fetch['M120AR'], 'SPEINS' => $fetch['SPEINS'], 'CREDITSTAT' => $fetch['CREDITSTAT'], 'TAXID' => $fetch['TAXID'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADDNO_1' => $result['ADDNO_1'], 'ADDNO_2' => $result['ADDNO_2'], 'ADDNO_3' => $result['ADDNO_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'DFSHIPNO' => $result['DFSHIPNO'], 'DFBILLNO' => $result['DFBILLNO'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CURAR' => $result['CURAR'], 'AR30_60' => $result['AR30_60'], 'AR60_90' => $result['AR60_90'], 'AR90_120' => $result['AR90_120'], 'M120AR' => $result['M120AR'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -41,9 +39,8 @@ if ($_POST['module'] == "SearchMAS") {
 	elseif ($_POST['event'] == "SearchCUSADD") {
 		if ($_POST['option'] == "Search") {
 			$result = SearchCUSADD($_POST['CUSNO'], $_POST['ADDNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'ADD_1' => $fetch['ADD_1'], 'ADD_2' => $fetch['ADD_2'], 'ADD_3' => $fetch['ADD_3'], 'CITY' => $fetch['CITY'], 'COUNTY' => $fetch['COUNTY'], 'COUNTRY' => $fetch['COUNTRY'], 'ZCODE' => $fetch['ZCODE'], 'CNTPER' => $fetch['CNTPER'], 'TEL' => $fetch['TEL'], 'FAX' => $fetch['FAX'], 'EMAIL' => $fetch['EMAIL'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'ADD_1' => $result['ADD_1'], 'ADD_2' => $result['ADD_2'], 'ADD_3' => $result['ADD_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -59,9 +56,8 @@ if ($_POST['module'] == "SearchMAS") {
 	elseif ($_POST['event'] == "SearchCUSREGION") {
 		if ($_POST['check'] == "Search") {
 			$result = SearchCUSREGION($_POST['REGIONNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'CHANNELNO' => $fetch['CHANNELNO'], 'CHANNELNM' => $fetch['CHANNELNM'], 'COMPANYNO' => $fetch['COMPANYNO'], 'COMPANYNM' => $fetch['COMPANYNM'], 'DISTRICTNO' => $fetch['DISTRICTNO'], 'DESCRIPTION' => $fetch['DESCRIPTION'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'CHANNELNO' => $result['CHANNELNO'], 'CHANNELNM' => $result['CHANNELNM'], 'COMPANYNO' => $result['COMPANYNO'], 'COMPANYNM' => $result['COMPANYNM'], 'DISTRICTNO' => $result['DISTRICTNO'], 'DESCRIPTION' => $result['DESCRIPTION'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -77,9 +73,8 @@ if ($_POST['module'] == "SearchMAS") {
 	elseif ($_POST['event'] == "SearchCUSCITY") {
 		if ($_POST['option'] == "Search") {
 			$result = SearchCUSCITY($_POST['CITYNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'CITYNM' => $fetch['CITYNM'], 'REGIONNO' => $fetch['REGIONNO'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'CITYNM' => $result['CITYNM'], 'REGIONNO' => $result['REGIONNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -95,9 +90,8 @@ if ($_POST['module'] == "SearchMAS") {
 	elseif ($_POST['event'] == "SearchCUSADDCITY") {
 		if ($_POST['check'] == "Search") {
 			$result = SearchCUSADDCITY($_POST['CUSNO'], $_POST['ADDNO']);
-			if (is_resource($result)) {
-				$fetch = mysql_fetch_array($result);
-				echo json_encode(array('state' => 0, 'CUSNM' => $fetch['CUSNM'], 'CITYNO' => $fetch['CITYNO'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'CITYNO' => $result['CITYNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
 				return;
 			}
 			else {
@@ -126,7 +120,7 @@ function SearchSLSMAS($SALPERNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 2; // 已刪除
@@ -141,7 +135,7 @@ function SearchCUSMAS($CUSNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 2; // 已刪除
@@ -156,7 +150,7 @@ function SearchCUSREGION($REGIONNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 2; // 已刪除
@@ -171,7 +165,7 @@ function SearchCUSCITY($CITYNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 2; // 已刪除
@@ -195,7 +189,7 @@ function SearchCUSADD($CUSNO, $ADDNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 4; // 已刪除
@@ -219,7 +213,7 @@ function SearchCUSADDCITY($CUSNO, $ADDNO) {
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ACTCODE'] == 1) {
-		return $result; // ok
+		return $fetch; // ok
 	}
 	else if ($fetch['ACTCODE'] == 0) {
 		return 4; // 已刪除

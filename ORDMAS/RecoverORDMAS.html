@@ -56,16 +56,16 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ORDNO").readOnly = true;
-					document.getElementById("ORDTYPE").value = data.ORDTYPE;
-					document.getElementById("CUSNO").value = data.CUSNO;
-					document.getElementById("SALPERNO").value = data.SALPERNO;
-					document.getElementById("CUS_PO_NO").value = data.CUS_PO_NO;
-					document.getElementById("SHIP_ADD_NO").value = data.SHIP_ADD_NO;
-					document.getElementById("BILL_ADD_NO").value = data.BILL_ADD_NO;
-					document.getElementById("ORD_INST").value = data.ORD_INST;
-					document.getElementById("DATE_REQ").value = data.DATE_REQ;
-					document.getElementById("CREATEDATE").value = data.CREATEDATE;
-					document.getElementById("UPDATEDATE").value = data.UPDATEDATE;
+					document.getElementById("ORDTYPE").innerHTML = data.ORDTYPE;
+					document.getElementById("CUSNO").innerHTML = data.CUSNO;
+					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
+					document.getElementById("CUS_PO_NO").innerHTML = data.CUS_PO_NO;
+					document.getElementById("SHIP_ADD_NO").innerHTML = data.SHIP_ADD_NO;
+					document.getElementById("BILL_ADD_NO").innerHTML = data.BILL_ADD_NO;
+					document.getElementById("ORD_INST").innerHTML = data.ORD_INST;
+					document.getElementById("DATE_REQ").innerHTML = data.DATE_REQ;
+					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
 					document.getElementById('Delete').style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
@@ -86,17 +86,17 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("恢復成功");
-					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
-					document.getElementById("LastORDTYPE").value = document.getElementById("ORDTYPE").value;
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastSALPERNO").value = document.getElementById("SALPERNO").value;
-					document.getElementById("LastCUS_PO_NO").value = document.getElementById("CUS_PO_NO").value;
-					document.getElementById("LastSHIP_ADD_NO").value = document.getElementById("SHIP_ADD_NO").value;
-					document.getElementById("LastBILL_ADD_NO").value = document.getElementById("BILL_ADD_NO").value;
-					document.getElementById("LastORD_INST").value = document.getElementById("ORD_INST").value;
-					document.getElementById("LastDATE_REQ").value = document.getElementById("DATE_REQ").value;
-					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
-					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
+					document.getElementById("LastORDTYPE").innerHTML = document.getElementById("ORDTYPE").innerHTML;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").innerHTML;
+					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").innerHTML;
+					document.getElementById("LastCUS_PO_NO").innerHTML = document.getElementById("CUS_PO_NO").innerHTML;
+					document.getElementById("LastSHIP_ADD_NO").innerHTML = document.getElementById("SHIP_ADD_NO").innerHTML;
+					document.getElementById("LastBILL_ADD_NO").innerHTML = document.getElementById("BILL_ADD_NO").innerHTML;
+					document.getElementById("LastORD_INST").innerHTML = document.getElementById("ORD_INST").innerHTML;
+					document.getElementById("LastDATE_REQ").innerHTML = document.getElementById("DATE_REQ").innerHTML;
+					document.getElementById("LastCREATEDATE").innerHTML = document.getElementById("CREATEDATE").innerHTML;
+					document.getElementById("LastUPDATEDATE").innerHTML = document.getElementById("UPDATEDATE").innerHTML;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
@@ -109,16 +109,16 @@
 	function Refresh() {
 		document.getElementById("ORDNO").readOnly = false;
 		document.getElementById("ORDNO").value = null;
-		document.getElementById("ORDTYPE").value = null;
-		document.getElementById("CUSNO").value = null;
-		document.getElementById("SALPERNO").value = null;
-		document.getElementById("CUS_PO_NO").value = null;
-		document.getElementById("SHIP_ADD_NO").value = null;
-		document.getElementById("BILL_ADD_NO").value = null;
-		document.getElementById("ORD_INST").value = null;
-		document.getElementById("DATE_REQ").value = null;
-		document.getElementById("CREATEDATE").value = null;
-		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("ORDTYPE").innerHTML = null;
+		document.getElementById("CUSNO").innerHTML = null;
+		document.getElementById("SALPERNO").innerHTML = null;
+		document.getElementById("CUS_PO_NO").innerHTML = null;
+		document.getElementById("SHIP_ADD_NO").innerHTML = null;
+		document.getElementById("BILL_ADD_NO").innerHTML = null;
+		document.getElementById("ORD_INST").innerHTML = null;
+		document.getElementById("DATE_REQ").innerHTML = null;
+		document.getElementById("CREATEDATE").innerHTML = null;
+		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById('Delete').style.visibility = 'hidden';
 	}
 </script>

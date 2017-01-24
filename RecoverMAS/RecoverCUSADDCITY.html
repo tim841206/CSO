@@ -73,12 +73,12 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("恢復成功");
-					document.getElementById("LastCUSNO").value = document.getElementById("CUSNO").value;
-					document.getElementById("LastCUSNM").value = document.getElementById("CUSNM").value;
-					document.getElementById("LastADDNO").value = document.getElementById("ADDNO").value;
-					document.getElementById("LastCITYNO").value = document.getElementById("CITYNO").value;
-					document.getElementById("LastCREATEDATE").value = document.getElementById("CREATEDATE").value;
-					document.getElementById("LastUPDATEDATE").value = document.getElementById("UPDATEDATE").value;
+					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
+					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").innerHTML;
+					document.getElementById("LastADDNO").innerHTML = document.getElementById("ADDNO").value;
+					document.getElementById("LastCITYNO").innerHTML = document.getElementById("CITYNO").innerHTML;
+					document.getElementById("LastCREATEDATE").innerHTML = document.getElementById("CREATEDATE").innerHTML;
+					document.getElementById("LastUPDATEDATE").innerHTML = document.getElementById("UPDATEDATE").innerHTML;
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
@@ -91,10 +91,10 @@
 	function Refresh() {
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("ADDNO").value = null;
-		document.getElementById("CUSNM").value = null;
-		document.getElementById("CITYNO").value = null;
-		document.getElementById("CREATEDATE").value = null;
-		document.getElementById("UPDATEDATE").value = null;
+		document.getElementById("CUSNM").innerHTML = null;
+		document.getElementById("CITYNO").innerHTML = null;
+		document.getElementById("CREATEDATE").innerHTML = null;
+		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById("CUSNM").style.visibility = 'hidden';
 		document.getElementById("CITYNO").style.visibility = 'hidden';
 		document.getElementById("CREATEDATE").style.visibility = 'hidden';

@@ -84,15 +84,15 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ITEMNO").readOnly = true;
-					document.getElementById("WHOUSE").value = data.WHOUSE;
-					document.getElementById("ITEMCLASS").value = data.ITEMCLASS;
-					document.getElementById("UNI_COST").value = data.UNI_COST;
+					document.getElementById("WHOUSE").innerHTML = data.WHOUSE;
+					document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
+					document.getElementById("UNI_COST").innerHTML = data.UNI_COST;
 					document.getElementById("QTYORD").value = data.QTYORD;
-					document.getElementById("BASE_PRICE").value = data.BASE_PRICE;
+					document.getElementById("BASE_PRICE").innerHTML = data.BASE_PRICE;
 					document.getElementById("PRICE_CNT").value = data.PRICE_CNT;
 					document.getElementById("PERCENTDIS").value = data.PERCENTDIS;
-					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
-					document.getElementById("NET_SALES").value = data.NET_SALES;
+					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
+					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 					document.getElementById("TAX_CODE").value = data.TAX_CODE;
 					document.getElementById("WHOUSE").style.visibility = 'visible';
 					document.getElementById("ITEMCLASS").style.visibility = 'visible';
@@ -123,8 +123,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
-					document.getElementById("NET_SALES").value = data.NET_SALES;
+					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
+					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
 				else if (data.state == 1) {
 					alert("訂單數量為必填欄位");
@@ -146,8 +146,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
-					document.getElementById("NET_SALES").value = data.NET_SALES;
+					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
+					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
 				else if (data.state == 1) {
 					alert("簽約價格必須為數字");
@@ -166,8 +166,8 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("PRICE_SELL").value = data.PRICE_SELL;
-					document.getElementById("NET_SALES").value = data.NET_SALES;
+					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
+					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
 				else if (data.state == 1) {
 					alert("折扣率必須為不大於100的正數");
@@ -187,30 +187,29 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");
-					document.getElementById("LastORDNO").value = document.getElementById("ORDNO").value;
-					document.getElementById("LastITEMNO").value = document.getElementById("ITEMNO").value;
-					document.getElementById("LastWHOUSE").value = document.getElementById("WHOUSE").value;
-					document.getElementById("LastITEMCLASS").value = document.getElementById("ITEMCLASS").value;
-					document.getElementById("LastUNI_COST").value = document.getElementById("UNI_COST").value;
-					document.getElementById("LastQTYORD").value = document.getElementById("QTYORD").value;
-					document.getElementById("LastBASE_PRICE").value = document.getElementById("BASE_PRICE").value;
-					document.getElementById("LastPRICE_CNT").value = document.getElementById("PRICE_CNT").value;
-					document.getElementById("LastPERCENTDIS").value = document.getElementById("PERCENTDIS").value;
-					document.getElementById("LastPRICE_SELL").value = document.getElementById("PRICE_SELL").value;
-					document.getElementById("LastNET_SALES").value = document.getElementById("NET_SALES").value;
-					document.getElementById("LastTAX_CODE").value = document.getElementById("TAX_CODE").value;
+					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
+					document.getElementById("LastITEMNO").innerHTML = document.getElementById("ITEMNO").value;
+					document.getElementById("LastWHOUSE").innerHTML = document.getElementById("WHOUSE").innerHTML;
+					document.getElementById("LastITEMCLASS").innerHTML = document.getElementById("ITEMCLASS").innerHTML;
+					document.getElementById("LastUNI_COST").innerHTML = document.getElementById("UNI_COST").innerHTML;innerHTML
+					document.getElementById("LastQTYORD").innerHTML = document.getElementById("QTYORD").value;
+					document.getElementById("LastBASE_PRICE").innerHTML = document.getElementById("BASE_PRICE").innerHTML;
+					document.getElementById("LastPRICE_CNT").innerHTML = document.getElementById("PRICE_CNT").value;
+					document.getElementById("LastPERCENTDIS").innerHTML = document.getElementById("PERCENTDIS").value;
+					document.getElementById("LastPRICE_SELL").innerHTML = document.getElementById("PRICE_SELL").innerHTML;
+					document.getElementById("LastNET_SALES").innerHTML = document.getElementById("NET_SALES").innerHTML;
+					document.getElementById("LastTAX_CODE").innerHTML = document.getElementById("TAX_CODE").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("ITEMNO").value = null;
-					document.getElementById("WHOUSE").value = null;
-					document.getElementById("ITEMCLASS").value = null;
-					document.getElementById("UNI_COST").value = null;
+					document.getElementById("WHOUSE").innerHTML = null;
+					document.getElementById("ITEMCLASS").innerHTML = null;
+					document.getElementById("UNI_COST").innerHTML = null;
 					document.getElementById("QTYORD").value = null;
-					document.getElementById("BASE_PRICE").value = null;
+					document.getElementById("BASE_PRICE").innerHTML = null;
 					document.getElementById("PRICE_CNT").value = null;
 					document.getElementById("PERCENTDIS").value = null;
-					document.getElementById("PRICE_SELL").value = null;
-					document.getElementById("NET_SALES").value = null;
-					document.getElementById("TAX_CODE").value = null;
+					document.getElementById("PRICE_SELL").innerHTML = null;
+					document.getElementById("NET_SALES").innerHTML = null;
 					document.getElementById("WHOUSE").readOnly = false;
 					document.getElementById("ITEMNO").readOnly = false;
 					document.getElementById("WHOUSE").style.visibility = 'hidden';
@@ -237,16 +236,15 @@
 	function Refresh() {
 		document.getElementById("ORDNO").value = null;
 		document.getElementById("ITEMNO").value = null;
-		document.getElementById("WHOUSE").value = null;
-		document.getElementById("ITEMCLASS").value = null;
-		document.getElementById("UNI_COST").value = null;
+		document.getElementById("WHOUSE").innerHTML = null;
+		document.getElementById("ITEMCLASS").innerHTML = null;
+		document.getElementById("UNI_COST").innerHTML = null;
 		document.getElementById("QTYORD").value = null;
-		document.getElementById("BASE_PRICE").value = null;
+		document.getElementById("BASE_PRICE").innerHTML = null;
 		document.getElementById("PRICE_CNT").value = null;
 		document.getElementById("PERCENTDIS").value = null;
-		document.getElementById("PRICE_SELL").value = null;
-		document.getElementById("NET_SALES").value = null;
-		document.getElementById("TAX_CODE").value = null;
+		document.getElementById("PRICE_SELL").innerHTML = null;
+		document.getElementById("NET_SALES").innerHTML = null;
 		document.getElementById("ORDNO").readOnly = false;
 		document.getElementById("ITEMNO").readOnly = false;
 		document.getElementById("ITEMNO").style.visibility = 'hidden';
