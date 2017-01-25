@@ -13,8 +13,8 @@
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
 	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO"></td></tr>
-		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO"></td></tr>
+		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
 		<tr><td>地址 1</td><td><span id="ADD_1"></span></td></tr>
 		<tr><td>地址 2</td><td><span id="ADD_2"></span></td></tr>
 		<tr><td>地址 3</td><td><span id="ADD_3"></span></td></tr>
@@ -46,17 +46,16 @@
 		<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
 		<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
 	</table>
-	<button id="Search" onclick="Search()">搜尋</button>
 	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
-	function Search() {
+	function CUSNO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "RecoverMAS.php");
-		var data = "module=RecoverMAS&event=RecoverCUSADD&option=Search&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		var data = "module=RecoverMAS&event=RecoverCUSADD&option=CUSNO&CUSNO=" + document.getElementById("CUSNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -64,6 +63,27 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
+					document.getElementById("ADDNO").style.visibility = 'visible';
+				}
+				if (data.state == 1) {
+					alert("此顧客編號不存在");
+				}
+			}
+		}
+	}
+	function ADDNO() {
+		var request = new XMLHttpRequest();
+		request.open("POST", "RecoverMAS.php");
+		var data = "module=RecoverMAS&event=RecoverCUSADD&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.send(data);
+
+		request.onreadystatechange = function() {
+			if (request.readyState === 4 && request.status === 200) {
+				var data = JSON.parse(request.responseText);
+				if (data.state == 0) {
+					document.getElementById("ADDNO").readOnly = true;
 					document.getElementById("ADD_1").innerHTML = data.ADD_1;
 					document.getElementById("ADD_2").innerHTML = data.ADD_2;
 					document.getElementById("ADD_3").innerHTML = data.ADD_3;
@@ -79,8 +99,11 @@
 					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
 					document.getElementById('Recover').style.visibility = 'visible';
 				}
-				if (data.state == 1) {
-					alert("此顧客編號不存在");
+				else if (data.state == 1) {
+					alert("此顧客地址未被刪除");
+				}
+				else if (data.state == 2) {
+					alert("此顧客地址不存在");
 				}
 			}
 		}
@@ -122,6 +145,8 @@
 		}
 	}
 	function Refresh() {
+		document.getElementById("CUSNO").readOnly = false;
+		document.getElementById("ADDNO").readOnly = false;
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("ADDNO").value = null;
 		document.getElementById("ADD_1").innerHTML = null;
@@ -137,6 +162,7 @@
 		document.getElementById("EMAIL").innerHTML = null;
 		document.getElementById("CREATEDATE").innerHTML = null;
 		document.getElementById("UPDATEDATE").innerHTML = null;
+		document.getElementById("ADDNO").style.visibility = 'hidden';
 		document.getElementById("ADD_1").style.visibility = 'hidden';
 		document.getElementById("ADD_2").style.visibility = 'hidden';
 		document.getElementById("ADD_3").style.visibility = 'hidden';

@@ -743,9 +743,9 @@ function check_REGIONNO($REGIONNO) {
 }
 
 function check_REGIONNO_exist($REGIONNO) {
-	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
+	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO='$REGIONNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
+	if ($result != 0) {
 		return 0; // ok
 	}
 	else {

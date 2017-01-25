@@ -13,7 +13,7 @@
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
 	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO"></td></tr>
+		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
 		<tr><td>顧客名稱</td><td><span id="CUSNM"></span></td></tr>
 		<tr><td>地址編號 1</td><td><span id="ADDNO_1"></span></td></tr>
 		<tr><td>地址編號 2</td><td><span id="ADDNO_2"></span></td></tr>
@@ -76,17 +76,16 @@
 		<tr><td>建立時間</td><td><span id="LastCREATEDATE"></span></td></tr>
 		<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
 	</table>
-	<button id="Search" onclick="Search()">搜尋</button>
 	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
-	function Search() {
+	function CUSNO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "RecoverMAS.php");
-		var data = "module=RecoverMAS&event=RecoverCUSMAS&option=Recover&CUSNO=" + document.getElementById("CUSNO").value;
+		var data = "module=RecoverMAS&event=RecoverCUSMAS&option=CUSNO&CUSNO=" + document.getElementById("CUSNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -94,6 +93,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
 					document.getElementById("ADDNO_1").innerHTML = data.ADDNO_1;
 					document.getElementById("ADDNO_2").innerHTML = data.ADDNO_2;
@@ -185,6 +185,7 @@
 		}
 	}
 	function Refresh() {
+		document.getElementById("CUSNO").readOnly = false;
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("CUSNM").innerHTML = null;
 		document.getElementById("ADDNO_1").innerHTML = null;

@@ -13,7 +13,7 @@
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
 	<table>
-		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO"></td></tr>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
 		<tr><td>銷售員名稱</td><td><span id="SALPERNM"></span></td></tr>
 		<tr><td>員工編號</td><td><span id="EMPNO"></span></td></tr>
 		<tr><td>酬勞比率(%)</td><td><span id="COMRATE"></span></td></tr>
@@ -34,17 +34,16 @@
 		<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
 		<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
 	</table>
-	<button id="Search" onclick="Search()">搜尋</button>
 	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
-	function Search() {
+	function SALPERNO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "RecoverMAS.php");
-		var data = "module=RecoverMAS&event=RecoverSLSMAS&option=Search&SALPERNO=" + document.getElementById("SALPERNO").value;
+		var data = "module=RecoverMAS&event=RecoverSLSMAS&option=SALPERNO&SALPERNO=" + document.getElementById("SALPERNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -52,6 +51,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("SALPERNO").readOnly = true;
 					document.getElementById("SALPERNM").innerHTML = data.SALPERNM;
 					document.getElementById("EMPNO").innerHTML = data.EMPNO;
 					document.getElementById("COMRATE").innerHTML = data.COMRATE;
@@ -102,6 +102,7 @@
 		}
 	}
 	function Refresh() {
+		document.getElementById("SALPERNO").readOnly = false;
 		document.getElementById("SALPERNO").value = null;
 		document.getElementById("SALPERNM").innerHTML = null;
 		document.getElementById("EMPNO").innerHTML = null;

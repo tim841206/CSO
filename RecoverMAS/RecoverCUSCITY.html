@@ -13,7 +13,7 @@
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
 	<table>
-		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO"></td></tr>
+		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()"></td></tr>
 		<tr><td>城市名稱</td><td><span id="CITYNM"></span></td></tr>
 		<tr><td>所屬廠商暨地區編號</td><td><span id="REGIONNO"></span></td></tr>
 		<tr><td>建立日期</td><td><span id="CREATEDATE"></span></td></tr>
@@ -26,17 +26,16 @@
 		<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
 		<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
 	</table>
-	<button id="Search" onclick="Search()">搜尋</button>
 	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
 	<button id="Refresh" onclick="Refresh()">重新整理</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 </body>
 
 <script type="text/javascript">
-	function Search() {
+	function CITYNO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "RecoverMAS.php");
-		var data = "module=RecoverMAS&event=RecoverCUSCITY&option=Search&CITYNO=" + document.getElementById("CITYNO").value;
+		var data = "module=RecoverMAS&event=RecoverCUSCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -44,6 +43,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CITYNO").readOnly = true;
 					document.getElementById("CITYNM").innerHTML = data.CITYNM;
 					document.getElementById("REGIONNO").innerHTML = data.REGIONNO;
 					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
@@ -86,6 +86,7 @@
 		}
 	}
 	function Refresh() {
+		document.getElementById("CITYNO").readOnly = false;
 		document.getElementById("CITYNO").value = null;
 		document.getElementById("CITYNM").innerHTML = null;
 		document.getElementById("REGIONNO").innerHTML = null;
