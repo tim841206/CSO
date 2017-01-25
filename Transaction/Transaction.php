@@ -289,7 +289,7 @@ else {
 function check_PCKLSTNO($PCKLSTNO) {
 	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result) == 0) {
+	if ($result == false) {
 		return 1; // 不存在
 	}
 	else {
@@ -309,7 +309,7 @@ function check_PCKLSTNO($PCKLSTNO) {
 function check_ORDNO($ORDNO) {
 	$sql = "SELECT * FROM PCKLST WHERE ORDNO=$ORDNO";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result) == 0) {
+	if ($result == false) {
 		return 1; // 不存在
 	}
 	else {
@@ -329,7 +329,7 @@ function check_ORDNO($ORDNO) {
 function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO AND ACTCODE<=1";
 	$result = mysql_query($sql);
-	if (mysql_fetch_row($result)) {
+	if ($result != false) {
 		return 0; // ok
 	}
 	else {
@@ -344,12 +344,12 @@ function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
 	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
 	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
 	if ($REV_CODE == 'C') {
-		if (mysql_fetch_row($queryLOCBAL) == 0) {
+		if ($queryLOCBAL == false) {
 			return 1;
 		}
 	}
 	elseif ($REV_CODE == 'D') {
-		if (mysql_fetch_row($queryLOCMAS) == 0) {
+		if ($queryLOCMAS == false) {
 			return 2;
 		}
 		else {
@@ -394,7 +394,7 @@ function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN,
 	}
 	elseif ($REV_CODE == 'D') {
 		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal+'$QTYTRAN'";
-		if (mysql_fetch_row($queryITMBAL) == 0) {
+		if ($queryITMBAL == false) {
 			$sql_2 = "INSERT INTO LOCBAL (whouse, itemno, locno, qtyonhand, qtyperend, date_l_mnt, date_onhnd, date_fifo, Act_code) VALUES ('$WHOUSE', '$ITEMNO', '$LOCNO', '$QTYTRAN', 0, '$DATE_TRAN', '$DATE_TRAN', '$DATE_TRAN', 0)";
 		}
 		else {
@@ -478,7 +478,7 @@ function init($type) {
 	$ToDATE_TRAN = 0;
 	if ($type == 'PrintPCK') {
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R'");
-		if (mysql_num_rows($result) == 0) {
+		if ($result == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -497,7 +497,7 @@ function init($type) {
 	}
 	elseif ($type == 'PergePCK') {
 		$result = mysql_query("SELECT * FROM PCKLST WHERE ACTCODE=0");
-		if (mysql_num_rows($result) == 0) {
+		if ($result == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -518,7 +518,7 @@ function init($type) {
 	}
 	elseif ($type == 'SearchPCK') {
 		$result = mysql_query("SELECT * FROM PCKLST");
-		if (mysql_num_rows($result) == 0) {
+		if ($result == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -535,7 +535,7 @@ function init($type) {
 	}
 	elseif ($type == 'SearchINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0");
-		if (mysql_num_rows($result) == 0) {
+		if ($result == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -556,7 +556,7 @@ function init($type) {
 	}
 	elseif ($type == 'PrintINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0");
-		if (mysql_num_rows($result) == 0) {
+		if ($result == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -578,7 +578,7 @@ function init($type) {
 function Search($type, $data) {
 	if ($type == 'PrintPCK') {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -600,7 +600,7 @@ function Search($type, $data) {
 	}
 	elseif ($type == 'PergePCK') {
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -614,7 +614,7 @@ function Search($type, $data) {
 	}
 	elseif ($type == 'SearchPCK') {
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND ACTCODE=$data['ACTCODE']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -628,7 +628,7 @@ function Search($type, $data) {
 	}
 	elseif ($type == 'SearchINV') {
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0 AND INVOICENO>=$data['FromINVOICENO'] AND INVOICENO<=$data['ToINVOICENO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -642,7 +642,7 @@ function Search($type, $data) {
 	}
 	elseif ($type == 'PrintINV') {
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 1; // 無資料
 		}
 		else {
@@ -666,7 +666,7 @@ function Search($type, $data) {
 function Check($type, $data) {
 	if ($type == 'PrintPCK') {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 2; // 無資料
 		}
 		else {
@@ -706,7 +706,7 @@ function Check($type, $data) {
 	}
 	elseif ($type == 'PergePCK') {
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 2; // 無資料
 		}
 		else {
@@ -721,7 +721,7 @@ function Check($type, $data) {
 	}
 	if ($type == 'PrintINV') {
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN'] ORDER BY PCKLSTNO ASC, DATE_TRAN ASC");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 2; // 無資料
 		}
 		else {
@@ -756,7 +756,7 @@ function Check($type, $data) {
 function Reprint($type, $data) {
 	if ($type == 'PrintPCK') {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 2; // 無資料
 		}
 		else {
@@ -781,7 +781,7 @@ function Reprint($type, $data) {
 	}
 	elseif ($type == 'PrintINV') {
 		$resource = mysql_query("SELECT * FROM INVOICENO WHERE INVOICENO>0 AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN']");
-		if (mysql_num_rows($resource) == 0) {
+		if ($resource == false) {
 			return 2; // 無資料
 		}
 		else {

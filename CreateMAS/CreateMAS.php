@@ -569,7 +569,7 @@ function check_SALPERNO($SALPERNO) {
 		else {
 			$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 			$result = mysql_query($sql);
-			if (mysql_num_rows($result) > 0) {
+			if ($result != false) {
 				return 3; // 已存在
 			}
 			else {
@@ -582,7 +582,7 @@ function check_SALPERNO($SALPERNO) {
 function check_SALPERNO_exist($SALPERNO) {
 	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
+	if ($result != false) {
 		return 0; // 存在
 	}
 	else {
@@ -615,7 +615,7 @@ function check_CUSNO($CUSNO) {
 		else {
 			$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 			$result = mysql_query($sql);
-			if (mysql_num_rows($result) > 0) {
+			if ($result != false) {
 				return 3; // 已存在
 			}
 			else {
@@ -628,7 +628,7 @@ function check_CUSNO($CUSNO) {
 function check_CUSNO_exist($CUSNO) {
 	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
+	if ($result != false) {
 		return 0; // ok
 	}
 	else {
@@ -646,7 +646,7 @@ function check_ADDNO($CUSNO, $ADDNO) {
 	else {
 		$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			return 2; // 已存在
 		}
 		else {
@@ -712,7 +712,7 @@ function check_ADDNO_valid($CUSNO, $ADDNO) {
 	else {
 		$sql = "SELECT ADDNO FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO AND ACTCODE=1";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			return 2; // 已存在
 		}
 		else {
@@ -732,7 +732,7 @@ function check_REGIONNO($REGIONNO) {
 		else {
 			$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
 			$result = mysql_query($sql);
-			if (mysql_num_rows($result) > 0) {
+			if ($result != false) {
 				return 3; // 已存在
 			}
 			else {
@@ -745,7 +745,7 @@ function check_REGIONNO($REGIONNO) {
 function check_REGIONNO_exist($REGIONNO) {
 	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO='$REGIONNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if ($result != 0) {
+	if ($result != false) {
 		return 0; // ok
 	}
 	else {
@@ -764,7 +764,7 @@ function check_CITYNO($CITYNO) {
 		else {
 			$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
 			$result = mysql_query($sql);
-			if (mysql_num_rows($result) > 0) {
+			if ($result != false) {
 				return 3; // 已存在
 			}
 			else {
@@ -777,7 +777,7 @@ function check_CITYNO($CITYNO) {
 function check_CITYNO_exist($CITYNO) {
 	$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
+	if ($result != false) {
 		return 0; // ok
 	}
 	else {

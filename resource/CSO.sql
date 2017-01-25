@@ -186,7 +186,7 @@ CREATE TABLE `INVOICE` (
   `BILL_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `REV_CODE` varchar(1) COLLATE utf8_bin NOT NULL,
   `DATE_L_MNT` date NOT NULL,
-  `PRINTAG` varchar(1) COLLATE utf8_bin NOT NULL
+  `PRINTAG` tinyint(4) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單發票交易檔';
 
 -- --------------------------------------------------------
@@ -261,7 +261,7 @@ CREATE TABLE `PCKLST` (
   `QTYSHIPREQ` int(11) NOT NULL,
   `DATEPRTORG` date NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `PRINTAG` varchar(15) COLLATE utf8_bin NOT NULL,
+  `PRINTAG` tinyint(4) COLLATE utf8_bin NOT NULL,
   `DATE_SHIP` date DEFAULT NULL,
   `SHIP_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `WHOUSE` varchar(5) COLLATE utf8_bin NOT NULL,

@@ -96,7 +96,7 @@ function Check($master, $value) {
 	if ($master == "CUSMAS") {
 		$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$value";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			$fetch = mysql_fetch_array($result);
 			if ($fetch['ACTCODE'] == 1) {
 				return 0; // ok
@@ -112,7 +112,7 @@ function Check($master, $value) {
 	elseif ($master == "CUSREGION") {
 		$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$value";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			$fetch = mysql_fetch_array($result);
 			if ($fetch['ACTCODE'] == 1) {
 				return 0; // ok
@@ -128,7 +128,7 @@ function Check($master, $value) {
 	elseif ($master == "SLSMAS") {
 		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$value";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			$fetch = mysql_fetch_array($result);
 			if ($fetch['ACTCODE'] == 1) {
 				return 0; // ok
@@ -144,7 +144,7 @@ function Check($master, $value) {
 	elseif ($master == "CUSCITY") {
 		$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$value";
 		$result = mysql_query($sql);
-		if (mysql_num_rows($result) > 0) {
+		if ($result != false) {
 			$fetch = mysql_fetch_array($result);
 			if ($fetch['ACTCODE'] == 1) {
 				return 0; // ok

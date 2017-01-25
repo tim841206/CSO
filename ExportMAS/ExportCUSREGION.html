@@ -15,7 +15,7 @@
 	<p>請輸入廠商暨地區編號範圍</p>
 	<p><input type="text" name="FromREGIONNO" id="FromREGIONNO"> 到 <input type="text" name="ToREGIONNO" id="ToREGIONNO"></p>
 	<button id="Search" onclick="Search()">查詢</button>
-	<button id="Export" onclick="Export()">輸出</button>
+	<button id="Export" onclick="Export()" style="visibility: hidden;">輸出</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 	<p id="result"></p>
 </body>
@@ -24,14 +24,15 @@
 	function Search() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
-		var data = "module=ExportMAS&event=ExportCUSREGION&FromREGIONNO=" + document.getElementById("FromREGIONNO").value + "&ToREGIONNO=" + document.getElementById("ToREGIONNO").value;
+		var data = "module=ExportMAS&event=ExportCUSREGION&option=Search&FromREGIONNO=" + document.getElementById("FromREGIONNO").value + "&ToREGIONNO=" + document.getElementById("ToREGIONNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				
+				document.getElementById("result").innerHTML = data.table;
+				document.getElementById("Export").style.visibility = 'visible';
 			}
 		}
 	}
@@ -39,7 +40,7 @@
 	function Export() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
-		var data = "module=ExportMAS&event=ExportCUSREGION&FromREGIONNO=" + document.getElementById("FromREGIONNO").value + "&ToREGIONNO=" + document.getElementById("ToREGIONNO").value;
+		var data = "module=ExportMAS&event=ExportCUSREGION&option=Export&FromREGIONNO=" + document.getElementById("FromREGIONNO").value + "&ToREGIONNO=" + document.getElementById("ToREGIONNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -48,6 +49,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("已開始下載");
+				}
+				else if (data.state == 1) {
+					alert("輸出失敗");
 				}
 			}
 		}

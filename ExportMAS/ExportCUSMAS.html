@@ -15,7 +15,7 @@
 	<p>請輸入顧客編號範圍</p>
 	<p><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></p>
 	<button id="Search" onclick="Search()">查詢</button>
-	<button id="Export" onclick="Export()">輸出</button>
+	<button id="Export" onclick="Export()" style="visibility: hidden;">輸出</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 	<p id="result"></p>
 </body>
@@ -24,14 +24,15 @@
 	function Search() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
-		var data = "module=ExportMAS&event=ExportCUSMAS&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
+		var data = "module=ExportMAS&event=ExportCUSMAS&option=Search&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				
+				document.getElementById("result").innerHTML = data.table;
+				document.getElementById("Export").style.visibility = 'visible';
 			}
 		}
 	}
@@ -39,7 +40,7 @@
 	function Export() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ExportMAS.php");
-		var data = "module=ExportMAS&event=ExportCUSMAS&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
+		var data = "module=ExportMAS&event=ExportCUSMAS&option=Export&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -48,6 +49,9 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("已開始下載");
+				}
+				else if (data.state == 1) {
+					alert("輸出失敗");
 				}
 			}
 		}
