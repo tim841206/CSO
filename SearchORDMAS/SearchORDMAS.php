@@ -4,7 +4,7 @@ include_once("../resource/database.php");
 if ($_POST['module'] == "SearchORDMAS") {
 	if ($_POST['event'] == "ORDNOSearchORDMAS") {
 		$ORDNO = $_POST['ORDNO'];
-		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO");
+		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO'");
 		if (mysql_num_rows($result) > 0) {
 			$fetch = mysql_fetch_array($result);
 			if ($fetch['ACTCODE'] == 1) {
@@ -29,7 +29,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ACTCODE=1");
+			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ACTCODE=1");
 			$result = Search("ORDMAT", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -49,7 +49,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			return;
 		}
 		else {
-			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1");
+			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1");
 			$result = Search("ORDMAS", $resource);
 			if ($result == 0) {
 				echo json_encode(array('state' => 3));
@@ -64,7 +64,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 	elseif ($_POST['event'] == "ORDMATSearchORDMAS") {
 		$WHOUSE = $_POST['WHOUSE'];
 		$ITEMNO = $_POST['ITEMNO'];
-		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO AND ACTCODE=1");
+		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO' AND ACTCODE=1");
 		if (mysql_num_rows($resource) == 0) {
 			return 1;
 		}
@@ -91,7 +91,7 @@ else {
 
 function Check($master, $value) {
 	if ($master == "ORDMAS") {
-		$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$value";
+		$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$value'";
 		$result = mysql_query($sql);
 		if (mysql_num_rows($result) > 0) {
 			$fetch = mysql_fetch_array($result);
@@ -107,7 +107,7 @@ function Check($master, $value) {
 		}
 	}
 	elseif ($master == "SLSMAS") {
-		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$value";
+		$sql = "SELECT * FROM SLSMAS WHERE SALPERNO='$value'";
 		$result = mysql_query($sql);
 		if (mysql_num_rows($result) > 0) {
 			$fetch = mysql_fetch_array($result);

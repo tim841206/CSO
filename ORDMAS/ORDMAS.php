@@ -261,7 +261,7 @@ if ($_POST['module'] == "ORDMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE ORDMAS SET CUS_PO_NO='$CUS_PO_NO', SHIP_ADD_NO='$SHIP_ADD_NO', BILL_ADD_NO='$BILL_ADD_NO', ORD_INST='$ORD_INST', DATE_REQ='$DATE_REQ', UPDATEDATE='$UPDATEDATE' WHERE ORDNO=$ORDNO";
+				$sql = "UPDATE ORDMAS SET CUS_PO_NO='$CUS_PO_NO', SHIP_ADD_NO='$SHIP_ADD_NO', BILL_ADD_NO='$BILL_ADD_NO', ORD_INST='$ORD_INST', DATE_REQ='$DATE_REQ', UPDATEDATE='$UPDATEDATE' WHERE ORDNO='$ORDNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -350,7 +350,7 @@ if ($_POST['module'] == "ORDMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE ORDMAT SET QTYORD='$QTYORD', PRICE_CNT='$PRICE_CNT', PERCENTDIS='$PERCENTDIS', PRICE_SELL='$PRICE_SELL', NET_SALES='$NET_SALES', TAX_CODE='$TAX_CODE', UPDATEDATE='$UPDATEDATE' WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+				$sql = "UPDATE ORDMAT SET QTYORD='$QTYORD', PRICE_CNT='$PRICE_CNT', PERCENTDIS='$PERCENTDIS', PRICE_SELL='$PRICE_SELL', NET_SALES='$NET_SALES', TAX_CODE='$TAX_CODE', UPDATEDATE='$UPDATEDATE' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -386,7 +386,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ORDNO = $_POST['ORDNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO=$ORDNO";
+			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO='$ORDNO'";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -429,7 +429,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ITEMNO = $_POST['ITEMNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -460,7 +460,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ORDNO = $_POST['ORDNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO=$ORDNO";
+			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO='$ORDNO'";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -503,7 +503,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$ITEMNO = $_POST['ITEMNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
-			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 			if (mysql_query($sql)) {
 				echo json_encode(array('state' => 0));
 				return;
@@ -561,7 +561,7 @@ function check_50($value) {
 }
 
 function check_SALPERNO_exist($SALPERNO) {
-	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
+	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		return 0; // 存在
@@ -572,7 +572,7 @@ function check_SALPERNO_exist($SALPERNO) {
 }
 
 function check_CUSNO_exist($SALPERNO, $CUSNO) {
-	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO=$CUSNO AND SALPERNO=$SALPERNO AND ACTCODE=1";
+	$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO='$CUSNO' AND SALPERNO='$SALPERNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
@@ -583,7 +583,7 @@ function check_CUSNO_exist($SALPERNO, $CUSNO) {
 }
 
 function check_ADDNO_exist($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO AND ACTCODE=1";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO='$CUSNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
 	$fetch = mysql_fetch_array($result);
 	if ($fetch['ADDNO_1'] != $ADDNO && $fetch['ADDNO_2'] != $ADDNO && $fetch['ADDNO_3'] != $ADDNO) {
@@ -595,7 +595,7 @@ function check_ADDNO_exist($CUSNO, $ADDNO) {
 }
 
 function check_ORDNO_exist($ORDNO, $ORDTYPE) {
-	$sql = "SELECT ORDNO FROM ORDMAS WHERE ORDNO=$ORDNO";
+	$sql = "SELECT ORDNO FROM ORDMAS WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result)
@@ -612,7 +612,7 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 }
 
 function check_WHOUSE_exist($WHOUSE) {
-	$sql = "SELECT WHOUSE FROM WAREHOUSE WHERE WHOUSE=$WHOUSE";
+	$sql = "SELECT WHOUSE FROM WAREHOUSE WHERE WHOUSE='$WHOUSE'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -629,7 +629,7 @@ function check_WHOUSE_exist($WHOUSE) {
 }
 
 function check_ORDNO($ORDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=1";
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO' WHERE ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -641,7 +641,7 @@ function check_ORDNO($ORDNO) {
 }
 
 function check_ORDNO_deleted($ORDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO WHERE ACTCODE=0";
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO' WHERE ACTCODE=0";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -653,7 +653,7 @@ function check_ORDNO_deleted($ORDNO) {
 }
 
 function check_ORDNO_valid($ORDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO";
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -671,7 +671,7 @@ function check_ORDNO_valid($ORDNO) {
 }
 
 function check_ITEMNO($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ITMMAS WHERE ITEMNO=$ITEMNO";
+	$sql = "SELECT * FROM ITMMAS WHERE ITEMNO='$ITEMNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -679,7 +679,7 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 			return 2; // 不可賣
 		}
 		else {
-			$query = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO");
+			$query = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
 			if (mysql_num_rows($query) > 0) {
 				$queryORDMAT = mysql_fetch_array($query);
 				if ($queryORDMAT['ACTCODE'] == 0) {
@@ -703,7 +703,7 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=1";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' WHERE ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -715,7 +715,7 @@ function check_ORDMAT($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT_deleted($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO WHERE ACTCODE=0";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' WHERE ACTCODE=0";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);

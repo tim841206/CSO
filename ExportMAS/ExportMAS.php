@@ -5,7 +5,7 @@ if ($_POST['module'] == "ExportMAS") {
     if ($_POST['event'] == "ExportSLSMAS") {
         $FromSALPERNO = $_POST['FromSALPERNO'];
         $ToSALPERNO = $_POST['ToSALPERNO'];
-        $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>=FromSALPERNO AND SALPERNO<=ToSALPERNO AND ACTCODE=1");
+        $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
             echo json_encode(array('table' => Export("SLSMAS", $resource)));
             return;
@@ -28,7 +28,7 @@ if ($_POST['module'] == "ExportMAS") {
     elseif ($_POST['event'] == "ExportCUSMAS") {
         $FromCUSNO = $_POST['FromCUSNO'];
         $ToCUSNO = $_POST['ToCUSNO'];
-        $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>=FromCUSNO AND CUSNO<=ToCUSNO AND ACTCODE=1");
+        $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
             echo json_encode(array('table' => Export("CUSMAS", $resource)));
             return;
@@ -51,7 +51,7 @@ if ($_POST['module'] == "ExportMAS") {
     elseif ($_POST['event'] == "ExportCUSADD") {
         $FromCUSNO = $_POST['FromCUSNO'];
         $ToCUSNO = $_POST['ToCUSNO'];
-        $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>=FromCUSNO AND CUSNO<=ToCUSNO AND ACTCODE=1");
+        $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
             echo json_encode(array('table' => Export("CUSADD", $resource)));
             return;
@@ -74,7 +74,7 @@ if ($_POST['module'] == "ExportMAS") {
     elseif ($_POST['event'] == "ExportCUSREGION") {
         $FromREGIONNO = $_POST['FromREGIONNO'];
         $ToREGIONNO = $_POST['ToREGIONNO'];
-        $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>=FromREGIONNO AND REGIONNO<=ToREGIONNO AND ACTCODE=1");
+        $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>='$FromREGIONNO' AND REGIONNO<='$ToREGIONNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
             echo json_encode(array('table' => Export("CUSREGION", $resource)));
             return;
@@ -97,7 +97,7 @@ if ($_POST['module'] == "ExportMAS") {
     elseif ($_POST['event'] == "ExportCUSCITY") {
         $FromCITYNO = $_POST['FromCITYNO'];
         $ToCITYNO = $_POST['ToCITYNO'];
-        $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>=FromCITYNO AND CITYNO<=ToCITYNO AND ACTCODE=1");
+        $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>='$FromCITYNO' AND CITYNO<='$ToCITYNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
             echo json_encode(array('table' => Export("CUSCITY", $resource)));
         return;

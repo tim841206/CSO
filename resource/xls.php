@@ -6,35 +6,35 @@ include_once("../resource/database.php");
 if ($_POST['type'] == "SLSMAS") {
     $FromSALPERNO = $_POST['FromSALPERNO'];
     $ToSALPERNO = $_POST['ToSALPERNO'];
-    $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>=FromSALPERNO AND SALPERNO<=ToSALPERNO AND ACTCODE=1");
+    $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ACTCODE=1");
     Export("SLSMAS", $resource);
     echo 0;
 }
 elseif ($_POST['type'] == "CUSMAS") {
     $FromCUSNO = $_POST['FromCUSNO'];
     $ToCUSNO = $_POST['ToCUSNO'];
-    $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>=FromCUSNO AND CUSNO<=ToCUSNO AND ACTCODE=1");
+    $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
     Export("CUSMAS", $resource);
     echo 0;
 }
 elseif ($_POST['type'] == "CUSADD") {
     $FromCUSNO = $_POST['FromCUSNO'];
     $ToCUSNO = $_POST['ToCUSNO'];
-    $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>=FromCUSNO AND CUSNO<=ToCUSNO AND ACTCODE=1");
+    $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
     Export("CUSADD", $resource);
     echo 0;
 }
 elseif ($_POST['type'] == "CUSREGION") {
     $FromREGIONNO = $_POST['FromREGIONNO'];
     $ToREGIONNO = $_POST['ToREGIONNO'];
-    $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>=FromREGIONNO AND REGIONNO<=ToREGIONNO AND ACTCODE=1");
+    $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>='$FromREGIONNO' AND REGIONNO<='$ToREGIONNO' AND ACTCODE=1");
     Export("CUSREGION", $resource);
     echo 0;
 }
 elseif ($_POST['type'] == "CUSCITY") {
     $FromCITYNO = $_POST['FromCITYNO'];
     $ToCITYNO = $_POST['ToCITYNO'];
-    $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>=FromCITYNO AND CITYNO<=ToCITYNO AND ACTCODE=1");
+    $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>='$FromCITYNO' AND CITYNO<='$ToCITYNO' AND ACTCODE=1");
     Export("CUSCITY", $resource);
     echo 0;
 }

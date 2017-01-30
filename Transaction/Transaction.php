@@ -55,9 +55,9 @@ if ($_POST['module'] == "Transaction") {
 			$result5 = check_QTYTRAN($ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5;
 			if ($result == 0) {
-				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO");
+				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
 				$fetchORDMAT = mysql_fetch_array($queryORDMAT);
-				$queryORDMAS = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO=$ORDNO");
+				$queryORDMAS = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO'");
 				$fetchORDMAS = mysql_fetch_array($queryORDMAS);
 				$CUSNO = $fetchORDMAS['CUSNO'];
 				$UNI_COST = $fetchORDMAT['UNI_COST'];
@@ -287,9 +287,9 @@ else {
 }
 
 function check_PCKLSTNO($PCKLSTNO) {
-	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO";
+	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'";
 	$result = mysql_query($sql);
-	if ($result == false) {
+	if (mysql_num_rows($result) == 0) {
 		return 1; // 不存在
 	}
 	else {
@@ -307,9 +307,9 @@ function check_PCKLSTNO($PCKLSTNO) {
 }
 
 function check_ORDNO($ORDNO) {
-	$sql = "SELECT * FROM PCKLST WHERE ORDNO=$ORDNO";
+	$sql = "SELECT * FROM PCKLST WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
-	if ($result == false) {
+	if (mysql_num_rows($result) == 0) {
 		return 1; // 不存在
 	}
 	else {
@@ -327,7 +327,7 @@ function check_ORDNO($ORDNO) {
 }
 
 function check_ITEMNO($PCKLSTNO, $ITEMNO) {
-	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO AND ACTCODE<=1";
+	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO' AND ACTCODE<=1";
 	$result = mysql_query($sql);
 	if ($result != false) {
 		return 0; // ok
@@ -338,11 +338,11 @@ function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 }
 
 function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
-	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO=$PCKLSTNO");
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO='$PCKLSTNO'");
 	$fetch = mysql_fetch_array($query);
 	$WHOUSE = $fetch['WHOUSE'];
-	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
-	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
+	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'");
+	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'");
 	if ($REV_CODE == 'C') {
 		if ($queryLOCBAL == false) {
 			return 1;
@@ -359,14 +359,14 @@ function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
 }
 
 function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
-	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'");
 	$fetch = mysql_fetch_array($query);
 	$WHOUSE = $fetch['WHOUSE'];
-	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO");
+	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'");
 	$fetchLOCMAS = mysql_fetch_array($queryLOCMAS);
-	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO");
+	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'");
 	$fetchLOCBAL = mysql_fetch_array($queryLOCBAL);
-	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'");
 	$fetchITMBAL = mysql_fetch_array($queryITMBAL);
 	if ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCMAS['qtytotal']) {
 		return 1;
@@ -383,24 +383,24 @@ function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
 }
 
 function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN, $NET_SALES) {
-	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO=$PCKLSTNO");
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'");
 	$fetch = mysql_fetch_array($query);
 	$WHOUSE = $fetch['WHOUSE'];
-	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE=$WHOUSE AND ITEMNO=$ITEMNO");
+	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'");
 	if ($REV_CODE == 'C') {
-		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal-'$QTYTRAN' WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO";
-		$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand-'$QTYTRAN', date_onhnd='$DATE_TRAN', date_fifo='$DATE_TRAN' WHERE WHOUSE=$WHOUSE AND LOCNO=$LOCNO AND ITEMNO=$ITEMNO";
-		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd+'$QTYTRAN', saleamtptd=saleamtptd+'$NET_SALES', qtysoldstd=qtysoldstd+'$QTYTRAN', saleamtstd=saleamtstd+'$NET_SALES', qtysoldytd=qtysoldytd+'$QTYTRAN', saleamtytd=saleamtytd+'$NET_SALES', qtyonhand=qtyonhand-'$QTYTRAN', date_onhnd='$DATE_TRAN', date_sales='$DATE_TRAN'";
+		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal-'$QTYTRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'";
+		$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand-'$QTYTRAN', date_onhnd='$DATE_TRAN', date_fifo='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'";
+		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd+'$QTYTRAN', saleamtptd=saleamtptd+'$NET_SALES', qtysoldstd=qtysoldstd+'$QTYTRAN', saleamtstd=saleamtstd+'$NET_SALES', qtysoldytd=qtysoldytd+'$QTYTRAN', saleamtytd=saleamtytd+'$NET_SALES', qtyonhand=qtyonhand-'$QTYTRAN', date_onhnd='$DATE_TRAN', date_sales='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'";
 	}
 	elseif ($REV_CODE == 'D') {
-		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal+'$QTYTRAN'";
+		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal+'$QTYTRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'";
 		if ($queryITMBAL == false) {
 			$sql_2 = "INSERT INTO LOCBAL (whouse, itemno, locno, qtyonhand, qtyperend, date_l_mnt, date_onhnd, date_fifo, Act_code) VALUES ('$WHOUSE', '$ITEMNO', '$LOCNO', '$QTYTRAN', 0, '$DATE_TRAN', '$DATE_TRAN', '$DATE_TRAN', 0)";
 		}
 		else {
-			$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_fifo='$DATE_TRAN'";
+			$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_fifo='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'";
 		}
-		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd-'$QTYTRAN', saleamtptd=saleamtptd-'$NET_SALES', qtysoldstd=qtysoldstd-'$QTYTRAN', saleamtstd=saleamtstd-'$NET_SALES', qtysoldytd=qtysoldytd-'$QTYTRAN', saleamtytd=saleamtytd-'$NET_SALES', qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_sales='$DATE_TRAN'";
+		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd-'$QTYTRAN', saleamtptd=saleamtptd-'$NET_SALES', qtysoldstd=qtysoldstd-'$QTYTRAN', saleamtstd=saleamtstd-'$NET_SALES', qtysoldytd=qtysoldytd-'$QTYTRAN', saleamtytd=saleamtytd-'$NET_SALES', qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_sales='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
 		return 1;
@@ -418,16 +418,16 @@ function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN,
 
 function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $REV_CODE) {
 	if ($REV_CODE == 'C') {
-		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE CUSNO=$CUSNO";
-		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE SALPERNO=$SALPERNO";
-		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+'$NET_SALES', ORDCOMPER=(TO_SHP_AMT+'$NET_SALES')/TO_ORD_AMT WHERE ORDNO=$ORDNO";
-		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP-'$QTYTRAN', NET_SALES=NET_SALES+'$NET_SALES' WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE CUSNO='$CUSNO'";
+		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+'$NET_SALES', ORDCOMPER=(TO_SHP_AMT+'$NET_SALES')/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP-'$QTYTRAN', NET_SALES=NET_SALES+'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	elseif ($REV_CODE == 'D') {
-		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE CUSNO=$CUSNO";
-		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE SALPERNO=$SALPERNO";
-		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-'$NET_SALES', ORDCOMPER=(TO_SHP_AMT-'$NET_SALES')/TO_ORD_AMT WHERE ORDNO=$ORDNO";
-		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP+'$QTYTRAN', NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO=$ORDNO AND ITEMNO=$ITEMNO";
+		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE CUSNO='$CUSNO'";
+		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-'$NET_SALES', ORDCOMPER=(TO_SHP_AMT-'$NET_SALES')/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP+'$QTYTRAN', NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
 		return 1;
@@ -448,10 +448,10 @@ function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $R
 
 function change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE) {
 	if ($REV_CODE == 'C') {
-		$sql = "UPDATE PCKLST SET DATE_SHIP='$DATE_TRAN', ACTCODE=1, QTYSHIPREQ=QTYSHIPREQ-'$QTYTRAN', LOCNO='$LOCNO' WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO";
+		$sql = "UPDATE PCKLST SET DATE_SHIP='$DATE_TRAN', ACTCODE=1, QTYSHIPREQ=QTYSHIPREQ-'$QTYTRAN', LOCNO='$LOCNO' WHERE PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'";
 	}
 	elseif ($REV_CODE == 'D') {
-		$sql = "UPDATE PCKLST SET DATE_SHIP='$DATE_TRAN', QTYSHIPREQ=QTYSHIPREQ+'$QTYTRAN', LOCNO='$LOCNO' WHERE PCKLSTNO=$PCKLSTNO AND ITEMNO=$ITEMNO";
+		$sql = "UPDATE PCKLST SET DATE_SHIP='$DATE_TRAN', QTYSHIPREQ=QTYSHIPREQ+'$QTYTRAN', LOCNO='$LOCNO' WHERE PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql)) {
 		return 1;
@@ -478,7 +478,7 @@ function init($type) {
 	$ToDATE_TRAN = 0;
 	if ($type == 'PrintPCK') {
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R'");
-		if ($result == false) {
+		if (mysql_num_rows($result) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -497,7 +497,7 @@ function init($type) {
 	}
 	elseif ($type == 'PergePCK') {
 		$result = mysql_query("SELECT * FROM PCKLST WHERE ACTCODE=0");
-		if ($result == false) {
+		if (mysql_num_rows($result) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -518,7 +518,7 @@ function init($type) {
 	}
 	elseif ($type == 'SearchPCK') {
 		$result = mysql_query("SELECT * FROM PCKLST");
-		if ($result == false) {
+		if (mysql_num_rows($result) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -535,7 +535,7 @@ function init($type) {
 	}
 	elseif ($type == 'SearchINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0");
-		if ($result == false) {
+		if (mysql_num_rows($result) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -556,7 +556,7 @@ function init($type) {
 	}
 	elseif ($type == 'PrintINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0");
-		if ($result == false) {
+		if (mysql_num_rows($result) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -577,15 +577,25 @@ function init($type) {
 
 function Search($type, $data) {
 	if ($type == 'PrintPCK') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO']
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$ORDCOMPER = $data['ORDCOMPER'];
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
 			$table1 = '<table><tr>將列印揀貨單的訂單</tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
 			$table2 = '<table><tr>已存在揀貨單的訂單 <button id="Reprint" onclick="Reprint()"></button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
-				$query = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO=$fetch['ORDNO']");
+				$ORDNO = $fetch['ORDNO'];
+				$query = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO='$ORDNO'");
 				if (mysql_num_rows($query) == 0) {
 					$table1 .= '<tr><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ORDTYPE'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['SHIP_ADD_NO'].'</td><td>'.$fetch['BILL_ADD_NO'].'</td><td>'.$fetch['SALPERNO'].'</td></tr>';
 				}
@@ -599,8 +609,18 @@ function Search($type, $data) {
 		}
 	}
 	elseif ($type == 'PergePCK') {
-		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO']
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
+		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -613,8 +633,15 @@ function Search($type, $data) {
 		}
 	}
 	elseif ($type == 'SearchPCK') {
-		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND ACTCODE=$data['ACTCODE']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$ACTCODE = $data['ACTCODE'];
+		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND ACTCODE='$ACTCODE'");
+		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -627,8 +654,18 @@ function Search($type, $data) {
 		}
 	}
 	elseif ($type == 'SearchINV') {
-		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0 AND INVOICENO>=$data['FromINVOICENO'] AND INVOICENO<=$data['ToINVOICENO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if ($resource == false) {
+		$FromINVOICENO = $data['FromINVOICENO'];
+		$ToINVOICENO = $data['ToINVOICENO'];
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0 AND INVOICENO>='$FromINVOICENO' AND INVOICENO<='$ToINVOICENO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
+		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -641,8 +678,16 @@ function Search($type, $data) {
 		}
 	}
 	elseif ($type == 'PrintINV') {
-		$resource = mysql_query("SELECT * FROM INVOICE WHERE PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN']");
-		if ($resource == false) {
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_TRAN = $data['FromDATE_TRAN'];
+		$ToDATE_TRAN = $data['ToDATE_TRAN'];
+		$resource = mysql_query("SELECT * FROM INVOICE WHERE PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
+		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
@@ -665,17 +710,27 @@ function Search($type, $data) {
 
 function Check($type, $data) {
 	if ($type == 'PrintPCK') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$ORDCOMPER = $data['ORDCOMPER'];
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		if (mysql_num_rows($resource) == 0) {
 			return 2; // 無資料
 		}
 		else {
 			date_default_timezone_set('Asia/Taipei');
 			$DATEPRTORG = date("Y-m-d");
 			while ($fetch = mysql_fetch_array($resource)) {
-				$record = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO=$fetch['ORDNO']");
+				$ORDNO = $fetch['ORDNO'];
+				$record = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO='$ORDNO'");
 				if (mysql_num_rows($query) == 0) {
-					$result = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO=$fetch['ORDNO']");
+					$result = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO'");
 					if (mysql_num_rows($result) != 0) {
 						$PCKLSTNO = query_PCKLSTNO($fetch['ORDTYPE']);
 						while ($query = mysql_fetch_array($result)) {
@@ -705,12 +760,22 @@ function Check($type, $data) {
 		}
 	}
 	elseif ($type == 'PergePCK') {
-		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
+		if (mysql_num_rows($resource) == 0) {
 			return 2; // 無資料
 		}
 		else {
-			$sql = "UPDATE PCKLST SET ACTCODE=3 WHERE SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ']";
+			$sql = "UPDATE PCKLST SET ACTCODE=3 WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'";
 			if (mysql_query($sql)) {
 				return 0;
 			}
@@ -720,8 +785,16 @@ function Check($type, $data) {
 		}
 	}
 	if ($type == 'PrintINV') {
-		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN'] ORDER BY PCKLSTNO ASC, DATE_TRAN ASC");
-		if ($resource == false) {
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_TRAN = $data['FromDATE_TRAN'];
+		$ToDATE_TRAN = $data['ToDATE_TRAN'];
+		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN' ORDER BY PCKLSTNO ASC, DATE_TRAN ASC");
+		if (mysql_num_rows($resource) == 0) {
 			return 2; // 無資料
 		}
 		else {
@@ -731,12 +804,13 @@ function Check($type, $data) {
 			$DATE_L_MNT = date("Y-m-d");
 			while ($fetch = mysql_fetch_array($resource)) {
 				if ($fetch['PCKLSTNO'] != $PCKLSTNO) {
-					$result = mysql_query("SELECT ORDTYPE FROM ORDMAS WHERE ORDNO=$fetch['ORDNO']");
+					$ORDNO = $fetch['ORDNO'];
+					$result = mysql_query("SELECT ORDTYPE FROM ORDMAS WHERE ORDNO='$ORDNO'");
 					$query = mysql_fetch_array($result);
 					$INVOICENO = query_INVOICENO($query['ORDTYPE']);
 					$PCKLSTNO = $fetch['PCKLSTNO'];
-					mysql_query("UPDATE PCKLST SET ACTCODE=2 WHERE PCKLSTNO=$PCKLSTNO");
-					mysql_query("UPDATE INVOICE SET INVOICENO='$INVOICENO', DATE_L_MNT='$DATE_L_MNT' WHERE PCKLSTNO=$PCKLSTNO");
+					mysql_query("UPDATE PCKLST SET ACTCODE=2 WHERE PCKLSTNO='$PCKLSTNO'");
+					mysql_query("UPDATE INVOICE SET INVOICENO='$INVOICENO', DATE_L_MNT='$DATE_L_MNT' WHERE PCKLSTNO='$PCKLSTNO'");
 					$pdf = curl_init();
 					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
 					curl_setopt($pdf, CURLOPT_POST, true);
@@ -755,13 +829,23 @@ function Check($type, $data) {
 
 function Reprint($type, $data) {
 	if ($type == 'PrintPCK') {
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>=$data['FromSALPERNO'] AND SALPERNO<=$data['ToSALPERNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_REQ>=$data['FromDATE_REQ'] AND DATE_REQ<=$data['ToDATE_REQ'] AND ORDCOMPER>=$data['ORDCOMPER']");
-		if ($resource == false) {
+		$FromSALPERNO = $data['FromSALPERNO'];
+		$ToSALPERNO = $data['ToSALPERNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_REQ = $data['FromDATE_REQ'];
+		$ToDATE_REQ = $data['ToDATE_REQ'];
+		$ORDCOMPER = $data['ORDCOMPER'];
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		if (mysql_num_rows($resource) == 0) {
 			return 2; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($resource)) {
-				$record = mysql_query("SELECT * FROM PCKLST WHERE ORDNO=$fetch['ORDNO']");
+				$ORDNO = $fetch['ORDNO'];
+				$record = mysql_query("SELECT * FROM PCKLST WHERE ORDNO='$ORDNO'");
 				if (mysql_num_rows($record) != 0) {
 					$PCKLSTNO = mysql_fetch_array($record);
 					$pdf = curl_init();
@@ -774,14 +858,22 @@ function Reprint($type, $data) {
 						return 1;
 					}
 				}
-				$update = mysql_query("UPDATE PCKLST SET PRINTAG=PRINTAG+1 WHERE ORDNO=$fetch['ORDNO']");
+				$update = mysql_query("UPDATE PCKLST SET PRINTAG=PRINTAG+1 WHERE ORDNO='$ORDNO'");
 			}
 			return 0;
 		}
 	}
 	elseif ($type == 'PrintINV') {
-		$resource = mysql_query("SELECT * FROM INVOICENO WHERE INVOICENO>0 AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN']");
-		if ($resource == false) {
+		$FromPCKLSTNO = $data['FromPCKLSTNO'];
+		$ToPCKLSTNO = $data['ToPCKLSTNO'];
+		$FromCUSNO = $data['FromCUSNO'];
+		$ToCUSNO = $data['ToCUSNO'];
+		$FromORDNO = $data['FromORDNO'];
+		$ToORDNO = $data['ToORDNO'];
+		$FromDATE_TRAN = $data['FromDATE_TRAN'];
+		$ToDATE_TRAN = $data['ToDATE_TRAN'];
+		$resource = mysql_query("SELECT * FROM INVOICENO WHERE INVOICENO>0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
+		if (mysql_num_rows($resource) == 0) {
 			return 2; // 無資料
 		}
 		else {
@@ -795,7 +887,7 @@ function Reprint($type, $data) {
 				if ($output == 1) {
 					return 1;
 				}
-				$update = mysql_query("UPDATE INVOICE SET PRINTAG=PRINTAG+1 WHERE INVOICENO>0 AND PCKLSTNO>=$data['FromPCKLSTNO'] AND PCKLSTNO<=$data['ToPCKLSTNO'] AND CUSNO>=$data['FromCUSNO'] AND CUSNO<=$data['ToCUSNO'] AND ORDNO>=$data['FromORDNO'] AND ORDNO<=$data['ToORDNO'] AND DATE_TRAN>=$data['FromDATE_TRAN'] AND DATE_TRAN<=$data['ToDATE_TRAN']");
+				$update = mysql_query("UPDATE INVOICE SET PRINTAG=PRINTAG+1 WHERE INVOICENO>0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
 			}
 			return 0;
 		}

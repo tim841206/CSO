@@ -42,7 +42,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE SLSMAS SET SALPERNM='$SALPERNM', EMPNO='$EMPNO', COMRATE='$COMRATE', UPDATEDATE='$UPDATEDATE' WHERE SALPERNO=$SALPERNO";
+				$sql = "UPDATE SLSMAS SET SALPERNM='$SALPERNM', EMPNO='$EMPNO', COMRATE='$COMRATE', UPDATEDATE='$UPDATEDATE' WHERE SALPERNO='$SALPERNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -194,7 +194,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSMAS SET CUSNM='$CUSNM', ADDNO_1='$ADDNO_1', ADDNO_2='$ADDNO_2', ADDNO_3='$ADDNO_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', WSITE='$WSITE', SALPERNO='$SALPERNO', SPEINS='$SPEINS', CREDITSTAT='$CREDITSTAT', TAXID='$TAXID', UPDATEDATE='$UPDATEDATE' WHERE CUSNO=$CUSNO";
+				$sql = "UPDATE CUSMAS SET CUSNM='$CUSNM', ADDNO_1='$ADDNO_1', ADDNO_2='$ADDNO_2', ADDNO_3='$ADDNO_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', WSITE='$WSITE', SALPERNO='$SALPERNO', SPEINS='$SPEINS', CREDITSTAT='$CREDITSTAT', TAXID='$TAXID', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -323,7 +323,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSADD SET ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL' WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+				$sql = "UPDATE CUSADD SET ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -404,7 +404,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSREGION SET REGIONNO='$REGIONNO', CHANNELNO='$CHANNELNO', CHANNELNM='$CHANNELNM', COMPANYNO='$COMPANYNO', COMPANYNM='$COMPANYNM', DISTRICTNO='$DISTRICTNO', DESCRIPTION='$DESCRIPTION', UPDATEDATE='$UPDATEDATE' WHERE REGIONNO=$REGIONNO";
+				$sql = "UPDATE CUSREGION SET REGIONNO='$REGIONNO', CHANNELNO='$CHANNELNO', CHANNELNM='$CHANNELNM', COMPANYNO='$COMPANYNO', COMPANYNM='$COMPANYNM', DISTRICTNO='$DISTRICTNO', DESCRIPTION='$DESCRIPTION', UPDATEDATE='$UPDATEDATE' WHERE REGIONNO='$REGIONNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -457,7 +457,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSCITY SET CITYNM='$CITYNM', REGIONNO='$REGIONNO', UPDATEDATE='$UPDATEDATE' WHERE CITYNO=$CITYNO";
+				$sql = "UPDATE CUSCITY SET CITYNM='$CITYNM', REGIONNO='$REGIONNO', UPDATEDATE='$UPDATEDATE' WHERE CITYNO='$CITYNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -516,7 +516,7 @@ if ($_POST['module'] == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSADDCITY SET CITYNO='$CITYNO' WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+				$sql = "UPDATE CUSADDCITY SET CITYNO='$CITYNO' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -593,9 +593,9 @@ function check_50_notnull($value) {
 }
 
 function SearchSLSMAS($SALPERNO) {
-	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO=$SALPERNO";
+	$sql = "SELECT * FROM SLSMAS WHERE SALPERNO='$SALPERNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -624,9 +624,9 @@ function check_COMRATE($COMRATE) {
 }
 
 function SearchCUSREGION($REGIONNO) {
-	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO=$REGIONNO";
+	$sql = "SELECT * FROM CUSREGION WHERE REGIONNO='$REGIONNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -641,9 +641,9 @@ function SearchCUSREGION($REGIONNO) {
 }
 
 function SearchCUSMAS($CUSNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO=$CUSNO";
+	$sql = "SELECT * FROM CUSMAS WHERE CUSNO='$CUSNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -658,9 +658,9 @@ function SearchCUSMAS($CUSNO) {
 }
 
 function check_SALPERNO_exist($SALPERNO) {
-	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO=$SALPERNO AND ACTCODE=1";
+	$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // 存在
 	}
 	else {
@@ -716,9 +716,9 @@ function check_ADDNO_3($ADDNO_1, $ADDNO_2, $ADDNO_3) {
 }
 
 function SearchCUSCITY($CITYNO) {
-	$sql = "SELECT * FROM CUSCITY WHERE CITYNO=$CITYNO";
+	$sql = "SELECT * FROM CUSCITY WHERE CITYNO='$CITYNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -733,9 +733,9 @@ function SearchCUSCITY($CITYNO) {
 }
 
 function check_REGIONNO_exist($REGIONNO) {
-	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO=$REGIONNO AND ACTCODE=1";
+	$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO='$REGIONNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
@@ -744,9 +744,9 @@ function check_REGIONNO_exist($REGIONNO) {
 }
 
 function SearchCUSADD($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSADD WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADD WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -761,9 +761,9 @@ function SearchCUSADD($CUSNO, $ADDNO) {
 }
 
 function SearchCUSADDCITY($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO=$CUSNO AND ADDNO=$ADDNO";
+	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 1) {
 			return $fetch; // ok
@@ -778,9 +778,9 @@ function SearchCUSADDCITY($CUSNO, $ADDNO) {
 }
 
 function check_CITYNO_exist($CITYNO) {
-	$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO=$CITYNO AND ACTCODE=1";
+	$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
