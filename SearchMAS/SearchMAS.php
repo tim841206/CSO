@@ -218,22 +218,24 @@ function SearchCUSADDCITY($CUSNO, $ADDNO) {
 		if ($fetch['ACTCODE'] == 0) {
 			return 2; // 已刪除
 		}
+		else {
+			$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
+			$result = mysql_query($sql);
+			if (mysql_num_rows($result) > 0) {
+				$fetch = mysql_fetch_array($result);
+				if ($fetch['ACTCODE'] == 1) {
+					return $fetch; // ok
+				}
+				else if ($fetch['ACTCODE'] == 0) {
+					return 4; // 已刪除
+				}
+			}
+			else {
+				return 3; // 不存在
+			}
+		}
 	}
 	else {
 		return 1; // 不存在
-	}
-	$sql = "SELECT * FROM CUSADDCITY WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
-	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
-		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
-			return $fetch; // ok
-		}
-		else if ($fetch['ACTCODE'] == 0) {
-			return 4; // 已刪除
-		}
-	}
-	else {
-		return 3; // 不存在
 	}
 }
