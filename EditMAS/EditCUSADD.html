@@ -298,12 +298,13 @@
 	function Edit() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "EditMAS.php");
-		var data = "module=EditMAS&event=EditCUSADD&option=Create&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value + "&ADD_1=" + document.getElementById("ADD_1").value + "&ADD_2=" + document.getElementById("ADD_2").value + "&ADD_3=" + document.getElementById("ADD_3").value + "&CITY=" + document.getElementById("CITY").value + "&COUNTY=" + document.getElementById("COUNTY").value + "&COUNTRY=" + document.getElementById("COUNTRY").value + "&ZCODE=" + document.getElementById("ZCODE").value + "&CNTPER=" + document.getElementById("CNTPER").value + "&TEL=" + document.getElementById("TEL").value + "&FAX=" + document.getElementById("FAX").value + "&EMAIL=" + document.getElementById("EMAIL").value;
+		var data = "module=EditMAS&event=EditCUSADD&option=Edit&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value + "&ADD_1=" + document.getElementById("ADD_1").value + "&ADD_2=" + document.getElementById("ADD_2").value + "&ADD_3=" + document.getElementById("ADD_3").value + "&CITY=" + document.getElementById("CITY").value + "&COUNTY=" + document.getElementById("COUNTY").value + "&COUNTRY=" + document.getElementById("COUNTRY").value + "&ZCODE=" + document.getElementById("ZCODE").value + "&CNTPER=" + document.getElementById("CNTPER").value + "&TEL=" + document.getElementById("TEL").value + "&FAX=" + document.getElementById("FAX").value + "&EMAIL=" + document.getElementById("EMAIL").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
+				alert(request.responseText);
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");

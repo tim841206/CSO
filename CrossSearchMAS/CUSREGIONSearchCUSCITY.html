@@ -31,18 +31,18 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("table").innetHTML = data.table;
+					document.getElementById("table").innerHTML = data.table;
 				}
 				else if (data.state == 1) {
-					document.getElementById("table").innetHTML = null;
+					document.getElementById("table").innerHTML = null;
 					alert("此廠商暨地區編號不存在");
 				}
 				else if (data.state == 2) {
-					document.getElementById("table").innetHTML = null;
+					document.getElementById("table").innerHTML = null;
 					alert("此顧客地區已刪除");
 				}
 				else if (data.state == 3) {
-					document.getElementById("table").innetHTML = null;
+					document.getElementById("table").innerHTML = null;
 					alert("查無資料");
 				}
 			}

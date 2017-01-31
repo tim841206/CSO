@@ -63,7 +63,7 @@ if ($_POST['module'] == "EditMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "EditCUSMAS") {
-		if ($_POST['check'] == "CUSNO") {
+		if ($_POST['option'] == "CUSNO") {
 			$result = SearchCUSMAS($_POST['CUSNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADDNO_1' => $result['ADDNO_1'], 'ADDNO_2' => $result['ADDNO_2'], 'ADDNO_3' => $result['ADDNO_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID']));
@@ -74,87 +74,87 @@ if ($_POST['module'] == "EditMAS") {
 				return;
 			}
 		}
-		if ($_POST['check'] == "SALPERNO") {
+		if ($_POST['option'] == "SALPERNO") {
 			$result = check_SALPERNO_exist($_POST['SALPERNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CUSNM") {
+		elseif ($_POST['option'] == "CUSNM") {
 			$result = check_50_notnull($_POST['CUSNM']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_1") {
+		elseif ($_POST['option'] == "ADDNO_1") {
 			$result = check_ADDNO_1($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_2") {
+		elseif ($_POST['option'] == "ADDNO_2") {
 			$result = check_ADDNO_2($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ADDNO_3") {
+		elseif ($_POST['option'] == "ADDNO_3") {
 			$result = check_ADDNO_3($_POST['ADDNO_1'], $_POST['ADDNO_2'], $_POST['ADDNO_3']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CITY") {
+		elseif ($_POST['option'] == "CITY") {
 			$result = check_50($_POST['CITY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "COUNTY") {
+		elseif ($_POST['option'] == "COUNTY") {
 			$result = check_50($_POST['COUNTY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "COUNTRY") {
+		elseif ($_POST['option'] == "COUNTRY") {
 			$result = check_50($_POST['COUNTRY']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "ZCODE") {
+		elseif ($_POST['option'] == "ZCODE") {
 			$result = check_15($_POST['ZCODE']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "CNTPER") {
+		elseif ($_POST['option'] == "CNTPER") {
 			$result = check_50($_POST['CNTPER']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "TEL") {
+		elseif ($_POST['option'] == "TEL") {
 			$result = check_15($_POST['TEL']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "FAX") {
+		elseif ($_POST['option'] == "FAX") {
 			$result = check_15($_POST['FAX']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "EMAIL") {
+		elseif ($_POST['option'] == "EMAIL") {
 			$result = check_50($_POST['EMAIL']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "WSITE") {
+		elseif ($_POST['option'] == "WSITE") {
 			$result = check_50($_POST['WSITE']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "SPEINS") {
+		elseif ($_POST['option'] == "SPEINS") {
 			$result = check_50($_POST['SPEINS']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "TAXID") {
+		elseif ($_POST['option'] == "TAXID") {
 			$result = check_15($_POST['TAXID']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "Edit") {
+		elseif ($_POST['option'] == "Edit") {
 			$SALPERNO = $_POST['SALPERNO'];
 			$CUSNO = $_POST['CUSNO'];
 			$CUSNM = $_POST['CUSNM'];
@@ -344,7 +344,7 @@ if ($_POST['module'] == "EditMAS") {
 		}	
 	}
 	elseif ($_POST['event'] == "EditCUSREGION") {
-		if ($_POST['check'] == "REGIONNO") {
+		if ($_POST['option'] == "REGIONNO") {
 			$result = SearchCUSREGION($_POST['REGIONNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CHANNELNO' => $result['CHANNELNO'], 'CHANNELNM' => $result['CHANNELNM'], 'COMPANYNO' => $result['COMPANYNO'], 'COMPANYNM' => $result['COMPANYNM'], 'DISTRICTNO' => $result['DISTRICTNO'], 'DESCRIPTION' => $result['DESCRIPTION']));
@@ -478,7 +478,7 @@ if ($_POST['module'] == "EditMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "EditCUSADDCITY") {
-		if ($_POST['check'] == "CUSNO") {
+		if ($_POST['option'] == "CUSNO") {
 			$result = SearchCUSMAS($_POST['CUSNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM']));
@@ -489,7 +489,7 @@ if ($_POST['module'] == "EditMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "ADDNO") {
+		elseif ($_POST['option'] == "ADDNO") {
 			$result = SearchCUSADDCITY($_POST['CUSNO'], $_POST['ADDNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CITYNO' => $result['CITYNO']));
@@ -500,12 +500,12 @@ if ($_POST['module'] == "EditMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "CITYNO") {
+		elseif ($_POST['option'] == "CITYNO") {
 			$result = check_CITYNO_exist($_POST['CITYNO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['check'] == "Edit") {
+		elseif ($_POST['option'] == "Edit") {
 			$CUSNO = $_POST['CUSNO'];
 			$ADDNO = $_POST['ADDNO'];
 			$CITYNO = $_POST['CITYNO'];

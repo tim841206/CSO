@@ -34,7 +34,7 @@ if ($_POST['module'] == "DeleteMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "DeleteCUSMAS") {
-		if ($_POST['check'] == "CUSNO") {
+		if ($_POST['option'] == "CUSNO") {
 			$result = check_CUSNO($_POST['CUSNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADDNO_1' => $result['ADDNO_1'], 'ADDNO_2' => $result['ADDNO_2'], 'ADDNO_3' => $result['ADDNO_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'DFSHIPNO' => $result['DFSHIPNO'], 'DFBILLNO' => $result['DFBILLNO'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CURAR' => $result['CURAR'], 'AR30_60' => $result['AR30_60'], 'AR60_90' => $result['AR60_90'], 'AR90_120' => $result['AR90_120'], 'M120AR' => $result['M120AR'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
@@ -45,7 +45,7 @@ if ($_POST['module'] == "DeleteMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "Delete") {
+		elseif ($_POST['option'] == "Delete") {
 			$CUSNO = $_POST['CUSNO'];
 			date_default_timezone_set('Asia/Taipei');
 			$UPDATEDATE = date("Y-m-d H:i:s");
@@ -108,7 +108,7 @@ if ($_POST['module'] == "DeleteMAS") {
 		}	
 	}
 	elseif ($_POST['event'] == "DeleteCUSREGION") {
-		if ($_POST['check'] == "REGIONNO") {
+		if ($_POST['option'] == "REGIONNO") {
 			$result = check_REGIONNO($_POST['REGIONNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CHANNELNO' => $result['CHANNELNO'], 'CHANNELNM' => $result['CHANNELNM'], 'COMPANYNO' => $result['COMPANYNO'], 'COMPANYNM' => $result['COMPANYNM'], 'DISTRICTNO' => $result['DISTRICTNO'], 'DESCRIPTION' => $result['DESCRIPTION'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
@@ -170,7 +170,7 @@ if ($_POST['module'] == "DeleteMAS") {
 		}
 	}
 	elseif ($_POST['event'] == "DeleteCUSADDCITY") {
-		if ($_POST['check'] == "CUSNO") {
+		if ($_POST['option'] == "CUSNO") {
 			$result = check_CUSNO($_POST['CUSNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM']));
@@ -181,7 +181,7 @@ if ($_POST['module'] == "DeleteMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "ADDNO") {
+		elseif ($_POST['option'] == "ADDNO") {
 			$result = check_ADDNO_CUSADDCITY($_POST['CUSNO'], $_POST['ADDNO']);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'CITYNO' => $result['CITYNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
@@ -192,7 +192,7 @@ if ($_POST['module'] == "DeleteMAS") {
 				return;
 			}
 		}
-		elseif ($_POST['check'] == "Delete") {
+		elseif ($_POST['option'] == "Delete") {
 			$CUSNO = $_POST['CUSNO'];
 			$ADDNO = $_POST['ADDNO'];
 			date_default_timezone_set('Asia/Taipei');
