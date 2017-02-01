@@ -7,17 +7,12 @@ if ($_POST['module'] == "ExportMAS") {
         $ToSALPERNO = $_POST['ToSALPERNO'];
         $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
-            echo json_encode(array('table' => Export("SLSMAS", $resource)));
+            echo json_encode(array('table' => Search("SLSMAS", $resource)));
             return;
         }
         elseif ($_POST['option'] == "Export") {
-            $pdf = curl_init();
-            curl_setopt($pdf, CURLOPT_URL, "../resource/xls.php");
-            curl_setopt($pdf, CURLOPT_POST, true);
-            curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("type" => 'SLSMAS', "FromSALPERNO" => $FromSALPERNO, "ToSALPERNO" => $ToSALPERNO)));
-            $output = curl_exec($pdf);
-            curl_close($pdf);
-            echo json_encode(array('state' => $output));
+            $result = Export("SLSMAS", $resource);
+            echo json_encode(array('state' => $result));
             return;
         }
         else {
@@ -30,17 +25,12 @@ if ($_POST['module'] == "ExportMAS") {
         $ToCUSNO = $_POST['ToCUSNO'];
         $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
-            echo json_encode(array('table' => Export("CUSMAS", $resource)));
+            echo json_encode(array('table' => Search("CUSMAS", $resource)));
             return;
         }
         elseif ($_POST['option'] == "Export") {
-            $pdf = curl_init();
-            curl_setopt($pdf, CURLOPT_URL, "../resource/xls.php");
-            curl_setopt($pdf, CURLOPT_POST, true);
-            curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("type" => 'CUSMAS', "FromCUSNO" => $FromCUSNO, "ToCUSNO" => $ToCUSNO)));
-            $output = curl_exec($pdf);
-            curl_close($pdf);
-            echo json_encode(array('state' => $output));
+            $result = Export("CUSMAS", $resource);
+            echo json_encode(array('state' => $result));
             return;
         }
         else {
@@ -53,17 +43,12 @@ if ($_POST['module'] == "ExportMAS") {
         $ToCUSNO = $_POST['ToCUSNO'];
         $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
-            echo json_encode(array('table' => Export("CUSADD", $resource)));
+            echo json_encode(array('table' => Search("CUSADD", $resource)));
             return;
         }
         elseif ($_POST['option'] == "Export") {
-            $pdf = curl_init();
-            curl_setopt($pdf, CURLOPT_URL, "../resource/xls.php");
-            curl_setopt($pdf, CURLOPT_POST, true);
-            curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("type" => 'CUSADD', "FromCUSNO" => $FromCUSNO, "ToCUSNO" => $ToCUSNO)));
-            $output = curl_exec($pdf);
-            curl_close($pdf);
-            echo json_encode(array('state' => $output));
+            $result = Export("CUSADD", $resource);
+            echo json_encode(array('state' => $result));
             return;
         }
         else {
@@ -76,17 +61,12 @@ if ($_POST['module'] == "ExportMAS") {
         $ToREGIONNO = $_POST['ToREGIONNO'];
         $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>='$FromREGIONNO' AND REGIONNO<='$ToREGIONNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
-            echo json_encode(array('table' => Export("CUSREGION", $resource)));
+            echo json_encode(array('table' => Search("CUSREGION", $resource)));
             return;
         }
         elseif ($_POST['option'] == "Export") {
-            $pdf = curl_init();
-            curl_setopt($pdf, CURLOPT_URL, "../resource/xls.php");
-            curl_setopt($pdf, CURLOPT_POST, true);
-            curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("type" => 'CUSREGION', "FromREGIONNO" => $FromREGIONNO, "ToREGIONNO" => $ToREGIONNO)));
-            $output = curl_exec($pdf);
-            curl_close($pdf);
-            echo json_encode(array('state' => $output));
+            $result = Export("CUSREGION", $resource);
+            echo json_encode(array('state' => $result));
             return;
         }
         else {
@@ -99,17 +79,12 @@ if ($_POST['module'] == "ExportMAS") {
         $ToCITYNO = $_POST['ToCITYNO'];
         $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>='$FromCITYNO' AND CITYNO<='$ToCITYNO' AND ACTCODE=1");
         if ($_POST['option'] == "Search") {
-            echo json_encode(array('table' => Export("CUSCITY", $resource)));
+            echo json_encode(array('table' => Search("CUSCITY", $resource)));
         return;
         }
         elseif ($_POST['option'] == "Export") {
-            $pdf = curl_init();
-            curl_setopt($pdf, CURLOPT_URL, "../resource/xls.php");
-            curl_setopt($pdf, CURLOPT_POST, true);
-            curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("type" => 'CUSCITY', "FromCITYNO" => $FromCITYNO, "ToCITYNO" => $ToCITYNO)));
-            $output = curl_exec($pdf);
-            curl_close($pdf);
-            echo json_encode(array('state' => $output));
+            $result = Export("CUSCITY", $resource);
+            echo json_encode(array('state' => $result));
             return;
         }
         else {
@@ -127,7 +102,7 @@ else {
     return;
 }
 
-function Export($title, $resource) {
+function Search($title, $resource) {
     $table = '<table>';
     if ($title == "SLSMAS") {
         $table .= '<tr><th>銷售員</th></tr>';
@@ -166,4 +141,50 @@ function Export($title, $resource) {
     }
     $table .= '</table>';
     return $table;
+}
+
+function Export($title, $resource) {
+    if ($title == "SLSMAS") {
+        $fp = fopen("銷售員.xls", "w");
+        $content = "銷售員編號 \t銷售員名稱 \t員工編號 \t 酬勞比率(%) \t年結帳至今銷售額 \t季結帳至今銷售額 \t月結帳至今銷售額\n";
+        while ($SLSMAS = mysql_fetch_array($resource)) {
+            $content .= $SLSMAS['SALPERNO']."\t".$SLSMAS['SALPERNM']."\t".$SLSMAS['EMPNO']."\t".$SLSMAS['COMRATE']."\t".$SLSMAS['SALEAMTYTD']."\t".$SLSMAS['SALEAMTSTD']."\t".$SLSMAS['SALEAMTMTD']."\n";
+        }
+    }
+    elseif ($title == "CUSMAS") {
+        $fp = fopen("顧客.xls", "w");
+        $content = "顧客編號 \t顧客名稱 \t地址編號 1 \t地址編號 2 \t地址編號 3 \t所屬城市 \t所屬縣市 \t所屬國家 \t郵遞區號 \t接觸人員 \t電話 \t傳真 \t電子信箱 \t網址 \t所屬銷售員編號 \t預設運送地編號 \t預設帳單地編號 \t年結帳至今銷售額 \t季結帳至今銷售額 \t月結帳至今銷售額 \t應收帳款 \t30~60天應收帳款 \t60~90天應收帳款 \t90~120天應收帳款 \t超過120天應收帳款 \t特殊要求 \t信用狀態 \t統一編號\n";
+        while ($CUSMAS = mysql_fetch_array($resource)) {
+            $content .= $CUSMAS['CUSNO']."\t".$CUSMAS['CUSNM']."\t".$CUSMAS['ADDNO_1']."\t".$CUSMAS['ADDNO_2']."\t".$CUSMAS['ADDNO_3']."\t".$CUSMAS['CITY']."\t".$CUSMAS['COUNTY']."\t".$CUSMAS['COUNTRY']."\t".$CUSMAS['ZCODE']."\t".$CUSMAS['CNTPER']."\t".$CUSMAS['TEL']."\t".$CUSMAS['FAX']."\t".$CUSMAS['EMAIL']."\t".$CUSMAS['WSITE']."\t".$CUSMAS['SALPERNO']."\t".$CUSMAS['DFSHIPNO']."\t".$CUSMAS['DFBILLNO']."\t".$CUSMAS['SALEAMTYTD']."\t".$CUSMAS['SALEAMTSTD']."\t".$CUSMAS['SALEAMTMTD']."\t".$CUSMAS['CURAR']."\t".$CUSMAS['AR30_60']."\t".$CUSMAS['AR60_90']."\t".$CUSMAS['AR90_120']."\t".$CUSMAS['M120AR']."\t".$CUSMAS['SPEINS']."\t".$CUSMAS['CREDITSTAT']."\t".$CUSMAS['TAXID']."\n";
+        }
+    }
+    elseif ($title == "CUSADD") {
+        $fp = fopen("顧客地址.xls", "w");
+        $content = "顧客編號 \t地址編號 \t地址 1 \t地址 2 \t地址 3 \t所屬城市 \t所屬縣市 \t所屬國家 \t郵遞區號 \t接觸人員 \t電話 \t傳真 \t電子信箱\n";
+        while ($CUSADD = mysql_fetch_array($resource)) {
+            $content .= $CUSADD['CUSNO']."\t".$CUSADD['ADDNO']."\t".$CUSADD['ADD_1']."\t".$CUSADD['ADD_2']."\t".$CUSADD['ADD_3']."\t".$CUSADD['CITY']."\t".$CUSADD['COUNTY']."\t".$CUSADD['COUNTRY']."\t".$CUSADD['ZCODE']."\t".$CUSADD['CNTPER']."\t".$CUSADD['TEL']."\t".$CUSADD['FAX']."\t".$CUSADD['EMAIL']."\n";
+        }
+    }
+    elseif ($title == "CUSREGION") {
+        $fp = fopen("顧客地區.xls", "w");
+        $content = "廠商暨地區編號 \t通路編號 \t通路名稱 \t廠商公司編號 \t廠商公司名稱 \t地區編號 \t敘述\n";
+        while ($CUSREGION = mysql_fetch_array($resource)) {
+            $content .= $CUSREGION['REGIONNO']."\t".$CUSREGION['CHANNELNO']."\t".$CUSREGION['CHANNELNM']."\t".$CUSREGION['COMPANYNO']."\t".$CUSREGION['COMPANYNM']."\t".$CUSREGION['DISTRICTNO']."\t".$CUSREGION['DESCRIPTION']."\n";
+        }
+    }
+    elseif ($title == "CUSCITY") {
+        $fp = fopen("顧客城市.xls", "w");
+        $content = "城市編號 \t城市名稱 \t所屬廠商暨地區編號\n";
+        while ($CUSCITY = mysql_fetch_array($resource)) {
+            $content .= $CUSCITY['CITYNO']."\t".$CUSCITY['CITYNM']."\t".$CUSCITY['REGIONNO']."\n";
+        }
+    }
+    if (fputs($fp, mb_convert_encoding($content, "Big5", "UTF-8"))) {
+        fclose($fp);
+        return 0;
+    }
+    else {
+        fclose($fp);
+        return 1;
+    }
 }

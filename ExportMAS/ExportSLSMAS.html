@@ -48,7 +48,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					alert("已開始下載");
+					alert("將開始下載");
+					var a = document.createElement('a');
+					a.href = '銷售員.xls';
+					a.download = '銷售員.xls';
+					a.click();
 				}
 				else if (data.state == 1) {
 					alert("輸出失敗");
