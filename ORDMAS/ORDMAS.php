@@ -100,7 +100,7 @@ if ($_POST['module'] == "ORDMAS") {
 		elseif ($_POST['option'] == "ITEMNO") {
 			$result = check_ITEMNO($_POST['ORDNO'], $_POST['ITEMNO']);
 			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'UNICOST' => $result['UNICOST'], 'ITEMCLASS' => $result['ITEMCLASS'], 'BASE_PRICE' => $result['BASE_PRICE']));
+				echo json_encode(array('state' => 0, 'UNI_COST' => $result['UNI_COST'], 'ITEMCLASS' => $result['ITEMCLASS'], 'BASE_PRICE' => $result['BASE_PRICE']));
 				return;
 			}
 			else {
@@ -111,7 +111,7 @@ if ($_POST['module'] == "ORDMAS") {
 		elseif ($_POST['option'] == "QTYORD") {
 			$result = positive_notnull($_POST['QTYORD']);
 			if ($result == 0) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => $result, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -121,8 +121,8 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "PRICE_CNT") {
-			if (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT'])) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+			if (check_PRICE_CNT($_POST['PRICE_CNT']) == 0) {
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -132,8 +132,8 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "PERCENTDIS") {
-			if ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100)) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+			if (check_PERCENTDIS($_POST['PERCENTDIS']) == 0) {
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -146,21 +146,23 @@ if ($_POST['module'] == "ORDMAS") {
 			$ORDNO = $_POST['ORDNO'];
 			$WHOUSE = $_POST['WHOUSE'];
 			$ITEMNO = $_POST['ITEMNO'];
-			$ITEMCLASS = $_POST['ITEMCLASS'];
-			$UNI_COST = $_POST['UNI_COST'];
+			$ITEM = query_ITEM($ITEMNO);
+			$ITEMCLASS = $ITEM['ITEMCLASS'];
+			$UNI_COST = $ITEM['UNI_COST'];
 			$QTYORD = $_POST['QTYORD'];
-			$BASE_PRICE = $_POST['BASE_PRICE'];
+			$BASE_PRICE = $ITEM['BASE_PRICE'];
 			$PRICE_CNT = $_POST['PRICE_CNT'];
 			$PERCENTDIS = $_POST['PERCENTDIS'];
-			$PRICE_SELL = $_POST['PRICE_SELL'];
-			$NET_SALES = $_POST['NET_SALES'];
+			$price = get_price($ITEMNO, $PRICE_CNT, $PERCENTDIS, $QTYORD);
+			$PRICE_SELL = $price['PRICE_SELL'];
+			$NET_SALES = $price['NET_SALES'];
 			$TAX_CODE = $_POST['TAX_CODE'];
-			$result1 = check_ORDNO_valid($_POST['ORDNO']);
-			$result2 = check_WHOUSE_exist($_POST['WHOUSE']);
-			$result3 = check_ITEMNO($_POST['ORDNO'], $_POST['ITEMNO']);
-			$result4 = positive_notnull($_POST['QTYORD']);
-			$result5 = (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT']))? 0 : 1;
-			$result6 = ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100))? 0 : 1;
+			$result1 = check_ORDNO_valid($ORDNO);
+			$result2 = check_WHOUSE_exist($WHOUSE);
+			$result3 = is_array(check_ITEMNO($ORDNO, $ITEMNO))? 0 : 1;
+			$result4 = positive_notnull($QTYORD);
+			$result5 = check_PRICE_CNT($PRICE_CNT);
+			$result6 = check_PERCENTDIS($PERCENTDIS);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
@@ -168,7 +170,7 @@ if ($_POST['module'] == "ORDMAS") {
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "INSERT INTO ORDMAT (ORDNO, ITEMNO, WHOUSE, UNI_COST, ITEMCLASS, QTYORD, QTYSHIP, QTYBAKORD, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$ORDNO', '$ITEMNO', '$WHOUSE', '$UNI_COST', '$ITEMCLASS', '$QTYORD', 0, '$QTYORD', '$BASE_PRICE', '$PRICE_CNT', '$PERCENTDIS', '$PRICE_SELL', '$NET_SALES', '$TAX_CODE', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
-					echo json_encode(array('state' => 0));
+					echo json_encode(array('state' => 0, 'UNI_COST' => $UNI_COST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE, 'PRICE_SELL' => $PRICE_SELL, 'NET_SALES' => $NET_SALES));
 					return;
 				}
 				else {
@@ -272,7 +274,7 @@ if ($_POST['module'] == "ORDMAS") {
 		elseif ($_POST['option'] == "ITEMNO") {
 			$result = check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
 			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'WHOUSE' => $fetch['WHOUSE'], 'ITEMCLASS' => $fetch['ITEMCLASS'], 'UNI_COST' => $fetch['UNI_COST'], 'QTYORD' => $fetch['QTYORD'], 'BASE_PRICE' => $fetch['BASE_PRICE'], 'PRICE_CNT' => $fetch['PRICE_CNT'], 'PERCENTDIS' => $fetch['PERCENTDIS'], 'PRICE_SELL' => $fetch['PRICE_SELL'], 'NET_SALES' => $fetch['NET_SALES'], 'TAX_CODE' => $fetch['TAX_CODE']));
+				echo json_encode(array('state' => 0, 'WHOUSE' => $result['WHOUSE'], 'ITEMCLASS' => $result['ITEMCLASS'], 'UNI_COST' => $result['UNI_COST'], 'QTYORD' => $result['QTYORD'], 'BASE_PRICE' => $result['BASE_PRICE'], 'PRICE_CNT' => $result['PRICE_CNT'], 'PERCENTDIS' => $result['PERCENTDIS'], 'PRICE_SELL' => $result['PRICE_SELL'], 'NET_SALES' => $result['NET_SALES'], 'TAX_CODE' => $result['TAX_CODE']));
 				return;
 			}
 			else {
@@ -283,7 +285,7 @@ if ($_POST['module'] == "ORDMAS") {
 		elseif ($_POST['option'] == "QTYORD") {
 			$result = positive_notnull($_POST['QTYORD']);
 			if ($result == 0) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => $result, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -293,8 +295,8 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "PRICE_CNT") {
-			if (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT'])) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+			if (check_PRICE_CNT($PRICE_CNT) == 0) {
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -304,8 +306,8 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "PERCENTDIS") {
-			if ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100)) {
-				$price = get_price($_POST['BASE_PRICE'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
+			if (check_PERCENTDIS($PERCENTDIS) == 0) {
+				$price = get_price($_POST['ITEMNO'], $_POST['PRICE_CNT'], $_POST['PERCENTDIS'], $_POST['QTYORD']);
 				echo json_encode(array('state' => 0, 'PRICE_SELL' => $price['PRICE_SELL'], 'NET_SALES' => $price['NET_SALES']));
 				return;
 			}
@@ -320,21 +322,22 @@ if ($_POST['module'] == "ORDMAS") {
 			$QTYORD = $_POST['QTYORD'];
 			$PRICE_CNT = $_POST['PRICE_CNT'];
 			$PERCENTDIS = $_POST['PERCENTDIS'];
-			$PRICE_SELL = $_POST['PRICE_SELL'];
-			$NET_SALES = $_POST['NET_SALES'];
+			$price = get_price($ITEMNO, $PRICE_CNT, $PERCENTDIS, $QTYORD);
+			$PRICE_SELL = $price['PRICE_SELL'];
+			$NET_SALES = $price['NET_SALES'];
 			$TAX_CODE = $_POST['TAX_CODE'];
-			$result1 = check_ORDNO_valid($_POST['ORDNO']);
-			$result2 = is_array(check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']))? 0 : check_ORDMAT($_POST['ORDNO'], $_POST['ITEMNO']);
-			$result3 = positive_notnull($_POST['QTYORD']);
-			$result4 = (empty($_POST['PRICE_CNT']) || is_numeric($_POST['PRICE_CNT']))? 0 : 1;
-			$result5 = ((empty($_POST['PERCENTDIS'])) || (is_numeric($_POST['PERCENTDIS']) && $_POST['PERCENTDIS']>=0 && $_POST['PERCENTDIS']<=100))? 0 : 1;
+			$result1 = check_ORDNO_valid($ORDNO);
+			$result2 = is_array(check_ORDMAT($ORDNO, $ITEMNO))? 0 : check_ORDMAT($ORDNO, $ITEMNO);
+			$result3 = positive_notnull($QTYORD);
+			$result4 = check_PRICE_CNT($PRICE_CNT);
+			$result5 = check_PERCENTDIS($PERCENTDIS);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5;
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "UPDATE ORDMAT SET QTYORD='$QTYORD', PRICE_CNT='$PRICE_CNT', PERCENTDIS='$PERCENTDIS', PRICE_SELL='$PRICE_SELL', NET_SALES='$NET_SALES', TAX_CODE='$TAX_CODE', UPDATEDATE='$UPDATEDATE' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 				if (mysql_query($sql)) {
-					echo json_encode(array('state' => 0));
+					echo json_encode(array('state' => 0, 'PRICE_SELL' => $PRICE_SELL, 'NET_SALES' => $NET_SALES));
 					return;
 				}
 				else {
@@ -524,7 +527,7 @@ function positive_notnull($value) {
 		return 1; // 無輸入
 	}
 	else {
-		if (is_int($value) && $value > 0) {
+		if (((int)$value == $value) && $value > 0) {
 			return 0; // ok
 		}
 		else {
@@ -593,7 +596,7 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 }
 
 function check_WHOUSE_exist($WHOUSE) {
-	$sql = "SELECT WHOUSE FROM WAREHOUSE WHERE WHOUSE='$WHOUSE'";
+	$sql = "SELECT WHOUSE FROM WHOUSE WHERE WHOUSE='$WHOUSE'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -606,6 +609,30 @@ function check_WHOUSE_exist($WHOUSE) {
 	}
 	else {
 		return 1; // 不存在
+	}
+}
+
+function check_PRICE_CNT($PRICE_CNT) {
+	if (empty($PRICE_CNT)) {
+		return 0;
+	}
+	elseif (is_numeric($PRICE_CNT)) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+function check_PERCENTDIS($PERCENTDIS) {
+	if ((empty($PERCENTDIS))) {
+		return 0;
+	}
+	elseif ((is_numeric($PERCENTDIS) && $PERCENTDIS >= 0 && $PERCENTDIS <= 100)) {
+		return 0;
+	}
+	else {
+		return 1;
 	}
 }
 
@@ -676,10 +703,10 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 				}
 			}
 			else {
-				$UNICOST = $fetch['lab_sta'] + $fetch['mat_sta'] + $fetch['over_sta'];
-				$ITEMCLASS = $fetch['ITEMCLASS'];
+				$UNI_COST = $fetch['lab_sta'] + $fetch['mat_sta'] + $fetch['over_sta'];
+				$ITEMCLASS = $fetch['itemclass'];
 				$BASE_PRICE = $fetch['pri_cur'];
-				return array('UNICOST' => $UNICOST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE);
+				return array('UNI_COST' => $UNI_COST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE);
 			}
 		}
 	}
@@ -701,11 +728,16 @@ function check_ORDMAT($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT_deleted($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' AND ACTCODE=0";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
-		return $fetch;
+		if ($fetch['ACTCODE'] == 0) {
+			return $fetch;
+		}
+		else {
+			return 2; // 未刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -724,10 +756,12 @@ function query_ORDNO($ORDTYPE) {
 	return $fetch['VALUE'];
 }
 
-function get_price($BASE_PRICE, $PRICE_CNT, $PERCENTDIS, $QTYORD) {
+function get_price($ITEMNO, $PRICE_CNT, $PERCENTDIS, $QTYORD) {
 	if (empty($PERCENTDIS)) {
 		$PERCENTDIS = 0;
 	}
+	$ITEM = query_ITEM($ITEMNO);
+	$BASE_PRICE = $ITEM['BASE_PRICE'];
 	if (empty($PRICE_CNT)) {
 		$PRICE_SELL = $BASE_PRICE * (1 - $PERCENTDIS/100);
 		$NET_SALES = $QTYORD * $PRICE_SELL;
@@ -737,4 +771,14 @@ function get_price($BASE_PRICE, $PRICE_CNT, $PERCENTDIS, $QTYORD) {
 		$NET_SALES = $QTYORD * $PRICE_SELL;
 	}
 	return array('PRICE_SELL' => $PRICE_SELL, 'NET_SALES' => $NET_SALES);
+}
+
+function query_ITEM($ITEMNO) {
+	$sql = "SELECT * FROM ITMMAS WHERE ITEMNO='$ITEMNO'";
+	$result = mysql_query($sql);
+	$fetch = mysql_fetch_array($result);
+	$UNI_COST = $fetch['lab_sta'] + $fetch['mat_sta'] + $fetch['over_sta'];
+	$ITEMCLASS = $fetch['itemclass'];
+	$BASE_PRICE = $fetch['pri_cur'];
+	return array('UNI_COST' => $UNI_COST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE);
 }

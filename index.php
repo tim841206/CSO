@@ -310,6 +310,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && !empty($_POST['module']) && !empty($
 			return;
 		}
 	}
+	elseif ($_POST['module'] == 'BI'){
+		if ($_POST['event'] == 'REG-CITY-ADD'){
+			echo json_encode(array('state' => 0, 'destination' => 'BI/REG-CITY-ADD.html'));
+			return;
+		}
+		elseif ($_POST['event'] == 'SLS-CUS-ADD'){
+			echo json_encode(array('state' => 0, 'destination' => 'BI/SLS-CUS-ADD.html'));
+			return;
+		}
+		else {
+			echo json_encode(array('state' => 3));
+			return;
+		}
+	}
 	else {
 		echo json_encode(array('state' => 2));
 			return;

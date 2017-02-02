@@ -66,18 +66,15 @@ if ($_POST['module'] == "SearchORDMAS") {
 		$ITEMNO = $_POST['ITEMNO'];
 		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO' AND ACTCODE=1");
 		if (mysql_num_rows($resource) == 0) {
-			return 1;
+			echo json_encode(array('state' => 1));
+			return;
 		}
 		else {
-			$ORDNO = array();
-			while ($queryORDNO = mysql_fetch_row($resource)) {
-				$ORDNO = array_push($ORDNO, $queryORDNO[0]);
-			}
+			$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO IN (SELECT ORDNO FROM ORDMAT WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO' AND ACTCODE=1) AND ACTCODE=1");
+			$result = Search("ORDMAS", $resource);
+			echo json_encode(array('state' => 0, 'table' => $result));
+			return;
 		}
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO IN $ORDNO AND ACTCODE=1");
-		$result = Search("ORDMAS", $resource);
-		echo json_encode(array('state' => 0, 'table' => $result));
-		return;
 	}
 	else {
 		echo json_encode(array('state' => 400));

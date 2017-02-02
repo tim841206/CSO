@@ -105,6 +105,9 @@
 				else if (data.state == 1) {
 					alert("此物料編號不存在");
 				}
+				else if (data.state == 2) {
+					alert("此訂單物料未被刪除");
+				}
 			}
 		}
 	}
@@ -130,6 +133,7 @@
 					document.getElementById("LastQTYBAKORD").innerHTML = document.getElementById("QTYBAKORD").innerHTML;
 					document.getElementById("LastBASE_PRICE").innerHTML = document.getElementById("BASE_PRICE").innerHTML;
 					document.getElementById("LastPRICE_CNT").innerHTML = document.getElementById("PRICE_CNT").innerHTML;
+					document.getElementById("LastPERCENTDIS").innerHTML = document.getElementById("PERCENTDIS").innerHTML;
 					document.getElementById("LastPRICE_SELL").innerHTML = document.getElementById("PRICE_SELL").innerHTML;
 					document.getElementById("LastNET_SALES").innerHTML = document.getElementById("NET_SALES").innerHTML;
 					document.getElementById("LastTAX_CODE").innerHTML = document.getElementById("TAX_CODE").innerHTML;

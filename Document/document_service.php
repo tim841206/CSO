@@ -147,6 +147,9 @@ function search_content() {
 	elseif ($_POST['type'] == 'Transaction'){
 		
 	}
+	elseif ($_POST['type'] == 'BI'){
+		
+	}
 	$content .= "</table>";
 	return $content;
 }

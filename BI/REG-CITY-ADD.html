@@ -4,22 +4,25 @@
 	<meta charset="utf-8">
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
+	<link rel="stylesheet" href="../resource/bootstrap.min.css">
 	<script src="../resource/attachment.js"></script>
+	<script src="../resource/jquery.min.js"></script>
+	<script src="../resource/bootstrap.min.js"></script>
 	<title>地區-城市-地址</title>
 	<header>
 		<h1>地區-城市-地址</h1>
 	</header>
 </head>
-<body onload="time()">
-	<div class="container" onload="init()">
-		<p>現在時間：<span id="now"></span></p>
-		<p>資料最後更新時間：<span id="renew"></span></p>
-		<table>
-			<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="update()"></td></tr>
-			<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="update()"></td></tr>
-			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
-			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
-		</table>
+<body onload="time(); init();">
+	<p>現在時間：<span id="now"></span></p>
+	<p>資料最後更新時間：<span id="renew"></span></p>
+	<table>
+		<tr><td>廠商暨地區編號</td><td><input type="text" name="REGIONNO" id="REGIONNO" onchange="update()"></td></tr>
+		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="update()"></td></tr>
+		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
+		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
+	</table>
+	<div class="container">
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
 			<li><a data-toggle="tab" href="#season">當季內</a></li>
@@ -51,7 +54,7 @@
 	function init() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=REG-CITY-ADD&option=init";
+		var data = "module=BI&event=REG_CITY_ADD&option=init";
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -67,13 +70,16 @@
 				else if (data.state == 1) {
 					alert("資料庫讀取失敗");
 				}
+				else if (data.state == 2) {
+					alert("資料庫刷新失敗");
+				}
 			}
 		}
 	}
 	function update() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=REG-CITY-ADD&option=update&REGIONNO=" + document.getElementById("REGIONNO").value + "&CITYNO=" + document.getElementById("CITYNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		var data = "module=BI&event=REG_CITY_ADD&option=update&REGIONNO=" + document.getElementById("REGIONNO").value + "&CITYNO=" + document.getElementById("CITYNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -98,7 +104,7 @@
 	function Renew() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=REG-CITY-ADD&option=Renew";
+		var data = "module=BI&event=REG_CITY_ADD&option=Renew";
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 

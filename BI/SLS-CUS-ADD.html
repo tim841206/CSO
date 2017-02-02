@@ -4,21 +4,24 @@
 	<meta charset="utf-8">
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
+	<link rel="stylesheet" href="../resource/bootstrap.min.css">
 	<script src="../resource/attachment.js"></script>
+	<script src="../resource/jquery.min.js"></script>
+	<script src="../resource/bootstrap.min.js"></script>
 	<title>銷售員-顧客-地址</title>
 	<header>
 		<h1>銷售員-顧客-地址</h1>
 	</header>
 </head>
-<body onload="time()">
-	<div class="container" onload="init()">
-		<p>現在時間：<span id="now"></span></p>
-		<p>資料最後更新時間：<span id="renew"></span></p>
-		<table>
-			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="update()"></td></tr>
-			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
-			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
-		</table>
+<body onload="time(); init();">
+	<p>現在時間：<span id="now"></span></p>
+	<p>資料最後更新時間：<span id="renew"></span></p>
+	<table>
+		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="update()"></td></tr>
+		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
+		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
+	</table>
+	<div class="container">
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
 			<li><a data-toggle="tab" href="#season">當季內</a></li>
@@ -65,6 +68,9 @@
 				}
 				else if (data.state == 1) {
 					alert("資料庫讀取失敗");
+				}
+				else if (data.state == 2) {
+					alert("資料庫刷新失敗");
 				}
 			}
 		}

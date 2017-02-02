@@ -107,6 +107,12 @@
 		<option value="SearchINV" <? check_selected('event', 'SearchINV') ?>>查詢發票</option>
 	</select>
 	<? } ?>
+	<? if ($_POST['type'] == 'BI'){ ?>
+	<select class="" name="event" onchange="document.getElementById('form').submit();">
+		<option value="REG-CITY-ADD" <? check_selected('event', 'REG-CITY-ADD') ?>>地區-城市-地址</option>
+		<option value="SLS-CUS-ADD" <? check_selected('event', 'SLS-CUS-ADD') ?>>銷售員-顧客-地址</option>
+	</select>
+	<? } ?>
 </form>
 <p id="content"></p>
 <? call_content($_POST['type'], $_POST['event']); ?>
