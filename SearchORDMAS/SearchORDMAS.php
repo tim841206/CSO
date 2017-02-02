@@ -31,7 +31,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 		else {
 			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ACTCODE=1");
 			$result = Search("ORDMAT", $resource);
-			if ($result == 0) {
+			if ($result === 0) {
 				echo json_encode(array('state' => 3));
 				return;
 			}
@@ -51,7 +51,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 		else {
 			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1");
 			$result = Search("ORDMAS", $resource);
-			if ($result == 0) {
+			if ($result === 0) {
 				echo json_encode(array('state' => 3));
 				return;
 			}
@@ -133,16 +133,16 @@ function Search($title, $resource) {
 		if ($title == "ORDMAT") {
 			$table .= '<tr><th>訂單編號</th><th>物料編號</th><th>倉庫編號</th><th>單位成本</th><th>物料分類</th><th>訂單數量</th><th>運送數量</th><th>缺貨數量</th><th>基本價格</th><th>簽約價格</th><th>折扣率</th><th>賣出價格</th><th>總銷售額</th><th>稅狀態碼</th><th>原始訂單開啟日期</th><th>建立日期</th><th>最後修改日期</th></tr>';
 			while ($ORDMAT = mysql_fetch_array($resource)) {
-				$table .= '<tr><td>'.$ORDMAT['ORDNO'].'</td><td>'.$ORDMAT['ITEMNO'].$ORDMAT['WHOUSE'].'</td><td>'.$ORDMAT['UNI_COST'].'</td><td>'.$ORDMAT['ITEMCLASS'].'</td><td>'.$ORDMAT['QTYORD'].'</td><td>'.$ORDMAT['QTYSHIP'].'</td><td>'.$ORDMAT['QTYBAKORD'].'</td><td>'.$ORDMAT['BASE_PRICE'].'</td><td>'.$ORDMAT['PRICE_CNT'].'</td><td>'.$ORDMAT['PERCENTDIS'].'</td><td>'.$ORDMAT['PRICE_SELL'].'</td><td>'.$ORDMAT['NET_SALES'].'</td><td>'.$ORDMAT['TAX_CODE'].'</td><td>'.$ORDMAT['DATEORDORG'].'</td><td>'.$ORDMAT['CREATEDATE'].'</td><td>'.$ORDMAT['UPDATEDATE'].'</td></tr>';
+				$table .= '<tr><td>'.$ORDMAT['ORDNO'].'</td><td>'.$ORDMAT['ITEMNO'].'</td><td>'.$ORDMAT['WHOUSE'].'</td><td>'.$ORDMAT['UNI_COST'].'</td><td>'.$ORDMAT['ITEMCLASS'].'</td><td>'.$ORDMAT['QTYORD'].'</td><td>'.$ORDMAT['QTYSHIP'].'</td><td>'.$ORDMAT['QTYBAKORD'].'</td><td>'.$ORDMAT['BASE_PRICE'].'</td><td>'.$ORDMAT['PRICE_CNT'].'</td><td>'.$ORDMAT['PERCENTDIS'].'</td><td>'.$ORDMAT['PRICE_SELL'].'</td><td>'.$ORDMAT['NET_SALES'].'</td><td>'.$ORDMAT['TAX_CODE'].'</td><td>'.$ORDMAT['DATEORDORG'].'</td><td>'.$ORDMAT['CREATEDATE'].'</td><td>'.$ORDMAT['UPDATEDATE'].'</td></tr>';
 			}
 		}
 		elseif ($title == "ORDMAS") {
-			$table .= '<tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>顧客訂單編號</th><th>運送地編號</th><th>帳單地編號</th><th>缺貨狀態碼</th><th>發票編號</th><th>銷售員編號</th><th>訂單總值</th><th>運送總值</th><th>訂單額外附加指令</th><th>原始訂單開啟日期</th><th>訂單完成百分比</th><th>訂單狀態</th><th>建立日期</th><th>最後修改日期</th></tr>';
+			$table .= '<tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>顧客訂單編號</th><th>運送地編號</th><th>帳單地編號</th><th>缺貨狀態碼</th><th>發票編號</th><th>銷售員編號</th><th>訂單總值</th><th>運送總值</th><th>訂單額外附加指令</th><th>原始訂單開啟日期</th><th>訂單完成百分比</th><th>訂單狀態</th><th>訂單要求完成日期</th><th>建立日期</th><th>最後修改日期</th></tr>';
 			while ($ORDMAS = mysql_fetch_array($resource)) {
-				$table .= '<tr><td>'.$ORDMAS['ORDNO'].'</td><td>'.$ORDMAS['ORDTYPE'].$ORDMAS['CUSNO'].'</td><td>'.$ORDMAS['CUS_PO_NO'].'</td><td>'.$ORDMAS['SHIP_ADD_NO'].'</td><td>'.$ORDMAS['BILL_ADD_NO'].'</td><td>'.$ORDMAS['BACKCODE'].'</td><td>'.$ORDMAS['INVOICENO'].'</td><td>'.$ORDMAS['SALPERNO'].'</td><td>'.$ORDMAS['TO_ORD_AMT'].'</td><td>'.$ORDMAS['TO_SHP_AMT'].'</td><td>'.$ORDMAS['ORD_INST'].'</td><td>'.$ORDMAS['DATEORDORG'].'</td><td>'.$ORDMAS['ORDCOMPER'].'</td><td>'.$ORDMAS['ORD_STAT'].'</td><td>'.$ORDMAS['DATE_REQ'].'</td><td>'.$ORDMAS['CREATEDATE'].'</td><td>'.$ORDMAS['UPDATEDATE'].'</td></tr>';
+				$table .= '<tr><td>'.$ORDMAS['ORDNO'].'</td><td>'.$ORDMAS['ORDTYPE'].'</td><td>'.$ORDMAS['CUSNO'].'</td><td>'.$ORDMAS['CUS_PO_NO'].'</td><td>'.$ORDMAS['SHIP_ADD_NO'].'</td><td>'.$ORDMAS['BILL_ADD_NO'].'</td><td>'.$ORDMAS['BACKCODE'].'</td><td>'.$ORDMAS['INVOICENO'].'</td><td>'.$ORDMAS['SALPERNO'].'</td><td>'.$ORDMAS['TO_ORD_AMT'].'</td><td>'.$ORDMAS['TO_SHP_AMT'].'</td><td>'.$ORDMAS['ORD_INST'].'</td><td>'.$ORDMAS['DATEORDORG'].'</td><td>'.$ORDMAS['ORDCOMPER'].'</td><td>'.$ORDMAS['ORD_STAT'].'</td><td>'.$ORDMAS['DATE_REQ'].'</td><td>'.$ORDMAS['CREATEDATE'].'</td><td>'.$ORDMAS['UPDATEDATE'].'</td></tr>';
 			}
 		}
-		$table = '</table>';
+		$table .= '</table>';
 		return $table;
 	}
 }

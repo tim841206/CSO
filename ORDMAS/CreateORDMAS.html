@@ -16,7 +16,6 @@
 		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
 		<tr><td>訂單種類</td><td><select id="ORDTYPE" style="visibility: hidden;"><option value="G">正常</option><option value="S">特殊</option></select></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()" style="visibility: hidden;"></td></tr>
-		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()" style="visibility: hidden;"></td></tr>
 		<tr><td>顧客訂單編號</td><td><input type="text" name="CUS_PO_NO" id="CUS_PO_NO" onchange="CUS_PO_NO()" style="visibility: hidden;"></td></tr>
 		<tr><td>運送地編號</td><td><input type="text" name="SHIP_ADD_NO" id="SHIP_ADD_NO" onchange="SHIP_ADD_NO()" style="visibility: hidden;"></td></tr>
 		<tr><td>帳單地編號</td><td><input type="text" name="BILL_ADD_NO" id="BILL_ADD_NO" onchange="BILL_ADD_NO()" style="visibility: hidden;"></td></tr>
@@ -24,10 +23,10 @@
 		<tr><td>訂單要求完成日期</td><td><input type="date" name="DATE_REQ" id="DATE_REQ" onchange="DATE_REQ()" style="visibility: hidden;"></td></tr>
 	</table>
 	<table id="Last" style="visibility: hidden;">
+		<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
 		<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
 		<tr><td>訂單種類</td><td><span id="LastORDTYPE"></span></td></tr>
 		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
 		<tr><td>顧客訂單編號</td><td><span id="LastCUS_PO_NO"></span></td></tr>
 		<tr><td>運送地編號</td><td><span id="LastSHIP_ADD_NO"></span></td></tr>
 		<tr><td>帳單地編號</td><td><span id="LastBILL_ADD_NO"></span></td></tr>
@@ -54,6 +53,11 @@
 					document.getElementById("SALPERNO").readOnly = true;
 					document.getElementById("ORDTYPE").style.visibility = 'visible';
 					document.getElementById("CUSNO").style.visibility = 'visible';
+					document.getElementById("CUS_PO_NO").style.visibility = 'visible';
+					document.getElementById("SHIP_ADD_NO").style.visibility = 'visible';
+					document.getElementById("BILL_ADD_NO").style.visibility = 'visible';
+					document.getElementById("ORD_INST").style.visibility = 'visible';
+					document.getElementById("DATE_REQ").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("此銷售員編號不存在");
@@ -71,38 +75,8 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("ORDTYPE").readOnly = true;
-					document.getElementById("CUSNO").readOnly = true;
-					document.getElementById("CUS_PO_NO").style.visibility = 'visible';
-					document.getElementById("SHIP_ADD_NO").style.visibility = 'visible';
-					document.getElementById("BILL_ADD_NO").style.visibility = 'visible';
-					document.getElementById("ORD_INST").style.visibility = 'visible';
-					document.getElementById("DATE_REQ").style.visibility = 'visible';
-					document.getElementById("ORDNO").value = data.ORDNO;
-				}
-				else if (data.state == 1) {
-					alert("此顧客編號不存在");
-				}
-			}
-		}
-	}
-	function ORDNO() {
-		var request = new XMLHttpRequest();
-		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=CreateORDMAS&option=ORDNO&ORDTYPE=" + document.getElementById("ORDTYPE").value + "&ORDNO=" + document.getElementById("ORDNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
-
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
 				if (data.state == 1) {
-					// 已刪除 是否回復
-				}
-				else if (data.state == 2) {
-					alert("除了恢復訂單外，無法更改訂單編號。");
-					document.getElementById("ORDNO").value = data.ORDNO;
+					alert("此顧客編號不存在");
 				}
 			}
 		}
@@ -190,7 +164,7 @@
 	function Create() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=CreateORDMAS&option=Create&SALPERNO=" + document.getElementById("SALPERNO").value + "&ORDTYPE=" + document.getElementById("ORDTYPE").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ORDNO=" + document.getElementById("ORDNO").value + "&CUS_PO_NO=" + document.getElementById("CUS_PO_NO").value + "&SHIP_ADD_NO=" + document.getElementById("SHIP_ADD_NO").value + "&BILL_ADD_NO=" + document.getElementById("BILL_ADD_NO").value + "&ORD_INST=" + document.getElementById("ORD_INST").value + "&DATE_REQ=" + document.getElementById("DATE_REQ").value;
+		var data = "module=ORDMAS&event=CreateORDMAS&option=Create&SALPERNO=" + document.getElementById("SALPERNO").value + "&ORDTYPE=" + document.getElementById("ORDTYPE").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&CUS_PO_NO=" + document.getElementById("CUS_PO_NO").value + "&SHIP_ADD_NO=" + document.getElementById("SHIP_ADD_NO").value + "&BILL_ADD_NO=" + document.getElementById("BILL_ADD_NO").value + "&ORD_INST=" + document.getElementById("ORD_INST").value + "&DATE_REQ=" + document.getElementById("DATE_REQ").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -198,11 +172,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					alert("新增成功，請繼續新增訂單材料");
+					alert("新增成功，訂單編號：" + data.ORDNO);
+					document.getElementById("LastORDNO").innerHTML = data.ORDNO;
 					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
 					document.getElementById("LastORDTYPE").innerHTML = document.getElementById("ORDTYPE").value;
 					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
-					document.getElementById("LastORDNO").innerHTML = document.getElementById("ORDNO").value;
 					document.getElementById("LastCUS_PO_NO").innerHTML = document.getElementById("CUS_PO_NO").value;
 					document.getElementById("LastSHIP_ADD_NO").innerHTML = document.getElementById("SHIP_ADD_NO").value;
 					document.getElementById("LastBILL_ADD_NO").innerHTML = document.getElementById("BILL_ADD_NO").value;
@@ -210,20 +184,11 @@
 					document.getElementById("LastDATE_REQ").innerHTML = document.getElementById("DATE_REQ").value;
 					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("CUSNO").value = null;
-					document.getElementById("ORDNO").value = null;
 					document.getElementById("CUS_PO_NO").value = null;
 					document.getElementById("SHIP_ADD_NO").value = null;
 					document.getElementById("BILL_ADD_NO").value = null;
 					document.getElementById("ORD_INST").value = null;
 					document.getElementById("DATE_REQ").value = null;
-					document.getElementById("ORDTYPE").readOnly = false;
-					document.getElementById("CUSNO").readOnly = false;
-					document.getElementById("ORDNO").style.visibility = 'hidden';
-					document.getElementById("CUS_PO_NO").style.visibility = 'hidden';
-					document.getElementById("SHIP_ADD_NO").style.visibility = 'hidden';
-					document.getElementById("BILL_ADD_NO").style.visibility = 'hidden';
-					document.getElementById("ORD_INST").style.visibility = 'hidden';
-					document.getElementById("DATE_REQ").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");
@@ -237,7 +202,6 @@
 	function Refresh() {
 		document.getElementById("SALPERNO").value = null;
 		document.getElementById("CUSNO").value = null;
-		document.getElementById("ORDNO").value = null;
 		document.getElementById("CUS_PO_NO").value = null;
 		document.getElementById("SHIP_ADD_NO").value = null;
 		document.getElementById("BILL_ADD_NO").value = null;
@@ -248,7 +212,6 @@
 		document.getElementById("CUSNO").readOnly = false;
 		document.getElementById("ORDTYPE").style.visibility = 'hidden';
 		document.getElementById("CUSNO").style.visibility = 'hidden';
-		document.getElementById("ORDNO").style.visibility = 'hidden';
 		document.getElementById("CUS_PO_NO").style.visibility = 'hidden';
 		document.getElementById("SHIP_ADD_NO").style.visibility = 'hidden';
 		document.getElementById("BILL_ADD_NO").style.visibility = 'hidden';

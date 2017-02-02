@@ -60,6 +60,14 @@
 					document.getElementById("BILL_ADD_NO").value = data.BILL_ADD_NO;
 					document.getElementById("ORD_INST").value = data.ORD_INST;
 					document.getElementById("DATE_REQ").value = data.DATE_REQ;
+					document.getElementById("ORDTYPE").style.visibility = 'visible';
+					document.getElementById("CUSNO").style.visibility = 'visible';
+					document.getElementById("SALPERNO").style.visibility = 'visible';
+					document.getElementById("CUS_PO_NO").style.visibility = 'visible';
+					document.getElementById("SHIP_ADD_NO").style.visibility = 'visible';
+					document.getElementById("BILL_ADD_NO").style.visibility = 'visible';
+					document.getElementById("ORD_INST").style.visibility = 'visible';
+					document.getElementById("DATE_REQ").style.visibility = 'visible';
 					document.getElementById('Edit').style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
@@ -87,7 +95,7 @@
 	function SHIP_ADD_NO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=EditORDMAS&option=SHIP_ADD_NO&CUSNO=" + document.getElementById("CUSNO").value + "&SHIP_ADD_NO=" + document.getElementById("SHIP_ADD_NO").value;
+		var data = "module=ORDMAS&event=EditORDMAS&option=SHIP_ADD_NO&ORDNO=" + document.getElementById("ORDNO").value + "&SHIP_ADD_NO=" + document.getElementById("SHIP_ADD_NO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -103,7 +111,7 @@
 	function BILL_ADD_NO() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=EditORDMAS&option=BILL_ADD_NO&CUSNO=" + document.getElementById("CUSNO").value + "&BILL_ADD_NO=" + document.getElementById("BILL_ADD_NO").value;
+		var data = "module=ORDMAS&event=EditORDMAS&option=BILL_ADD_NO&ORDNO=" + document.getElementById("ORDNO").value + "&BILL_ADD_NO=" + document.getElementById("BILL_ADD_NO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -169,6 +177,7 @@
 					document.getElementById("LastBILL_ADD_NO").innerHTML = document.getElementById("BILL_ADD_NO").value;
 					document.getElementById("LastORD_INST").innerHTML = document.getElementById("ORD_INST").value;
 					document.getElementById("LastDATE_REQ").innerHTML = document.getElementById("DATE_REQ").value;
+					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
 				else if (data.state == 1) {

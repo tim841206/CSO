@@ -10,26 +10,6 @@ if ($_POST['module'] == "ORDMAS") {
 		}
 		elseif ($_POST['option'] == "CUSNO") {
 			$result = check_CUSNO_exist($_POST['SALPERNO'], $_POST['CUSNO']);
-			if ($result == 0) {
-				$ORDNO = query_ORDNO($_POST['ORDTYPE']);
-				echo json_encode(array('state' => $result, 'ORDNO' => $ORDNO));
-				return;
-			}
-			else {
-				echo json_encode(array('state' => $result));
-				return;
-			}
-		}
-		elseif ($_POST['option'] == "ORDNO") {
-			$result = check_ORDNO_exist($_POST['ORDNO'], $_POST['ORDTYPE']);
-			if ($result == 1) {
-				echo json_encode(array('state' => $result));
-				return;
-			}
-			else {
-				echo json_encode(array('state' => 2, 'ORDNO' => $result));
-				return;
-			}
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -62,7 +42,6 @@ if ($_POST['module'] == "ORDMAS") {
 			$SALPERNO = $_POST['SALPERNO'];
 			$ORDTYPE = $_POST['ORDTYPE'];
 			$CUSNO = $_POST['CUSNO'];
-			$ORDNO = $_POST['ORDNO'];
 			$CUS_PO_NO = $_POST['CUS_PO_NO'];
 			$SHIP_ADD_NO = $_POST['SHIP_ADD_NO'];
 			$BILL_ADD_NO = $_POST['BILL_ADD_NO'];
@@ -70,14 +49,14 @@ if ($_POST['module'] == "ORDMAS") {
 			$DATE_REQ = $_POST['DATE_REQ'];
 			$result1 = check_SALPERNO_exist($SALPERNO);
 			$result2 = check_CUSNO_exist($SALPERNO, $CUSNO);
-			$result3 = check_ORDNO_exist($ORDNO, $ORDTYPE);
-			$result4 = check_50($CUS_PO_NO);
-			$result5 = check_ADDNO_exist($CUSNO, $SHIP_ADD_NO);
-			$result6 = check_ADDNO_exist($CUSNO, $BILL_ADD_NO);
-			$result7 = check_50($ORD_INST);
-			$result8 = check_notnull($DATE_REQ);
-			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6 + $result7 + $result8;
+			$result3 = check_50($CUS_PO_NO);
+			$result4 = check_ADDNO_exist($CUSNO, $SHIP_ADD_NO);
+			$result5 = check_ADDNO_exist($CUSNO, $BILL_ADD_NO);
+			$result6 = check_50($ORD_INST);
+			$result7 = check_notnull($DATE_REQ);
+			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6 + $result7;
 			if ($result == 0) {
+				$ORDNO = query_ORDNO($ORDTYPE);
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
@@ -89,7 +68,7 @@ if ($_POST['module'] == "ORDMAS") {
 					elseif ($ORDTYPE == 'S') {
 						mysql_query("UPDATE CSO_setup SET VALUE=VALUE+1 WHERE TYPENO='OS'");
 					}
-					echo json_encode(array('state' => 0));
+					echo json_encode(array('state' => 0, 'ORDNO' => $ORDNO));
 					return;
 				}
 				else {
@@ -220,17 +199,19 @@ if ($_POST['module'] == "ORDMAS") {
 			}
 		}
 		elseif ($_POST['option'] == "CUS_PO_NO") {
-			$result = check_50($_POST['CUSNO']);
+			$result = check_50($_POST['CUS_PO_NO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		elseif ($_POST['option'] == "SHIP_ADD_NO") {
-			$result = check_ADDNO_exist($_POST['CUSNO'], $_POST['SHIP_ADD_NO']);
+			$query = check_ORDNO($_POST['ORDNO']);
+			$result = check_ADDNO_exist($query['CUSNO'], $_POST['SHIP_ADD_NO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		elseif ($_POST['option'] == "BILL_ADD_NO") {
-			$result = check_ADDNO_exist($_POST['CUSNO'], $_POST['BILL_ADD_NO']);
+			$query = check_ORDNO($_POST['ORDNO']);
+			$result = check_ADDNO_exist($query['CUSNO'], $_POST['BILL_ADD_NO']);
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -249,12 +230,13 @@ if ($_POST['module'] == "ORDMAS") {
 			$CUS_PO_NO = $_POST['CUS_PO_NO'];
 			$SHIP_ADD_NO = $_POST['SHIP_ADD_NO'];
 			$BILL_ADD_NO= $_POST['BILL_ADD_NO'];
-			$BILL_ADD_NO= $_POST['ORD_INST'];
-			$BILL_ADD_NO= $_POST['DATE_REQ'];
+			$ORD_INST= $_POST['ORD_INST'];
+			$DATE_REQ= $_POST['DATE_REQ'];
+			$query = check_ORDNO($ORDNO);
 			$result1 = is_array(check_ORDNO($ORDNO))? 0 : check_ORDNO($ORDNO);
 			$result2 = check_50($CUS_PO_NO);
-			$result3 = check_ADDNO_exist($SHIP_ADD_NO);
-			$result4 = check_ADDNO_exist($BILL_ADD_NO);
+			$result3 = check_ADDNO_exist($query['CUSNO'], $SHIP_ADD_NO);
+			$result4 = check_ADDNO_exist($query['CUSNO'], $BILL_ADD_NO);
 			$result5 = check_50($ORD_INST);
 			$result6 = check_notnull($DATE_REQ);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
@@ -528,7 +510,7 @@ else {
     return;
 }
 
-function notnull($value) {
+function check_notnull($value) {
 	if (empty($value)) {
 		return 1; // 無輸入
 	}
@@ -583,10 +565,9 @@ function check_CUSNO_exist($SALPERNO, $CUSNO) {
 }
 
 function check_ADDNO_exist($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM CUSMAS WHERE CUSNO='$CUSNO' AND ACTCODE=1";
+	$sql = "SELECT * FROM CUSADD WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
-	$fetch = mysql_fetch_array($result);
-	if ($fetch['ADDNO_1'] != $ADDNO && $fetch['ADDNO_2'] != $ADDNO && $fetch['ADDNO_3'] != $ADDNO) {
+	if (mysql_num_rows($result) == 0) {
 		return 1; // 不存在
 	} 
 	else {
@@ -598,7 +579,7 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 	$sql = "SELECT ORDNO FROM ORDMAS WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
-		$fetch = mysql_fetch_array($result)
+		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 0) {
 			return 1; // 已刪除
 		}
@@ -629,7 +610,7 @@ function check_WHOUSE_exist($WHOUSE) {
 }
 
 function check_ORDNO($ORDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO' WHERE ACTCODE=1";
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -641,11 +622,16 @@ function check_ORDNO($ORDNO) {
 }
 
 function check_ORDNO_deleted($ORDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO' WHERE ACTCODE=0";
+	$sql = "SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
-		return $fetch; // ok
+		if ($fetch['ACTCODE'] == 0) {
+			return $fetch; // ok
+		}
+		else {
+			return 2; // 未刪除
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -703,7 +689,7 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' WHERE ACTCODE=1";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
@@ -715,7 +701,7 @@ function check_ORDMAT($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT_deleted($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' WHERE ACTCODE=0";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' AND ACTCODE=0";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
