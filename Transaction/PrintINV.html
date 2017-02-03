@@ -10,10 +10,10 @@
 		<h1>列印發票</h1>
 	</header>
 </head>
-<body onload="time()">
+<body onload="time(); init();">
 	<p>現在時間：<span id="now"></span></p>
 	<p>請輸入以下資料範圍</p>
-	<table onload="init()">
+	<table>
 		<tr><td>揀貨單編號</td><td><input type="text" name="FromPCKLSTNO" id="FromPCKLSTNO"> 到 <input type="text" name="ToPCKLSTNO" id="ToPCKLSTNO"></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></td></tr>
 		<tr><td>訂單編號</td><td><input type="text" name="FromORDNO" id="FromORDNO"> 到 <input type="text" name="ToORDNO" id="ToORDNO"></td></tr>
@@ -86,14 +86,12 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("result_1").innerHTML = null;
+					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					init();
 					alert("成功列印發票");
 				}
 				else if (data.state == 1) {
-					alert("資料庫操作失敗");
-				}
-				else if (data.state == 2) {
 					alert("查無資料");
 				}
 			}
@@ -111,14 +109,12 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("result_1").innerHTML = null;
+					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					init();
 					alert("成功重印發票");
 				}
 				else if (data.state == 1) {
-					alert("資料庫操作失敗");
-				}
-				else if (data.state == 2) {
 					alert("查無資料");
 				}
 			}

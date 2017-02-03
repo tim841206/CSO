@@ -10,10 +10,10 @@
 		<h1>查詢發票</h1>
 	</header>
 </head>
-<body onload="time()">
+<body onload="time(); init();">
 	<p>現在時間：<span id="now"></span></p>
 	<p>請輸入以下資料範圍</p>
-	<table onload="init()">
+	<table>
 		<tr><td>發票編號</td><td><input type="text" name="FromINVOICENO" id="FromINVOICENO"> 到 <input type="text" name="ToINVOICENO" id="ToINVOICENO"></td></tr>
 		<tr><td>揀貨單編號</td><td><input type="text" name="FromPCKLSTNO" id="FromPCKLSTNO"> 到 <input type="text" name="ToPCKLSTNO" id="ToPCKLSTNO"></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></td></tr>

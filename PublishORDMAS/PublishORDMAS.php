@@ -218,29 +218,41 @@ function Search($type, $data) {
 	}
 	else {
 		$table = '<table>';
-		$table .= '<tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>顧客訂單編號</th><th>運送地編號</th><th>帳單地編號</th><th>缺貨狀態碼</th><th>發票編號</th><th>銷售員編號</th><th>訂單總值</th><th>運送總值</th><th>訂單額外附加指令</th><th>原始訂單開啟日期</th><th>訂單完成百分比</th><th>訂單狀態</th><th>建立日期</th><th>最後修改日期</th></tr>';
+		$table .= '<tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>顧客訂單編號</th><th>運送地編號</th><th>帳單地編號</th><th>缺貨狀態碼</th><th>發票編號</th><th>銷售員編號</th><th>訂單總值</th><th>運送總值</th><th>訂單額外附加指令</th><th>原始訂單開啟日期</th><th>訂單完成百分比</th><th>訂單狀態</th><th>訂單要求完成日期</th><th>建立日期</th><th>最後修改日期</th></tr>';
 		while ($ORDMAS = mysql_fetch_array($resource)) {
-			$table .= '<tr><td>'.$ORDMAS['ORDNO'].'</td><td>'.$ORDMAS['ORDTYPE'].$ORDMAS['CUSNO'].'</td><td>'.$ORDMAS['CUS_PO_NO'].'</td><td>'.$ORDMAS['SHIP_ADD_NO'].'</td><td>'.$ORDMAS['BILL_ADD_NO'].'</td><td>'.$ORDMAS['BACKCODE'].'</td><td>'.$ORDMAS['INVOICENO'].'</td><td>'.$ORDMAS['SALPERNO'].'</td><td>'.$ORDMAS['TO_ORD_AMT'].'</td><td>'.$ORDMAS['TO_SHP_AMT'].'</td><td>'.$ORDMAS['ORD_INST'].'</td><td>'.$ORDMAS['DATEORDORG'].'</td><td>'.$ORDMAS['ORDCOMPER'].'</td><td>'.$ORDMAS['ORD_STAT'].'</td><td>'.$ORDMAS['DATE_REQ'].'</td><td>'.$ORDMAS['CREATEDATE'].'</td><td>'.$ORDMAS['UPDATEDATE'].'</td></tr>';
+			$table .= '<tr><td>'.$ORDMAS['ORDNO'].'</td><td>'.$ORDMAS['ORDTYPE'].'</td><td>'.$ORDMAS['CUSNO'].'</td><td>'.$ORDMAS['CUS_PO_NO'].'</td><td>'.$ORDMAS['SHIP_ADD_NO'].'</td><td>'.$ORDMAS['BILL_ADD_NO'].'</td><td>'.$ORDMAS['BACKCODE'].'</td><td>'.$ORDMAS['INVOICENO'].'</td><td>'.$ORDMAS['SALPERNO'].'</td><td>'.$ORDMAS['TO_ORD_AMT'].'</td><td>'.$ORDMAS['TO_SHP_AMT'].'</td><td>'.$ORDMAS['ORD_INST'].'</td><td>'.$ORDMAS['DATEORDORG'].'</td><td>'.$ORDMAS['ORDCOMPER'].'</td><td>'.$ORDMAS['ORD_STAT'].'</td><td>'.$ORDMAS['DATE_REQ'].'</td><td>'.$ORDMAS['CREATEDATE'].'</td><td>'.$ORDMAS['UPDATEDATE'].'</td></tr>';
 		}
-		$table = '</table>';
+		$table .= '</table>';
 		return $table;
 	}
 }
 
 function Check($type, $data) {
+	date_default_timezone_set('Asia/Taipei');
+	$UPDATEDATE = date("Y-m-d H:i:s");
+	$DATEORDORG = date("Y-m-d");
+	$FromSALPERNO = $data['FromSALPERNO'];
+	$ToSALPERNO = $data['ToSALPERNO'];
+	$FromCUSNO = $data['FromCUSNO'];
+	$ToCUSNO = $data['ToCUSNO'];
+	$FromORDNO = $data['FromORDNO'];
+	$ToORDNO = $data['ToORDNO'];
+	$FromDATE_REQ = $data['FromDATE_REQ'];
+	$ToDATE_REQ = $data['ToDATE_REQ'];
 	if ($type == 'C_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='C' WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER' AND ACTCODE=1");
+		$ORDCOMPER = $data['ORDCOMPER'];
+		$sql = "UPDATE ORDMAS SET ORD_STAT='C', UPDATEDATE='$UPDATEDATE' WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER' AND ACTCODE=1";
 	}
 	elseif ($type == 'F_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='F' WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1");
+		$sql = "UPDATE ORDMAS SET ORD_STAT='F', UPDATEDATE='$UPDATEDATE' WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1";
 	}
 	elseif ($type == 'R_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='E' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1");
+		$sql = "UPDATE ORDMAS SET ORD_STAT='R', UPDATEDATE='$UPDATEDATE', DATEORDORG='$DATEORDORG' WHERE ORD_STAT='E' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1";
 	}
 	elseif ($type == 'RR_ORDMAS') {
-		$resource = mysql_query("UPDATE ORDMAS SET ORD_STAT='R' WHERE ORD_STAT='F' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1");
+		$sql = "UPDATE ORDMAS SET ORD_STAT='R', UPDATEDATE='$UPDATEDATE', DATEORDORG='$DATEORDORG' WHERE ORD_STAT='F' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1";
 	}
-	if (mysql_query($resource)) {
+	if (mysql_query($sql)) {
 		return 0;
 	}
 	else {

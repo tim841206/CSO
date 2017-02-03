@@ -1,5 +1,6 @@
 <?
 include_once("../resource/database.php");
+include_once('../resource/TCPDF/tcpdf.php');
 
 if ($_POST['module'] == "Transaction") {
 	if ($_POST['event'] == "CreateINV") {
@@ -128,14 +129,26 @@ if ($_POST['module'] == "Transaction") {
 		elseif ($_POST['option'] == "Check") {
 			$data = array('FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_TRAN' => $_POST['FromDATE_TRAN'], 'ToDATE_TRAN' => $_POST['ToDATE_TRAN']);
 			$result = Check('PrintINV', $data);
-			echo json_encode(array('state' => $result));
-			return;
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'pdf' => $result));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
 		}
 		elseif ($_POST['option'] == "Reprint") {
 			$data = array('FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_TRAN' => $_POST['FromDATE_TRAN'], 'ToDATE_TRAN' => $_POST['ToDATE_TRAN']);
 			$result = Reprint('PrintINV', $data);
-			echo json_encode(array('state' => $result));
-			return;
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'pdf' => $result));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 400));
@@ -219,7 +232,7 @@ if ($_POST['module'] == "Transaction") {
 			}
 		}
 		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ'], 'ORDCOMPER' => $_POST['ORDCOMPER']);
+			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
 			$result = Search('PrintPCK', $data);
 			if ($result == 1) {
 				echo json_encode(array('state' => 1));
@@ -231,16 +244,28 @@ if ($_POST['module'] == "Transaction") {
 			}
 		}
 		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ'], 'ORDCOMPER' => $_POST['ORDCOMPER']);
+			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
 			$result = Check('PrintPCK', $data);
-			echo json_encode(array('state' => $result));
-			return;
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'pdf' => $result));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
 		}
 		elseif ($_POST['option'] == "Reprint") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ'], 'ORDCOMPER' => $_POST['ORDCOMPER']);
+			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
 			$result = Reprint('PrintPCK', $data);
-			echo json_encode(array('state' => $result));
-			return;
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0, 'pdf' => $result));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
 		}
 		else {
 			echo json_encode(array('state' => 400));
@@ -580,19 +605,18 @@ function Search($type, $data) {
 		$FromSALPERNO = $data['FromSALPERNO'];
 		$ToSALPERNO = $data['ToSALPERNO'];
 		$FromCUSNO = $data['FromCUSNO'];
-		$ToCUSNO = $data['ToCUSNO']
+		$ToCUSNO = $data['ToCUSNO'];
 		$FromORDNO = $data['FromORDNO'];
 		$ToORDNO = $data['ToORDNO'];
 		$FromDATE_REQ = $data['FromDATE_REQ'];
 		$ToDATE_REQ = $data['ToDATE_REQ'];
-		$ORDCOMPER = $data['ORDCOMPER'];
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
 			return 1; // 無資料
 		}
 		else {
 			$table1 = '<table><tr>將列印揀貨單的訂單</tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
-			$table2 = '<table><tr>已存在揀貨單的訂單 <button id="Reprint" onclick="Reprint()"></button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
+			$table2 = '<table><tr>已存在揀貨單的訂單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
 				$ORDNO = $fetch['ORDNO'];
 				$query = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO='$ORDNO'");
@@ -612,7 +636,7 @@ function Search($type, $data) {
 		$FromSALPERNO = $data['FromSALPERNO'];
 		$ToSALPERNO = $data['ToSALPERNO'];
 		$FromCUSNO = $data['FromCUSNO'];
-		$ToCUSNO = $data['ToCUSNO']
+		$ToCUSNO = $data['ToCUSNO'];
 		$FromORDNO = $data['FromORDNO'];
 		$ToORDNO = $data['ToORDNO'];
 		$FromPCKLSTNO = $data['FromPCKLSTNO'];
@@ -718,25 +742,25 @@ function Check($type, $data) {
 		$ToORDNO = $data['ToORDNO'];
 		$FromDATE_REQ = $data['FromDATE_REQ'];
 		$ToDATE_REQ = $data['ToDATE_REQ'];
-		$ORDCOMPER = $data['ORDCOMPER'];
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 2; // 無資料
+			return 1; // 無資料
 		}
 		else {
+			$pdf = array();
 			date_default_timezone_set('Asia/Taipei');
 			$DATEPRTORG = date("Y-m-d");
 			while ($fetch = mysql_fetch_array($resource)) {
 				$ORDNO = $fetch['ORDNO'];
 				$record = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO='$ORDNO'");
-				if (mysql_num_rows($query) == 0) {
+				if (mysql_num_rows($record) == 0) {
 					$result = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO'");
 					if (mysql_num_rows($result) != 0) {
 						$PCKLSTNO = query_PCKLSTNO($fetch['ORDTYPE']);
 						while ($query = mysql_fetch_array($result)) {
 							$ORDNO = $fetch['ORDNO'];
 							$ITEMNO = $query['ITEMNO'];
-							$DATE_REQ =  $fetch['DATE_REQ'];
+							$DATE_REQ = $fetch['DATE_REQ'];
 							$QTYORD = $query['QTYORD'];
 							$CUSNO = $fetch['CUSNO'];
 							$SHIP_ADD_NO = $fetch['SHIP_ADD_NO'];
@@ -744,19 +768,11 @@ function Check($type, $data) {
 							$SALPERNO = $fetch['SALPERNO'];
 							mysql_query("INSERT INTO PCKLST (PCKLSTNO, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, SALPERNO, ACTCODE) VALUES ('$PCKLSTNO', '$ORDNO', '$ITEMNO', '$DATE_REQ', '$QTYORD', '$DATEPRTORG', '$CUSNO', 1, '$SHIP_ADD_NO', '$WHOUSE', '$SALPERNO', 0)");
 						}
-						$pdf = curl_init();
-						curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
-						curl_setopt($pdf, CURLOPT_POST, true);
-						curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("ORDNO" => $fetch['ORDNO'], "PCKLSTNO" => $PCKLSTNO)));
-						$output = curl_exec($pdf);
-						curl_close($pdf);
-						if ($output == 1) {
-							return 1;
-						}
+						array_push($pdf, array('ORDNO' => $ORDNO, 'PCKLSTNO' => $PCKLSTNO));
 					}
 				}
 			}
-			return 0;
+			return $pdf;
 		}
 	}
 	elseif ($type == 'PergePCK') {
@@ -795,9 +811,10 @@ function Check($type, $data) {
 		$ToDATE_TRAN = $data['ToDATE_TRAN'];
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN' ORDER BY PCKLSTNO ASC, DATE_TRAN ASC");
 		if (mysql_num_rows($resource) == 0) {
-			return 2; // 無資料
+			return 1; // 無資料
 		}
 		else {
+			$pdf = array();
 			$PCKLSTNO = '';
 			$INVOICENO = '';
 			date_default_timezone_set('Asia/Taipei');
@@ -811,18 +828,10 @@ function Check($type, $data) {
 					$PCKLSTNO = $fetch['PCKLSTNO'];
 					mysql_query("UPDATE PCKLST SET ACTCODE=2 WHERE PCKLSTNO='$PCKLSTNO'");
 					mysql_query("UPDATE INVOICE SET INVOICENO='$INVOICENO', DATE_L_MNT='$DATE_L_MNT' WHERE PCKLSTNO='$PCKLSTNO'");
-					$pdf = curl_init();
-					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
-					curl_setopt($pdf, CURLOPT_POST, true);
-					curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("PCKLSTNO" => $fetch['PCKLSTNO'], "INVOICENO" => $INVOICENO)));
-					$output = curl_exec($pdf);
-					curl_close($pdf);
-					if ($output == 1) {
-						return 1;
-					}
+					array_push($pdf, array('PCKLSTNO' => $PCKLSTNO, 'INVOICENO' => $INVOICENO));
 				}
 			}
-			return 0;
+			return $pdf;
 		}
 	}
 }
@@ -837,30 +846,22 @@ function Reprint($type, $data) {
 		$ToORDNO = $data['ToORDNO'];
 		$FromDATE_REQ = $data['FromDATE_REQ'];
 		$ToDATE_REQ = $data['ToDATE_REQ'];
-		$ORDCOMPER = $data['ORDCOMPER'];
-		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ORDCOMPER>='$ORDCOMPER'");
+		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 2; // 無資料
+			return 1; // 無資料
 		}
 		else {
+			$pdf = array();
 			while ($fetch = mysql_fetch_array($resource)) {
 				$ORDNO = $fetch['ORDNO'];
 				$record = mysql_query("SELECT * FROM PCKLST WHERE ORDNO='$ORDNO'");
 				if (mysql_num_rows($record) != 0) {
 					$PCKLSTNO = mysql_fetch_array($record);
-					$pdf = curl_init();
-					curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
-					curl_setopt($pdf, CURLOPT_POST, true);
-					curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("PCKLSTNO" => $PCKLSTNO['PCKLSTNO'])));
-					$output = curl_exec($pdf);
-					curl_close($pdf);
-					if ($output == 1) {
-						return 1;
-					}
+					array_push($pdf, array("PCKLSTNO" => $PCKLSTNO['PCKLSTNO']));
 				}
 				$update = mysql_query("UPDATE PCKLST SET PRINTAG=PRINTAG+1 WHERE ORDNO='$ORDNO'");
 			}
-			return 0;
+			return $pdf;
 		}
 	}
 	elseif ($type == 'PrintINV') {
@@ -874,22 +875,15 @@ function Reprint($type, $data) {
 		$ToDATE_TRAN = $data['ToDATE_TRAN'];
 		$resource = mysql_query("SELECT * FROM INVOICENO WHERE INVOICENO>0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
 		if (mysql_num_rows($resource) == 0) {
-			return 2; // 無資料
+			return 1; // 無資料
 		}
 		else {
+			$pdf = array();
 			while ($fetch = mysql_fetch_array($resource)) {
-				$pdf = curl_init();
-				curl_setopt($pdf, CURLOPT_URL, "../resource/pdf.php");
-				curl_setopt($pdf, CURLOPT_POST, true);
-				curl_setopt($pdf, CURLOPT_POSTFIELDS, http_build_query(array("INVOICENO" => $fetch['INVOICENO'])));
-				$output = curl_exec($pdf);
-				curl_close($pdf);
-				if ($output == 1) {
-					return 1;
-				}
+				array_push($pdf, array('INVOICENO' => $fetch['INVOICENO']));
 				$update = mysql_query("UPDATE INVOICE SET PRINTAG=PRINTAG+1 WHERE INVOICENO>0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
 			}
-			return 0;
+			return $pdf;
 		}
 	}
 }

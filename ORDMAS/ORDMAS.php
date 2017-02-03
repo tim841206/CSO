@@ -170,6 +170,7 @@ if ($_POST['module'] == "ORDMAS") {
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "INSERT INTO ORDMAT (ORDNO, ITEMNO, WHOUSE, UNI_COST, ITEMCLASS, QTYORD, QTYSHIP, QTYBAKORD, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$ORDNO', '$ITEMNO', '$WHOUSE', '$UNI_COST', '$ITEMCLASS', '$QTYORD', 0, '$QTYORD', '$BASE_PRICE', '$PRICE_CNT', '$PERCENTDIS', '$PRICE_SELL', '$NET_SALES', '$TAX_CODE', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
+					update_TO_ORD_AMT($ORDNO, $ITEMNO, 'Plus');
 					echo json_encode(array('state' => 0, 'UNI_COST' => $UNI_COST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE, 'PRICE_SELL' => $PRICE_SELL, 'NET_SALES' => $NET_SALES));
 					return;
 				}
@@ -336,7 +337,9 @@ if ($_POST['module'] == "ORDMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "UPDATE ORDMAT SET QTYORD='$QTYORD', PRICE_CNT='$PRICE_CNT', PERCENTDIS='$PERCENTDIS', PRICE_SELL='$PRICE_SELL', NET_SALES='$NET_SALES', TAX_CODE='$TAX_CODE', UPDATEDATE='$UPDATEDATE' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
+				update_TO_ORD_AMT($ORDNO, $ITEMNO, 'Minus');
 				if (mysql_query($sql)) {
+					update_TO_ORD_AMT($ORDNO, $ITEMNO, 'Plus');
 					echo json_encode(array('state' => 0, 'PRICE_SELL' => $PRICE_SELL, 'NET_SALES' => $NET_SALES));
 					return;
 				}
@@ -416,6 +419,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 			if (mysql_query($sql)) {
+				update_TO_ORD_AMT($ORDNO, $ITEMNO, 'Minus');
 				echo json_encode(array('state' => 0));
 				return;
 			}
@@ -490,6 +494,7 @@ if ($_POST['module'] == "ORDMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=1 WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 			if (mysql_query($sql)) {
+				update_TO_ORD_AMT($ORDNO, $ITEMNO, 'Plus');
 				echo json_encode(array('state' => 0));
 				return;
 			}
@@ -781,4 +786,16 @@ function query_ITEM($ITEMNO) {
 	$ITEMCLASS = $fetch['itemclass'];
 	$BASE_PRICE = $fetch['pri_cur'];
 	return array('UNI_COST' => $UNI_COST, 'ITEMCLASS' => $ITEMCLASS, 'BASE_PRICE' => $BASE_PRICE);
+}
+
+function update_TO_ORD_AMT($ORDNO, $ITEMNO, $type) {
+	$result = mysql_query("SELECT NET_SALES FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
+	$fetch = mysql_fetch_array($result);
+	$NET_SALES = $fetch['NET_SALES'];
+	if ($type == 'Plus') {
+		mysql_query("UPDATE ORDMAS SET TO_ORD_AMT=TO_ORD_AMT+'$NET_SALES' WHERE ORDNO='$ORDNO'");
+	}
+	elseif ($type == 'Minus') {
+		mysql_query("UPDATE ORDMAS SET TO_ORD_AMT=TO_ORD_AMT-'$NET_SALES' WHERE ORDNO='$ORDNO'");
+	}
 }

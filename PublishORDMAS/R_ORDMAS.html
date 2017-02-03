@@ -10,17 +10,17 @@
 		<h1>發佈訂單</h1>
 	</header>
 </head>
-<body onload="time()">
+<body onload="time(); init();">
 	<p>現在時間：<span id="now"></span></p>
 	<p>請輸入以下資料範圍</p>
-	<table onload="init()">
+	<table>
 		<tr><td>銷售員編號</td><td><input type="text" name="FromSALPERNO" id="FromSALPERNO"> 到 <input type="text" name="ToSALPERNO" id="ToSALPERNO"></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></td></tr>
 		<tr><td>訂單編號</td><td><input type="text" name="FromORDNO" id="FromORDNO"> 到 <input type="text" name="ToORDNO" id="ToORDNO"></td></tr>
 		<tr><td>訂單要求完成日期</td><td><input type="text" name="FromDATE_REQ" id="FromDATE_REQ"> 到 <input type="text" name="ToDATE_REQ" id="ToDATE_REQ"></td></tr>
 	</table>
 	<button id="Search" onclick="Search()">查詢</button>
-	<button id="Check" onclick="Check()">確定</button>
+	<button id="Check" onclick="Check()" style="visibility: hidden;">確定</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 	<p id="result"></p>
 </body>
