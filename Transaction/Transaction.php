@@ -1,6 +1,5 @@
 <?
 include_once("../resource/database.php");
-include_once('../resource/TCPDF/tcpdf.php');
 
 if ($_POST['module'] == "Transaction") {
 	if ($_POST['event'] == "CreateINV") {

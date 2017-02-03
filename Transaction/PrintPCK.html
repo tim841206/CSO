@@ -94,6 +94,7 @@
 					while (pdf = data.pdf.pop()) {
 						var a = document.createElement('a');
 						a.href = '../resource/pdf.php?ORDNO=' + pdf.ORDNO + '&PCKLSTNO=' + pdf.PCKLSTNO;
+						a.onclick = "window.open(this.href,'_blank')";
 						a.click();
 					}
 				}
