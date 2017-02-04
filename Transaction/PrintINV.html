@@ -88,8 +88,11 @@
 					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
-					init();
 					alert("成功列印發票");
+					init();
+					var a = document.createElement('a');
+					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.click();
 				}
 				else if (data.state == 1) {
 					alert("查無資料");
@@ -111,8 +114,11 @@
 					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
-					init();
 					alert("成功重印發票");
+					init();
+					var a = document.createElement('a');
+					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.click();
 				}
 				else if (data.state == 1) {
 					alert("查無資料");

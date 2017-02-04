@@ -91,12 +91,9 @@
 					document.getElementById("Check").style.visibility = 'hidden';
 					alert("將列印揀貨單");
 					init();
-					while (pdf = data.pdf.pop()) {
-						var a = document.createElement('a');
-						a.href = '../resource/pdf.php?ORDNO=' + pdf.ORDNO + '&PCKLSTNO=' + pdf.PCKLSTNO;
-						a.onclick = "window.open(this.href,'_blank')";
-						a.click();
-					}
+					var a = document.createElement('a');
+					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.click();
 				}
 				else if (data.state == 1) {
 					alert("查無資料");
@@ -118,8 +115,11 @@
 					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
-					init();
 					alert("將重印揀貨單");
+					init();
+					var a = document.createElement('a');
+					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.click();
 				}
 				else if (data.state == 1) {
 					alert("查無資料");
