@@ -209,7 +209,7 @@ if ($_POST['module'] == "Transaction") {
 		}
 		elseif ($_POST['option'] == "Check") {
 			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Check('PCK', $data);
+			$result = Check('PergePCK', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -647,9 +647,9 @@ function Search($type, $data) {
 			return 1; // 無資料
 		}
 		else {
-			$table = '<table><tr>將作廢的揀貨單</tr><tr><th>揀貨單編號</th><th>訂單編號</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
+			$table = '<table><tr>將作廢的揀貨單</tr><tr><th>揀貨單編號</th><th>訂單編號</th><th>物料編號</th><th>要求數量</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
-				$table .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['DATE_REQ'].'</td></tr>';
+				$table .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYSHIPREQ'].'</td><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['DATE_REQ'].'</td></tr>';
 			}
 			$table .= '</table>';
 			return $table;
@@ -668,9 +668,9 @@ function Search($type, $data) {
 			return 1; // 無資料
 		}
 		else {
-			$table = '<table><tr><th>揀貨單編號</th><th>訂單編號</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
+			$table = '<table><tr><th>揀貨單編號</th><th>訂單編號</th><th>物料編號</th><th>要求數量</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
-				$table .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['DATE_REQ'].'</td></tr>';
+				$table .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYSHIPREQ'].'</td><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['DATE_REQ'].'</td></tr>';
 			}
 			$table .= '</table>';
 			return $table;
@@ -767,7 +767,7 @@ function Check($type, $data) {
 							$SALPERNO = $fetch['SALPERNO'];
 							mysql_query("INSERT INTO PCKLST (PCKLSTNO, ORDNO, ITEMNO, DATE_REQ, QTYSHIPREQ, DATEPRTORG, CUSNO, PRINTAG, SHIP_ADD_NO, WHOUSE, SALPERNO, ACTCODE) VALUES ('$PCKLSTNO', '$ORDNO', '$ITEMNO', '$DATE_REQ', '$QTYORD', '$DATEPRTORG', '$CUSNO', 1, '$SHIP_ADD_NO', '$WHOUSE', '$SALPERNO', 0)");
 						}
-						array_push($pdf, array('ORDNO' => $ORDNO, 'PCKLSTNO' => $PCKLSTNO));
+						array_push($pdf, array('PCKLSTNO' => $PCKLSTNO));
 					}
 				}
 			}
@@ -799,7 +799,7 @@ function Check($type, $data) {
 			}
 		}
 	}
-	if ($type == 'PrintINV') {
+	elseif ($type == 'PrintINV') {
 		$FromPCKLSTNO = $data['FromPCKLSTNO'];
 		$ToPCKLSTNO = $data['ToPCKLSTNO'];
 		$FromCUSNO = $data['FromCUSNO'];
@@ -827,7 +827,7 @@ function Check($type, $data) {
 					$PCKLSTNO = $fetch['PCKLSTNO'];
 					mysql_query("UPDATE PCKLST SET ACTCODE=2 WHERE PCKLSTNO='$PCKLSTNO'");
 					mysql_query("UPDATE INVOICE SET INVOICENO='$INVOICENO', DATE_L_MNT='$DATE_L_MNT' WHERE PCKLSTNO='$PCKLSTNO'");
-					array_push($pdf, array('PCKLSTNO' => $PCKLSTNO, 'INVOICENO' => $INVOICENO));
+					array_push($pdf, array('INVOICENO' => $INVOICENO));
 				}
 			}
 			return $pdf;

@@ -601,11 +601,11 @@ function check_ORDNO_exist($ORDNO, $ORDTYPE) {
 }
 
 function check_WHOUSE_exist($WHOUSE) {
-	$sql = "SELECT WHOUSE FROM WHOUSE WHERE WHOUSE='$WHOUSE'";
+	$sql = "SELECT * FROM WHOUSE WHERE WHOUSE='$WHOUSE'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
-		if ($fetch['ACTCODE'] == 1) {
+		if ($fetch['actcode'] == 1) {
 			return 2; // 已刪除
 		}
 		else {

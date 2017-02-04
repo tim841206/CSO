@@ -304,7 +304,6 @@
 
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
-				alert(request.responseText);
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					alert("修改成功");

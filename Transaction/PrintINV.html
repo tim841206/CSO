@@ -89,9 +89,13 @@
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					alert("成功列印發票");
+					var send = [];
+					for (var i = 0; i < data.pdf.length; i++) {
+						send.push(data.pdf[i].INVOICENO);
+					}
 					init();
 					var a = document.createElement('a');
-					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.href = '../resource/pdf.php?type=PrintINV&INVOICENO=' + send;
 					a.click();
 				}
 				else if (data.state == 1) {
@@ -115,9 +119,13 @@
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
 					alert("成功重印發票");
+					var send = [];
+					for (var i = 0; i < data.pdf.length; i++) {
+						send.push(data.pdf[i].INVOICENO);
+					}
 					init();
 					var a = document.createElement('a');
-					a.href = '../resource/pdf.php?data=' + data.pdf;
+					a.href = '../resource/pdf.php?type=ReprintINV&INVOICENO=' + send;
 					a.click();
 				}
 				else if (data.state == 1) {
