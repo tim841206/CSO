@@ -53,7 +53,7 @@
 	function init() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=REG-CITY-ADD&option=init";
+		var data = "module=BI&event=SLS_CUS_ADD&option=init";
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -78,7 +78,7 @@
 	function update() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=SLS-CUS-ADD&option=update&SALPERNO=" + document.getElementById("SALPERNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+		var data = "module=BI&event=SLS_CUS_ADD&option=update&SALPERNO=" + document.getElementById("SALPERNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -103,7 +103,7 @@
 	function Renew() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "BI.php");
-		var data = "module=BI&event=SLS-CUS-ADD&option=Renew";
+		var data = "module=BI&event=SLS_CUS_ADD&option=Renew";
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -114,6 +114,7 @@
 					document.getElementById("renew").innerHTML = data.renew;
 					document.getElementById("Renew").style.visibility = 'hidden';
 					alert("刷新成功");
+					init();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刷新失敗");

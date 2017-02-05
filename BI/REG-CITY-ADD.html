@@ -115,6 +115,7 @@
 					document.getElementById("renew").innerHTML = data.renew;
 					document.getElementById("Renew").style.visibility = 'hidden';
 					alert("刷新成功");
+					init();
 				}
 				else if (data.state == 1) {
 					alert("資料庫刷新失敗");
