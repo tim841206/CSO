@@ -40,6 +40,16 @@ if ($_POST['module'] == "Transaction") {
 			echo json_encode(array('state' => $result));
 			return;
 		}
+		elseif ($_POST['option'] == "DATE_TRAN") {
+			if (empty($_POST['option'])) {
+				echo json_encode(array('state' => 1));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => 0));
+				return;
+			}
+		}
 		elseif ($_POST['option'] == "Create") {
 			$PCKLSTNO = $_POST['PCKLSTNO'];
 			$ORDNO = $_POST['ORDNO'];
@@ -51,9 +61,10 @@ if ($_POST['module'] == "Transaction") {
 			$result1 = (check_PCKLSTNO($PCKLSTNO)>3)? 0 : check_PCKLSTNO($PCKLSTNO);
 			$result2 = (check_ORDNO($ORDNO)>3)? 0 : check_ORDNO($ORDNO);
 			$result3 = check_ITEMNO($PCKLSTNO, $ITEMNO);
-			$result4 = check_LOCNO($ITEMNO, $REV_CODE, $LOCNO);
-			$result5 = check_QTYTRAN($ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
-			$result = $result1 + $result2 + $result3 + $result4 + $result5;
+			$result4 = check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO);
+			$result5 = check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
+			$result6 = empty($DATE_TRAN)? 1 : 0;
+			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
 			if ($result == 0) {
 				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
 				$fetchORDMAT = mysql_fetch_array($queryORDMAT);
@@ -73,7 +84,13 @@ if ($_POST['module'] == "Transaction") {
 				$NET_SALES = $PRICE_SELL*$QTYTRAN;
 				date_default_timezone_set('Asia/Taipei');
 				$DATE_L_MNT = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO INVOICE (INVOICENO, PCKLSTNO, ORDNO, CUSNO, ITEMNO, DATE_TRAN, UNI_COST, ITEMCLASS, QTYTRAN, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, DATE_REQ, SHIP_ADD_NO, BILL_ADD_NO, REV_CODE, DATE_L_MNT, PRINTAG) VALUES (0, '$PCKLSTNO', '$ORDNO', '$CUSNO', '$ITEMNO', '$DATE_TRAN', '$UNI_COST', '$ITEMCLASS', '$QTYTRAN', '$BASE_PRICE', '$PRICE_CNT', '$PERCENTDIS', '$PRICE_SELL', '$NET_SALES', '$TAX_CODE', '$DATE_REQ', '$SHIP_ADD_NO', '$BILL_ADD_NO', '$REV_CODE', '$DATE_L_MNT', 0)";
+				$query = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'");
+				if (mysql_num_rows($query) == 0) {
+					$sql = "INSERT INTO INVOICE (INVOICENO, PCKLSTNO, ORDNO, CUSNO, ITEMNO, DATE_TRAN, UNI_COST, ITEMCLASS, QTYTRAN, BASE_PRICE, PRICE_CNT, PERCENTDIS, PRICE_SELL, NET_SALES, TAX_CODE, DATE_REQ, SHIP_ADD_NO, BILL_ADD_NO, REV_CODE, DATE_L_MNT, PRINTAG) VALUES (0, '$PCKLSTNO', '$ORDNO', '$CUSNO', '$ITEMNO', '$DATE_TRAN', '$UNI_COST', '$ITEMCLASS', '$QTYTRAN', '$BASE_PRICE', '$PRICE_CNT', '$PERCENTDIS', '$PRICE_SELL', '$NET_SALES', '$TAX_CODE', '$DATE_REQ', '$SHIP_ADD_NO', '$BILL_ADD_NO', '$REV_CODE', '$DATE_L_MNT', 0)";
+				}
+				else {
+					$sql = "UPDATE INVOICE SET DATE_TRAN='$DATE_TRAN', QTYTRAN=QTYTRAN+'$QTYTRAN' WHERE INVOICENO=0 AND PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'";
+				}		
 				if (!mysql_query($sql)) {
 					echo json_encode(array('state' => 1));
 					return;
@@ -88,6 +105,10 @@ if ($_POST['module'] == "Transaction") {
 				}
 				if (change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE) != 0) {
 					echo json_encode(array('state' => 5));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
 					return;
 				}
 			}
@@ -353,7 +374,7 @@ function check_ORDNO($ORDNO) {
 function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO' AND ACTCODE<=1";
 	$result = mysql_query($sql);
-	if ($result != false) {
+	if (mysql_num_rows($result) > 0) {
 		return 0; // ok
 	}
 	else {
@@ -362,18 +383,21 @@ function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 }
 
 function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
-	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKSLTNO='$PCKLSTNO'");
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'");
 	$fetch = mysql_fetch_array($query);
 	$WHOUSE = $fetch['WHOUSE'];
 	$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'");
 	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'");
 	if ($REV_CODE == 'C') {
-		if ($queryLOCBAL == false) {
+		if (mysql_num_rows($queryLOCBAL) == 0) {
 			return 1;
+		}
+		else {
+			return 0;
 		}
 	}
 	elseif ($REV_CODE == 'D') {
-		if ($queryLOCMAS == false) {
+		if (mysql_num_rows($queryLOCMAS) == 0) {
 			return 2;
 		}
 		else {
@@ -418,8 +442,8 @@ function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN,
 	}
 	elseif ($REV_CODE == 'D') {
 		$sql_1 = "UPDATE LOCMAS SET date_qty='$DATE_TRAN', qtytotal=qtytotal+'$QTYTRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO'";
-		if ($queryITMBAL == false) {
-			$sql_2 = "INSERT INTO LOCBAL (whouse, itemno, locno, qtyonhand, qtyperend, date_l_mnt, date_onhnd, date_fifo, Act_code) VALUES ('$WHOUSE', '$ITEMNO', '$LOCNO', '$QTYTRAN', 0, '$DATE_TRAN', '$DATE_TRAN', '$DATE_TRAN', 0)";
+		if (mysql_num_rows($queryITMBAL) == 0) {
+			$sql_2 = "INSERT INTO LOCBAL (whouse, itemno, locno, qtyonhand, qtyperend, date_l_mnt, date_onhnd, date_fifo, act_code) VALUES ('$WHOUSE', '$ITEMNO', '$LOCNO', '$QTYTRAN', 0, '$DATE_TRAN', '$DATE_TRAN', '$DATE_TRAN', 0)";
 		}
 		else {
 			$sql_2 = "UPDATE LOCBAL SET qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_fifo='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'";
@@ -444,13 +468,13 @@ function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $R
 	if ($REV_CODE == 'C') {
 		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE CUSNO='$CUSNO'";
 		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
-		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+'$NET_SALES', ORDCOMPER=(TO_SHP_AMT+'$NET_SALES')/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+'$NET_SALES', ORDCOMPER=TO_SHP_AMT/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
 		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP-'$QTYTRAN', NET_SALES=NET_SALES+'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	elseif ($REV_CODE == 'D') {
 		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE CUSNO='$CUSNO'";
 		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
-		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-'$NET_SALES', ORDCOMPER=(TO_SHP_AMT-'$NET_SALES')/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
+		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-'$NET_SALES', ORDCOMPER=TO_SHP_AMT/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
 		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP+'$QTYTRAN', NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
@@ -486,19 +510,19 @@ function change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE)
 }
 
 function init($type) {
-	$FromSALPERNO = 9999999;
+	$FromSALPERNO = 99999999;
 	$ToSALPERNO = 0;
-	$FromCUSNO = 9999999;
+	$FromCUSNO = 99999999;
 	$ToCUSNO = 0;
-	$FromORDNO = 9999999;
+	$FromORDNO = 99999999;
 	$ToORDNO = 0;
-	$FromPCKLSTNO = 9999999;
+	$FromPCKLSTNO = 99999999;
 	$ToPCKLSTNO = 0;
-	$FromDATE_REQ = 9999999;
+	$FromDATE_REQ = 99999999;
 	$ToDATE_REQ = 0;
-	$FromINVOICENO = 9999999;
+	$FromINVOICENO = 99999999;
 	$ToINVOICENO = 0;
-	$FromDATE_TRAN = 9999999;
+	$FromDATE_TRAN = 99999999;
 	$ToDATE_TRAN = 0;
 	if ($type == 'PrintPCK') {
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R'");
@@ -715,7 +739,7 @@ function Search($type, $data) {
 		}
 		else {
 			$table1 = '<table><tr>將列印發票的揀貨單</tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
-			$table2 = '<table><tr>已存在發票的揀貨單 <button id="Reprint" onclick="Reprint()"></button></tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
+			$table2 = '<table><tr>已存在發票的揀貨單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
 			while ($fetch = mysql_fetch_array($resource)) {
 				if ($fetch['INVOICENO'] == 0) {
 					$table1 .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['DATE_TRAN'].'</td></tr>';

@@ -62,7 +62,7 @@ function Print_PCKLST($PCKLSTNO) {
     $pdf->writeHTML($tbl, true, false, false, false, '');
   }
   ob_end_clean();
-  $pdf->Output('揀貨單.pdf', 'D');
+  $pdf->Output('PCKLST.pdf', 'D');
 }
 
 function Print_INVOICE($INVOICENO) {
@@ -105,7 +105,7 @@ function Print_INVOICE($INVOICENO) {
     $pdf->writeHTML($tbl, true, false, false, false, '');
   }
   ob_end_clean();
-  $pdf->Output('發票.pdf', 'D');
+  $pdf->Output('INVOICE.pdf', 'D');
 }
  
 function Reprint_PCKLST($PCKLSTNO) {
@@ -148,7 +148,7 @@ function Reprint_PCKLST($PCKLSTNO) {
     $pdf->writeHTML($tbl, true, false, false, false, '');
   }
   ob_end_clean();
-  $pdf->Output('揀貨單.pdf', 'D');
+  $pdf->Output('PCKLST.pdf', 'D');
 }
 
 function Reprint_INVOICE($INVOICENO) {
@@ -191,5 +191,5 @@ function Reprint_INVOICE($INVOICENO) {
     $pdf->writeHTML($tbl, true, false, false, false, '');
   }
   ob_end_clean();
-  $pdf->Output('發票.pdf', 'D');
+  $pdf->Output('INVOICE.pdf', 'D');
 }
