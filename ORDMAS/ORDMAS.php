@@ -653,7 +653,12 @@ function check_ORDNO($ORDNO) {
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
-		return $fetch; // ok
+		if ($fetch['ACTCODE'] == 0) {
+			return 2;
+		}
+		else {
+			return $fetch; // ok
+		}
 	}
 	else {
 		return 1; // 不存在
@@ -728,11 +733,16 @@ function check_ITEMNO($ORDNO, $ITEMNO) {
 }
 
 function check_ORDMAT($ORDNO, $ITEMNO) {
-	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO' AND ACTCODE=1";
+	$sql = "SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		$fetch = mysql_fetch_array($result);
-		return $fetch;
+		if ($fetch['ACTCODE'] == 0) {
+			return 2;
+		}
+		else {
+			return $fetch;
+		}
 	}
 	else {
 		return 1; // 不存在

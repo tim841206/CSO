@@ -72,8 +72,11 @@
 					document.getElementById("ADDNO").style.visibility = 'visible';
 					document.getElementById("ADDNO").focus();
 				}
-				if (data.state == 1) {
+				else if (data.state == 1) {
 					alert("此顧客編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客已刪除");
 				}
 			}
 		}
@@ -107,6 +110,9 @@
 				}
 				else if (data.state == 1) {
 					alert("此地址編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此顧客地址已刪除");
 				}
 			}
 		}

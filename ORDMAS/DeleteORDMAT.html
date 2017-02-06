@@ -77,6 +77,9 @@
 				else if (data.state == 1) {
 					alert("此訂單編號不存在");
 				}
+				else if (data.state == 2) {
+					alert("此顧客訂單已刪除");
+				}
 			}
 		}
 	}
@@ -110,6 +113,9 @@
 				}
 				else if (data.state == 1) {
 					alert("此物料編號不存在");
+				}
+				else if (data.state == 2) {
+					alert("此訂單物料已刪除");
 				}
 			}
 		}
