@@ -196,7 +196,18 @@
 					document.getElementById("LastQTYTRAN").innerHTML = document.getElementById("QTYTRAN").value;
 					document.getElementById("LastDATE_TRAN").innerHTML = document.getElementById("DATE_TRAN").value;
 					document.getElementById("Last").style.visibility = 'visible';
-					Refresh();
+					document.getElementById("ITEMNO").value = null;
+					document.getElementById("LOCNO").value = null;
+					document.getElementById("QTYTRAN").value = null;
+					document.getElementById("DATE_TRAN").value = null;
+					document.getElementById("ITEMNO").readOnly = false;
+					document.getElementById("REV_CODE").readOnly = false;
+					document.getElementById("LOCNO").readOnly = false;
+					document.getElementById("REV_CODE").style.visibility = 'hidden';
+					document.getElementById("LOCNO").style.visibility = 'hidden';
+					document.getElementById("QTYTRAN").style.visibility = 'hidden';
+					document.getElementById("DATE_TRAN").style.visibility = 'hidden';
+					document.getElementById("Create").style.visibility = 'hidden';
 				}
 				else if (data.state == 1) {
 					alert("資料庫新增失敗");

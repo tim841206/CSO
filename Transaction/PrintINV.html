@@ -20,7 +20,6 @@
 		<tr><td>交易日期</td><td><input type="text" name="FromDATE_TRAN" id="FromDATE_TRAN"> 到 <input type="text" name="ToDATE_TRAN" id="ToDATE_TRAN"></td></tr>
 	</table>
 	<button id="Search" onclick="Search()">查詢</button>
-	<button id="Check" onclick="Check()">確定</button>
 	<button id="Close" onclick="Close()">返回首頁</button>
 	<p id="result_1"></p>
 	<p id="result_2"></p>
@@ -66,7 +65,6 @@
 				if (data.state == 0) {
 					document.getElementById("result_1").innerHTML = data.result1;
 					document.getElementById("result_2").innerHTML = data.result2;
-					document.getElementById("Check").style.visibility = 'visible';
 				}
 				else if (data.state == 1) {
 					alert("查無資料");
@@ -87,13 +85,12 @@
 				if (data.state == 0) {
 					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("result_2").innerHTML = null;
-					document.getElementById("Check").style.visibility = 'hidden';
+					init();
 					alert("成功列印發票");
 					var send = [];
 					for (var i = 0; i < data.pdf.length; i++) {
 						send.push(data.pdf[i].INVOICENO);
 					}
-					init();
 					var a = document.createElement('a');
 					a.href = '../resource/pdf.php?type=PrintINV&INVOICENO=' + send;
 					a.click();
@@ -118,12 +115,12 @@
 					document.getElementById("result_1").innerHTML = null;
 					document.getElementById("result_2").innerHTML = null;
 					document.getElementById("Check").style.visibility = 'hidden';
+					init();
 					alert("成功重印發票");
 					var send = [];
 					for (var i = 0; i < data.pdf.length; i++) {
 						send.push(data.pdf[i].INVOICENO);
 					}
-					init();
 					var a = document.createElement('a');
 					a.href = '../resource/pdf.php?type=ReprintINV&INVOICENO=' + send;
 					a.click();

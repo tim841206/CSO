@@ -469,13 +469,13 @@ function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $R
 		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE CUSNO='$CUSNO'";
 		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
 		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD+'$NET_SALES', SALEAMTSTD=SALEAMTSTD+'$NET_SALES', SALEAMTMTD=SALEAMTMTD+'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT+'$NET_SALES', ORDCOMPER=TO_SHP_AMT/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
-		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP-'$QTYTRAN', NET_SALES=NET_SALES+'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP+'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP, NET_SALES=NET_SALES+'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	elseif ($REV_CODE == 'D') {
 		$sql_1 = "UPDATE CUSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE CUSNO='$CUSNO'";
 		$sql_2 = "UPDATE SLSMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES' WHERE SALPERNO='$SALPERNO'";
 		$sql_3 = "UPDATE ORDMAS SET SALEAMTYTD=SALEAMTYTD-'$NET_SALES', SALEAMTSTD=SALEAMTSTD-'$NET_SALES', SALEAMTMTD=SALEAMTMTD-'$NET_SALES', INVOICENO=0, TO_SHP_AMT=TO_SHP_AMT-'$NET_SALES', ORDCOMPER=TO_SHP_AMT/TO_ORD_AMT WHERE ORDNO='$ORDNO'";
-		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP+'$QTYTRAN', NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
+		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP, NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
 		return 1;
@@ -638,15 +638,25 @@ function Search($type, $data) {
 			return 1; // 無資料
 		}
 		else {
-			$table1 = '<table><tr>將列印揀貨單的訂單</tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
-			$table2 = '<table><tr>已存在揀貨單的訂單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
+			$table1_count = 0;
+			$table2_count = 0;
+			$table1 = '';
+			$table2 = '';
 			while ($fetch = mysql_fetch_array($resource)) {
 				$ORDNO = $fetch['ORDNO'];
 				$query = mysql_query("SELECT PCKLSTNO FROM PCKLST WHERE ORDNO='$ORDNO'");
 				if (mysql_num_rows($query) == 0) {
+					if ($table1_count == 0) {
+						$table1_count = 1;
+						$table1 = '<table><tr>將列印揀貨單的訂單 <button id="Check" onclick="Check()">列印</button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
+					}
 					$table1 .= '<tr><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ORDTYPE'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['SHIP_ADD_NO'].'</td><td>'.$fetch['BILL_ADD_NO'].'</td><td>'.$fetch['SALPERNO'].'</td></tr>';
 				}
 				else {
+					if ($table2_count == 0) {
+						$table2_count = 1;
+						$table2 = '<table><tr>已存在揀貨單的訂單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>訂單編號</th><th>訂單種類</th><th>顧客編號</th><th>運送地編號</th><th>帳單地編號</th><th>銷售員編號</th></tr>';
+					}
 					$table2 .= '<tr><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ORDTYPE'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['SHIP_ADD_NO'].'</td><td>'.$fetch['BILL_ADD_NO'].'</td><td>'.$fetch['SALPERNO'].'</td></tr>';
 				}
 			}
@@ -738,13 +748,23 @@ function Search($type, $data) {
 			return 1; // 無資料
 		}
 		else {
-			$table1 = '<table><tr>將列印發票的揀貨單</tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
-			$table2 = '<table><tr>已存在發票的揀貨單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
+			$table1_count = 0;
+			$table2_count = 0;
+			$table1 = '';
+			$table2 = '';
 			while ($fetch = mysql_fetch_array($resource)) {
 				if ($fetch['INVOICENO'] == 0) {
+					if ($table1_count == 0) {
+						$table1_count = 1;
+						$table1 = '<table><tr>將列印發票的揀貨單 <button id="Check" onclick="Check()">列印</button></tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
+					}
 					$table1 .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['DATE_TRAN'].'</td></tr>';
 				}
 				else {
+					if ($table2_count == 0) {
+						$table2_count = 1;
+						$table2 = '<table><tr>已存在發票的揀貨單 <button id="Reprint" onclick="Reprint()">重印</button></tr><tr><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>交易數量</th><th>交易日期</th></tr>';
+					}
 					$table2 .= '<tr><td>'.$fetch['PCKLSTNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ORDNO'].'</td><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['DATE_TRAN'].'</td></tr>';
 				}
 			}

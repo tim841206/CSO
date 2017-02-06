@@ -27,12 +27,17 @@ if ($_POST['module'] == "BI") {
 						echo json_encode(array('state' => 2));
 						return;
 					}
+					$result = mysql_query("SELECT * FROM REG_CITY_ADD");
 				}
 				$table_month = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_season = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_year = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_ever = '<table><tr><th>廠商暨地區編號</th><th>城市編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+				$renew = '';
 				while ($fetch = mysql_fetch_array($result)) {
+					if (empty($renew)) {
+						$renew = $fetch['PRODUCE_TIME'];
+					}
 					$table_month .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
 					$table_season .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
 					$table_year .= '<tr><td>'.$fetch['REGIONNO'].'</td><td>'.$fetch['CITYNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
@@ -42,7 +47,7 @@ if ($_POST['module'] == "BI") {
 				$table_season .= '</table>';
 				$table_year .= '</table>';
 				$table_ever .= '</table>';
-				echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+				echo json_encode(array('state' => 0, 'renew' => $renew, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
 				return;
 			}
 			else {
@@ -150,12 +155,17 @@ if ($_POST['module'] == "BI") {
 						echo json_encode(array('state' => 2));
 						return;
 					}
+					$result = mysql_query("SELECT * FROM SLS_CUS_ADD");
 				}
 				$table_month = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_season = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_year = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
 				$table_ever = '<table><tr><th>銷售員編號</th><th>顧客編號</th><th>地址編號</th><th>累積銷售額</th></tr>';
+				$renew = '';
 				while ($fetch = mysql_fetch_array($result)) {
+					if (empty($renew)) {
+						$renew = $fetch['PRODUCE_TIME'];
+					}
 					$table_month .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTMTD'].'</td></tr>';
 					$table_season .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTSTD'].'</td></tr>';
 					$table_year .= '<tr><td>'.$fetch['SALPERNO'].'</td><td>'.$fetch['CUSNO'].'</td><td>'.$fetch['ADDNO'].'</td><td>'.$fetch['SALEAMTYTD'].'</td></tr>';
@@ -165,7 +175,7 @@ if ($_POST['module'] == "BI") {
 				$table_season .= '</table>';
 				$table_year .= '</table>';
 				$table_ever .= '</table>';
-				echo json_encode(array('state' => 0, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
+				echo json_encode(array('state' => 0, 'renew' => $renew, 'table_month' => $table_month, 'table_season' => $table_season, 'table_year' => $table_year, 'table_ever' => $table_ever));
 				return;
 			}
 			else {

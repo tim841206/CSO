@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2017 年 01 月 11 日 10:34
+-- 產生時間： 2017 年 02 月 06 日 05:16
 -- 伺服器版本: 10.1.13-MariaDB
 -- PHP 版本： 5.6.23
 
@@ -31,18 +31,6 @@ CREATE TABLE `CSO_setup` (
   `DESCRIPTS` varchar(50) COLLATE utf8_bin NOT NULL,
   `VALUE` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客與銷售訂單系統設定檔';
-
---
--- 資料表的匯出資料 `CSO_setup`
---
-
-INSERT INTO `CSO_setup` (`TYPENO`, `DESCRIPTS`, `VALUE`) VALUES
-('OG', '下一筆正常訂單編號', 100001),
-('OS', '下一筆特殊訂單編號', 900001),
-('PG', '下一筆正常訂單揀貨單編號', 1000001),
-('PS', '下一筆特殊訂單揀貨單編號', 9000001),
-('IG', '下一筆正常發票編號', 10000001),
-('IS', '下一筆特殊發票編號', 90000001);
 
 -- --------------------------------------------------------
 
@@ -83,7 +71,7 @@ CREATE TABLE `CUSADDCITY` (
   `CREATEDATE` datetime NOT NULL,
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客地址城市關聯主檔';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='顧客運送地址城市關係主檔';
 
 -- --------------------------------------------------------
 
@@ -176,8 +164,8 @@ CREATE TABLE `INVOICE` (
   `ITEMCLASS` varchar(2) COLLATE utf8_bin NOT NULL,
   `QTYTRAN` int(11) NOT NULL,
   `BASE_PRICE` double NOT NULL,
-  `PRICE_CNT` double DEFAULT NULL,
-  `PERCENTDIS` double DEFAULT NULL,
+  `PRICE_CNT` double NOT NULL,
+  `PERCENTDIS` double NOT NULL,
   `PRICE_SELL` double NOT NULL,
   `NET_SALES` double NOT NULL,
   `TAX_CODE` varchar(1) COLLATE utf8_bin NOT NULL,
@@ -186,8 +174,144 @@ CREATE TABLE `INVOICE` (
   `BILL_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `REV_CODE` varchar(1) COLLATE utf8_bin NOT NULL,
   `DATE_L_MNT` date NOT NULL,
-  `PRINTAG` tinyint(4) COLLATE utf8_bin NOT NULL
+  `PRINTAG` varchar(1) COLLATE utf8_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單發票交易檔';
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `ITMBAL`
+--
+
+CREATE TABLE `ITMBAL` (
+  `whouse` varchar(5) COLLATE utf8_bin NOT NULL,
+  `itemno` varchar(20) COLLATE utf8_bin NOT NULL,
+  `leadtmcode` varchar(1) COLLATE utf8_bin NOT NULL,
+  `leadtmmnf` double NOT NULL,
+  `leadtmpur` int(11) NOT NULL,
+  `orderpoint` int(11) NOT NULL,
+  `qtyfixord` int(11) NOT NULL,
+  `saftystock` int(11) NOT NULL,
+  `flrstockcd` varchar(1) COLLATE utf8_bin NOT NULL,
+  `date_cre` date NOT NULL,
+  `date_l_mnt` date NOT NULL,
+  `qtysoldptd` int(11) NOT NULL,
+  `qtyissptd` int(11) NOT NULL,
+  `qtyrecptd` int(11) NOT NULL,
+  `qtyscrptd` int(11) NOT NULL,
+  `qtyadjptd` int(11) NOT NULL,
+  `saleamtptd` double NOT NULL,
+  `issamtptd` double NOT NULL,
+  `recamtptd` double NOT NULL,
+  `scramtptd` double NOT NULL,
+  `adjamtptd` double NOT NULL,
+  `qtysoldstd` int(11) NOT NULL,
+  `qtyissstd` int(11) NOT NULL,
+  `qtyrecstd` int(11) NOT NULL,
+  `qtyscrstd` int(11) NOT NULL,
+  `qtyadjstd` int(11) NOT NULL,
+  `saleamtstd` double NOT NULL,
+  `issamtstd` double NOT NULL,
+  `recamtstd` double NOT NULL,
+  `scramtstd` double NOT NULL,
+  `adjamtstd` double NOT NULL,
+  `qtysoldytd` int(11) NOT NULL,
+  `qtyissytd` int(11) NOT NULL,
+  `qtyrecytd` int(11) NOT NULL,
+  `qtyscrytd` int(11) NOT NULL,
+  `qtyadjytd` int(11) NOT NULL,
+  `saleamtytd` double NOT NULL,
+  `issamtytd` double NOT NULL,
+  `recamtytd` double NOT NULL,
+  `scramtytd` double NOT NULL,
+  `adjamtytd` double NOT NULL,
+  `qtyonhand` int(11) NOT NULL,
+  `qtyphyinv` int(11) NOT NULL,
+  `date_prupd` date DEFAULT NULL,
+  `beginv` int(11) NOT NULL,
+  `qtyonprd` int(11) NOT NULL,
+  `qtyonpur` int(11) NOT NULL,
+  `costamtytd` double NOT NULL,
+  `costamtptd` double NOT NULL,
+  `date_onhnd` date NOT NULL,
+  `date_sales` date DEFAULT NULL,
+  `date_l_iss` date DEFAULT NULL,
+  `actcode` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `ITMMAS`
+--
+
+CREATE TABLE `ITMMAS` (
+  `itemno` varchar(20) COLLATE utf8_bin NOT NULL,
+  `descripts` varchar(50) COLLATE utf8_bin NOT NULL,
+  `itemclass` varchar(5) COLLATE utf8_bin NOT NULL,
+  `pur_man` varchar(1) COLLATE utf8_bin NOT NULL,
+  `salable` varchar(1) COLLATE utf8_bin NOT NULL,
+  `no_rout` int(11) NOT NULL,
+  `lastdate` date NOT NULL,
+  `mat_cur` double NOT NULL,
+  `mat_sta` double NOT NULL,
+  `mat_his` double NOT NULL,
+  `lab_cur` double NOT NULL,
+  `lab_sta` double NOT NULL,
+  `lab_his` double NOT NULL,
+  `over_cur` double NOT NULL,
+  `over_sta` double NOT NULL,
+  `over_his` double NOT NULL,
+  `cur_date` date NOT NULL,
+  `sta_date` date NOT NULL,
+  `his_date` date DEFAULT NULL,
+  `pri_cur` double NOT NULL,
+  `pricurdate` date DEFAULT NULL,
+  `pri_his1` int(11) NOT NULL,
+  `prihis1d` date DEFAULT NULL,
+  `pri_his2` int(11) NOT NULL,
+  `prihis2d` date DEFAULT NULL,
+  `pri_his3` int(11) NOT NULL,
+  `prihis3d` date DEFAULT NULL,
+  `level` tinyint(4) NOT NULL,
+  `l_bsize` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `LOCBAL`
+--
+
+CREATE TABLE `LOCBAL` (
+  `whouse` varchar(5) COLLATE utf8_bin NOT NULL,
+  `itemno` varchar(20) COLLATE utf8_bin NOT NULL,
+  `locno` varchar(20) COLLATE utf8_bin NOT NULL,
+  `qtyonhand` int(11) NOT NULL,
+  `qtyperend` int(11) NOT NULL,
+  `date_l_mnt` date NOT NULL,
+  `date_onhnd` date NOT NULL,
+  `date_fifo` date NOT NULL,
+  `actcode` tinyint(4) NOT NULL,
+  `date_prupd` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `LOCMAS`
+--
+
+CREATE TABLE `LOCMAS` (
+  `whouse` varchar(5) COLLATE utf8_bin NOT NULL,
+  `locno` varchar(20) COLLATE utf8_bin NOT NULL,
+  `descripts` varchar(50) COLLATE utf8_bin NOT NULL,
+  `date_cre` date NOT NULL,
+  `date_l_mnt` date NOT NULL,
+  `qtytotal` int(11) NOT NULL,
+  `date_qty` date NOT NULL,
+  `actcode` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
@@ -241,11 +365,11 @@ CREATE TABLE `ORDMAT` (
   `PRICE_SELL` double NOT NULL,
   `NET_SALES` double NOT NULL,
   `TAX_CODE` varchar(1) COLLATE utf8_bin NOT NULL,
-  `DATEORDORG` date DEFAULT NULL,
+  `DATEORDORG` date NOT NULL,
   `CREATEDATE` datetime NOT NULL,
   `UPDATEDATE` datetime NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單物料檔';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售訂單材料檔';
 
 -- --------------------------------------------------------
 
@@ -261,11 +385,11 @@ CREATE TABLE `PCKLST` (
   `QTYSHIPREQ` int(11) NOT NULL,
   `DATEPRTORG` date NOT NULL,
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `PRINTAG` tinyint(4) COLLATE utf8_bin NOT NULL,
-  `DATE_SHIP` date DEFAULT NULL,
+  `PRINTAG` varchar(15) COLLATE utf8_bin NOT NULL,
+  `DATE_SHIP` date NOT NULL,
   `SHIP_ADD_NO` varchar(15) COLLATE utf8_bin NOT NULL,
   `WHOUSE` varchar(5) COLLATE utf8_bin NOT NULL,
-  `LOCNO` varchar(5) COLLATE utf8_bin DEFAULT NULL,
+  `LOCNO` varchar(5) COLLATE utf8_bin NOT NULL,
   `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `ACTCODE` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='揀貨單交易檔';
@@ -279,9 +403,9 @@ CREATE TABLE `PCKLST` (
 CREATE TABLE `REG_CITY_ADD` (
   `LEVEL` tinyint(1) NOT NULL,
   `REGIONNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CITYNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `CUSNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `ADDNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CITYNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `SALEAMTMTD` int(11) NOT NULL,
   `SALEAMTSTD` int(11) NOT NULL,
   `SALEAMTYTD` int(11) NOT NULL,
@@ -318,8 +442,8 @@ CREATE TABLE `SLSMAS` (
 CREATE TABLE `SLS_CUS_ADD` (
   `LEVEL` tinyint(1) NOT NULL,
   `SALPERNO` varchar(15) COLLATE utf8_bin NOT NULL,
-  `CUSNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `ADDNO` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
+  `ADDNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `SALEAMTMTD` int(11) NOT NULL,
   `SALEAMTSTD` int(11) NOT NULL,
   `SALEAMTYTD` int(11) NOT NULL,
@@ -327,6 +451,23 @@ CREATE TABLE `SLS_CUS_ADD` (
   `PRODUCER` varchar(1) COLLATE utf8_bin NOT NULL,
   `PRODUCE_TIME` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='銷售員-顧客-地址';
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `WHOUSE`
+--
+
+CREATE TABLE `WHOUSE` (
+  `whouse` varchar(5) COLLATE utf8_bin NOT NULL,
+  `descriptor` varchar(50) COLLATE utf8_bin NOT NULL,
+  `inreq_no` int(11) NOT NULL,
+  `plan_or_no` int(11) NOT NULL,
+  `pur_or_no` int(11) NOT NULL,
+  `date_l_mnt` date NOT NULL,
+  `date_cre` date NOT NULL,
+  `actcode` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- 已匯出資料表的索引

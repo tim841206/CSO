@@ -10,10 +10,10 @@
 		<h1>重生訂單</h1>
 	</header>
 </head>
-<body onload="time()">
+<body onload="time(); init();">
 	<p>現在時間：<span id="now"></span></p>
 	<p>請輸入以下資料範圍</p>
-	<table onload="init()">
+	<table>
 		<tr><td>銷售員編號</td><td><input type="text" name="FromSALPERNO" id="FromSALPERNO"> 到 <input type="text" name="ToSALPERNO" id="ToSALPERNO"></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="FromCUSNO" id="FromCUSNO"> 到 <input type="text" name="ToCUSNO" id="ToCUSNO"></td></tr>
 		<tr><td>訂單編號</td><td><input type="text" name="FromORDNO" id="FromORDNO"> 到 <input type="text" name="ToORDNO" id="ToORDNO"></td></tr>
