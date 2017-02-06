@@ -567,7 +567,7 @@ function check_SALPERNO($SALPERNO) {
 			return 2; // 長度超過上限
 		}
 		else {
-			$sql = "SELECT SALPERNO FROM SLSMAS WHERE SALPERNO='$SALPERNO'";
+			$sql = "SELECT * FROM SLSMAS WHERE SALPERNO='$SALPERNO'";
 			$result = mysql_query($sql);
 			if (mysql_num_rows($result) > 0) {
 				$fetch = mysql_fetch_array($result);
@@ -619,7 +619,7 @@ function check_CUSNO($CUSNO) {
 			return 2; // 長度超過上限
 		}
 		else {
-			$sql = "SELECT CUSNO FROM CUSMAS WHERE CUSNO='$CUSNO'";
+			$sql = "SELECT * FROM CUSMAS WHERE CUSNO='$CUSNO'";
 			$result = mysql_query($sql);
 			if (mysql_num_rows($result) > 0) {
 				$fetch = mysql_fetch_array($result);
@@ -751,7 +751,7 @@ function check_REGIONNO($REGIONNO) {
 			return 2; // 長度超過上限
 		}
 		else {
-			$sql = "SELECT REGIONNO FROM CUSREGION WHERE REGIONNO='$REGIONNO'";
+			$sql = "SELECT * FROM CUSREGION WHERE REGIONNO='$REGIONNO'";
 			$result = mysql_query($sql);
 			if (mysql_num_rows($result) > 0) {
 				$fetch = mysql_fetch_array($result);
@@ -789,7 +789,7 @@ function check_CITYNO($CITYNO) {
 			return 2; // 長度超過上限
 		}
 		else {
-			$sql = "SELECT CITYNO FROM CUSCITY WHERE CITYNO='$CITYNO'";
+			$sql = "SELECT * FROM CUSCITY WHERE CITYNO='$CITYNO'";
 			$result = mysql_query($sql);
 			if (mysql_num_rows($result) > 0) {
 				$fetch = mysql_fetch_array($result);
