@@ -51,8 +51,20 @@ if ($_POST['module'] == "DeleteMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE CUSMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO='$CUSNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteCUSADD = "UPDATE CUSADD SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO='$CUSNO'";
+				$deleteCUSADDCITY = "UPDATE CUSADDCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO='$CUSNO'";
+				if (!mysql_query($deleteCUSADD)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				elseif (!mysql_query($deleteCUSADDCITY)) {
+					echo json_encode(array('state' => 3));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));
@@ -94,8 +106,15 @@ if ($_POST['module'] == "DeleteMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE CUSADD SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteCUSADDCITY = "UPDATE CUSADDCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
+				if (!mysql_query($deleteCUSADDCITY)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));
@@ -125,8 +144,20 @@ if ($_POST['module'] == "DeleteMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE CUSREGION SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE REGIONNO='$REGIONNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteCUSCITY = "UPDATE CUSCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE REGIONNO='$REGIONNO'";
+				$deleteCUSADDCITY = "UPDATE CUSADDCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CITYNO IN (SELECT CITYNO FROM CUSCITY WHERE REGIONNO='$REGIONNO')";
+				if (!mysql_query($deleteCUSCITY)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				elseif (!mysql_query($deleteCUSADDCITY)) {
+					echo json_encode(array('state' => 3));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));
@@ -156,8 +187,15 @@ if ($_POST['module'] == "DeleteMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE CUSCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CITYNO='$CITYNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteCUSADDCITY = "UPDATE CUSADDCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CITYNO='$CITYNO'";
+				if (!mysql_query($deleteCUSADDCITY)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));

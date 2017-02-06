@@ -196,8 +196,15 @@ if ($_POST['module'] == "EditMAS") {
 				$UPDATEDATE = date("Y-m-d H:i:s");
 				$sql = "UPDATE CUSMAS SET CUSNM='$CUSNM', ADDNO_1='$ADDNO_1', ADDNO_2='$ADDNO_2', ADDNO_3='$ADDNO_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', WSITE='$WSITE', SALPERNO='$SALPERNO', SPEINS='$SPEINS', CREDITSTAT='$CREDITSTAT', TAXID='$TAXID', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
 				if (mysql_query($sql)) {
-					echo json_encode(array('state' => 0));
-					return;
+					$editCUSADDCITY = "UPDATE CUSADDCITY SET CUSNM='$CUSNM', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
+					if (!mysql_query($editCUSADDCITY)) {
+						echo json_encode(array('state' => 3));
+						return;
+					}
+					else {
+						echo json_encode(array('state' => 0));
+						return;
+					}
 				}
 				else {
 					echo json_encode(array('state' => 1));

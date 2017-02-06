@@ -172,7 +172,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					alert("新增成功，訂單編號：" + data.ORDNO);
+					alert("新增成功，訂單編號：" + data.ORDNO + "，請繼續新增顧客訂單物料");
 					document.getElementById("LastORDNO").innerHTML = data.ORDNO;
 					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
 					document.getElementById("LastORDTYPE").innerHTML = document.getElementById("ORDTYPE").value;

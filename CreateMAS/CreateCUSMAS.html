@@ -386,7 +386,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					alert("新增成功");
+					alert("新增成功，請繼續新增顧客地址");
 					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
 					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
 					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").value;

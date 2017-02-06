@@ -376,8 +376,15 @@ if ($_POST['module'] == "ORDMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE ORDMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO='$ORDNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteORDMAT = "UPDATE ORDMAT SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE ORDNO='$ORDNO'";
+				if (!mysql_query($deleteORDMAT)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));
