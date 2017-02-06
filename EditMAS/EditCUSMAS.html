@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>修改顧客</title>
 	<header>
 		<h1>修改顧客</h1>
@@ -12,49 +13,53 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
-		<tr><td>顧客名稱</td><td><input type="text" name="CUSNM" id="CUSNM" onchange="CUSNM()" style="visibility: hidden;"></td></tr>
-		<tr><td>地址編號 1</td><td><input type="text" name="ADDNO_1" id="ADDNO_1" onchange="ADDNO_1()" style="visibility: hidden;"></td></tr>
-		<tr><td>地址編號 2</td><td><input type="text" name="ADDNO_2" id="ADDNO_2" onchange="ADDNO_2()" style="visibility: hidden;"></td></tr>
-		<tr><td>地址編號 3</td><td><input type="text" name="ADDNO_3" id="ADDNO_3" onchange="ADDNO_3()" style="visibility: hidden;"></td></tr>
-		<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()" style="visibility: hidden;"></td></tr>
-		<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()" style="visibility: hidden;"></td></tr>
-		<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()" style="visibility: hidden;"></td></tr>
-		<tr><td>郵遞區號</td><td><input type="text" name="ZCODE" id="ZCODE" onchange="ZCODE()" style="visibility: hidden;"></td></tr>
-		<tr><td>接觸人員</td><td><input type="text" name="CNTPER" id="CNTPER" onchange="CNTPER()" style="visibility: hidden;"></td></tr>
-		<tr><td>電話</td><td><input type="text" name="TEL" id="TEL" onchange="TEL()" style="visibility: hidden;"></td></tr>
-		<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()" style="visibility: hidden;"></td></tr>
-		<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()" style="visibility: hidden;"></td></tr>
-		<tr><td>網址</td><td><input type="text" name="WSITE" id="WSITE" onchange="WSITE()" style="visibility: hidden;"></td></tr>
-		<tr><td>所屬銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()" style="visibility: hidden;"></td></tr>
-		<tr><td>特殊要求</td><td><input type="text" name="SPEINS" id="SPEINS" onchange="SPEINS()" style="visibility: hidden;"></td></tr>
-		<tr><td>信用狀態</td><td><select type="text" name="CREDITSTAT" id="CREDITSTAT" style="visibility: hidden;"><option value="A">A : 付現</option><option value="B">B : 30天內</option><option value="C">C : 無限制</option></select></td></tr>
-		<tr><td>統一編號</td><td><input type="text" name="TAXID" id="TAXID" onchange="TAXID()" style="visibility: hidden;"></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
-		<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
-		<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
-		<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
-		<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
-		<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
-		<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
-		<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
-		<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
-		<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
-		<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
-		<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
-		<tr><td>網址</td><td><span id="LastWSITE"></span></td></tr>
-		<tr><td>所屬銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>特殊要求</td><td><span id="LastSPEINS"></span></td></tr>
-		<tr><td>信用狀態</td><td><span id="LastCREDITSTAT"></span></td></tr>
-		<tr><td>統一編號</td><td><span id="LastTAXID"></span></td></tr>
-	</table>
-	<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+			<tr><td>顧客名稱</td><td><input type="text" name="CUSNM" id="CUSNM" onchange="CUSNM()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址編號 1</td><td><input type="text" name="ADDNO_1" id="ADDNO_1" onchange="ADDNO_1()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址編號 2</td><td><input type="text" name="ADDNO_2" id="ADDNO_2" onchange="ADDNO_2()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址編號 3</td><td><input type="text" name="ADDNO_3" id="ADDNO_3" onchange="ADDNO_3()" style="visibility: hidden;"></td></tr>
+			<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()" style="visibility: hidden;"></td></tr>
+			<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()" style="visibility: hidden;"></td></tr>
+			<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()" style="visibility: hidden;"></td></tr>
+			<tr><td>郵遞區號</td><td><input type="text" name="ZCODE" id="ZCODE" onchange="ZCODE()" style="visibility: hidden;"></td></tr>
+			<tr><td>接觸人員</td><td><input type="text" name="CNTPER" id="CNTPER" onchange="CNTPER()" style="visibility: hidden;"></td></tr>
+			<tr><td>電話</td><td><input type="text" name="TEL" id="TEL" onchange="TEL()" style="visibility: hidden;"></td></tr>
+			<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()" style="visibility: hidden;"></td></tr>
+			<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()" style="visibility: hidden;"></td></tr>
+			<tr><td>網址</td><td><input type="text" name="WSITE" id="WSITE" onchange="WSITE()" style="visibility: hidden;"></td></tr>
+			<tr><td>所屬銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()" style="visibility: hidden;"></td></tr>
+			<tr><td>特殊要求</td><td><input type="text" name="SPEINS" id="SPEINS" onchange="SPEINS()" style="visibility: hidden;"></td></tr>
+			<tr><td>信用狀態</td><td><select type="text" name="CREDITSTAT" id="CREDITSTAT" style="visibility: hidden;"><option value="A">A : 付現</option><option value="B">B : 30天內</option><option value="C">C : 無限制</option></select></td></tr>
+			<tr><td>統一編號</td><td><input type="text" name="TAXID" id="TAXID" onchange="TAXID()" style="visibility: hidden;"></td></tr>
+		</table>
+		<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
+			<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
+			<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
+			<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
+			<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
+			<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
+			<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
+			<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
+			<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
+			<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
+			<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
+			<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
+			<tr><td>網址</td><td><span id="LastWSITE"></span></td></tr>
+			<tr><td>所屬銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>特殊要求</td><td><span id="LastSPEINS"></span></td></tr>
+			<tr><td>信用狀態</td><td><span id="LastCREDITSTAT"></span></td></tr>
+			<tr><td>統一編號</td><td><span id="LastTAXID"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -105,6 +110,7 @@
 					document.getElementById("CREDITSTAT").style.visibility = 'visible';
 					document.getElementById("TAXID").style.visibility = 'visible';
 					document.getElementById("Edit").style.visibility = 'visible';
+					document.getElementById("CUSNM").focus();
 				}
 				else if (data.state == 1) {
 					alert("此顧客編號不存在");

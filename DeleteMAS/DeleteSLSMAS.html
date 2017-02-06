@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>刪除銷售員</title>
 	<header>
 		<h1>刪除銷售員</h1>
@@ -12,31 +13,35 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-		<tr><td>銷售員名稱</td><td><span id="SALPERNM"></span></td></tr>
-		<tr><td>員工編號</td><td><span id="EMPNO"></span></td></tr>
-		<tr><td>酬勞比率(%)</td><td><span id="COMRATE"></span></td></tr>
-		<tr><td>年結帳至今銷售額</td><td><span id="SALEAMTYTD"></span></td></tr>
-		<tr><td>季結帳至今銷售額</td><td><span id="SALEAMTSTD"></span></td></tr>
-		<tr><td>月結帳至今銷售額</td><td><span id="SALEAMTMTD"></span></td></tr>
-		<tr><td>建立日期</td><td><span id="CREATEDATE"></span></td></tr>
-		<tr><td>最後修改日期</td><td><span id="UPDATEDATE"></span></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>銷售員名稱</td><td><span id="LastSALPERNM"></span></td></tr>
-		<tr><td>員工編號</td><td><span id="LastEMPNO"></span></td></tr>
-		<tr><td>酬勞比率(%)</td><td><span id="LastCOMRATE"></span></td></tr>
-		<tr><td>年結帳至今銷售額</td><td><span id="LastSALEAMTYTD"></span></td></tr>
-		<tr><td>季結帳至今銷售額</td><td><span id="LastSALEAMTSTD"></span></td></tr>
-		<tr><td>月結帳至今銷售額</td><td><span id="LastSALEAMTMTD"></span></td></tr>
-		<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
-		<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
-	</table>
-	<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+			<tr><td>銷售員名稱</td><td><span id="SALPERNM"></span></td></tr>
+			<tr><td>員工編號</td><td><span id="EMPNO"></span></td></tr>
+			<tr><td>酬勞比率(%)</td><td><span id="COMRATE"></span></td></tr>
+			<tr><td>年結帳至今銷售額</td><td><span id="SALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今銷售額</td><td><span id="SALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今銷售額</td><td><span id="SALEAMTMTD"></span></td></tr>
+			<tr><td>建立日期</td><td><span id="CREATEDATE"></span></td></tr>
+			<tr><td>最後修改日期</td><td><span id="UPDATEDATE"></span></td></tr>
+		</table>
+		<button id="Delete" onclick="Delete()" style="visibility: hidden;">刪除</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>銷售員名稱</td><td><span id="LastSALPERNM"></span></td></tr>
+			<tr><td>員工編號</td><td><span id="LastEMPNO"></span></td></tr>
+			<tr><td>酬勞比率(%)</td><td><span id="LastCOMRATE"></span></td></tr>
+			<tr><td>年結帳至今銷售額</td><td><span id="LastSALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今銷售額</td><td><span id="LastSALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今銷售額</td><td><span id="LastSALEAMTMTD"></span></td></tr>
+			<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
+			<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">

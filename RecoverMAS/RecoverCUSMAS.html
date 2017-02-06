@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>恢復顧客</title>
 	<header>
 		<h1>恢復顧客</h1>
@@ -12,73 +13,77 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
-		<tr><td>顧客名稱</td><td><span id="CUSNM"></span></td></tr>
-		<tr><td>地址編號 1</td><td><span id="ADDNO_1"></span></td></tr>
-		<tr><td>地址編號 2</td><td><span id="ADDNO_2"></span></td></tr>
-		<tr><td>地址編號 3</td><td><span id="ADDNO_3"></span></td></tr>
-		<tr><td>所屬城市</td><td><span id="CITY"></span></td></tr>
-		<tr><td>所屬縣市</td><td><span id="COUNTY"></span></td></tr>
-		<tr><td>所屬國家</td><td><span id="COUNTRY"></span></td></tr>
-		<tr><td>郵遞區號</td><td><span id="ZCODE"></span></td></tr>
-		<tr><td>接觸人員</td><td><span id="CNTPER"></span></td></tr>
-		<tr><td>電話</td><td><span id="TEL"></span></td></tr>
-		<tr><td>傳真</td><td><span id="FAX"></span></td></tr>
-		<tr><td>電子信箱</td><td><span id="EMAIL"></span></td></tr>
-		<tr><td>網址</td><td><span id="WSITE"></span></td></tr>
-		<tr><td>所屬銷售員編號</td><td><span id="SALPERNO"></span></td></tr>
-		<tr><td>預設運送地編號</td><td><span id="DFSHIPNO"></span></td></tr>
-		<tr><td>預設帳單地編號</td><td><span id="DFBILLNO"></span></td></tr>
-		<tr><td>年結帳至今銷售額</td><td><span id="SALEAMTYTD"></span></td></tr>
-		<tr><td>季結帳至今銷售額</td><td><span id="SALEAMTSTD"></span></td></tr>
-		<tr><td>月結帳至今銷售額</td><td><span id="SALEAMTMTD"></span></td></tr>
-		<tr><td>應收帳款</td><td><span id="CURAR"></span></td></tr>
-		<tr><td>30~60天應收帳款</td><td><span id="AR30_60"></span></td></tr>
-		<tr><td>60~90天應收帳款</td><td><span id="AR60_90"></span></td></tr>
-		<tr><td>90~120天應收帳款</td><td><span id="AR90_120"></span></td></tr>
-		<tr><td>超過120天應收帳款</td><td><span id="M120AR"></span></td></tr>
-		<tr><td>特殊要求</td><td><span id="SPEINS"></span></td></tr>
-		<tr><td>信用狀態</td><td><span id="CREDITSTAT"></span></td></tr>
-		<tr><td>統一編號</td><td><span id="TAXID"></span></td></tr>
-		<tr><td>建立時間</td><td><span id="CREATEDATE"></span></td></tr>
-		<tr><td>最後修改時間</td><td><span id="UPDATEDATE"></span></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
-		<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
-		<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
-		<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
-		<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
-		<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
-		<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
-		<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
-		<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
-		<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
-		<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
-		<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
-		<tr><td>網址</td><td><span id="LastWSITE"></span></td></tr>
-		<tr><td>所屬銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>預設運送地編號</td><td><span id="LastDFSHIPNO"></span></td></tr>
-		<tr><td>預設帳單地編號</td><td><span id="LastDFBILLNO"></span></td></tr>
-		<tr><td>年結帳至今銷售額</td><td><span id="LastSALEAMTYTD"></span></td></tr>
-		<tr><td>季結帳至今銷售額</td><td><span id="LastSALEAMTSTD"></span></td></tr>
-		<tr><td>月結帳至今銷售額</td><td><span id="LastSALEAMTMTD"></span></td></tr>
-		<tr><td>應收帳款</td><td><span id="LastCURAR"></span></td></tr>
-		<tr><td>30~60天應收帳款</td><td><span id="LastAR30_60"></span></td></tr>
-		<tr><td>60~90天應收帳款</td><td><span id="LastAR60_90"></span></td></tr>
-		<tr><td>90~120天應收帳款</td><td><span id="LastAR90_120"></span></td></tr>
-		<tr><td>超過120天應收帳款</td><td><span id="LastM120AR"></span></td></tr>
-		<tr><td>特殊要求</td><td><span id="LastSPEINS"></span></td></tr>
-		<tr><td>信用狀態</td><td><span id="LastCREDITSTAT"></span></td></tr>
-		<tr><td>統一編號</td><td><span id="LastTAXID"></span></td></tr>
-		<tr><td>建立時間</td><td><span id="LastCREATEDATE"></span></td></tr>
-		<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
-	</table>
-	<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+			<tr><td>顧客名稱</td><td><span id="CUSNM"></span></td></tr>
+			<tr><td>地址編號 1</td><td><span id="ADDNO_1"></span></td></tr>
+			<tr><td>地址編號 2</td><td><span id="ADDNO_2"></span></td></tr>
+			<tr><td>地址編號 3</td><td><span id="ADDNO_3"></span></td></tr>
+			<tr><td>所屬城市</td><td><span id="CITY"></span></td></tr>
+			<tr><td>所屬縣市</td><td><span id="COUNTY"></span></td></tr>
+			<tr><td>所屬國家</td><td><span id="COUNTRY"></span></td></tr>
+			<tr><td>郵遞區號</td><td><span id="ZCODE"></span></td></tr>
+			<tr><td>接觸人員</td><td><span id="CNTPER"></span></td></tr>
+			<tr><td>電話</td><td><span id="TEL"></span></td></tr>
+			<tr><td>傳真</td><td><span id="FAX"></span></td></tr>
+			<tr><td>電子信箱</td><td><span id="EMAIL"></span></td></tr>
+			<tr><td>網址</td><td><span id="WSITE"></span></td></tr>
+			<tr><td>所屬銷售員編號</td><td><span id="SALPERNO"></span></td></tr>
+			<tr><td>預設運送地編號</td><td><span id="DFSHIPNO"></span></td></tr>
+			<tr><td>預設帳單地編號</td><td><span id="DFBILLNO"></span></td></tr>
+			<tr><td>年結帳至今銷售額</td><td><span id="SALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今銷售額</td><td><span id="SALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今銷售額</td><td><span id="SALEAMTMTD"></span></td></tr>
+			<tr><td>應收帳款</td><td><span id="CURAR"></span></td></tr>
+			<tr><td>30~60天應收帳款</td><td><span id="AR30_60"></span></td></tr>
+			<tr><td>60~90天應收帳款</td><td><span id="AR60_90"></span></td></tr>
+			<tr><td>90~120天應收帳款</td><td><span id="AR90_120"></span></td></tr>
+			<tr><td>超過120天應收帳款</td><td><span id="M120AR"></span></td></tr>
+			<tr><td>特殊要求</td><td><span id="SPEINS"></span></td></tr>
+			<tr><td>信用狀態</td><td><span id="CREDITSTAT"></span></td></tr>
+			<tr><td>統一編號</td><td><span id="TAXID"></span></td></tr>
+			<tr><td>建立時間</td><td><span id="CREATEDATE"></span></td></tr>
+			<tr><td>最後修改時間</td><td><span id="UPDATEDATE"></span></td></tr>
+		</table>
+		<button id="Recover" onclick="Recover()" style="visibility: hidden;">恢復</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
+			<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
+			<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
+			<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
+			<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
+			<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
+			<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
+			<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
+			<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
+			<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
+			<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
+			<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
+			<tr><td>網址</td><td><span id="LastWSITE"></span></td></tr>
+			<tr><td>所屬銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>預設運送地編號</td><td><span id="LastDFSHIPNO"></span></td></tr>
+			<tr><td>預設帳單地編號</td><td><span id="LastDFBILLNO"></span></td></tr>
+			<tr><td>年結帳至今銷售額</td><td><span id="LastSALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今銷售額</td><td><span id="LastSALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今銷售額</td><td><span id="LastSALEAMTMTD"></span></td></tr>
+			<tr><td>應收帳款</td><td><span id="LastCURAR"></span></td></tr>
+			<tr><td>30~60天應收帳款</td><td><span id="LastAR30_60"></span></td></tr>
+			<tr><td>60~90天應收帳款</td><td><span id="LastAR60_90"></span></td></tr>
+			<tr><td>90~120天應收帳款</td><td><span id="LastAR90_120"></span></td></tr>
+			<tr><td>超過120天應收帳款</td><td><span id="LastM120AR"></span></td></tr>
+			<tr><td>特殊要求</td><td><span id="LastSPEINS"></span></td></tr>
+			<tr><td>信用狀態</td><td><span id="LastCREDITSTAT"></span></td></tr>
+			<tr><td>統一編號</td><td><span id="LastTAXID"></span></td></tr>
+			<tr><td>建立時間</td><td><span id="LastCREATEDATE"></span></td></tr>
+			<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">

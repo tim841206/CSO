@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>修改訂單主檔</title>
 	<header>
 		<h1>修改訂單主檔</h1>
@@ -12,31 +13,35 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
-		<tr><td>訂單種類</td><td><span id="ORDTYPE" style="visibility: hidden;"></span></td></tr>
-		<tr><td>顧客編號</td><td><span id="CUSNO" style="visibility: hidden;"></span></td></tr>
-		<tr><td>銷售員編號</td><td><span id="SALPERNO" style="visibility: hidden;"></span></td></tr>
-		<tr><td>顧客訂單編號</td><td><input type="text" name="CUS_PO_NO" id="CUS_PO_NO" onchange="CUS_PO_NO()" style="visibility: hidden;"></td></tr>
-		<tr><td>運送地編號</td><td><input type="text" name="SHIP_ADD_NO" id="SHIP_ADD_NO" onchange="SHIP_ADD_NO()" style="visibility: hidden;"></td></tr>
-		<tr><td>帳單地編號</td><td><input type="text" name="BILL_ADD_NO" id="BILL_ADD_NO" onchange="BILL_ADD_NO()" style="visibility: hidden;"></td></tr>
-		<tr><td>訂單額外附加指令</td><td><input type="text" name="ORD_INST" id="ORD_INST" onchange="ORD_INST()" style="visibility: hidden;"></td></tr>
-		<tr><td>訂單要求完成日期</td><td><input type="text" name="DATE_REQ" id="DATE_REQ" onchange="DATE_REQ()" style="visibility: hidden;"></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
-		<tr><td>訂單種類</td><td><span id="LastORDTYPE"></span></td></tr>
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>顧客訂單編號</td><td><span id="LastCUS_PO_NO"></span></td></tr>
-		<tr><td>運送地編號</td><td><span id="LastSHIP_ADD_NO"></span></td></tr>
-		<tr><td>帳單地編號</td><td><span id="LastBILL_ADD_NO"></span></td></tr>
-		<tr><td>訂單額外附加指令</td><td><span id="LastORD_INST"></span></td></tr>
-		<tr><td>訂單要求完成日期</td><td><span id="LastDATE_REQ"></span></td></tr>
-	</table>
-	<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+			<tr><td>訂單種類</td><td><span id="ORDTYPE" style="visibility: hidden;"></span></td></tr>
+			<tr><td>顧客編號</td><td><span id="CUSNO" style="visibility: hidden;"></span></td></tr>
+			<tr><td>銷售員編號</td><td><span id="SALPERNO" style="visibility: hidden;"></span></td></tr>
+			<tr><td>顧客訂單編號</td><td><input type="text" name="CUS_PO_NO" id="CUS_PO_NO" onchange="CUS_PO_NO()" style="visibility: hidden;"></td></tr>
+			<tr><td>運送地編號</td><td><input type="text" name="SHIP_ADD_NO" id="SHIP_ADD_NO" onchange="SHIP_ADD_NO()" style="visibility: hidden;"></td></tr>
+			<tr><td>帳單地編號</td><td><input type="text" name="BILL_ADD_NO" id="BILL_ADD_NO" onchange="BILL_ADD_NO()" style="visibility: hidden;"></td></tr>
+			<tr><td>訂單額外附加指令</td><td><input type="text" name="ORD_INST" id="ORD_INST" onchange="ORD_INST()" style="visibility: hidden;"></td></tr>
+			<tr><td>訂單要求完成日期</td><td><input type="text" name="DATE_REQ" id="DATE_REQ" onchange="DATE_REQ()" style="visibility: hidden;"></td></tr>
+		</table>
+		<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
+			<tr><td>訂單種類</td><td><span id="LastORDTYPE"></span></td></tr>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>顧客訂單編號</td><td><span id="LastCUS_PO_NO"></span></td></tr>
+			<tr><td>運送地編號</td><td><span id="LastSHIP_ADD_NO"></span></td></tr>
+			<tr><td>帳單地編號</td><td><span id="LastBILL_ADD_NO"></span></td></tr>
+			<tr><td>訂單額外附加指令</td><td><span id="LastORD_INST"></span></td></tr>
+			<tr><td>訂單要求完成日期</td><td><span id="LastDATE_REQ"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -69,6 +74,7 @@
 					document.getElementById("ORD_INST").style.visibility = 'visible';
 					document.getElementById("DATE_REQ").style.visibility = 'visible';
 					document.getElementById('Edit').style.visibility = 'visible';
+					document.getElementById("CUS_PO_NO").focus();
 				}
 				else if (data.state == 1) {
 					alert("此訂單編號不存在");

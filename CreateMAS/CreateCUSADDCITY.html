@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>新增顧客地址城市關聯</title>
 	<header>
 		<h1>新增顧客地址城市關聯</h1>
@@ -12,21 +13,25 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
-		<tr><td>顧客名稱</td><td><span id="CUSNM" style="visibility: hidden;"></span></td></tr>
-		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
-		<tr><td>所屬城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()" style="visibility: hidden;"></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
-		<tr><td>地址編號</td><td><span id="LastADDNO"></span></td></tr>
-		<tr><td>所屬城市編號</td><td><span id="LastCITYNO"></span></td></tr>
-	</table>
-	<button id="Create" onclick="Create()" style="visibility: hidden;">新增</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+			<tr><td>顧客名稱</td><td><span id="CUSNM"></span></td></tr>
+			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()" style="visibility: hidden;"></td></tr>
+			<tr><td>所屬城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="CITYNO()" style="visibility: hidden;"></td></tr>
+		</table>
+		<button id="Create" onclick="Create()" style="visibility: hidden;">新增</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
+			<tr><td>地址編號</td><td><span id="LastADDNO"></span></td></tr>
+			<tr><td>所屬城市編號</td><td><span id="LastCITYNO"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -47,6 +52,7 @@
 					document.getElementById("ADDNO").style.visibility = 'visible';
 					document.getElementById("CITYNO").style.visibility = 'visible';
 					document.getElementById("Create").style.visibility = 'visible';
+					document.getElementById("ADDNO").focus();
 				}
 				else if (data.state == 1) {
 					alert("此顧客編號不存在");
@@ -126,12 +132,11 @@
 	}
 	function Refresh() {
 		document.getElementById("CUSNO").readOnly = false;
-		document.getElementById("CUSNM").style.visibility = 'hidden';
 		document.getElementById("ADDNO").style.visibility = 'hidden';
 		document.getElementById("CITYNO").style.visibility = 'hidden';
 		document.getElementById("Create").style.visibility = 'hidden';
 		document.getElementById("CUSNO").value = null;
-		document.getElementById("CUSNM").value = null;
+		document.getElementById("CUSNM").innerHTML = null;
 		document.getElementById("ADDNO").value = null;
 		document.getElementById("CITYNO").value = null;
 	}

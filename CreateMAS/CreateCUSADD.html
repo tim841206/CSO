@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>新增顧客地址</title>
 	<header>
 		<h1>新增顧客地址</h1>
@@ -12,39 +13,43 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
-		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()"></td></tr>
-		<tr><td>地址 1</td><td><input type="text" name="ADD_1" id="ADD_1" onchange="ADD_1()"></td></tr>
-		<tr><td>地址 2</td><td><input type="text" name="ADD_2" id="ADD_2" onchange="ADD_2()"></td></tr>
-		<tr><td>地址 3</td><td><input type="text" name="ADD_3" id="ADD_3" onchange="ADD_3()"></td></tr>
-		<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()"></td></tr>
-		<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()"></td></tr>
-		<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()"></td></tr>
-		<tr><td>郵遞區號</td><td><input type="text" name="ZCODE" id="ZCODE" onchange="ZCODE()"></td></tr>
-		<tr><td>接觸人員</td><td><input type="text" name="CNTPER" id="CNTPER" onchange="CNTPER()"></td></tr>
-		<tr><td>電話</td><td><input type="text" name="TEL" id="TEL" onchange="TEL()"></td></tr>
-		<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()"></td></tr>
-		<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()"></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>地址編號</td><td><span id="LastADDNO"></span></td></tr>
-		<tr><td>地址 1</td><td><span id="LastADD_1"></span></td></tr>
-		<tr><td>地址 2</td><td><span id="LastADD_2"></span></td></tr>
-		<tr><td>地址 3</td><td><span id="LastADD_3"></span></td></tr>
-		<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
-		<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
-		<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
-		<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
-		<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
-		<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
-		<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
-		<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
-	</table>
-	<button id="Create" onclick="Create()">新增</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
+			<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="ADDNO()"></td></tr>
+			<tr><td>地址 1</td><td><input type="text" name="ADD_1" id="ADD_1" onchange="ADD_1()"></td></tr>
+			<tr><td>地址 2</td><td><input type="text" name="ADD_2" id="ADD_2" onchange="ADD_2()"></td></tr>
+			<tr><td>地址 3</td><td><input type="text" name="ADD_3" id="ADD_3" onchange="ADD_3()"></td></tr>
+			<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()"></td></tr>
+			<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()"></td></tr>
+			<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()"></td></tr>
+			<tr><td>郵遞區號</td><td><input type="text" name="ZCODE" id="ZCODE" onchange="ZCODE()"></td></tr>
+			<tr><td>接觸人員</td><td><input type="text" name="CNTPER" id="CNTPER" onchange="CNTPER()"></td></tr>
+			<tr><td>電話</td><td><input type="text" name="TEL" id="TEL" onchange="TEL()"></td></tr>
+			<tr><td>傳真</td><td><input type="text" name="FAX" id="FAX" onchange="FAX()"></td></tr>
+			<tr><td>電子信箱</td><td><input type="text" name="EMAIL" id="EMAIL" onchange="EMAIL()"></td></tr>
+		</table>
+		<button id="Create" onclick="Create()">新增</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>地址編號</td><td><span id="LastADDNO"></span></td></tr>
+			<tr><td>地址 1</td><td><span id="LastADD_1"></span></td></tr>
+			<tr><td>地址 2</td><td><span id="LastADD_2"></span></td></tr>
+			<tr><td>地址 3</td><td><span id="LastADD_3"></span></td></tr>
+			<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
+			<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
+			<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
+			<tr><td>郵遞區號</td><td><span id="LastZCODE"></span></td></tr>
+			<tr><td>接觸人員</td><td><span id="LastCNTPER"></span></td></tr>
+			<tr><td>電話</td><td><span id="LastTEL"></span></td></tr>
+			<tr><td>傳真</td><td><span id="LastFAX"></span></td></tr>
+			<tr><td>電子信箱</td><td><span id="LastEMAIL"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">

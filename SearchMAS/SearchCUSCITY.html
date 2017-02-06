@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>查詢顧客城市</title>
 	<header>
 		<h1>查詢顧客城市</h1>
@@ -12,23 +13,27 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO"></td></tr>
-		<tr><td>城市名稱</td><td><span id="CITYNM"></span></td></tr>
-		<tr><td>所屬廠商暨地區編號</td><td><span id="REGIONNO"></span></td></tr>
-		<tr><td>建立日期</td><td><span id="CREATEDATE"></span></td></tr>
-		<tr><td>最後修改日期</td><td><span id="UPDATEDATE"></span></td></tr>
-	</table>
-	<table id="Last">
-		<tr><td>城市編號</td><td><span id="LastCITYNO"></span></td></tr>
-		<tr><td>城市名稱</td><td><span id="LastCITYNM"></span></td></tr>
-		<tr><td>所屬廠商暨地區編號</td><td><span id="LastREGIONNO"></span></td></tr>
-		<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
-		<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
-	</table>
-	<button id="Search" onclick="Search()">查詢</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO"></td></tr>
+			<tr><td>城市名稱</td><td><span id="CITYNM"></span></td></tr>
+			<tr><td>所屬廠商暨地區編號</td><td><span id="REGIONNO"></span></td></tr>
+			<tr><td>建立日期</td><td><span id="CREATEDATE"></span></td></tr>
+			<tr><td>最後修改日期</td><td><span id="UPDATEDATE"></span></td></tr>
+		</table>
+		<button id="Search" onclick="Search()">查詢</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>城市編號</td><td><span id="LastCITYNO"></span></td></tr>
+			<tr><td>城市名稱</td><td><span id="LastCITYNM"></span></td></tr>
+			<tr><td>所屬廠商暨地區編號</td><td><span id="LastREGIONNO"></span></td></tr>
+			<tr><td>建立日期</td><td><span id="LastCREATEDATE"></span></td></tr>
+			<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -70,5 +75,6 @@
 		document.getElementById("CREATEDATE").innerHTML = null;
 		document.getElementById("UPDATEDATE").innerHTML = null;
 		document.getElementById("CITYNO").readOnly = false;
+		document.getElementById("Last").style.visibility = 'visible';
 	}
 </script>

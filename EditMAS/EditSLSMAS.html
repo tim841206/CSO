@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>修改銷售員</title>
 	<header>
 		<h1>修改銷售員</h1>
@@ -12,21 +13,25 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
-		<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNM" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
-		<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
-		<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>銷售員名稱</td><td><span id="LastSALPERNM"></span></td></tr>
-		<tr><td>員工編號</td><td><span id="LastEMPNO"></span></td></tr>
-		<tr><td>酬勞比率(%)</td><td><span id="LastCOMRATE"></span></td></tr>
-	</table>
-	<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
+			<tr><td>銷售員名稱</td><td><input type="text" name="SALPERNM" id="SALPERNM" onchange="SALPERNM()" style="visibility: hidden;"></td></tr>
+			<tr><td>員工編號</td><td><input type="text" name="EMPNO" id="EMPNO" onchange="EMPNO()"  style="visibility: hidden;"></td></tr>
+			<tr><td>酬勞比率(%)</td><td><input type="text" name="COMRATE" id="COMRATE" onchange="COMRATE()"  style="visibility: hidden;"></td></tr>
+		</table>
+		<button id="Edit" onclick="Edit()" style="visibility: hidden;">修改</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>銷售員名稱</td><td><span id="LastSALPERNM"></span></td></tr>
+			<tr><td>員工編號</td><td><span id="LastEMPNO"></span></td></tr>
+			<tr><td>酬勞比率(%)</td><td><span id="LastCOMRATE"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -49,6 +54,7 @@
 					document.getElementById("EMPNO").style.visibility = 'visible';
 					document.getElementById("COMRATE").style.visibility = 'visible';
 					document.getElementById("Edit").style.visibility = 'visible';
+					document.getElementById("SALPERNM").focus();
 				}
 				else if (data.state == 1) {
 					alert("此銷售員編號不存在");

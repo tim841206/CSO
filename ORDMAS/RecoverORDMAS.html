@@ -5,6 +5,7 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<link href="../resource/attachment.css" rel="stylesheet">
 	<title>恢復訂單主檔</title>
 	<header>
 		<h1>恢復訂單主檔</h1>
@@ -12,35 +13,39 @@
 </head>
 <body onload="time()">
 	<p>現在時間：<span id="now"></span></p>
-	<table>
-		<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
-		<tr><td>訂單種類</td><td><span id="ORDTYPE"></span></td></tr>
-		<tr><td>顧客編號</td><td><span id="CUSNO"></span></td></tr>
-		<tr><td>銷售員編號</td><td><span id="SALPERNO"></span></td></tr>
-		<tr><td>顧客訂單編號</td><td><span id="CUS_PO_NO"></span></td></tr>
-		<tr><td>運送地編號</td><td><span id="SHIP_ADD_NO"></span></td></tr>
-		<tr><td>帳單地編號</td><td><span id="BILL_ADD_NO"></span></td></tr>
-		<tr><td>訂單額外附加指令</td><td><span id="ORD_INST"></span></td></tr>
-		<tr><td>訂單要求完成日期</td><td><span id="DATE_REQ"></span></td></tr>
-		<tr><td>建立時間</td><td><span id="CREATEDATE"></span></td></tr>
-		<tr><td>最後修改時間</td><td><span id="UPDATEDATE"></span></td></tr>
-	</table>
-	<table id="Last" style="visibility: hidden;">
-		<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
-		<tr><td>訂單種類</td><td><span id="LastORDTYPE"></span></td></tr>
-		<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
-		<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
-		<tr><td>顧客訂單編號</td><td><span id="LastCUS_PO_NO"></span></td></tr>
-		<tr><td>運送地編號</td><td><span id="LastSHIP_ADD_NO"></span></td></tr>
-		<tr><td>帳單地編號</td><td><span id="LastBILL_ADD_NO"></span></td></tr>
-		<tr><td>訂單額外附加指令</td><td><span id="LastORD_INST"></span></td></tr>
-		<tr><td>訂單要求完成日期</td><td><span id="LastDATE_REQ"></span></td></tr>
-		<tr><td>建立時間</td><td><span id="LastCREATEDATE"></span></td></tr>
-		<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
-	</table>
-	<button id="Delete" onclick="Recover()" style="visibility: hidden;">恢復</button>
-	<button id="Refresh" onclick="Refresh()">重新整理</button>
-	<button id="Close" onclick="Close()">返回首頁</button>
+	<div id="Main">
+		<table>
+			<tr><td>訂單編號</td><td><input type="text" name="ORDNO" id="ORDNO" onchange="ORDNO()"></td></tr>
+			<tr><td>訂單種類</td><td><span id="ORDTYPE"></span></td></tr>
+			<tr><td>顧客編號</td><td><span id="CUSNO"></span></td></tr>
+			<tr><td>銷售員編號</td><td><span id="SALPERNO"></span></td></tr>
+			<tr><td>顧客訂單編號</td><td><span id="CUS_PO_NO"></span></td></tr>
+			<tr><td>運送地編號</td><td><span id="SHIP_ADD_NO"></span></td></tr>
+			<tr><td>帳單地編號</td><td><span id="BILL_ADD_NO"></span></td></tr>
+			<tr><td>訂單額外附加指令</td><td><span id="ORD_INST"></span></td></tr>
+			<tr><td>訂單要求完成日期</td><td><span id="DATE_REQ"></span></td></tr>
+			<tr><td>建立時間</td><td><span id="CREATEDATE"></span></td></tr>
+			<tr><td>最後修改時間</td><td><span id="UPDATEDATE"></span></td></tr>
+		</table>
+		<button id="Delete" onclick="Recover()" style="visibility: hidden;">恢復</button>
+		<button id="Refresh" onclick="Refresh()">重新整理</button>
+		<button id="Close" onclick="Close()">返回首頁</button>
+	</div>
+	<div id="Last">
+		<table>
+			<tr><td>訂單編號</td><td><span id="LastORDNO"></span></td></tr>
+			<tr><td>訂單種類</td><td><span id="LastORDTYPE"></span></td></tr>
+			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
+			<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
+			<tr><td>顧客訂單編號</td><td><span id="LastCUS_PO_NO"></span></td></tr>
+			<tr><td>運送地編號</td><td><span id="LastSHIP_ADD_NO"></span></td></tr>
+			<tr><td>帳單地編號</td><td><span id="LastBILL_ADD_NO"></span></td></tr>
+			<tr><td>訂單額外附加指令</td><td><span id="LastORD_INST"></span></td></tr>
+			<tr><td>訂單要求完成日期</td><td><span id="LastDATE_REQ"></span></td></tr>
+			<tr><td>建立時間</td><td><span id="LastCREATEDATE"></span></td></tr>
+			<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
+		</table>
+	</div>
 </body>
 
 <script type="text/javascript">

@@ -12,3 +12,13 @@ function time() {
 function Close() {
 	location.assign("../");
 }
+function OpenModalDialog() {
+	document.getElementById("cover").style.display = 'block';
+    document.getElementById("dialog").style.display = 'block';
+    document.getElementById("back").style.display = 'block';
+}
+function CloseModalDialog() {
+	document.getElementById("cover").style.display = 'none';
+    document.getElementById("dialog").style.display = 'none';
+    document.getElementById("back").style.display = 'none';
+}
