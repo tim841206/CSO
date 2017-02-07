@@ -20,8 +20,25 @@ if ($_POST['module'] == "DeleteMAS") {
 			$UPDATEDATE = date("Y-m-d H:i:s");
 			$sql = "UPDATE SLSMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE SALPERNO='$SALPERNO'";
 			if (mysql_query($sql)) {
-				echo json_encode(array('state' => 0));
-				return;
+				$deleteCUSMAS = "UPDATE CUSMAS SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE SALPERNO='$SALPERNO'";
+				$deleteCUSADD = "UPDATE CUSADD SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO IN (SELECT CUSNO FROM CUSMAS WHERE SALPERNO='$SALPERNO')";
+				$deleteCUSADDCITY = "UPDATE CUSADDCITY SET UPDATEDATE='$UPDATEDATE', ACTCODE=0 WHERE CUSNO IN (SELECT CUSNO FROM CUSMAS WHERE SALPERNO='$SALPERNO')";
+				if (!mysql_query($deleteCUSMAS)) {
+					echo json_encode(array('state' => 2));
+					return;
+				}
+				elseif (!mysql_query($deleteCUSADD)) {
+					echo json_encode(array('state' => 3));
+					return;
+				}
+				elseif (!mysql_query($deleteCUSADDCITY)) {
+					echo json_encode(array('state' => 4));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => 0));
+					return;
+				}
 			}
 			else {
 				echo json_encode(array('state' => 1));

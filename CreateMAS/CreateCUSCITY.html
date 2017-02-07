@@ -30,28 +30,58 @@
 			<tr><td>城市名稱</td><td><span id="LastCITYNM"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
 	function REGIONNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSCITY&option=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("REGIONNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("REGIONNO").readOnly = true;
-					document.getElementById("CITYNO").style.visibility = 'visible';
-					document.getElementById("CITYNM").style.visibility = 'visible';
-					document.getElementById("Create").style.visibility = 'visible';
-					document.getElementById("CITYNO").focus();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 1) {
-					alert("此廠商暨地區編號不存在");
+			}
+		}
+		else {
+			request.open("POST", "CreateMAS.php");
+			var data = "module=CreateMAS&event=CreateCUSCITY&option=REGIONNO&REGIONNO=" + document.getElementById("REGIONNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("REGIONNO").readOnly = true;
+						document.getElementById("CITYNO").style.visibility = 'visible';
+						document.getElementById("CITYNM").style.visibility = 'visible';
+						document.getElementById("Create").style.visibility = 'visible';
+						document.getElementById("CITYNO").focus();
+					}
+					else if (data.state == 1) {
+						alert("此廠商暨地區編號不存在");
+					}
+					else if (data.state == 1) {
+						alert("此顧客地區已刪除");
+					}
 				}
 			}
 		}
@@ -73,10 +103,10 @@
 					alert("城市編號不可超過15字元");
 				}
 				else if (data.state == 3) {
-					alert("此城市編號已刪除");
+					alert("此顧客城市已刪除");
 				}
 				else if (data.state == 4) {
-					alert("此城市編號已存在");
+					alert("此顧客城市已存在");
 				}
 			}
 		}

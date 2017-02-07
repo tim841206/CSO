@@ -48,6 +48,12 @@
 			<tr><td>銷售總額</td><td><span id="LastNET_SALES"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -80,65 +86,107 @@
 	}
 	function WHOUSE() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=CreateORDMAT&option=WHOUSE&WHOUSE=" + document.getElementById("WHOUSE").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("WHOUSE").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=WHOUSE&WHOUSE=" + document.getElementById("WHOUSE").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("WHOUSE").readOnly = true;
-					document.getElementById("ITEMNO").style.visibility = 'visible';
-					document.getElementById("ITEMNO").focus();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 1) {
-					alert("此倉庫編號不存在");
-				}
-				else if (data.state == 2) {
-					alert("此倉庫已刪除");
+			}
+		}
+		else {
+			request.open("POST", "ORDMAS.php");
+			var data = "module=ORDMAS&event=CreateORDMAT&option=WHOUSE&WHOUSE=" + document.getElementById("WHOUSE").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("WHOUSE").readOnly = true;
+						document.getElementById("ITEMNO").style.visibility = 'visible';
+						document.getElementById("ITEMNO").focus();
+					}
+					else if (data.state == 1) {
+						alert("此倉庫編號不存在");
+					}
+					else if (data.state == 2) {
+						alert("此倉庫已刪除");
+					}
 				}
 			}
 		}
 	}
 	function ITEMNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=CreateORDMAT&option=ITEMNO&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("ITEMNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=WHOUSE_ITEMNO&WHOUSE=" + document.getElementById("WHOUSE").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("ITEMNO").readOnly = true;
-					document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
-					document.getElementById("UNI_COST").innerHTML = data.UNI_COST;
-					document.getElementById("BASE_PRICE").innerHTML = data.BASE_PRICE;
-					document.getElementById("ITEMCLASS").style.visibility = 'visible';
-					document.getElementById("UNI_COST").style.visibility = 'visible';
-					document.getElementById("QTYORD").style.visibility = 'visible';
-					document.getElementById("BASE_PRICE").style.visibility = 'visible';
-					document.getElementById("PRICE_CNT").style.visibility = 'visible';
-					document.getElementById("PERCENTDIS").style.visibility = 'visible';
-					document.getElementById("PRICE_SELL").style.visibility = 'visible';
-					document.getElementById("NET_SALES").style.visibility = 'visible';
-					document.getElementById("TAX_CODE").style.visibility = 'visible';
-					document.getElementById("QTYORD").focus();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 1) {
-					alert("此物料編號不存在");
-				}
-				else if (data.state == 2) {
-					alert("此物料為非賣品");
-				}
-				else if (data.state == 3) {
-					alert("此物料已在此訂單被刪除，請前往訂單物料進行恢復");
-				}
-				else if (data.state == 4) {
-					alert("此物料已存在於此訂單");
+			}
+		}
+		else {
+			request.open("POST", "ORDMAS.php");
+			var data = "module=ORDMAS&event=CreateORDMAT&option=ITEMNO&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("ITEMNO").readOnly = true;
+						document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
+						document.getElementById("UNI_COST").innerHTML = data.UNI_COST;
+						document.getElementById("BASE_PRICE").innerHTML = data.BASE_PRICE;
+						document.getElementById("ITEMCLASS").style.visibility = 'visible';
+						document.getElementById("UNI_COST").style.visibility = 'visible';
+						document.getElementById("QTYORD").style.visibility = 'visible';
+						document.getElementById("BASE_PRICE").style.visibility = 'visible';
+						document.getElementById("PRICE_CNT").style.visibility = 'visible';
+						document.getElementById("PERCENTDIS").style.visibility = 'visible';
+						document.getElementById("PRICE_SELL").style.visibility = 'visible';
+						document.getElementById("NET_SALES").style.visibility = 'visible';
+						document.getElementById("TAX_CODE").style.visibility = 'visible';
+						document.getElementById("QTYORD").focus();
+					}
+					else if (data.state == 1) {
+						alert("此物料編號不存在");
+					}
+					else if (data.state == 2) {
+						alert("此物料為非賣品");
+					}
+					else if (data.state == 3) {
+						alert("此物料已在此訂單被刪除，請前往訂單物料進行恢復");
+					}
+					else if (data.state == 4) {
+						alert("此物料已存在於此訂單");
+					}
 				}
 			}
 		}

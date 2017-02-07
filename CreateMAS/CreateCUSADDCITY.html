@@ -32,6 +32,12 @@
 			<tr><td>所屬城市編號</td><td><span id="LastCITYNO"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -57,46 +63,94 @@
 				else if (data.state == 1) {
 					alert("此顧客編號不存在");
 				}
+				else if (data.state == 2) {
+					alert("此顧客已刪除");
+				}
 			}
 		}
 	}
 	function ADDNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSADDCITY&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("ADDNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=CUSNO_ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
-					alert("此地址編號已刪除");
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 2) {
-					alert("此地址編號不存在");
-				}
-				else if (data.state == 3) {
-					alert("此地址編號之資料已刪除");
-				}
-				else if (data.state == 4) {
-					alert("此地址編號之資料已存在");
+			}
+		}
+		else {
+			request.open("POST", "CreateMAS.php");
+			var data = "module=CreateMAS&event=CreateCUSADDCITY&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 1) {
+						alert("此地址編號已刪除");
+					}
+					else if (data.state == 2) {
+						alert("此地址編號不存在");
+					}
+					else if (data.state == 3) {
+						alert("此顧客地址城市關聯已刪除");
+					}
+					else if (data.state == 4) {
+						alert("此顧客地址城市關聯已存在");
+					}
 				}
 			}
 		}
 	}
 	function CITYNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSADDCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("CITYNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
-					alert("此城市編號不存在");
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
+				}
+			}
+		}
+		else {
+			request.open("POST", "CreateMAS.php");
+			var data = "module=CreateMAS&event=CreateCUSADDCITY&option=CITYNO&CITYNO=" + document.getElementById("CITYNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 1) {
+						alert("此城市編號不存在");
+					}
+					else if (data.state == 2) {
+						alert("此顧客城市已刪除");
+					}
 				}
 			}
 		}

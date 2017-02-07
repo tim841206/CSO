@@ -66,6 +66,9 @@
 				if (data.state == 1) {
 					alert("此顧客編號不存在");
 				}
+				else if (data.state == 2) {
+					alert("此顧客已刪除");
+				}
 			}
 		}
 	}
@@ -80,10 +83,10 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 1) {
-					alert("此地址編號已刪除");
+					alert("此顧客地址已刪除");
 				}
 				else if (data.state == 2) {
-					alert("此地址編號之資料已存在");
+					alert("此顧客地址已存在");
 				}
 			}
 		}

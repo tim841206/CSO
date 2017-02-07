@@ -56,7 +56,7 @@
 	function Search() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "PublishORDMAS.php");
-		var data = "module=PublishORDMAS&event=C_ORDMAS&option=Search&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value + "&ORDCOMPER=" + document.getElementById("ORDCOMPER").value/100;
+		var data = "module=PublishORDMAS&event=C_ORDMAS&option=Search&FromSALPERNO=" + document.getElementById("FromSALPERNO").value + "&ToSALPERNO=" + document.getElementById("ToSALPERNO").value + "&FromCUSNO=" + document.getElementById("FromCUSNO").value + "&ToCUSNO=" + document.getElementById("ToCUSNO").value + "&FromORDNO=" + document.getElementById("FromORDNO").value + "&ToORDNO=" + document.getElementById("ToORDNO").value + "&FromDATE_REQ=" + document.getElementById("FromDATE_REQ").value + "&ToDATE_REQ=" + document.getElementById("ToDATE_REQ").value + "&ORDCOMPER=" + document.getElementById("ORDCOMPER").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
