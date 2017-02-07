@@ -56,6 +56,12 @@
 			<tr><td>最後修改時間</td><td><span id="LastUPDATEDATE"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -85,37 +91,58 @@
 	}
 	function ITEMNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "ORDMAS.php");
-		var data = "module=ORDMAS&event=RecoverORDMAT&option=ITEMNO&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("ITEMNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=ORDNO_ITEMNO_deleted&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("ITEMNO").readOnly = true;
-					document.getElementById("WHOUSE").innerHTML = data.WHOUSE;
-					document.getElementById("UNI_COST").innerHTML = data.UNI_COST;
-					document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
-					document.getElementById("QTYORD").innerHTML = data.QTYORD;
-					document.getElementById("QTYSHIP").innerHTML = data.QTYSHIP;
-					document.getElementById("QTYBAKORD").innerHTML = data.QTYBAKORD;
-					document.getElementById("BASE_PRICE").innerHTML = data.BASE_PRICE;
-					document.getElementById("PRICE_CNT").innerHTML = data.PRICE_CNT;
-					document.getElementById('PERCENTDIS').innerHTML = data.PERCENTDIS;
-					document.getElementById('PRICE_SELL').innerHTML = data.PRICE_SELL;
-					document.getElementById('NET_SALES').innerHTML = data.NET_SALES;
-					document.getElementById('TAX_CODE').innerHTML = data.TAX_CODE;
-					document.getElementById('CREATEDATE').innerHTML = data.CREATEDATE;
-					document.getElementById('UPDATEDATE').innerHTML = data.UPDATEDATE;
-					document.getElementById('Delete').style.visibility = 'visible';
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 1) {
-					alert("此物料編號不存在");
-				}
-				else if (data.state == 2) {
-					alert("此訂單物料未被刪除");
+			}
+		}
+		else {
+			request.open("POST", "ORDMAS.php");
+			var data = "module=ORDMAS&event=RecoverORDMAT&option=ITEMNO&ORDNO=" + document.getElementById("ORDNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("ITEMNO").readOnly = true;
+						document.getElementById("WHOUSE").innerHTML = data.WHOUSE;
+						document.getElementById("UNI_COST").innerHTML = data.UNI_COST;
+						document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
+						document.getElementById("QTYORD").innerHTML = data.QTYORD;
+						document.getElementById("QTYSHIP").innerHTML = data.QTYSHIP;
+						document.getElementById("QTYBAKORD").innerHTML = data.QTYBAKORD;
+						document.getElementById("BASE_PRICE").innerHTML = data.BASE_PRICE;
+						document.getElementById("PRICE_CNT").innerHTML = data.PRICE_CNT;
+						document.getElementById('PERCENTDIS').innerHTML = data.PERCENTDIS;
+						document.getElementById('PRICE_SELL').innerHTML = data.PRICE_SELL;
+						document.getElementById('NET_SALES').innerHTML = data.NET_SALES;
+						document.getElementById('TAX_CODE').innerHTML = data.TAX_CODE;
+						document.getElementById('CREATEDATE').innerHTML = data.CREATEDATE;
+						document.getElementById('UPDATEDATE').innerHTML = data.UPDATEDATE;
+						document.getElementById('Delete').style.visibility = 'visible';
+					}
+					else if (data.state == 1) {
+						alert("此物料編號不存在");
+					}
+					else if (data.state == 2) {
+						alert("此訂單物料未被刪除");
+					}
 				}
 			}
 		}

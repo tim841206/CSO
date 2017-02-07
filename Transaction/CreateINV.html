@@ -38,6 +38,12 @@
 			<tr><td>交易日期</td><td><span id="LastDATE_TRAN"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -101,48 +107,92 @@
 	}
 	function ITEMNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "Transaction.php");
-		var data = "module=Transaction&event=CreateINV&option=ITEMNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("ITEMNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=PCKLSTNO_ITEMNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("ITEMNO").readOnly = true;
-					document.getElementById("REV_CODE").style.visibility = 'visible';
-					document.getElementById("LOCNO").style.visibility = 'visible';
-					document.getElementById("REV_CODE").focus();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
+					
 				}
-				else if (data.state == 1) {
-					alert("此揀貨單無此物料");
+			}
+		}
+		else {
+			request.open("POST", "Transaction.php");
+			var data = "module=Transaction&event=CreateINV&option=ITEMNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("ITEMNO").readOnly = true;
+						document.getElementById("REV_CODE").style.visibility = 'visible';
+						document.getElementById("LOCNO").style.visibility = 'visible';
+						document.getElementById("REV_CODE").focus();
+					}
+					else if (data.state == 1) {
+						alert("此揀貨單無此物料");
+					}
 				}
 			}
 		}
 	}
 	function LOCNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "Transaction.php");
-		var data = "module=Transaction&event=CreateINV&option=LOCNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("LOCNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=LOCNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("REV_CODE").readOnly = true;
-					document.getElementById("LOCNO").readOnly = true;
-					document.getElementById("QTYTRAN").style.visibility = 'visible';
-					document.getElementById("DATE_TRAN").style.visibility = 'visible';
-					document.getElementById("QTYTRAN").focus();
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
+					
 				}
-				else if (data.state == 1) {
-					alert("此存貨位置無指定的物料");
-				}
-				else if (data.state == 2) {
-					alert("指定的倉庫無此存貨位置");
+			}
+		}
+		else {
+			request.open("POST", "Transaction.php");
+			var data = "module=Transaction&event=CreateINV&option=LOCNO&PCKLSTNO=" + document.getElementById("PCKLSTNO").value + "&ITEMNO=" + document.getElementById("ITEMNO").value + "&REV_CODE=" + document.getElementById("REV_CODE").value + "&LOCNO=" + document.getElementById("LOCNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("REV_CODE").readOnly = true;
+						document.getElementById("LOCNO").readOnly = true;
+						document.getElementById("QTYTRAN").style.visibility = 'visible';
+						document.getElementById("DATE_TRAN").style.visibility = 'visible';
+						document.getElementById("QTYTRAN").focus();
+					}
+					else if (data.state == 1) {
+						alert("此存貨位置無指定的物料");
+					}
+					else if (data.state == 2) {
+						alert("指定的倉庫無此存貨位置");
+					}
 				}
 			}
 		}

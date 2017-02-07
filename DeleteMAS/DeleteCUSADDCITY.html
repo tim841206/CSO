@@ -74,7 +74,7 @@
 		var request = new XMLHttpRequest();
 		if (document.getElementById("ADDNO").value.includes('%')) {
 			request.open("POST", "../resource/wildcard.php");
-			var data = "module=CUSNO_ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+			var data = "module=CUSADDCITY&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
 			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			request.send(data);
 

@@ -54,6 +54,12 @@
 			<tr><td>最後修改日期</td><td><span id="LastUPDATEDATE"></span></td></tr>
 		</table>
 	</div>
+	<div id="cover">
+		<div id="dialog">
+			<p id="wildcard"></p>
+			<img id="back" src="../resource/back.png" onclick="CloseModalDialog()"></img>
+		</div>
+	</div>
 </body>
 
 <script type="text/javascript">
@@ -80,36 +86,57 @@
 	}
 	function ADDNO() {
 		var request = new XMLHttpRequest();
-		request.open("POST", "RecoverMAS.php");
-		var data = "module=RecoverMAS&event=RecoverCUSADD&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
+		if (document.getElementById("ADDNO").value.includes('%')) {
+			request.open("POST", "../resource/wildcard.php");
+			var data = "module=CUSNO_ADDNO_deleted&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
 
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.state == 0) {
-					document.getElementById("ADDNO").readOnly = true;
-					document.getElementById("ADD_1").innerHTML = data.ADD_1;
-					document.getElementById("ADD_2").innerHTML = data.ADD_2;
-					document.getElementById("ADD_3").innerHTML = data.ADD_3;
-					document.getElementById("CITY").innerHTML = data.CITY;
-					document.getElementById("COUNTY").innerHTML = data.COUNTY;
-					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
-					document.getElementById("ZCODE").innerHTML = data.ZCODE;
-					document.getElementById("CNTPER").innerHTML = data.CNTPER;
-					document.getElementById("TEL").innerHTML = data.TEL;
-					document.getElementById("FAX").innerHTML = data.FAX;
-					document.getElementById("EMAIL").innerHTML = data.EMAIL;
-					document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
-					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
-					document.getElementById('Recover').style.visibility = 'visible';
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("wildcard").innerHTML = data.wildcard;
+						OpenModalDialog();
+					}
+					else if (data.state == 1) {
+						alert("查無資料");
+					}
 				}
-				else if (data.state == 1) {
-					alert("此顧客地址未被刪除");
-				}
-				else if (data.state == 2) {
-					alert("此顧客地址不存在");
+			}
+		}
+		else {
+			request.open("POST", "RecoverMAS.php");
+			var data = "module=RecoverMAS&event=RecoverCUSADD&option=ADDNO&CUSNO=" + document.getElementById("CUSNO").value + "&ADDNO=" + document.getElementById("ADDNO").value;
+			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			request.send(data);
+
+			request.onreadystatechange = function() {
+				if (request.readyState === 4 && request.status === 200) {
+					var data = JSON.parse(request.responseText);
+					if (data.state == 0) {
+						document.getElementById("ADDNO").readOnly = true;
+						document.getElementById("ADD_1").innerHTML = data.ADD_1;
+						document.getElementById("ADD_2").innerHTML = data.ADD_2;
+						document.getElementById("ADD_3").innerHTML = data.ADD_3;
+						document.getElementById("CITY").innerHTML = data.CITY;
+						document.getElementById("COUNTY").innerHTML = data.COUNTY;
+						document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
+						document.getElementById("ZCODE").innerHTML = data.ZCODE;
+						document.getElementById("CNTPER").innerHTML = data.CNTPER;
+						document.getElementById("TEL").innerHTML = data.TEL;
+						document.getElementById("FAX").innerHTML = data.FAX;
+						document.getElementById("EMAIL").innerHTML = data.EMAIL;
+						document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;
+						document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
+						document.getElementById('Recover').style.visibility = 'visible';
+					}
+					else if (data.state == 1) {
+						alert("此顧客地址未被刪除");
+					}
+					else if (data.state == 2) {
+						alert("此顧客地址不存在");
+					}
 				}
 			}
 		}

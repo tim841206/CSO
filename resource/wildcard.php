@@ -164,9 +164,9 @@ elseif ($_POST['module'] == "WHOUSE") {
 		while ($fetch = mysql_fetch_array($result)) {
 			$count += 1;
 			if ($count == 1) {
-				$table = '<br><br><table><tr><th>whouse</th><th>descriptor</th><th>inreq_no</th><th>plan_or_no</th><th>pur_or_no</th><th>date_l_mnt</th><th>date_cre</th></tr>';
+				$table = '<br><br><table><tr><th>倉庫編號</th><th>敘述</th><th>建立日期</th><th>最後更新日期</th></tr>';
 			}
-			$table .= '<tr><td id="option'.$count.'">'.$fetch['whouse'].'</td><td>'.$fetch['descriptor'].'</td><td>'.$fetch['inreq_no'].'</td><td>'.$fetch['plan_or_no'].'</td><td>'.$fetch['pur_or_no'].'</td><td>'.$fetch['date_l_mnt'].'</td><td>'.$fetch['date_cre'].'</td><td><button onclick="document.getElementById(\'WHOUSE\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'WHOUSE\').onchange();">選擇</button></td></tr>';
+			$table .= '<tr><td id="option'.$count.'">'.$fetch['whouse'].'</td><td>'.$fetch['descriptor'].'</td><td>'.$fetch['date_cre'].'</td><td>'.$fetch['date_l_mnt'].'</td><td><button onclick="document.getElementById(\'WHOUSE\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'WHOUSE\').onchange();">選擇</button></td></tr>';
 		}
 		$table .= '</table>';
 		echo json_encode(array('state' => 0, 'wildcard' => $table));
@@ -176,7 +176,7 @@ elseif ($_POST['module'] == "WHOUSE") {
 elseif ($_POST['module'] == "WHOUSE_ITEMNO") {
 	$WHOUSE = $_POST['WHOUSE'];
 	$ITEMNO = $_POST['ITEMNO'];
-	$result = mysql_query("SELECT * FROM LOCBAL WHERE ACTCODE=0 AND WHOUSE='$WHOUSE' AND ITEMNO LIKE '$ITEMNO'");
+	$result = mysql_query("SELECT * FROM ITMMAS WHERE salable='Y' AND ITEMNO LIKE '$ITEMNO'");
 	if (mysql_num_rows($result) == 0) {
 		echo json_encode(array('state' => 1));
 		return;
@@ -186,9 +186,9 @@ elseif ($_POST['module'] == "WHOUSE_ITEMNO") {
 		while ($fetch = mysql_fetch_array($result)) {
 			$count += 1;
 			if ($count == 1) {
-				$table = '<br><br><table><tr><th>itemno</th><th>locno</th><th>qtyonhand</th><th>qtyperend</th><th>date_l_mnt</th><th>date_onhnd</th><th>date_fifo</th></tr>';
+				$table = '<br><br><table><tr><th>物料編號</th><th>存貨位置編號</th><th>現有數量</th></tr>';
 			}
-			$table .= '<tr><td id="option'.$count.'">'.$fetch['itemno'].'</td><td>'.$fetch['locno'].'</td><td>'.$fetch['qtyonhand'].'</td><td>'.$fetch['qtyperend'].'</td><td>'.$fetch['date_l_mnt'].'</td><td>'.$fetch['date_onhnd'].'</td><td>'.$fetch['date_fifo'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
+			$table .= '<tr><td id="option'.$count.'">'.$fetch['itemno'].'</td><td>'.$fetch['locno'].'</td><td>'.$fetch['qtyonhand'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
 		}
 		$table .= '</table>';
 		echo json_encode(array('state' => 0, 'wildcard' => $table));
@@ -208,9 +208,9 @@ elseif ($_POST['module'] == "ORDNO_ITEMNO") {
 		while ($fetch = mysql_fetch_array($result)) {
 			$count += 1;
 			if ($count == 1) {
-				$table = '<br><br><table><tr><th>ITEMNO</th><th>WHOUSE</th><th>ITEMCLASS</th><th>UNI_COST</th><th>BASE_PRICE</th></tr>';
+				$table = '<br><br><table><tr><th>物料編號</th><th>倉庫編號</th><th>物料分類</th><th>單位成本</th><th>基本價格</th></tr>';
 			}
-			$table .= '<tr><td id="option'.$count.'">'.$fetch['物料編號'].'</td><td>'.$fetch['倉庫編號'].'</td><td>'.$fetch['物料分類'].'</td><td>'.$fetch['單位成本'].'</td><td>'.$fetch['基本價格'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
+			$table .= '<tr><td id="option'.$count.'">'.$fetch['ITEMNO'].'</td><td>'.$fetch['WHOUSE'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['UNI_COST'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
 		}
 		$table .= '</table>';
 		echo json_encode(array('state' => 0, 'wildcard' => $table));
@@ -259,6 +259,165 @@ elseif ($_POST['module'] == "ORDNO_BILL_ADD_NO") {
 		$table .= '</table>';
 		echo json_encode(array('state' => 0, 'wildcard' => $table));
 		return;
+	}
+}
+elseif ($_POST['module'] == "ORDNO_ITEMNO_deleted") {
+	$ORDNO = $_POST['ORDNO'];
+	$ITEMNO = $_POST['ITEMNO'];
+	$result = mysql_query("SELECT * FROM ORDMAT WHERE ACTCODE=0 AND ORDNO='$ORDNO' AND ITEMNO LIKE '$ITEMNO'");
+	if (mysql_num_rows($result) == 0) {
+		echo json_encode(array('state' => 1));
+		return;
+	}
+	else {
+		$count = 0;
+		while ($fetch = mysql_fetch_array($result)) {
+			$count += 1;
+			if ($count == 1) {
+				$table = '<br><br><table><tr><th>物料編號</th><th>倉庫編號</th><th>物料分類</th><th>單位成本</th><th>基本價格</th></tr>';
+			}
+			$table .= '<tr><td id="option'.$count.'">'.$fetch['ITEMNO'].'</td><td>'.$fetch['WHOUSE'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['UNI_COST'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
+		}
+		$table .= '</table>';
+		echo json_encode(array('state' => 0, 'wildcard' => $table));
+		return;
+	}
+}
+elseif ($_POST['module'] == "CUSNO_ADDNO_deleted") {
+	$CUSNO = $_POST['CUSNO'];
+	$ADDNO = $_POST['ADDNO'];
+	$result = mysql_query("SELECT * FROM CUSADD WHERE ACTCODE=0 AND CUSNO='$CUSNO' AND ADDNO LIKE '$ADDNO'");
+	if (mysql_num_rows($result) == 0) {
+		echo json_encode(array('state' => 1));
+		return;
+	}
+	else {
+		$count = 0;
+		while ($fetch = mysql_fetch_array($result)) {
+			$count += 1;
+			if ($count == 1) {
+				$table = '<br><br><table><tr><th>顧客編號</th><th>地址編號</th><th>地址</th><th>所屬城市</th><th>所屬縣市</th><th>所屬國家</th></tr>';
+			}
+			$table .= '<tr><td>'.$fetch['CUSNO'].'</td><td id="option'.$count.'">'.$fetch['ADDNO'].'</td><td>'.$fetch['ADD_1'].'</td><td>'.$fetch['CITY'].'</td><td>'.$fetch['COUNTY'].'</td><td>'.$fetch['COUNTRY'].'</td><td><button onclick="document.getElementById(\'ADDNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ADDNO\').onchange();">選擇</button></td></tr>';
+		}
+		$table .= '</table>';
+		echo json_encode(array('state' => 0, 'wildcard' => $table));
+		return;
+	}
+}
+elseif ($_POST['module'] == "CUSADDCITY") {
+	$CUSNO = $_POST['CUSNO'];
+	$ADDNO = $_POST['ADDNO'];
+	$result = mysql_query("SELECT * FROM CUSADDCITY WHERE ACTCODE=1 AND CUSNO='$CUSNO' AND ADDNO LIKE '$ADDNO'");
+	if (mysql_num_rows($result) == 0) {
+		echo json_encode(array('state' => 1));
+		return;
+	}
+	else {
+		$count = 0;
+		while ($fetch = mysql_fetch_array($result)) {
+			$count += 1;
+			if ($count == 1) {
+				$table = '<br><br><table><tr><th>顧客編號</th><th>地址編號</th><th>地址</th><th>所屬城市</th><th>所屬縣市</th><th>所屬國家</th></tr>';
+			}
+			$table .= '<tr><td>'.$fetch['CUSNO'].'</td><td id="option'.$count.'">'.$fetch['ADDNO'].'</td><td>'.$fetch['CITYNO'].'</td><td><button onclick="document.getElementById(\'ADDNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ADDNO\').onchange();">選擇</button></td></tr>';
+		}
+		$table .= '</table>';
+		echo json_encode(array('state' => 0, 'wildcard' => $table));
+		return;
+	}
+}
+elseif ($_POST['module'] == "CUSADDCITY_deleted") {
+	$CUSNO = $_POST['CUSNO'];
+	$ADDNO = $_POST['ADDNO'];
+	$result = mysql_query("SELECT * FROM CUSADDCITY WHERE ACTCODE=0 AND CUSNO='$CUSNO' AND ADDNO LIKE '$ADDNO'");
+	if (mysql_num_rows($result) == 0) {
+		echo json_encode(array('state' => 1));
+		return;
+	}
+	else {
+		$count = 0;
+		while ($fetch = mysql_fetch_array($result)) {
+			$count += 1;
+			if ($count == 1) {
+				$table = '<br><br><table><tr><th>顧客編號</th><th>地址編號</th><th>地址</th><th>所屬城市</th><th>所屬縣市</th><th>所屬國家</th></tr>';
+			}
+			$table .= '<tr><td>'.$fetch['CUSNO'].'</td><td id="option'.$count.'">'.$fetch['ADDNO'].'</td><td>'.$fetch['CITYNO'].'</td><td><button onclick="document.getElementById(\'ADDNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ADDNO\').onchange();">選擇</button></td></tr>';
+		}
+		$table .= '</table>';
+		echo json_encode(array('state' => 0, 'wildcard' => $table));
+		return;
+	}
+}
+elseif ($_POST['module'] == "PCKLSTNO_ITEMNO") {
+	$PCKLSTNO = $_POST['PCKLSTNO'];
+	$ITEMNO = $_POST['ITEMNO'];
+	$result = mysql_query("SELECT * FROM PCKLST WHERE ACTCODE<=1 AND PCKLSTNO='$PCKLSTNO' AND ITEMNO LIKE '$ITEMNO'");
+	if (mysql_num_rows($result) == 0) {
+		echo json_encode(array('state' => 1));
+		return;
+	}
+	else {
+		$count = 0;
+		while ($fetch = mysql_fetch_array($result)) {
+			$count += 1;
+			if ($count == 1) {
+				$table = '<br><br><table><tr><th>物料編號</th><th>要求數量</th><th>倉庫編號</th><th>存貨位置編號</th></tr>';
+			}
+			$table .= '<tr><td id="option'.$count.'">'.$fetch['ITEMNO'].'</td><td>'.$fetch['QTYSHIPREQ'].'</td><td>'.$fetch['WHOUSE'].'</td><td>'.$fetch['LOCNO'].'</td><td><button onclick="document.getElementById(\'ITEMNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'ITEMNO\').onchange();">選擇</button></td></tr>';
+		}
+		$table .= '</table>';
+		echo json_encode(array('state' => 0, 'wildcard' => $table));
+		return;
+	}
+}
+elseif ($_POST['module'] == "LOCNO") {
+	$PCKLSTNO = $_POST['PCKLSTNO'];
+	$ITEMNO = $_POST['ITEMNO'];
+	$REV_CODE = $_POST['REV_CODE'];
+	$LOCNO = $_POST['LOCNO'];
+	$query = mysql_query("SELECT WHOUSE FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'");
+	$fetch = mysql_fetch_array($query);
+	$WHOUSE = $fetch['WHOUSE'];
+	if ($REV_CODE == 'C') {
+		if (mysql_num_rows($queryLOCBAL) == 0) {
+			echo json_encode(array('state' => 1));
+			return;
+		}
+		else {
+			$count = 0;
+			$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO' AND LOCNO LIKE '$LOCNO'");
+			while ($fetch = mysql_fetch_array($queryLOCBAL)) {
+				$count += 1;
+				if ($count == 1) {
+					$table = '<br><br><table><tr><th>倉庫編號</th><th>存貨位置編號</th><th>物料編號</th><th>現有數量</th><th>最後存貨總數變更日期</th></tr>';
+				}
+				$table .= '<tr><td>'.$fetch['whouse'].'</td><td id="option'.$count.'">'.$fetch['locno'].'</td><td>'.$fetch['itemno'].'</td><td>'.$fetch['qtyonhand'].'</td><td>'.$fetch['date_onhnd'].'</td><td><button onclick="document.getElementById(\'LOCNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'LOCNO\').onchange();">選擇</button></td></tr>';
+			}
+			$table .= '</table>';
+			echo json_encode(array('state' => 0, 'wildcard' => $table));
+			return;
+		}
+	}
+	elseif ($REV_CODE == 'D') {
+		if (mysql_num_rows($queryLOCMAS) == 0) {
+			echo json_encode(array('state' => 1));
+			return;
+		}
+		else {
+			$count = 0;
+			$queryLOCMAS = mysql_query("SELECT * FROM LOCMAS WHERE WHOUSE='$WHOUSE' AND LOCNO LIKE '$LOCNO'");
+			while ($fetch = mysql_fetch_array($queryLOCMAS)) {
+				$count += 1;
+				if ($count == 1) {
+					$table = '<br><br><table><tr><th>倉庫編號</th><th>存貨位置編號</th><th>敘述</th><th>存貨總數</th><th>最後存貨總數變更日期</th></tr>';
+				}
+				$table .= '<tr><td>'.$fetch['whouse'].'</td><td id="option'.$count.'">'.$fetch['locno'].'</td><td>'.$fetch['descripts'].'</td><td>'.$fetch['qtytotal'].'</td><td>'.$fetch['date_qty'].'</td><td><button onclick="document.getElementById(\'LOCNO\').value = document.getElementById(\'option'.$count.'\').innerHTML; CloseModalDialog(); document.getElementById(\'LOCNO\').onchange();">選擇</button></td></tr>';
+			}
+			$table .= '</table>';
+			echo json_encode(array('state' => 0, 'wildcard' => $table));
+			return;
+		}
 	}
 }
 else {
