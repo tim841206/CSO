@@ -65,7 +65,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -91,7 +91,7 @@
 						document.getElementById("DATE_REQ").style.visibility = 'visible';
 						document.getElementById("ORDTYPE").focus();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("此銷售員編號不存在");
 					}
 				}
@@ -113,7 +113,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -128,7 +128,7 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == 1) {
+					if (data.state == -1) {
 						alert("此顧客編號不存在");
 					}
 				}
@@ -145,7 +145,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("顧客訂單編號不可超過50字元");
 				}
 			}
@@ -166,7 +166,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -181,7 +181,7 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == 1) {
+					if (data.state == -1) {
 						alert("此地址編號不存在");
 					}
 				}
@@ -203,7 +203,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -218,7 +218,7 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == 1) {
+					if (data.state == -1) {
 						alert("此地址編號不存在");
 					}
 				}
@@ -235,7 +235,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("訂單額外附加指令不可超過50字元");
 				}
 			}
@@ -251,7 +251,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("訂單要求完成日期為必填欄位");
 				}
 			}
@@ -286,10 +286,10 @@
 					document.getElementById("ORD_INST").value = null;
 					document.getElementById("DATE_REQ").value = null;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫新增失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
 			}

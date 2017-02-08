@@ -1,155 +1,150 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");
 
-if ($_POST['module'] == "PublishORDMAS") {
-	if ($_POST['event'] == "C_ORDMAS") {
-		if ($_POST['option'] == "init") {
+if (safe($_POST['module']) == "PublishORDMAS") {
+	if (safe($_POST['event']) == "C_ORDMAS") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('C_ORDMAS');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ'], 'ORDCOMPER' => $_POST['ORDCOMPER']);
-			$result = Search('C_ORDMAS', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']), 'ORDCOMPER' => safe($_POST['ORDCOMPER']));
+			$result = Search('C_ORDMAS', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ'], 'ORDCOMPER' => $_POST['ORDCOMPER']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']), 'ORDCOMPER' => safe($_POST['ORDCOMPER']));
 			$result = Check('C_ORDMAS', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "F_ORDMAS") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "F_ORDMAS") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('F_ORDMAS');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Search('F_ORDMAS', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
+			$result = Search('F_ORDMAS', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Check('F_ORDMAS', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "R_ORDMAS") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "R_ORDMAS") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('R_ORDMAS');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Search('R_ORDMAS', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
+			$result = Search('R_ORDMAS', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Check('R_ORDMAS', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}	
 	}
-	elseif ($_POST['event'] == "RR_ORDMAS") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "RR_ORDMAS") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('RR_ORDMAS');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Search('RR_ORDMAS', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
+			$result = Search('RR_ORDMAS', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Check('RR_ORDMAS', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
 	else {
-		echo json_encode(array('state' => 400));
-    	return;
+		echo "Invalid Access!";
 	}
 }
 else {
-	echo json_encode(array('state' => 400));
-	return;
+	echo "Invalid Access!";
 }
 
 function init($type) {
@@ -174,7 +169,7 @@ function init($type) {
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='F' AND ACTCODE=1");
 	}
 	if (mysql_num_rows($result) == 0) {
-		return 1; // 無資料
+		return -1; // 無資料
 	}
 	else {
 		while ($fetch = mysql_fetch_array($result)) {
@@ -214,7 +209,7 @@ function Search($type, $data) {
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='F' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ' AND ACTCODE=1");
 	}
 	if (mysql_num_rows($resource) == 0) {
-		return 1; // 無資料
+		return -1; // 無資料
 	}
 	else {
 		$table = '<table>';
@@ -256,6 +251,6 @@ function Check($type, $data) {
 		return 0;
 	}
 	else {
-		return 1;
+		return -1;
 	}
 }

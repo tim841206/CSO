@@ -67,10 +67,10 @@
 					document.getElementById("table_year").innerHTML = data.table_year;
 					document.getElementById("table_ever").innerHTML = data.table_ever;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫讀取失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("資料庫刷新失敗");
 				}
 			}
@@ -92,10 +92,10 @@
 					document.getElementById("table_year").innerHTML = data.table_year;
 					document.getElementById("table_ever").innerHTML = data.table_ever;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫讀取失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("查無資料");
 				}
 			}
@@ -117,7 +117,7 @@
 					alert("刷新成功");
 					init();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫刷新失敗");
 				}
 			}

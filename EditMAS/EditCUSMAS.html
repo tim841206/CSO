@@ -112,10 +112,10 @@
 					document.getElementById("Edit").style.visibility = 'visible';
 					document.getElementById("CUSNM").focus();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("此顧客編號不存在");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此顧客已刪除");
 				}
 			}
@@ -131,10 +131,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("顧客名稱為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("顧客名稱不可超過50字元");
 				}
 			}
@@ -150,13 +150,13 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址編號 1 為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("地址編號 1 不可超過15字元");
 				}
-				else if (data.state == 3) {
+				else if (data.state == -3) {
 					alert("此地址編號已存在");
 				}
 			}
@@ -172,10 +172,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址編號 2 不可超過15字元");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此地址編號已存在");
 				}
 			}
@@ -191,10 +191,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址編號 3 不可超過15字元");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此地址編號已存在");
 				}
 			}
@@ -210,7 +210,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬城市不可超過50字元");
 				}
 			}
@@ -226,7 +226,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬縣市不可超過50字元");
 				}
 			}
@@ -242,7 +242,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬國家不可超過50字元");
 				}
 			}
@@ -258,7 +258,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("郵遞區號不可超過15字元");
 				}
 			}
@@ -274,7 +274,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("接觸人員不可超過50字元");
 				}
 			}
@@ -290,7 +290,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("電話不可超過15字元");
 				}
 			}
@@ -306,7 +306,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("傳真不可超過15字元");
 				}
 			}
@@ -322,7 +322,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("電子信箱不可超過50字元");
 				}
 			}
@@ -338,7 +338,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("網址不可超過50字元");
 				}
 			}
@@ -354,7 +354,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("此銷售員編號不存在");
 				}
 			}
@@ -370,7 +370,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("特殊要求不可超過50字元");
 				}
 			}
@@ -386,7 +386,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("統一編號不可超過15字元");
 				}
 			}
@@ -425,13 +425,13 @@
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫修改失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
-				else if (data.state == 3) {
+				else if (data.state == -3) {
 					alert("連帶修改顧客地址城市關聯失敗");
 				}
 			}

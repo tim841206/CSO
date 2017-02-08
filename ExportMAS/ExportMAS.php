@@ -1,105 +1,99 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");
 
-if ($_POST['module'] == "ExportMAS") {
-    if ($_POST['event'] == "ExportSLSMAS") {
-        $FromSALPERNO = $_POST['FromSALPERNO'];
-        $ToSALPERNO = $_POST['ToSALPERNO'];
+if (safe($_POST['module']) == "ExportMAS") {
+    if (safe($_POST['event']) == "ExportSLSMAS") {
+        $FromSALPERNO = safe($_POST['FromSALPERNO']);
+        $ToSALPERNO = safe($_POST['ToSALPERNO']);
         $resource = mysql_query("SELECT * FROM SLSMAS WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ACTCODE=1");
-        if ($_POST['option'] == "Search") {
+        if (safe($_POST['option']) == "Search") {
             echo json_encode(array('table' => Search("SLSMAS", $resource)));
             return;
         }
-        elseif ($_POST['option'] == "Export") {
+        elseif (safe($_POST['option']) == "Export") {
             $result = Export("SLSMAS", $resource);
             echo json_encode(array('state' => $result));
             return;
         }
         else {
-            echo json_encode(array('state' => 400));
-            return;
+            echo "Invalid Access!";
         }
     }
-    elseif ($_POST['event'] == "ExportCUSMAS") {
-        $FromCUSNO = $_POST['FromCUSNO'];
-        $ToCUSNO = $_POST['ToCUSNO'];
+    elseif (safe($_POST['event']) == "ExportCUSMAS") {
+        $FromCUSNO = safe($_POST['FromCUSNO']);
+        $ToCUSNO = safe($_POST['ToCUSNO']);
         $resource = mysql_query("SELECT * FROM CUSMAS WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
-        if ($_POST['option'] == "Search") {
+        if (safe($_POST['option']) == "Search") {
             echo json_encode(array('table' => Search("CUSMAS", $resource)));
             return;
         }
-        elseif ($_POST['option'] == "Export") {
+        elseif (safe($_POST['option']) == "Export") {
             $result = Export("CUSMAS", $resource);
             echo json_encode(array('state' => $result));
             return;
         }
         else {
-            echo json_encode(array('state' => 400));
-            return;
+            echo "Invalid Access!";
         }
     }
-    elseif ($_POST['event'] == "ExportCUSADD") {
-        $FromCUSNO = $_POST['FromCUSNO'];
-        $ToCUSNO = $_POST['ToCUSNO'];
+    elseif (safe($_POST['event']) == "ExportCUSADD") {
+        $FromCUSNO = safe($_POST['FromCUSNO']);
+        $ToCUSNO = safe($_POST['ToCUSNO']);
         $resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ACTCODE=1");
-        if ($_POST['option'] == "Search") {
+        if (safe($_POST['option']) == "Search") {
             echo json_encode(array('table' => Search("CUSADD", $resource)));
             return;
         }
-        elseif ($_POST['option'] == "Export") {
+        elseif (safe($_POST['option']) == "Export") {
             $result = Export("CUSADD", $resource);
             echo json_encode(array('state' => $result));
             return;
         }
         else {
-            echo json_encode(array('state' => 400));
-            return;
+            echo "Invalid Access!";
         }
     }
-    elseif ($_POST['event'] == "ExportCUSREGION") {
-        $FromREGIONNO = $_POST['FromREGIONNO'];
-        $ToREGIONNO = $_POST['ToREGIONNO'];
+    elseif (safe($_POST['event']) == "ExportCUSREGION") {
+        $FromREGIONNO = safe($_POST['FromREGIONNO']);
+        $ToREGIONNO = safe($_POST['ToREGIONNO']);
         $resource = mysql_query("SELECT * FROM CUSREGION WHERE REGIONNO>='$FromREGIONNO' AND REGIONNO<='$ToREGIONNO' AND ACTCODE=1");
-        if ($_POST['option'] == "Search") {
+        if (safe($_POST['option']) == "Search") {
             echo json_encode(array('table' => Search("CUSREGION", $resource)));
             return;
         }
-        elseif ($_POST['option'] == "Export") {
+        elseif (safe($_POST['option']) == "Export") {
             $result = Export("CUSREGION", $resource);
             echo json_encode(array('state' => $result));
             return;
         }
         else {
-            echo json_encode(array('state' => 400));
-            return;
+            echo "Invalid Access!";
         }
     }
-    elseif ($_POST['event'] == "ExportCUSCITY") {
-        $FromCITYNO = $_POST['FromCITYNO'];
-        $ToCITYNO = $_POST['ToCITYNO'];
+    elseif (safe($_POST['event']) == "ExportCUSCITY") {
+        $FromCITYNO = safe($_POST['FromCITYNO']);
+        $ToCITYNO = safe($_POST['ToCITYNO']);
         $resource = mysql_query("SELECT * FROM CUSCITY WHERE CITYNO>='$FromCITYNO' AND CITYNO<='$ToCITYNO' AND ACTCODE=1");
-        if ($_POST['option'] == "Search") {
+        if (safe($_POST['option']) == "Search") {
             echo json_encode(array('table' => Search("CUSCITY", $resource)));
         return;
         }
-        elseif ($_POST['option'] == "Export") {
+        elseif (safe($_POST['option']) == "Export") {
             $result = Export("CUSCITY", $resource);
             echo json_encode(array('state' => $result));
             return;
         }
         else {
-            echo json_encode(array('state' => 400));
-            return;
+            echo "Invalid Access!";
         }
     }
     else {
-        echo json_encode(array('state' => 400));
-        return;
+        echo "Invalid Access!";
     }
 }
 else {
-    echo json_encode(array('state' => 400));
-    return;
+    echo "Invalid Access!";
 }
 
 function Search($title, $resource) {
@@ -185,6 +179,6 @@ function Export($title, $resource) {
     }
     else {
         fclose($fp);
-        return 1;
+        return -1;
     }
 }

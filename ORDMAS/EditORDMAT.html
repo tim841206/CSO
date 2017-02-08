@@ -72,13 +72,13 @@
 					document.getElementById("ITEMNO").style.visibility = 'visible';
 					document.getElementById("ITEMNO").focus();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("此訂單編號不存在");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此訂單已刪除");
 				}
-				else if (data.state == 3) {
+				else if (data.state == -3) {
 					alert("此訂單處於不可更動狀態");
 				}
 			}
@@ -99,7 +99,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -133,10 +133,10 @@
 						document.getElementById("Edit").style.visibility = 'visible';
 						document.getElementById("QTYORD").focus();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("此物料編號不存在");
 					}
-					else if (data.state == 2) {
+					else if (data.state == -2) {
 						alert("此訂單物料已刪除");
 					}
 				}
@@ -158,10 +158,10 @@
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 					document.getElementById("PRICE_CNT").focus();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("訂單數量為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("訂單數量必須為正整數");
 				}
 			}
@@ -181,7 +181,7 @@
 					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("簽約價格必須為數字");
 				}
 			}
@@ -201,7 +201,7 @@
 					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("折扣率必須為不大於100的正數");
 				}
 			}
@@ -250,10 +250,10 @@
 					document.getElementById("TAX_CODE").style.visibility = 'hidden';
 					document.getElementById("Edit").style.visibility = 'hidden';
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫修改失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
 			}

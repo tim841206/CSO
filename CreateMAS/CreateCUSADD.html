@@ -63,10 +63,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("此顧客編號不存在");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此顧客已刪除");
 				}
 			}
@@ -82,10 +82,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("此顧客地址已刪除");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此顧客地址已存在");
 				}
 			}
@@ -101,10 +101,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址 1 為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("地址 1 不可超過50字元");
 				}
 			}
@@ -120,7 +120,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址 2 不可超過50字元");
 				}
 			}
@@ -136,7 +136,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("地址 3 不可超過50字元");
 				}
 			}
@@ -152,7 +152,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬城市不可超過50字元");
 				}
 			}
@@ -168,7 +168,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬縣市不可超過50字元");
 				}
 			}
@@ -184,7 +184,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("所屬國家不可超過50字元");
 				}
 			}
@@ -200,7 +200,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("郵遞區號不可超過15字元");
 				}
 			}
@@ -216,7 +216,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("接觸人員不可超過50字元");
 				}
 			}
@@ -232,7 +232,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("電話不可超過15字元");
 				}
 			}
@@ -248,7 +248,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("傳真不可超過15字元");
 				}
 			}
@@ -264,7 +264,7 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("電子信箱不可超過50字元");
 				}
 			}
@@ -309,10 +309,10 @@
 					document.getElementById("FAX").value = null;
 					document.getElementById("EMAIL").value = null;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫新增失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
 			}

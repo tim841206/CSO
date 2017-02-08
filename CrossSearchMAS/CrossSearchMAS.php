@@ -1,9 +1,10 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");
 
-if ($_POST['module'] == "CrossSearchMAS") {
-	if ($_POST['event'] == "CUSMASSearchCUSADD") {
-		$CUSNO = $_POST['CUSNO'];
+if (safe($_POST['module']) == "CrossSearchMAS") {
+	if (safe($_POST['event']) == "CUSMASSearchCUSADD") {
+		$CUSNO = safe($_POST['CUSNO']);
 		$check = Check("CUSMAS", $CUSNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -13,7 +14,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			$resource = mysql_query("SELECT * FROM CUSADD WHERE CUSNO='$CUSNO' AND ACTCODE=1");
 			$result = Search("CUSADD", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -22,8 +23,8 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			}
 		}
 	}
-	elseif ($_POST['event'] == "CUSREGIONSearchCUSCITY") {
-		$REGIONNO = $_POST['REGIONNO'];
+	elseif (safe($_POST['event']) == "CUSREGIONSearchCUSCITY") {
+		$REGIONNO = safe($_POST['REGIONNO']);
 		$check = Check("CUSREGION", $REGIONNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -33,7 +34,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			$resource = mysql_query("SELECT * FROM CUSCITY WHERE REGIONNO='$REGIONNO' AND ACTCODE=1");
 			$result = Search("CUSCITY", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -42,8 +43,8 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			}
 		}
 	}
-	elseif ($_POST['event'] == "SLSMASSearchCUSMAS") {
-		$SALPERNO = $_POST['SALPERNO'];
+	elseif (safe($_POST['event']) == "SLSMASSearchCUSMAS") {
+		$SALPERNO = safe($_POST['SALPERNO']);
 		$check = Check("SLSMAS", $SALPERNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -53,7 +54,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			$resource = mysql_query("SELECT * FROM CUSMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1");
 			$result = Search("CUSMAS", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -62,8 +63,8 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			}
 		}
 	}
-	elseif ($_POST['event'] == "CUSCITYSearchCUSADDCITY") {
-		$CITYNO = $_POST['CITYNO'];
+	elseif (safe($_POST['event']) == "CUSCITYSearchCUSADDCITY") {
+		$CITYNO = safe($_POST['CITYNO']);
 		$check = Check("CUSCITY", $CITYNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -73,7 +74,7 @@ if ($_POST['module'] == "CrossSearchMAS") {
 			$resource = mysql_query("SELECT * FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1");
 			$result = Search("CUSADDCITY", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -83,13 +84,11 @@ if ($_POST['module'] == "CrossSearchMAS") {
 		}
 	}
 	else {
-		echo json_encode(array('state' => 400));
-		return;
+		echo "Invalid Access!";
 	}
 }
 else {
-	echo json_encode(array('state' => 400));
-	return;
+	echo "Invalid Access!";
 }
 
 function Check($master, $value) {
@@ -102,11 +101,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			elseif ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 	elseif ($master == "CUSREGION") {
@@ -118,11 +117,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			elseif ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 	elseif ($master == "SLSMAS") {
@@ -134,11 +133,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			elseif ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 	elseif ($master == "CUSCITY") {
@@ -150,11 +149,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			elseif ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 }

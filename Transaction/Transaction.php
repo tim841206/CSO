@@ -1,11 +1,12 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");
 
-if ($_POST['module'] == "Transaction") {
-	if ($_POST['event'] == "CreateINV") {
-		if ($_POST['option'] == "PCKLSTNO") {
-			$result = check_PCKLSTNO($_POST['PCKLSTNO']);
-			if ($result <= 3) {
+if (safe($_POST['module']) == "Transaction") {
+	if (safe($_POST['event']) == "CreateINV") {
+		if (safe($_POST['option']) == "PCKLSTNO") {
+			$result = check_PCKLSTNO(safe($_POST['PCKLSTNO']));
+			if ($result < 0) {
 				echo json_encode(array('state' => $result));
 				return;
 			}
@@ -14,9 +15,9 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "ORDNO") {
-			$result = check_ORDNO($_POST['ORDNO']);
-			if ($result <= 3) {
+		elseif (safe($_POST['option']) == "ORDNO") {
+			$result = check_ORDNO(safe($_POST['ORDNO']));
+			if ($result < 0) {
 				echo json_encode(array('state' => $result));
 				return;
 			}
@@ -25,24 +26,24 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "ITEMNO") {
-			$result = check_ITEMNO($_POST['PCKLSTNO'], $_POST['ITEMNO']);
+		elseif (safe($_POST['option']) == "ITEMNO") {
+			$result = check_ITEMNO(safe($_POST['PCKLSTNO']), safe($_POST['ITEMNO']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['option'] == "LOCNO") {
-			$result = check_LOCNO($_POST['PCKLSTNO'], $_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO']);
+		elseif (safe($_POST['option']) == "LOCNO") {
+			$result = check_LOCNO(safe($_POST['PCKLSTNO']), safe($_POST['ITEMNO']), safe($_POST['REV_CODE']), safe($_POST['LOCNO']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['option'] == "QTYTRAN") {
-			$result = check_QTYTRAN($_POST['PCKLSTNO'], $_POST['ITEMNO'], $_POST['REV_CODE'], $_POST['LOCNO'], $_POST['QTYTRAN']);
+		elseif (safe($_POST['option']) == "QTYTRAN") {
+			$result = check_QTYTRAN(safe($_POST['PCKLSTNO']), safe($_POST['ITEMNO']), safe($_POST['REV_CODE']), safe($_POST['LOCNO']), safe($_POST['QTYTRAN']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif ($_POST['option'] == "DATE_TRAN") {
-			if (empty($_POST['option'])) {
-				echo json_encode(array('state' => 1));
+		elseif (safe($_POST['option']) == "DATE_TRAN") {
+			if (empty(safe($_POST['option']))) {
+				echo json_encode(array('state' => -1));
 				return;
 			}
 			else {
@@ -50,20 +51,20 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "Create") {
-			$PCKLSTNO = $_POST['PCKLSTNO'];
-			$ORDNO = $_POST['ORDNO'];
-			$ITEMNO = $_POST['ITEMNO'];
-			$REV_CODE = $_POST['REV_CODE'];
-			$LOCNO = $_POST['LOCNO'];
-			$QTYTRAN = $_POST['QTYTRAN'];
-			$DATE_TRAN = $_POST['DATE_TRAN'];
-			$result1 = (check_PCKLSTNO($PCKLSTNO)>3)? 0 : check_PCKLSTNO($PCKLSTNO);
-			$result2 = (check_ORDNO($ORDNO)>3)? 0 : check_ORDNO($ORDNO);
+		elseif (safe($_POST['option']) == "Create") {
+			$PCKLSTNO = safe($_POST['PCKLSTNO']);
+			$ORDNO = safe($_POST['ORDNO']);
+			$ITEMNO = safe($_POST['ITEMNO']);
+			$REV_CODE = safe($_POST['REV_CODE']);
+			$LOCNO = safe($_POST['LOCNO']);
+			$QTYTRAN = safe($_POST['QTYTRAN']);
+			$DATE_TRAN = safe($_POST['DATE_TRAN']);
+			$result1 = (check_PCKLSTNO($PCKLSTNO)>0)? 0 : check_PCKLSTNO($PCKLSTNO);
+			$result2 = (check_ORDNO($ORDNO)>0)? 0 : check_ORDNO($ORDNO);
 			$result3 = check_ITEMNO($PCKLSTNO, $ITEMNO);
 			$result4 = check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO);
 			$result5 = check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
-			$result6 = empty($DATE_TRAN)? 1 : 0;
+			$result6 = empty($DATE_TRAN)? -1 : 0;
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
 			if ($result == 0) {
 				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
@@ -92,19 +93,19 @@ if ($_POST['module'] == "Transaction") {
 					$sql = "UPDATE INVOICE SET DATE_TRAN='$DATE_TRAN', QTYTRAN=QTYTRAN+'$QTYTRAN' WHERE INVOICENO=0 AND PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'";
 				}		
 				if (!mysql_query($sql)) {
-					echo json_encode(array('state' => 1));
+					echo json_encode(array('state' => -1));
 					return;
 				}
 				if (change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN, $fetchORDMAT['PRICE_SELL']*$QTYTRAN) != 0) {
-					echo json_encode(array('state' => 3));
+					echo json_encode(array('state' => -3));
 					return;
 				}
 				if (change_MAS($fetchORDMAT['PRICE_SELL']*$QTYTRAN, $fetchORDMAS['CUSNO'], $fetchORDMAS['SALPERNO'], $ORDNO, $QTYTRAN, $ITEMNO, $REV_CODE) != 0) {
-					echo json_encode(array('state' => 4));
+					echo json_encode(array('state' => -4));
 					return;
 				}
 				if (change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE) != 0) {
-					echo json_encode(array('state' => 5));
+					echo json_encode(array('state' => -5));
 					return;
 				}
 				else {
@@ -113,41 +114,40 @@ if ($_POST['module'] == "Transaction") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => 2));
+				echo json_encode(array('state' => -2));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "PrintINV") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "PrintINV") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('PrintINV');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_TRAN' => $result['FromDATE_TRAN'], 'ToDATE_TRAN' => $result['ToDATE_TRAN']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_TRAN' => $_POST['FromDATE_TRAN'], 'ToDATE_TRAN' => $_POST['ToDATE_TRAN']);
-			$result = Search('PrintINV', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_TRAN' => safe($_POST['FromDATE_TRAN']), 'ToDATE_TRAN' => safe($_POST['ToDATE_TRAN']));
+			$result = Search('PrintINV', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result1' => $result[0], 'result2' => $result[1]));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_TRAN' => $_POST['FromDATE_TRAN'], 'ToDATE_TRAN' => $_POST['ToDATE_TRAN']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_TRAN' => safe($_POST['FromDATE_TRAN']), 'ToDATE_TRAN' => safe($_POST['ToDATE_TRAN']));
 			$result = Check('PrintINV', $data);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'pdf' => $result));
@@ -158,8 +158,8 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "Reprint") {
-			$data = array('FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_TRAN' => $_POST['FromDATE_TRAN'], 'ToDATE_TRAN' => $_POST['ToDATE_TRAN']);
+		elseif (safe($_POST['option']) == "Reprint") {
+			$data = array('FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_TRAN' => safe($_POST['FromDATE_TRAN']), 'ToDATE_TRAN' => safe($_POST['ToDATE_TRAN']));
 			$result = Reprint('PrintINV', $data);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'pdf' => $result));
@@ -171,100 +171,97 @@ if ($_POST['module'] == "Transaction") {
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "SearchINV") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "SearchINV") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('SearchINV');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromINVOICENO' => $result['FromINVOICENO'], 'ToINVOICENO' => $result['ToINVOICENO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromINVOICENO' => $_POST['FromINVOICENO'], 'ToINVOICENO' => $_POST['ToINVOICENO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromINVOICENO' => safe($_POST['FromINVOICENO']), 'ToINVOICENO' => safe($_POST['ToINVOICENO']), 'FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Search('SearchINV', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			if ($result == 0) {
+				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => 0, 'result' => $result));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "PergePCK") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "PergePCK") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('PergePCK');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Search('PergePCK', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
+			$result = Search('PergePCK', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Check('PergePCK', $data);
 			echo json_encode(array('state' => $result));
 			return;
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "PrintPCK") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "PrintPCK") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('PrintPCK');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromCUSNO' => $result['FromCUSNO'], 'ToCUSNO' => $result['ToCUSNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromDATE_REQ' => $result['FromDATE_REQ'], 'ToDATE_REQ' => $result['ToDATE_REQ']));
 				return;
 			}
-		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
-			$result = Search('PrintPCK', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			else {
+				echo json_encode(array('state' => -1));
 				return;
 			}
-			else {
+		}
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
+			$result = Search('PrintPCK', $data);
+			if ($result == 0) {
 				echo json_encode(array('state' => 0, 'result1' => $result[0], 'result2' => $result[1]));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Check") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Check") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Check('PrintPCK', $data);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'pdf' => $result));
@@ -275,8 +272,8 @@ if ($_POST['module'] == "Transaction") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "Reprint") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromCUSNO' => $_POST['FromCUSNO'], 'ToCUSNO' => $_POST['ToCUSNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromDATE_REQ' => $_POST['FromDATE_REQ'], 'ToDATE_REQ' => $_POST['ToDATE_REQ']);
+		elseif (safe($_POST['option']) == "Reprint") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromCUSNO' => safe($_POST['FromCUSNO']), 'ToCUSNO' => safe($_POST['ToCUSNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromDATE_REQ' => safe($_POST['FromDATE_REQ']), 'ToDATE_REQ' => safe($_POST['ToDATE_REQ']));
 			$result = Reprint('PrintPCK', $data);
 			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'pdf' => $result));
@@ -288,62 +285,58 @@ if ($_POST['module'] == "Transaction") {
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "SearchPCK") {
-		if ($_POST['option'] == "init") {
+	elseif (safe($_POST['event']) == "SearchPCK") {
+		if (safe($_POST['option']) == "init") {
 			$result = init('SearchPCK');
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
-				return;
-			}
-			else {
+			if (is_array($result)) {
 				echo json_encode(array('state' => 0, 'FromSALPERNO' => $result['FromSALPERNO'], 'ToSALPERNO' => $result['ToSALPERNO'], 'FromORDNO' => $result['FromORDNO'], 'ToORDNO' => $result['ToORDNO'], 'FromPCKLSTNO' => $result['FromPCKLSTNO'], 'ToPCKLSTNO' => $result['ToPCKLSTNO']));
 				return;
 			}
+			else {
+				echo json_encode(array('state' => -1));
+				return;
+			}
 		}
-		elseif ($_POST['option'] == "Search") {
-			$data = array('FromSALPERNO' => $_POST['FromSALPERNO'], 'ToSALPERNO' => $_POST['ToSALPERNO'], 'FromORDNO' => $_POST['FromORDNO'], 'ToORDNO' => $_POST['ToORDNO'], 'FromPCKLSTNO' => $_POST['FromPCKLSTNO'], 'ToPCKLSTNO' => $_POST['ToPCKLSTNO'], 'ACTCODE' => $_POST['ACTCODE']);
+		elseif (safe($_POST['option']) == "Search") {
+			$data = array('FromSALPERNO' => safe($_POST['FromSALPERNO']), 'ToSALPERNO' => safe($_POST['ToSALPERNO']), 'FromORDNO' => safe($_POST['FromORDNO']), 'ToORDNO' => safe($_POST['ToORDNO']), 'FromPCKLSTNO' => safe($_POST['FromPCKLSTNO']), 'ToPCKLSTNO' => safe($_POST['ToPCKLSTNO']), 'ACTCODE' => safe($_POST['ACTCODE']));
 			$result = Search('SearchPCK', $data);
-			if ($result == 1) {
-				echo json_encode(array('state' => 1));
+			if ($result == 0) {
+				echo json_encode(array('state' => 0, 'result' => $result));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => 0, 'result' => $result));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
 	else {
-		echo json_encode(array('state' => 400));
-		return;
+		echo "Invalid Access!";
 	}
 }
 else {
-	echo json_encode(array('state' => 400));
-	return;
+	echo "Invalid Access!";
 }
 
 function check_PCKLSTNO($PCKLSTNO) {
 	$sql = "SELECT * FROM PCKLST WHERE PCKLSTNO='$PCKLSTNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) == 0) {
-		return 1; // 不存在
+		return -1; // 不存在
 	}
 	else {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 2) {
-			return 2; // 已完成
+			return -2; // 已完成
 		}
 		elseif ($fetch['ACTCODE'] == 3) {
-			return 3; // 已作廢
+			return -3; // 已作廢
 		}
 		else {
 			return $fetch['ORDNO'];
@@ -355,15 +348,15 @@ function check_ORDNO($ORDNO) {
 	$sql = "SELECT * FROM PCKLST WHERE ORDNO='$ORDNO'";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) == 0) {
-		return 1; // 不存在
+		return -1; // 不存在
 	}
 	else {
 		$fetch = mysql_fetch_array($result);
 		if ($fetch['ACTCODE'] == 2) {
-			return 2; // 已完成
+			return -2; // 已完成
 		}
 		elseif ($fetch['ACTCODE'] == 3) {
-			return 3; // 已作廢
+			return -3; // 已作廢
 		}
 		else {
 			return $fetch['PCKLSTNO'];
@@ -378,7 +371,7 @@ function check_ITEMNO($PCKLSTNO, $ITEMNO) {
 		return 0; // ok
 	}
 	else {
-		return 1; // 不存在
+		return -1; // 不存在
 	}
 }
 
@@ -390,7 +383,7 @@ function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
 	$queryLOCBAL = mysql_query("SELECT * FROM LOCBAL WHERE WHOUSE='$WHOUSE' AND LOCNO='$LOCNO' AND ITEMNO='$ITEMNO'");
 	if ($REV_CODE == 'C') {
 		if (mysql_num_rows($queryLOCBAL) == 0) {
-			return 1;
+			return -1;
 		}
 		else {
 			return 0;
@@ -398,7 +391,7 @@ function check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO) {
 	}
 	elseif ($REV_CODE == 'D') {
 		if (mysql_num_rows($queryLOCMAS) == 0) {
-			return 2;
+			return -2;
 		}
 		else {
 			return 0;
@@ -417,13 +410,13 @@ function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
 	$queryITMBAL = mysql_query("SELECT * FROM ITMBAL WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'");
 	$fetchITMBAL = mysql_fetch_array($queryITMBAL);
 	if ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCMAS['qtytotal']) {
-		return 1;
+		return -1;
 	}
 	elseif ($REV_CODE == 'C' && $QTYTRAN > $fetchLOCBAL['qtyonhand']) {
-		return 1;
+		return -1;
 	}
 	elseif ($REV_CODE == 'C' && $QTYTRAN > $fetchITMBAL['qtyonhand']) {
-		return 2;
+		return -2;
 	}
 	else {
 		return 0;
@@ -451,13 +444,13 @@ function change_ITM($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN, $DATE_TRAN,
 		$sql_3 = "UPDATE ITMBAL SET qtysoldptd=qtysoldptd-'$QTYTRAN', saleamtptd=saleamtptd-'$NET_SALES', qtysoldstd=qtysoldstd-'$QTYTRAN', saleamtstd=saleamtstd-'$NET_SALES', qtysoldytd=qtysoldytd-'$QTYTRAN', saleamtytd=saleamtytd-'$NET_SALES', qtyonhand=qtyonhand+'$QTYTRAN', date_onhnd='$DATE_TRAN', date_sales='$DATE_TRAN' WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
-		return 1;
+		return -1;
 	}
 	if (!mysql_query($sql_2)) {
-		return 2;
+		return -2;
 	}
 	if (!mysql_query($sql_3)) {
-		return 3;
+		return -3;
 	}
 	else {
 		return 0;
@@ -478,16 +471,16 @@ function change_MAS($NET_SALES, $CUSNO, $SALPERNO, $ORDNO, $QTYTRAN, $ITEMNO, $R
 		$sql_4 = "UPDATE ORDMAT SET QTYSHIP=QTYSHIP-'$QTYTRAN', QTYBAKORD=QTYORD-QTYSHIP, NET_SALES=NET_SALES-'$NET_SALES' WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql_1)) {
-		return 1;
+		return -1;
 	}
 	if (!mysql_query($sql_2)) {
-		return 2;
+		return -2;
 	}
 	if (!mysql_query($sql_3)) {
-		return 3;
+		return -3;
 	}
 	if (!mysql_query($sql_4)) {
-		return 4;
+		return -4;
 	}
 	else {
 		return 0;
@@ -502,7 +495,7 @@ function change_PCK($DATE_TRAN, $QTYTRAN, $LOCNO, $PCKLSTNO, $ITEMNO, $REV_CODE)
 		$sql = "UPDATE PCKLST SET DATE_SHIP='$DATE_TRAN', QTYSHIPREQ=QTYSHIPREQ+'$QTYTRAN', LOCNO='$LOCNO' WHERE PCKLSTNO='$PCKLSTNO' AND ITEMNO='$ITEMNO'";
 	}
 	if (!mysql_query($sql)) {
-		return 1;
+		return -1;
 	}
 	else {
 		return 0;
@@ -527,7 +520,7 @@ function init($type) {
 	if ($type == 'PrintPCK') {
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R'");
 		if (mysql_num_rows($result) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($result)) {
@@ -546,7 +539,7 @@ function init($type) {
 	elseif ($type == 'PergePCK') {
 		$result = mysql_query("SELECT * FROM PCKLST WHERE ACTCODE=0");
 		if (mysql_num_rows($result) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($result)) {
@@ -567,7 +560,7 @@ function init($type) {
 	elseif ($type == 'SearchPCK') {
 		$result = mysql_query("SELECT * FROM PCKLST");
 		if (mysql_num_rows($result) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($result)) {
@@ -584,7 +577,7 @@ function init($type) {
 	elseif ($type == 'SearchINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0");
 		if (mysql_num_rows($result) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($result)) {
@@ -605,7 +598,7 @@ function init($type) {
 	elseif ($type == 'PrintINV') {
 		$result = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0");
 		if (mysql_num_rows($result) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			while ($fetch = mysql_fetch_array($result)) {
@@ -635,7 +628,7 @@ function Search($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$table1_count = 0;
@@ -678,7 +671,7 @@ function Search($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$table = '<table><tr>將作廢的揀貨單</tr><tr><th>揀貨單編號</th><th>訂單編號</th><th>物料編號</th><th>要求數量</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
@@ -699,7 +692,7 @@ function Search($type, $data) {
 		$ACTCODE = $data['ACTCODE'];
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND ACTCODE='$ACTCODE'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$table = '<table><tr><th>揀貨單編號</th><th>訂單編號</th><th>物料編號</th><th>要求數量</th><th>銷售員編號</th><th>顧客編號</th><th>貨品要求運送時間</th></tr>';
@@ -723,7 +716,7 @@ function Search($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO>0 AND INVOICENO>='$FromINVOICENO' AND INVOICENO<='$ToINVOICENO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$table = '<table><tr><th>發票編號</th><th>揀貨單編號</th><th>顧客編號</th><th>訂單編號</th><th>物料編號</th><th>貨品要求運送時間</th><th>運送時間</th><th>運送數量</th></tr>';
@@ -745,7 +738,7 @@ function Search($type, $data) {
 		$ToDATE_TRAN = $data['ToDATE_TRAN'];
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$table1_count = 0;
@@ -787,7 +780,7 @@ function Check($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$pdf = array();
@@ -831,7 +824,7 @@ function Check($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM PCKLST WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 2; // 無資料
+			return -2; // 無資料
 		}
 		else {
 			$sql = "UPDATE PCKLST SET ACTCODE=3 WHERE SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'";
@@ -839,7 +832,7 @@ function Check($type, $data) {
 				return 0;
 			}
 			else {
-				return 1;
+				return -1;
 			}
 		}
 	}
@@ -854,7 +847,7 @@ function Check($type, $data) {
 		$ToDATE_TRAN = $data['ToDATE_TRAN'];
 		$resource = mysql_query("SELECT * FROM INVOICE WHERE INVOICENO=0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN' ORDER BY PCKLSTNO ASC, DATE_TRAN ASC");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$pdf = array();
@@ -891,7 +884,7 @@ function Reprint($type, $data) {
 		$ToDATE_REQ = $data['ToDATE_REQ'];
 		$resource = mysql_query("SELECT * FROM ORDMAS WHERE ORD_STAT='R' AND SALPERNO>='$FromSALPERNO' AND SALPERNO<='$ToSALPERNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_REQ>='$FromDATE_REQ' AND DATE_REQ<='$ToDATE_REQ'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$pdf = array();
@@ -918,7 +911,7 @@ function Reprint($type, $data) {
 		$ToDATE_TRAN = $data['ToDATE_TRAN'];
 		$resource = mysql_query("SELECT * FROM INVOICENO WHERE INVOICENO>0 AND PCKLSTNO>='$FromPCKLSTNO' AND PCKLSTNO<='$ToPCKLSTNO' AND CUSNO>='$FromCUSNO' AND CUSNO<='$ToCUSNO' AND ORDNO>='$FromORDNO' AND ORDNO<='$ToORDNO' AND DATE_TRAN>='$FromDATE_TRAN' AND DATE_TRAN<='$ToDATE_TRAN'");
 		if (mysql_num_rows($resource) == 0) {
-			return 1; // 無資料
+			return -1; // 無資料
 		}
 		else {
 			$pdf = array();

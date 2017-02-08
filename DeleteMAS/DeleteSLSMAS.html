@@ -67,10 +67,10 @@
 					document.getElementById("UPDATEDATE").innerHTML = data.UPDATEDATE;
 					document.getElementById('Delete').style.visibility = 'visible';
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("此銷售員編號不存在");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("此銷售員已刪除");
 				}
 			}
@@ -100,16 +100,16 @@
 					document.getElementById("Last").style.visibility = 'visible';
 					Refresh();
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫刪除失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("連帶刪除顧客失敗");
 				}
-				else if (data.state == 3) {
+				else if (data.state == -3) {
 					alert("連帶刪除顧客地址失敗");
 				}
-				else if (data.state == 4) {
+				else if (data.state == -4) {
 					alert("連帶刪除顧客地址城市關聯失敗");
 				}
 			}

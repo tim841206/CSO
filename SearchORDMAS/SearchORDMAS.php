@@ -1,9 +1,10 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");;
 
-if ($_POST['module'] == "SearchORDMAS") {
-	if ($_POST['event'] == "ORDNOSearchORDMAS") {
-		$ORDNO = $_POST['ORDNO'];
+if (safe($_POST['module']) == "SearchORDMAS") {
+	if (safe($_POST['event']) == "ORDNOSearchORDMAS") {
+		$ORDNO = safe($_POST['ORDNO']);
 		$result = mysql_query("SELECT * FROM ORDMAS WHERE ORDNO='$ORDNO'");
 		if (mysql_num_rows($result) > 0) {
 			$fetch = mysql_fetch_array($result);
@@ -11,18 +12,18 @@ if ($_POST['module'] == "SearchORDMAS") {
 				echo json_encode(array('state' => 0, 'ORDTYPE' => $fetch['ORDTYPE'], 'CUSNO' => $fetch['CUSNO'], 'CUS_PO_NO' => $fetch['CUS_PO_NO'], 'SHIP_ADD_NO' => $fetch['SHIP_ADD_NO'], 'BILL_ADD_NO' => $fetch['BILL_ADD_NO'], 'BACKCODE' => $fetch['BACKCODE'], 'INVOICENO' => $fetch['INVOICENO'], 'SALPERNO' => $fetch['SALPERNO'], 'TO_ORD_AMT' => $fetch['TO_ORD_AMT'], 'TO_SHP_AMT' => $fetch['TO_SHP_AMT'], 'ORD_INST' => $fetch['ORD_INST'], 'DATEORDORG' => $fetch['DATEORDORG'], 'ORDCOMPER' => $fetch['ORDCOMPER'], 'ORD_STAT' => $fetch['ORD_STAT'], 'DATE_REQ' => $fetch['DATE_REQ'], 'CREATEDATE' => $fetch['CREATEDATE'], 'UPDATEDATE' => $fetch['UPDATEDATE']));
 				return;
 			}
-			else if ($fetch['ACTCODE'] == 0) {
-				echo json_encode(array('state' => 2));
+			elseif ($fetch['ACTCODE'] == 0) {
+				echo json_encode(array('state' => -2));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 1));
+			echo json_encode(array('state' => -1));
 			return;
 		}
 	}
-	elseif ($_POST['event'] == "ORDNOSearchORDMAT") {
-		$ORDNO = $_POST['ORDNO'];
+	elseif (safe($_POST['event']) == "ORDNOSearchORDMAT") {
+		$ORDNO = safe($_POST['ORDNO']);
 		$check = Check("ORDMAS", $ORDNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -32,7 +33,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			$resource = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ACTCODE=1");
 			$result = Search("ORDMAT", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -41,8 +42,8 @@ if ($_POST['module'] == "SearchORDMAS") {
 			}
 		}
 	}
-	elseif ($_POST['event'] == "SLSMASSearchORDMAS") {
-		$SALPERNO = $_POST['SALPERNO'];
+	elseif (safe($_POST['event']) == "SLSMASSearchORDMAS") {
+		$SALPERNO = safe($_POST['SALPERNO']);
 		$check = Check("SLSMAS", $SALPERNO);
 		if ($check != 0) {
 			echo json_encode(array('state' => $check));
@@ -52,7 +53,7 @@ if ($_POST['module'] == "SearchORDMAS") {
 			$resource = mysql_query("SELECT * FROM ORDMAS WHERE SALPERNO='$SALPERNO' AND ACTCODE=1");
 			$result = Search("ORDMAS", $resource);
 			if ($result === 0) {
-				echo json_encode(array('state' => 3));
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
@@ -61,12 +62,12 @@ if ($_POST['module'] == "SearchORDMAS") {
 			}
 		}
 	}
-	elseif ($_POST['event'] == "ORDMATSearchORDMAS") {
-		$WHOUSE = $_POST['WHOUSE'];
-		$ITEMNO = $_POST['ITEMNO'];
+	elseif (safe($_POST['event']) == "ORDMATSearchORDMAS") {
+		$WHOUSE = safe($_POST['WHOUSE']);
+		$ITEMNO = safe($_POST['ITEMNO']);
 		$resource = mysql_query("SELECT ORDNO FROM ORDMAT WHERE WHOUSE='$WHOUSE' AND ITEMNO='$ITEMNO' AND ACTCODE=1");
 		if (mysql_num_rows($resource) == 0) {
-			echo json_encode(array('state' => 1));
+			echo json_encode(array('state' => -1));
 			return;
 		}
 		else {
@@ -77,13 +78,11 @@ if ($_POST['module'] == "SearchORDMAS") {
 		}
 	}
 	else {
-		echo json_encode(array('state' => 400));
-		return;
+		echo "Invalid Access!";
 	}
 }
 else {
-	echo json_encode(array('state' => 400));
-	return;
+	echo "Invalid Access!";
 }
 
 function Check($master, $value) {
@@ -96,11 +95,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			else if ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 	elseif ($master == "SLSMAS") {
@@ -112,11 +111,11 @@ function Check($master, $value) {
 				return 0; // ok
 			}
 			else if ($fetch['ACTCODE'] == 0) {
-				return 2; // 已刪除
+				return -2; // 已刪除
 			}
 		}
 		else {
-			return 1; // 不存在
+			return -1; // 不存在
 		}
 	}
 }

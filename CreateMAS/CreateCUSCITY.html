@@ -54,7 +54,7 @@
 						document.getElementById("wildcard").innerHTML = data.wildcard;
 						OpenModalDialog();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("查無資料");
 					}
 				}
@@ -76,10 +76,10 @@
 						document.getElementById("Create").style.visibility = 'visible';
 						document.getElementById("CITYNO").focus();
 					}
-					else if (data.state == 1) {
+					else if (data.state == -1) {
 						alert("此廠商暨地區編號不存在");
 					}
-					else if (data.state == 2) {
+					else if (data.state == -2) {
 						alert("此顧客地區已刪除");
 					}
 				}
@@ -96,16 +96,16 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("城市編號為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("城市編號不可超過15字元");
 				}
-				else if (data.state == 3) {
+				else if (data.state == -3) {
 					alert("此顧客城市已刪除");
 				}
-				else if (data.state == 4) {
+				else if (data.state == -4) {
 					alert("此顧客城市已存在");
 				}
 			}
@@ -121,10 +121,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == 1) {
+				if (data.state == -1) {
 					alert("城市名稱為必填欄位");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("城市名稱不可超過50字元");
 				}
 			}
@@ -149,10 +149,10 @@
 					document.getElementById("CITYNO").value = null;
 					document.getElementById("CITYNM").value = null;
 				}
-				else if (data.state == 1) {
+				else if (data.state == -1) {
 					alert("資料庫新增失敗");
 				}
-				else if (data.state == 2) {
+				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
 			}

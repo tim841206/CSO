@@ -1,9 +1,10 @@
 <?
 include_once("../resource/database.php");
+include_once("../resource/attachment.php");
 
-if ($_POST['module'] == "BI") {
-	if ($_POST['event'] == "REG_CITY_ADD") {
-		if ($_POST['option'] == "Renew") {
+if (safe($_POST['module']) == "BI") {
+	if (safe($_POST['event']) == "REG_CITY_ADD") {
+		if (safe($_POST['option']) == "Renew") {
 			date_default_timezone_set('Asia/Taipei');
 			$PRODUCE_TIME = date("Y-m-d");
 			$result = Renew_REG_CITY_ADD($PRODUCE_TIME);
@@ -16,7 +17,7 @@ if ($_POST['module'] == "BI") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "init") {
+		elseif (safe($_POST['option']) == "init") {
 			$sql = "SELECT * FROM REG_CITY_ADD";
 			if ($result = mysql_query($sql)) {
 				if (mysql_num_rows($result) == 0) {
@@ -24,7 +25,7 @@ if ($_POST['module'] == "BI") {
 					$PRODUCE_TIME = date("Y-m-d");
 					$renew = Renew_REG_CITY_ADD($PRODUCE_TIME);
 					if ($renew == 1) {
-						echo json_encode(array('state' => 2));
+						echo json_encode(array('state' => -2));
 						return;
 					}
 					$result = mysql_query("SELECT * FROM REG_CITY_ADD");
@@ -51,15 +52,15 @@ if ($_POST['module'] == "BI") {
 				return;
 			}
 			else {
-				echo json_encode(array('state' => 1));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "update") {
-			$REGIONNO = $_POST['REGIONNO'];
-			$CITYNO = $_POST['CITYNO'];
-			$CUSNO = $_POST['CUSNO'];
-			$ADDNO = $_POST['ADDNO'];
+		elseif (safe($_POST['option']) == "update") {
+			$REGIONNO = safe($_POST['REGIONNO']);
+			$CITYNO = safe($_POST['CITYNO']);
+			$CUSNO = safe($_POST['CUSNO']);
+			$ADDNO = safe($_POST['ADDNO']);
 			if (empty($REGIONNO)) {
 				if (empty($CITYNO)) {
 					if (empty($CUSNO) || empty($ADDNO)) {
@@ -98,7 +99,7 @@ if ($_POST['module'] == "BI") {
 			}
 			if ($result = mysql_query($sql)) {
 				if (mysql_num_rows($result) == 0) {
-					echo json_encode(array('state' => 2));
+					echo json_encode(array('state' => -2));
 					return;
 				}
 				else {
@@ -121,17 +122,16 @@ if ($_POST['module'] == "BI") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => 1));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
-	elseif ($_POST['event'] == "SLS_CUS_ADD") {
-		if ($_POST['option'] == "Renew") {
+	elseif (safe($_POST['event']) == "SLS_CUS_ADD") {
+		if (safe($_POST['option']) == "Renew") {
 			date_default_timezone_set('Asia/Taipei');
 			$PRODUCE_TIME = date("Y-m-d");
 			$result = Renew_SLS_CUS_ADD($PRODUCE_TIME);
@@ -144,7 +144,7 @@ if ($_POST['module'] == "BI") {
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "init") {
+		elseif (safe($_POST['option']) == "init") {
 			$sql = "SELECT * FROM SLS_CUS_ADD";
 			if ($result = mysql_query($sql)) {
 				if (mysql_num_rows($result) == 0) {
@@ -152,7 +152,7 @@ if ($_POST['module'] == "BI") {
 					$PRODUCE_TIME = date("Y-m-d");
 					$renew = Renew_SLS_CUS_ADD($PRODUCE_TIME);
 					if ($renew == 1) {
-						echo json_encode(array('state' => 2));
+						echo json_encode(array('state' => -2));
 						return;
 					}
 					$result = mysql_query("SELECT * FROM SLS_CUS_ADD");
@@ -179,14 +179,14 @@ if ($_POST['module'] == "BI") {
 				return;
 			}
 			else {
-				echo json_encode(array('state' => 1));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
-		elseif ($_POST['option'] == "update") {
-			$SALPERNO = $_POST['SALPERNO'];
-			$CUSNO = $_POST['CUSNO'];
-			$ADDNO = $_POST['ADDNO'];
+		elseif (safe($_POST['option']) == "update") {
+			$SALPERNO = safe($_POST['SALPERNO']);
+			$CUSNO = safe($_POST['CUSNO']);
+			$ADDNO = safe($_POST['ADDNO']);
 			if (empty($SALPERNO)) {
 				if (empty($CUSNO)) {
 					// Do nothing
@@ -238,23 +238,20 @@ if ($_POST['module'] == "BI") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => 1));
+				echo json_encode(array('state' => -1));
 				return;
 			}
 		}
 		else {
-			echo json_encode(array('state' => 400));
-			return;
+			echo "Invalid Access!";
 		}
 	}
 	else {
-		echo json_encode(array('state' => 400));
-		return;
+		echo "Invalid Access!";
 	}
 }
 else {
-	echo json_encode(array('state' => 400));
-	return;
+	echo "Invalid Access!";
 }
 
 function within_month($date, $now) {

@@ -61,6 +61,6 @@
 	新增發票 (CreateINV)
 	列印發票 (PrintINV)
 	查詢發票 (SearchINV)
-資料倉儲
-	區域-城市-顧客地址
-	銷售員-顧客-顧客地址
+商業分析 (BI)
+	區域-城市-地址 (REG-CITY-ADD)
+	銷售員-顧客-地址 (SLS-CUS-ADD)
