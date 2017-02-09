@@ -61,9 +61,11 @@
 					document.getElementById("ADDNO").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客已刪除");
 				}
 			}
@@ -85,6 +87,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -100,15 +103,19 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == -1) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此地址編號已刪除");
 					}
 					else if (data.state == -2) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
 					else if (data.state == -3) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此顧客地址城市關聯已刪除");
 					}
 					else if (data.state == -4) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此顧客地址城市關聯已存在");
 					}
 				}
@@ -131,6 +138,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("CITYNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -146,9 +154,11 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == -1) {
+						document.getElementById("CITYNO").classList.add("violate");
 						alert("此城市編號不存在");
 					}
 					else if (data.state == -2) {
+						document.getElementById("CITYNO").classList.add("violate");
 						alert("此顧客城市已刪除");
 					}
 				}

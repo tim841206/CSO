@@ -68,9 +68,11 @@
 					document.getElementById('Recover').style.visibility = 'visible';
 				}
 				else if (data.state == -1) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("此銷售員未被刪除");
 				}
 				else if (data.state == -2) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("此銷售員編號不存在");
 				}
 			}

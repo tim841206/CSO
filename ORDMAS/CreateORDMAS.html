@@ -66,6 +66,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("SALPERNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -92,6 +93,7 @@
 						document.getElementById("ORDTYPE").focus();
 					}
 					else if (data.state == -1) {
+						document.getElementById("SALPERNO").classList.add("violate");
 						alert("此銷售員編號不存在");
 					}
 				}
@@ -114,6 +116,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("CUSNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -129,6 +132,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == -1) {
+						document.getElementById("CUSNO").classList.add("violate");
 						alert("此顧客編號不存在");
 					}
 				}
@@ -146,6 +150,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CUS_PO_NO").classList.add("violate");
 					alert("顧客訂單編號不可超過50字元");
 				}
 			}
@@ -167,6 +172,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("SHIP_ADD_NO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -182,6 +188,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == -1) {
+						document.getElementById("SHIP_ADD_NO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
 				}
@@ -204,6 +211,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("BILL_ADD_NO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -219,6 +227,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == -1) {
+						document.getElementById("BILL_ADD_NO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
 				}
@@ -236,6 +245,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("ORD_INST").classList.add("violate");
 					alert("訂單額外附加指令不可超過50字元");
 				}
 			}
@@ -252,6 +262,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("DATE_REQ").classList.add("violate");
 					alert("訂單要求完成日期為必填欄位");
 				}
 			}

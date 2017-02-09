@@ -46,15 +46,19 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("銷售員編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("銷售員編號不可超過15字元");
 				}
 				else if (data.state == -3) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("此銷售員已刪除");
 				}
 				else if (data.state == -4) {
+					document.getElementById("SALPERNO").classList.add("violate");
 					alert("此銷售員已存在");
 				}
 			}
@@ -71,9 +75,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("SALPERNM").classList.add("violate");
 					alert("銷售員名稱為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("SALPERNM").classList.add("violate");
 					alert("銷售員名稱不可超過50字元");
 				}
 			}
@@ -90,9 +96,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("EMPNO").classList.add("violate");
 					alert("員工編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("EMPNO").classList.add("violate");
 					alert("員工編號不可超過15字元");
 				}
 			}
@@ -109,9 +117,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("COMRATE").classList.add("violate");
 					alert("酬勞比率為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("COMRATE").classList.add("violate");
 					alert("酬勞比率不可為負");
 				}
 			}

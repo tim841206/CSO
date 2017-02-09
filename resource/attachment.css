@@ -41,3 +41,7 @@
   float: right;
   visibility: hidden;
 }
+
+.violate {
+  border-color: red;
+}

@@ -85,6 +85,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("SALPERNO").classList.add("violate");
 						alert("查無資料");
 					}
 					
@@ -123,9 +124,11 @@
 						document.getElementById("CUSNO").focus();
 					}
 					else if (data.state == -1) {
+						document.getElementById("SALPERNO").classList.add("violate");
 						alert("此銷售員編號不存在");
 					}
 					else if (data.state == -2) {
+						document.getElementById("SALPERNO").classList.add("violate");
 						alert("此銷售員已刪除");
 					}
 				}
@@ -143,15 +146,19 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("顧客編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("顧客編號不可超過15字元");
 				}
 				else if (data.state == -3) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客已刪除");
 				}
 				else if (data.state == -4) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客已存在");
 				}
 			}
@@ -168,9 +175,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CUSNM").classList.add("violate");
 					alert("顧客名稱為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CUSNM").classList.add("violate");
 					alert("顧客名稱不可超過50字元");
 				}
 			}
@@ -187,12 +196,15 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("ADDNO_1").classList.add("violate");
 					alert("地址編號 1 為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ADDNO_1").classList.add("violate");
 					alert("地址編號 1 不可超過15字元");
 				}
 				else if (data.state == -3) {
+					document.getElementById("ADDNO_1").classList.add("violate");
 					alert("此地址編號已存在");
 				}
 			}
@@ -209,9 +221,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("ADDNO_2").classList.add("violate");
 					alert("地址編號 2 不可超過15字元");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ADDNO_2").classList.add("violate");
 					alert("此地址編號已存在");
 				}
 			}
@@ -228,9 +242,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("ADDNO_3").classList.add("violate");
 					alert("地址編號 3 不可超過15字元");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ADDNO_3").classList.add("violate");
 					alert("此地址編號已存在");
 				}
 			}
@@ -247,6 +263,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CITY").classList.add("violate");
 					alert("所屬城市不可超過50字元");
 				}
 			}
@@ -263,6 +280,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("COUNTY").classList.add("violate");
 					alert("所屬縣市不可超過50字元");
 				}
 			}
@@ -279,6 +297,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("COUNTRY").classList.add("violate");
 					alert("所屬國家不可超過50字元");
 				}
 			}
@@ -295,6 +314,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("ZCODE").classList.add("violate");
 					alert("郵遞區號不可超過15字元");
 				}
 			}
@@ -311,6 +331,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CNTPER").classList.add("violate");
 					alert("接觸人員不可超過50字元");
 				}
 			}
@@ -327,6 +348,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("TEL").classList.add("violate");
 					alert("電話不可超過15字元");
 				}
 			}
@@ -343,6 +365,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("FAX").classList.add("violate");
 					alert("傳真不可超過15字元");
 				}
 			}
@@ -359,6 +382,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("EMAIL").classList.add("violate");
 					alert("電子信箱不可超過50字元");
 				}
 			}
@@ -375,6 +399,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("WSITE").classList.add("violate");
 					alert("網址不可超過50字元");
 				}
 			}
@@ -391,6 +416,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("SPEINS").classList.add("violate");
 					alert("特殊要求不可超過50字元");
 				}
 			}
@@ -407,6 +433,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("TAXID").classList.add("violate");
 					alert("統一編號不可超過15字元");
 				}
 			}

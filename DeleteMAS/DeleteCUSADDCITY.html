@@ -62,9 +62,11 @@
 					document.getElementById("ADDNO").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CUSNO").classList.add("violate");
 					alert("此顧客已刪除");
 				}
 			}
@@ -86,6 +88,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -108,9 +111,11 @@
 						document.getElementById('Delete').style.visibility = 'visible';
 					}
 					else if (data.state == -1) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
 					else if (data.state == -2) {
+						document.getElementById("ADDNO").classList.add("violate");
 						alert("此顧客地址城市關聯已刪除");
 					}
 				}

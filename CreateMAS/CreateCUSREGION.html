@@ -52,15 +52,19 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("廠商暨地區編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("廠商暨地區編號不可超過15字元");
 				}
 				else if (data.state == -3) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此顧客地區已刪除");
 				}
 				else if (data.state == -4) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此顧客地區已存在");
 				}
 			}
@@ -77,9 +81,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CHANNELNO").classList.add("violate");
 					alert("通路編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CHANNELNO").classList.add("violate");
 					alert("通路編號不可超過15字元");
 				}
 			}
@@ -96,9 +102,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CHANNELNM").classList.add("violate");
 					alert("通路名稱為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CHANNELNM").classList.add("violate");
 					alert("通路名稱不可超過50字元");
 				}
 			}
@@ -115,9 +123,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("COMPANYNO").classList.add("violate");
 					alert("廠商公司編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("COMPANYNO").classList.add("violate");
 					alert("廠商公司編號不可超過15字元");
 				}
 			}
@@ -134,9 +144,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("COMPANYNM").classList.add("violate");
 					alert("廠商公司名稱為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("COMPANYNM").classList.add("violate");
 					alert("廠商公司名稱不可超過50字元");
 				}
 			}
@@ -153,9 +165,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("DISTRICTNO").classList.add("violate");
 					alert("地區編號為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("DISTRICTNO").classList.add("violate");
 					alert("地區編號不可超過15字元");
 				}
 			}
@@ -172,6 +186,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("DESCRIPTION").classList.add("violate");
 					alert("敘述不可超過50字元");
 				}
 			}

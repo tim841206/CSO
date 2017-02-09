@@ -65,12 +65,15 @@
 					document.getElementById("ITEMNO").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("PCKLSTNO").classList.add("violate");
 					alert("此揀貨單不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("PCKLSTNO").classList.add("violate");
 					alert("此揀貨單已完成，無法新增發票交易");
 				}
 				else if (data.state == -3) {
+					document.getElementById("PCKLSTNO").classList.add("violate");
 					alert("此揀貨單已作廢，無法新增發票交易");
 				}
 			}
@@ -94,12 +97,15 @@
 					document.getElementById("ITEMNO").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單編號之揀貨單不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單編號之揀貨單已完成，無法新增發票交易");
 				}
 				else if (data.state == -3) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單編號之揀貨單已作廢，無法新增發票交易");
 				}
 			}
@@ -121,6 +127,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ITEMNO").classList.add("violate");
 						alert("查無資料");
 					}
 					
@@ -143,6 +150,7 @@
 						document.getElementById("REV_CODE").focus();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ITEMNO").classList.add("violate");
 						alert("此揀貨單無此物料");
 					}
 				}
@@ -165,6 +173,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("LOCNO").classList.add("violate");
 						alert("查無資料");
 					}
 					
@@ -188,9 +197,11 @@
 						document.getElementById("QTYTRAN").focus();
 					}
 					else if (data.state == -1) {
+						document.getElementById("LOCNO").classList.add("violate");
 						alert("此存貨位置無指定的物料");
 					}
 					else if (data.state == -2) {
+						document.getElementById("LOCNO").classList.add("violate");
 						alert("指定的倉庫無此存貨位置");
 					}
 				}
@@ -208,9 +219,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("QTYTRAN").classList.add("violate");
 					alert("此存貨位置無足夠的物料");
 				}
 				else if (data.state == -2) {
+					document.getElementById("QTYTRAN").classList.add("violate");
 					alert("此物料無足夠的存貨");
 				}
 			}
@@ -230,6 +243,7 @@
 					document.getElementById("Create").style.visibility = 'visible';
 				}
 				else if (data.state == -1) {
+					document.getElementById("DATE_TRAN").classList.add("violate");
 					alert("交易日期為必填欄位");
 				}
 			}

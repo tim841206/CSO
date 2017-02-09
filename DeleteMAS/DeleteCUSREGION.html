@@ -68,9 +68,11 @@
 					document.getElementById('Delete').style.visibility = 'visible';
 				}
 				else if (data.state == -1) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此廠商暨地區編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此顧客地區已刪除");
 				}
 			}

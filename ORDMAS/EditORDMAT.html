@@ -73,12 +73,15 @@
 					document.getElementById("ITEMNO").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單已刪除");
 				}
 				else if (data.state == -3) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單處於不可更動狀態");
 				}
 			}
@@ -100,6 +103,7 @@
 						OpenModalDialog();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ITEMNO").classList.add("violate");
 						alert("查無資料");
 					}
 				}
@@ -134,9 +138,11 @@
 						document.getElementById("QTYORD").focus();
 					}
 					else if (data.state == -1) {
+						document.getElementById("ITEMNO").classList.add("violate");
 						alert("此物料編號不存在");
 					}
 					else if (data.state == -2) {
+						document.getElementById("ITEMNO").classList.add("violate");
 						alert("此訂單物料已刪除");
 					}
 				}
@@ -159,9 +165,11 @@
 					document.getElementById("PRICE_CNT").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("QTYORD").classList.add("violate");
 					alert("訂單數量為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("QTYORD").classList.add("violate");
 					alert("訂單數量必須為正整數");
 				}
 			}
@@ -182,6 +190,7 @@
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
 				else if (data.state == -1) {
+					document.getElementById("PRICE_CNT").classList.add("violate");
 					alert("簽約價格必須為數字");
 				}
 			}
@@ -202,6 +211,7 @@
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
 				else if (data.state == -1) {
+					document.getElementById("PERCENTDIS").classList.add("violate");
 					alert("折扣率必須為不大於100的正數");
 				}
 			}

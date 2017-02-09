@@ -53,9 +53,11 @@
 					document.getElementById("CITYNM").focus();
 				}
 				else if (data.state == -1) {
+					document.getElementById("CITYNO").classList.add("violate");
 					alert("此城市編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CITYNO").classList.add("violate");
 					alert("此顧客城市已刪除");
 				}
 			}
@@ -72,9 +74,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("CITYNM").classList.add("violate");
 					alert("城市名稱為必填欄位");
 				}
 				else if (data.state == -2) {
+					document.getElementById("CITYNM").classList.add("violate");
 					alert("城市名稱不可超過50字元");
 				}
 			}
@@ -91,6 +95,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == -1) {
+					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此廠商暨地區編號不存在");
 				}
 			}

@@ -74,9 +74,11 @@
 					document.getElementById('Delete').style.visibility = 'visible';
 				}
 				else if (data.state == -1) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此訂單編號不存在");
 				}
 				else if (data.state == -2) {
+					document.getElementById("ORDNO").classList.add("violate");
 					alert("此顧客訂單未被刪除");
 				}
 			}
