@@ -56,6 +56,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").classList.remove("violate");
 					document.getElementById("CUSNO").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
 					document.getElementById("ADDNO").style.visibility = 'visible';
@@ -104,6 +105,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == 0) {
+						document.getElementById("ADDNO").classList.remove("violate");
 						document.getElementById("ADDNO").readOnly = true;
 						document.getElementById("CITYNO").innerHTML = data.CITYNO;
 						document.getElementById("CREATEDATE").innerHTML = data.CREATEDATE;

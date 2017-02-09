@@ -52,6 +52,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").classList.remove("violate");
 					document.getElementById("CUSNO").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
 					document.getElementById("CUSNM").style.visibility = 'visible';
@@ -101,6 +102,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == 0) {
+						document.getElementById("ADDNO").classList.remove("violate");
 						document.getElementById("ADDNO").readOnly = true;
 						document.getElementById("CITYNO").value = data.CITYNO;
 						document.getElementById("CITYNO").style.visibility = 'visible';
@@ -149,7 +151,11 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == -1) {
+					if (data.state == 0) {
+						document.getElementById("CITYNO").classList.remove("violate");
+						alert("此城市編號不存在");
+					}
+					else if (data.state == -1) {
 						document.getElementById("CITYNO").classList.add("violate");
 						alert("此城市編號不存在");
 					}
