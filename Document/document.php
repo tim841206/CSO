@@ -42,6 +42,16 @@
 		<option value="DeleteRELATION" <? check_selected('event', 'DeleteCUSADDCITY') ?>>刪除顧客地址城市關聯</option>
 	</select>
 	<? } ?>
+	<? if ($_POST['type'] == 'RecoverMAS'){ ?>
+	<select class="" name="event" onchange="document.getElementById('form').submit();">
+		<option value="RecoverSLSMAS" <? check_selected('event', 'RecoverSLSMAS') ?>>恢復銷售員</option>
+		<option value="RecoverCUSMAS" <? check_selected('event', 'RecoverCUSMAS') ?>>恢復顧客</option>
+		<option value="RecoverCUSADD" <? check_selected('event', 'RecoverCUSADD') ?>>恢復顧客地址</option>
+		<option value="RecoverCUSREGION" <? check_selected('event', 'RecoverCUSREGION') ?>>恢復顧客地區</option>
+		<option value="RecoverCUSCITY" <? check_selected('event', 'RecoverCUSCITY') ?>>恢復顧客城市</option>
+		<option value="RecoverRELATION" <? check_selected('event', 'RecoverCUSADDCITY') ?>>恢復顧客地址城市關聯</option>
+	</select>
+	<? } ?>
 	<? if ($_POST['type'] == 'ExportMAS'){ ?>
 	<select class="" name="event" onchange="document.getElementById('form').submit();">
 		<option value="ExportSLSMAS" <? check_selected('event', 'ExportSLSMAS') ?>>輸出銷售員</option>
@@ -126,6 +136,7 @@ function init() {
 			if ($_POST['type'] == 'CreateMAS') $_POST['event'] = 'CreateSLSMAS';
 			elseif ($_POST['type'] == 'EditMAS') $_POST['event'] = 'EditSLSMAS';
 			elseif ($_POST['type'] == 'DeleteMAS') $_POST['event'] = 'DeleteSLSMAS';
+			elseif ($_POST['type'] == 'RecoverMAS') $_POST['event'] = 'RecoverSLSMAS';
 			elseif ($_POST['type'] == 'ExportMAS') $_POST['event'] = 'ExportSLSMAS';
 			elseif ($_POST['type'] == 'SearchMAS') $_POST['event'] = 'SearchSLSMAS';
 			elseif ($_POST['type'] == 'CrossSearchMAS') $_POST['event'] = 'SLSMASSearchCUSMAS';
@@ -133,6 +144,7 @@ function init() {
 			elseif ($_POST['type'] == 'SearchORDMAS') $_POST['event'] = 'SLSMASSearchORDMAS';
 			elseif ($_POST['type'] == 'PublishORDMAS') $_POST['event'] = 'R_ORDMAS';
 			elseif ($_POST['type'] == 'Transaction') $_POST['event'] = 'PrintPCK';
+			elseif ($_POST['type'] == 'BI') $_POST['event'] = 'REG-CITY-ADD';
 			else exit("unknown request type");
 		}
 	}
