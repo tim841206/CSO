@@ -68,6 +68,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("ORDNO").classList.remove("violate");
 					document.getElementById("ORDNO").readOnly = true;
 					document.getElementById("ITEMNO").style.visibility = 'visible';
 					document.getElementById("ITEMNO").focus();
@@ -119,6 +120,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == 0) {
+						document.getElementById("ITEMNO").classList.remove("violate");
 						document.getElementById("ITEMNO").readOnly = true;
 						document.getElementById("WHOUSE").innerHTML = data.WHOUSE;
 						document.getElementById("ITEMCLASS").innerHTML = data.ITEMCLASS;
@@ -160,6 +162,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("QTYORD").classList.remove("violate");
 					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 					document.getElementById("PRICE_CNT").focus();
@@ -186,6 +189,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("PRICE_CNT").classList.remove("violate");
 					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}
@@ -207,6 +211,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("PERCENTDIS").classList.remove("violate");
 					document.getElementById("PRICE_SELL").innerHTML = data.PRICE_SELL;
 					document.getElementById("NET_SALES").innerHTML = data.NET_SALES;
 				}

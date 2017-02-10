@@ -168,7 +168,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ADD_1").classList.remove("violate");
-					alert("地址 1 為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("ADD_1").classList.add("violate");
@@ -193,7 +192,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ADD_2").classList.remove("violate");
-					alert("地址 2 不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("ADD_2").classList.add("violate");
@@ -214,7 +212,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ADD_3").classList.remove("violate");
-					alert("地址 3 不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("ADD_3").classList.add("violate");
@@ -235,7 +232,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CITY").classList.remove("violate");
-					alert("所屬城市不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CITY").classList.add("violate");
@@ -256,7 +252,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("COUNTY").classList.remove("violate");
-					alert("所屬縣市不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("COUNTY").classList.add("violate");
@@ -277,7 +272,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("COUNTRY").classList.remove("violate");
-					alert("所屬國家不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("COUNTRY").classList.add("violate");
@@ -298,7 +292,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("ZCODE").classList.remove("violate");
-					alert("郵遞區號不可超過15字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("ZCODE").classList.add("violate");
@@ -319,7 +312,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CNTPER").classList.remove("violate");
-					alert("接觸人員不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CNTPER").classList.add("violate");
@@ -340,7 +332,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("TEL").classList.remove("violate");
-					alert("電話不可超過15字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("TEL").classList.add("violate");
@@ -361,7 +352,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("FAX").classList.remove("violate");
-					alert("傳真不可超過15字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("FAX").classList.add("violate");
@@ -382,7 +372,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("EMAIL").classList.remove("violate");
-					alert("電子信箱不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("EMAIL").classList.add("violate");

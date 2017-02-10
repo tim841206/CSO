@@ -53,7 +53,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("REGIONNO").classList.remove("violate");
-					alert("廠商暨地區編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("REGIONNO").classList.add("violate");
@@ -86,7 +85,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CHANNELNO").classList.remove("violate");
-					alert("通路編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CHANNELNO").classList.add("violate");
@@ -111,7 +109,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CHANNELNM").classList.remove("violate");
-					alert("通路名稱為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CHANNELNM").classList.add("violate");
@@ -136,7 +133,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("COMPANYNO").classList.remove("violate");
-					alert("廠商公司編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("COMPANYNO").classList.add("violate");
@@ -161,7 +157,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("COMPANYNM").classList.remove("violate");
-					alert("廠商公司名稱為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("COMPANYNM").classList.add("violate");
@@ -186,7 +181,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("DISTRICTNO").classList.remove("violate");
-					alert("地區編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("DISTRICTNO").classList.add("violate");
@@ -211,7 +205,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("DESCRIPTION").classList.remove("violate");
-					alert("敘述不可超過50字元");
 				}
 				else if (data.state == -1) {
 					document.getElementById("DESCRIPTION").classList.add("violate");

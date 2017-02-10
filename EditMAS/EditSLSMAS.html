@@ -80,7 +80,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("SALPERNM").classList.remove("violate");
-					alert("銷售員名稱為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("SALPERNM").classList.add("violate");
@@ -105,7 +104,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("EMPNO").classList.remove("violate");
-					alert("員工編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("EMPNO").classList.add("violate");
@@ -130,7 +128,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("COMRATE").classList.remove("violate");
-					alert("酬勞比率為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("COMRATE").classList.add("violate");

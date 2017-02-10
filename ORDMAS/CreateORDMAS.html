@@ -82,6 +82,7 @@
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
 					if (data.state == 0) {
+						document.getElementById("SALPERNO").classList.remove("violate");
 						document.getElementById("SALPERNO").readOnly = true;
 						document.getElementById("ORDTYPE").style.visibility = 'visible';
 						document.getElementById("CUSNO").style.visibility = 'visible';
@@ -131,7 +132,10 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == -1) {
+					if (data.state == 0) {
+						document.getElementById("CUSNO").classList.remove("violate");
+					}
+					else if (data.state == -1) {
 						document.getElementById("CUSNO").classList.add("violate");
 						alert("此顧客編號不存在");
 					}
@@ -149,7 +153,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == -1) {
+				if (data.state == 0) {
+					document.getElementById("CUS_PO_NO").classList.remove("violate");
+				}
+				else if (data.state == -1) {
 					document.getElementById("CUS_PO_NO").classList.add("violate");
 					alert("顧客訂單編號不可超過50字元");
 				}
@@ -187,7 +194,10 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == -1) {
+					if (data.state == 0) {
+						document.getElementById("SHIP_ADD_NO").classList.remove("violate");
+					}
+					else if (data.state == -1) {
 						document.getElementById("SHIP_ADD_NO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
@@ -226,7 +236,10 @@
 			request.onreadystatechange = function() {
 				if (request.readyState === 4 && request.status === 200) {
 					var data = JSON.parse(request.responseText);
-					if (data.state == -1) {
+					if (data.state == 0) {
+						document.getElementById("BILL_ADD_NO").classList.remove("violate");
+					}
+					else if (data.state == -1) {
 						document.getElementById("BILL_ADD_NO").classList.add("violate");
 						alert("此地址編號不存在");
 					}
@@ -244,7 +257,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == -1) {
+				if (data.state == 0) {
+					document.getElementById("ORD_INST").classList.remove("violate");
+				}
+				else if (data.state == -1) {
 					document.getElementById("ORD_INST").classList.add("violate");
 					alert("訂單額外附加指令不可超過50字元");
 				}
@@ -261,7 +277,10 @@
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.state == -1) {
+				if (data.state == 0) {
+					document.getElementById("DATE_REQ").classList.remove("violate");
+				}
+				else if (data.state == -1) {
 					document.getElementById("DATE_REQ").classList.add("violate");
 					alert("訂單要求完成日期為必填欄位");
 				}

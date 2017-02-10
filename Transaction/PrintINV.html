@@ -46,12 +46,9 @@
 					document.getElementById("FromDATE_TRAN").value = data.FromDATE_TRAN;
 					document.getElementById("ToDATE_TRAN").value = data.ToDATE_TRAN;
 				}
-				else {
-					alert(data.state);
+				else if (data.state == -1) {
+					alert("欄位數據初始化失敗");
 				}
-				//else if (data.state == -1) {
-				//	alert("欄位數據初始化失敗");
-				//}
 			}
 		}
 	}

@@ -102,7 +102,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CITYNO").classList.remove("violate");
-					alert("城市編號為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CITYNO").classList.add("violate");
@@ -135,7 +134,6 @@
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
 					document.getElementById("CITYNM").classList.remove("violate");
-					alert("城市名稱為必填欄位");
 				}
 				else if (data.state == -1) {
 					document.getElementById("CITYNM").classList.add("violate");

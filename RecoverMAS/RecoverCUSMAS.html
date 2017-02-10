@@ -98,6 +98,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("CUSNO").classList.remove("violate");
 					document.getElementById("CUSNO").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
 					document.getElementById("ADDNO_1").innerHTML = data.ADDNO_1;

@@ -153,7 +153,6 @@
 					var data = JSON.parse(request.responseText);
 					if (data.state == 0) {
 						document.getElementById("CITYNO").classList.remove("violate");
-						alert("此城市編號不存在");
 					}
 					else if (data.state == -1) {
 						document.getElementById("CITYNO").classList.add("violate");

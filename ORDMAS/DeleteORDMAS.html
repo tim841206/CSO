@@ -60,6 +60,7 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
+					document.getElementById("ORDNO").classList.remove("violate");
 					document.getElementById("ORDNO").readOnly = true;
 					document.getElementById("ORDTYPE").innerHTML = data.ORDTYPE;
 					document.getElementById("CUSNO").innerHTML = data.CUSNO;
