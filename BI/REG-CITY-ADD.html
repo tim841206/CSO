@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
+	<link rel="stylesheet" href="../resource/attachment.css">
 	<link rel="stylesheet" href="../resource/bootstrap.min.css">
 	<script src="../resource/attachment.js"></script>
 	<script src="../resource/jquery.min.js"></script>
@@ -21,15 +22,14 @@
 		<tr><td>城市編號</td><td><input type="text" name="CITYNO" id="CITYNO" onchange="update()"></td></tr>
 		<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="update()"></td></tr>
 		<tr><td>地址編號</td><td><input type="text" name="ADDNO" id="ADDNO" onchange="update()"></td></tr>
-	</table>
+	</table><br>
 	<div class="container">
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs nav-justified">
 			<li class="active"><a data-toggle="tab" href="#month">當月內</a></li>
 			<li><a data-toggle="tab" href="#season">當季內</a></li>
 			<li><a data-toggle="tab" href="#year">當年內</a></li>
 			<li><a data-toggle="tab" href="#ever">累積</a></li>
 		</ul>
-
 		<div class="tab-content">
 			<div id="month" class="tab-pane fade in active">
 				<p id="table_month"></p>

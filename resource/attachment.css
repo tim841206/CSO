@@ -43,5 +43,19 @@
 }
 
 .violate {
-  border-color: red;
+  border: 1px solid red;
+}
+
+input {
+  border: 1px solid #ccc;
+  padding-left: 2px;
+}
+
+button {
+  width: 75px;
+}
+
+h1 {
+  text-align: center;
+  font-family: Arial;
 }
