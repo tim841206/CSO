@@ -371,3 +371,69 @@ function check_ADDNO_CUSADDCITY($CUSNO, $ADDNO) {
 		return -1; // 不存在
 	}
 }
+
+function check_ORDMAS_SLSMAS($SALPERNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE SALPERNO='$SALPERNO' AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
+
+function check_ORDMAS_CUSMAS($CUSNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE CUSNO='$CUSNO' AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
+
+function check_ORDMAS_CUSADD($CUSNO, $ADDNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE CUSNO='$CUSNO' AND (SHIP_ADD_NO='$ADDNO' OR BILL_ADD_NO='$ADDNO') AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
+
+function check_ORDMAS_CUSREGION($REGIONNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE CUSNO IN (SELECT CUSNO FROM CUSADDCITY WHERE CITYNO IN (SELECT CITYNO FROM CUSCITY WHERE REGIONNO='$REGIONNO' AND ACTCODE=1) AND ACTCODE=1) AND (SHIP_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO IN (SELECT CITYNO FROM CUSCITY WHERE REGIONNO='$REGIONNO' AND ACTCODE=1) AND ACTCODE=1) OR BILL_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO IN (SELECT CITYNO FROM CUSCITY WHERE REGIONNO='$REGIONNO' AND ACTCODE=1) AND ACTCODE=1)) AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
+
+function check_ORDMAS_CUSCITY($CITYNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE CUSNO IN (SELECT CUSNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1) AND (SHIP_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1) OR BILL_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1)) AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
+
+function check_ORDMAS_CUSADDCITY($CUSNO, $ADDNO) {
+	$sql = "SELECT * FROM ORDMAS WHERE CUSNO='$CUSNO' AND (SHIP_ADD_NO='$ADDNO' OR BILL_ADD_NO='$ADDNO') AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
+	$result = mysql_query($sql);
+	if (mysql_num_rows($result) > 0) {
+		return false; // 不可刪
+	}
+	else {
+		return true; // ok
+	}
+}
