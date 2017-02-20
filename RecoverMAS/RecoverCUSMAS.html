@@ -17,9 +17,9 @@
 		<table>
 			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()"></td></tr>
 			<tr><td>顧客名稱</td><td><span id="CUSNM"></span></td></tr>
-			<tr><td>地址編號 1</td><td><span id="ADDNO_1"></span></td></tr>
-			<tr><td>地址編號 2</td><td><span id="ADDNO_2"></span></td></tr>
-			<tr><td>地址編號 3</td><td><span id="ADDNO_3"></span></td></tr>
+			<tr><td>地址 1</td><td><span id="ADD_1"></span></td></tr>
+			<tr><td>地址 2</td><td><span id="ADD_2"></span></td></tr>
+			<tr><td>地址 3</td><td><span id="ADD_3"></span></td></tr>
 			<tr><td>所屬城市</td><td><span id="CITY"></span></td></tr>
 			<tr><td>所屬縣市</td><td><span id="COUNTY"></span></td></tr>
 			<tr><td>所屬國家</td><td><span id="COUNTRY"></span></td></tr>
@@ -54,9 +54,9 @@
 		<table>
 			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
 			<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
-			<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
-			<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
-			<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
+			<tr><td>地址 1</td><td><span id="LastADD_1"></span></td></tr>
+			<tr><td>地址 2</td><td><span id="LastADD_2"></span></td></tr>
+			<tr><td>地址 3</td><td><span id="LastADD_3"></span></td></tr>
 			<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
 			<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
 			<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
@@ -101,9 +101,9 @@
 					document.getElementById("CUSNO").classList.remove("violate");
 					document.getElementById("CUSNO").readOnly = true;
 					document.getElementById("CUSNM").innerHTML = data.CUSNM;
-					document.getElementById("ADDNO_1").innerHTML = data.ADDNO_1;
-					document.getElementById("ADDNO_2").innerHTML = data.ADDNO_2;
-					document.getElementById("ADDNO_3").innerHTML = data.ADDNO_3;
+					document.getElementById("ADD_1").innerHTML = data.ADD_1;
+					document.getElementById("ADD_2").innerHTML = data.ADD_2;
+					document.getElementById("ADD_3").innerHTML = data.ADD_3;
 					document.getElementById("CITY").innerHTML = data.CITY;
 					document.getElementById("COUNTY").innerHTML = data.COUNTY;
 					document.getElementById("COUNTRY").innerHTML = data.COUNTRY;
@@ -156,9 +156,9 @@
 					alert("恢復成功");
 					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
 					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").innerHTML;
-					document.getElementById("LastADDNO_1").innerHTML = document.getElementById("ADDNO_1").innerHTML;
-					document.getElementById("LastADDNO_2").innerHTML = document.getElementById("ADDNO_2").innerHTML;
-					document.getElementById("LastADDNO_3").innerHTML = document.getElementById("ADDNO_3").innerHTML;
+					document.getElementById("LastADD_1").innerHTML = document.getElementById("ADD_1").innerHTML;
+					document.getElementById("LastADD_2").innerHTML = document.getElementById("ADD_2").innerHTML;
+					document.getElementById("LastADD_3").innerHTML = document.getElementById("ADD_3").innerHTML;
 					document.getElementById("LastCITY").innerHTML = document.getElementById("CITY").innerHTML;
 					document.getElementById("LastCOUNTY").innerHTML = document.getElementById("COUNTY").innerHTML;
 					document.getElementById("LastCOUNTRY").innerHTML = document.getElementById("COUNTRY").innerHTML;
@@ -197,9 +197,9 @@
 		document.getElementById("CUSNO").readOnly = false;
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("CUSNM").innerHTML = null;
-		document.getElementById("ADDNO_1").innerHTML = null;
-		document.getElementById("ADDNO_2").innerHTML = null;
-		document.getElementById("ADDNO_3").innerHTML = null;
+		document.getElementById("ADD_1").innerHTML = null;
+		document.getElementById("ADD_2").innerHTML = null;
+		document.getElementById("ADD_3").innerHTML = null;
 		document.getElementById("CITY").innerHTML = null;
 		document.getElementById("COUNTY").innerHTML = null;
 		document.getElementById("COUNTRY").innerHTML = null;

@@ -5,14 +5,20 @@ include_once("../resource/attachment.php");
 if (safe($_POST['module']) == "DeleteMAS") {
 	if (safe($_POST['event']) == "DeleteSLSMAS") {
 		if (safe($_POST['option']) == "SALPERNO") {
-			$result = check_SALPERNO(safe($_POST['SALPERNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'SALPERNM' => $result['SALPERNM'], 'EMPNO' => $result['EMPNO'], 'COMRATE' => $result['COMRATE'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_SLSMAS(safe($_POST['SALPERNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_SALPERNO(safe($_POST['SALPERNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'SALPERNM' => $result['SALPERNM'], 'EMPNO' => $result['EMPNO'], 'COMRATE' => $result['COMRATE'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -52,14 +58,20 @@ if (safe($_POST['module']) == "DeleteMAS") {
 	}
 	elseif (safe($_POST['event']) == "DeleteCUSMAS") {
 		if (safe($_POST['option']) == "CUSNO") {
-			$result = check_CUSNO(safe($_POST['CUSNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADDNO_1' => $result['ADDNO_1'], 'ADDNO_2' => $result['ADDNO_2'], 'ADDNO_3' => $result['ADDNO_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'DFSHIPNO' => $result['DFSHIPNO'], 'DFBILLNO' => $result['DFBILLNO'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CURAR' => $result['CURAR'], 'AR30_60' => $result['AR30_60'], 'AR60_90' => $result['AR60_90'], 'AR90_120' => $result['AR90_120'], 'M120AR' => $result['M120AR'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_CUSMAS(safe($_POST['CUSNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_CUSNO(safe($_POST['CUSNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADD_1' => $result['ADD_1'], 'ADD_2' => $result['ADD_2'], 'ADD_3' => $result['ADD_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'DFSHIPNO' => $result['DFSHIPNO'], 'DFBILLNO' => $result['DFBILLNO'], 'SALEAMTYTD' => $result['SALEAMTYTD'], 'SALEAMTSTD' => $result['SALEAMTSTD'], 'SALEAMTMTD' => $result['SALEAMTMTD'], 'CURAR' => $result['CURAR'], 'AR30_60' => $result['AR30_60'], 'AR60_90' => $result['AR60_90'], 'AR90_120' => $result['AR90_120'], 'M120AR' => $result['M120AR'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -105,14 +117,20 @@ if (safe($_POST['module']) == "DeleteMAS") {
 			}
 		}
 		elseif (safe($_POST['option']) == "ADDNO") {
-			$result = check_ADDNO_CUSADD(safe($_POST['CUSNO']), safe($_POST['ADDNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'ADD_1' => $result['ADD_1'], 'ADD_2' => $result['ADD_2'], 'ADD_3' => $result['ADD_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_ADDNO(safe($_POST['CUSNO']), safe($_POST['ADDNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_ADDNO_CUSADD(safe($_POST['CUSNO']), safe($_POST['ADDNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'ADD_1' => $result['ADD_1'], 'ADD_2' => $result['ADD_2'], 'ADD_3' => $result['ADD_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -143,14 +161,20 @@ if (safe($_POST['module']) == "DeleteMAS") {
 	}
 	elseif (safe($_POST['event']) == "DeleteCUSREGION") {
 		if (safe($_POST['option']) == "REGIONNO") {
-			$result = check_REGIONNO(safe($_POST['REGIONNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'CHANNELNO' => $result['CHANNELNO'], 'CHANNELNM' => $result['CHANNELNM'], 'COMPANYNO' => $result['COMPANYNO'], 'COMPANYNM' => $result['COMPANYNM'], 'DISTRICTNO' => $result['DISTRICTNO'], 'DESCRIPTION' => $result['DESCRIPTION'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_CUSREGION(safe($_POST['REGIONNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_REGIONNO(safe($_POST['REGIONNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'CHANNELNO' => $result['CHANNELNO'], 'CHANNELNM' => $result['CHANNELNM'], 'COMPANYNO' => $result['COMPANYNO'], 'COMPANYNM' => $result['COMPANYNM'], 'DISTRICTNO' => $result['DISTRICTNO'], 'DESCRIPTION' => $result['DESCRIPTION'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -185,14 +209,20 @@ if (safe($_POST['module']) == "DeleteMAS") {
 	}
 	elseif (safe($_POST['event']) == "DeleteCUSCITY") {
 		if (safe($_POST['option']) == "CITYNO") {
-			$result = check_CITYNO(safe($_POST['CITYNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'CITYNM' => $result['CITYNM'], 'REGIONNO' => $result['REGIONNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_CUSCITY(safe($_POST['CITYNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_CITYNO(safe($_POST['CITYNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'CITYNM' => $result['CITYNM'], 'REGIONNO' => $result['REGIONNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -233,14 +263,20 @@ if (safe($_POST['module']) == "DeleteMAS") {
 			}
 		}
 		elseif (safe($_POST['option']) == "ADDNO") {
-			$result = check_ADDNO_CUSADDCITY(safe($_POST['CUSNO']), safe($_POST['ADDNO']));
-			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'CITYNO' => $result['CITYNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+			if (!check_ORDMAS_ADDNO(safe($_POST['CUSNO']), safe($_POST['ADDNO']))) {
+				echo json_encode(array('state' => -3));
 				return;
 			}
 			else {
-				echo json_encode(array('state' => $result));
-				return;
+				$result = check_ADDNO_CUSADDCITY(safe($_POST['CUSNO']), safe($_POST['ADDNO']));
+				if (is_array($result)) {
+					echo json_encode(array('state' => 0, 'CITYNO' => $result['CITYNO'], 'CREATEDATE' => $result['CREATEDATE'], 'UPDATEDATE' => $result['UPDATEDATE']));
+					return;
+				}
+				else {
+					echo json_encode(array('state' => $result));
+					return;
+				}
 			}
 		}
 		elseif (safe($_POST['option']) == "Delete") {
@@ -394,7 +430,7 @@ function check_ORDMAS_CUSMAS($CUSNO) {
 	}
 }
 
-function check_ORDMAS_CUSADD($CUSNO, $ADDNO) {
+function check_ORDMAS_ADDNO($CUSNO, $ADDNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE CUSNO='$CUSNO' AND (SHIP_ADD_NO='$ADDNO' OR BILL_ADD_NO='$ADDNO') AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
@@ -418,17 +454,6 @@ function check_ORDMAS_CUSREGION($REGIONNO) {
 
 function check_ORDMAS_CUSCITY($CITYNO) {
 	$sql = "SELECT * FROM ORDMAS WHERE CUSNO IN (SELECT CUSNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1) AND (SHIP_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1) OR BILL_ADD_NO IN (SELECT ADDNO FROM CUSADDCITY WHERE CITYNO='$CITYNO' AND ACTCODE=1)) AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
-	$result = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
-		return false; // 不可刪
-	}
-	else {
-		return true; // ok
-	}
-}
-
-function check_ORDMAS_CUSADDCITY($CUSNO, $ADDNO) {
-	$sql = "SELECT * FROM ORDMAS WHERE CUSNO='$CUSNO' AND (SHIP_ADD_NO='$ADDNO' OR BILL_ADD_NO='$ADDNO') AND (ORD_STAT='E' OR ORD_STAT='R') AND ACTCODE=1";
 	$result = mysql_query($sql);
 	if (mysql_num_rows($result) > 0) {
 		return false; // 不可刪

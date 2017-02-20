@@ -147,6 +147,10 @@
 						document.getElementById("ADDNO").classList.add("violate");
 						alert("此顧客地址已刪除");
 					}
+					else if (data.state == -3) {
+						document.getElementById("ADDNO").classList.add("violate");
+						alert("此顧客地址有待執行或執行中之訂單，故無法刪除");
+					}
 				}
 			}
 		}

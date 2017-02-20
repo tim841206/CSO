@@ -76,6 +76,10 @@
 					document.getElementById("SALPERNO").classList.add("violate");
 					alert("此銷售員已刪除");
 				}
+				else if (data.state == -3) {
+					document.getElementById("SALPERNO").classList.add("violate");
+					alert("此銷售員有待執行或執行中之訂單，故無法刪除");
+				}
 			}
 		}
 	}

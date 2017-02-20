@@ -33,9 +33,9 @@ function search_content() {
 			<tr><td>SALPERNO</td><td>所屬銷售員編號</td><td></td><td>支援萬用卡</td></tr>
 			<tr><td>CUSNO</td><td>顧客編號</td><td></td><td></td></tr>
 			<tr><td>CUSNM</td><td>顧客名稱</td><td></td><td></td></tr>
-			<tr><td>ADDNO_1</td><td>顧客地址編號1</td><td></td><td></td></tr>
-			<tr><td>ADDNO_2</td><td>顧客地址編號2</td><td></td><td></td></tr>
-			<tr><td>ADDNO_3</td><td>顧客地址編號3</td><td></td><td></td></tr>
+			<tr><td>ADD_1</td><td>地址1</td><td></td><td></td></tr>
+			<tr><td>ADD_2</td><td>地址2</td><td></td><td></td></tr>
+			<tr><td>ADD_3</td><td>地址3</td><td></td><td></td></tr>
 			<tr><td>CITY</td><td>所屬城市</td><td></td><td></td></tr>
 			<tr><td>COUNTY</td><td>所屬縣市</td><td></td><td></td></tr>
 			<tr><td>COUNTRY</td><td>所屬國家</td><td></td><td></td></tr>

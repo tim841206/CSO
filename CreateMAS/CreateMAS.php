@@ -73,18 +73,18 @@ if (safe($_POST['module']) == "CreateMAS") {
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_1") {
-			$result = check_ADDNO_1(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_1") {
+			$result = check_50_notnull(safe($_POST['ADD_1']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_2") {
-			$result = check_ADDNO_2(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_2") {
+			$result = check_50(safe($_POST['ADD_2']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_3") {
-			$result = check_ADDNO_3(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_3") {
+			$result = check_50(safe($_POST['ADD_3']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -147,9 +147,9 @@ if (safe($_POST['module']) == "CreateMAS") {
 			$SALPERNO = safe($_POST['SALPERNO']);
 			$CUSNO = safe($_POST['CUSNO']);
 			$CUSNM = safe($_POST['CUSNM']);
-			$ADDNO_1 = safe($_POST['ADDNO_1']);
-			$ADDNO_2 = safe($_POST['ADDNO_2']);
-			$ADDNO_3 = safe($_POST['ADDNO_3']);
+			$ADD_1 = safe($_POST['ADD_1']);
+			$ADD_2 = safe($_POST['ADD_2']);
+			$ADD_3 = safe($_POST['ADD_3']);
 			$CITY = safe($_POST['CITY']);
 			$COUNTY = safe($_POST['COUNTY']);
 			$COUNTRY = safe($_POST['COUNTRY']);
@@ -165,9 +165,9 @@ if (safe($_POST['module']) == "CreateMAS") {
 			$result1 = check_SALPERNO_exist($SALPERNO);
 			$result2 = check_CUSNO($CUSNO);
 			$result3 = check_50_notnull($CUSNM);
-			$result4 = check_ADDNO_1($ADDNO_1, $ADDNO_2, $ADDNO_3);
-			$result5 = check_ADDNO_2($ADDNO_1, $ADDNO_2, $ADDNO_3);
-			$result6 = check_ADDNO_3($ADDNO_1, $ADDNO_2, $ADDNO_3);
+			$result4 = check_50_notnull($ADD_1);
+			$result5 = check_50($ADD_2);
+			$result6 = check_50($ADD_3);
 			$result7 = check_50($CITY);
 			$result8 = check_50($COUNTY);
 			$result9 = check_50($COUNTRY);
@@ -184,10 +184,17 @@ if (safe($_POST['module']) == "CreateMAS") {
 				date_default_timezone_set('Asia/Taipei');
 				$CREATEDATE = date("Y-m-d H:i:s");
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "INSERT INTO CUSMAS (CUSNO, CUSNM, ADDNO_1, ADDNO_2, ADDNO_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, WSITE, SALPERNO, DFSHIPNO, DFBILLNO, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CURAR, AR30_60, AR60_90, AR90_120, M120AR, SPEINS, CREDITSTAT, TAXID, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '$CUSNM', '$ADDNO_1', '$ADDNO_2', '$ADDNO_3', '$CITY', '$COUNTY', '$COUNTRY', '$ZCODE', '$CNTPER', '$TEL', '$FAX', '$EMAIL', '$WSITE', '$SALPERNO', '$ADDNO_1', '$ADDNO_1', 0, 0, 0, 0, 0, 0, 0, 0, '$SPEINS', '$CREDITSTAT', '$TAXID', '$CREATEDATE', '$UPDATEDATE', 1)";
+				$sql = "INSERT INTO CUSMAS (CUSNO, CUSNM, ADD_1, ADD_2, ADD_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, WSITE, SALPERNO, DFSHIPNO, DFBILLNO, SALEAMTYTD, SALEAMTSTD, SALEAMTMTD, CURAR, AR30_60, AR60_90, AR90_120, M120AR, SPEINS, CREDITSTAT, TAXID, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '$CUSNM', '$ADD_1', '$ADD_2', '$ADD_3', '$CITY', '$COUNTY', '$COUNTRY', '$ZCODE', '$CNTPER', '$TEL', '$FAX', '$EMAIL', '$WSITE', '$SALPERNO', '1', '1', 0, 0, 0, 0, 0, 0, 0, 0, '$SPEINS', '$CREDITSTAT', '$TAXID', '$CREATEDATE', '$UPDATEDATE', 1)";
 				if (mysql_query($sql)) {
-					echo json_encode(array('state' => 0));
-					return;
+					$sql = "INSERT INTO CUSADD (CUSNO, ADDNO, ADD_1, ADD_2, ADD_3, CITY, COUNTY, COUNTRY, ZCODE, CNTPER, TEL, FAX, EMAIL, CREATEDATE, UPDATEDATE, ACTCODE) VALUES ('$CUSNO', '1', '$ADD_1', '$ADD_2', '$ADD_3', '$CITY', '$COUNTY', '$COUNTRY', '$ZCODE', '$CNTPER', '$TEL', '$FAX', '$EMAIL', '$CREATEDATE', '$UPDATEDATE', 1)";
+					if (mysql_query($sql)) {
+						echo json_encode(array('state' => 0));
+						return;
+					}
+					else {
+						echo json_encode(array('state' => -3));
+						return;
+					}
 				}
 				else {
 					echo json_encode(array('state' => -1));
@@ -667,53 +674,6 @@ function check_ADDNO($CUSNO, $ADDNO) {
 	}
 	else {
 		return 0; // ok
-	}
-}
-
-function check_ADDNO_1($ADDNO_1, $ADDNO_2, $ADDNO_3) {
-	if (empty($ADDNO_1)) {
-		return -1; // 無輸入
-	}
-	else {
-		if (strlen($ADDNO_1) > 15) {
-			return -2; // 長度超過上限
-		}
-		else {
-			if ($ADDNO_1 == $ADDNO_2 || $ADDNO_1 == $ADDNO_3) {
-				return -3; // 已存在
-			}
-			else {
-				return 0; // ok
-			}
-		}
-	}
-}
-
-function check_ADDNO_2($ADDNO_1, $ADDNO_2, $ADDNO_3) {
-	if (!empty($ADDNO_2) && strlen($ADDNO_2) > 15) {
-		return -1; // 長度超過上限
-	}
-	else {
-		if ($ADDNO_2 == $ADDNO_1 || $ADDNO_2 == $ADDNO_3) {
-			return -2; // 已存在
-		}
-		else {
-			return 0; // ok
-		}
-	}
-}
-
-function check_ADDNO_3($ADDNO_1, $ADDNO_2, $ADDNO_3) {
-	if (!empty($ADDNO_3) && strlen($ADDNO_3) > 15) {
-		return -1; // 長度超過上限
-	}
-	else {
-		if ($ADDNO_3 == $ADDNO_1 || $ADDNO_3 == $ADDNO_2) {
-			return -2; // 已存在
-		}
-		else {
-			return 0; // ok
-		}
 	}
 }
 

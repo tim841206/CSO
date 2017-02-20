@@ -66,7 +66,7 @@ if (safe($_POST['module']) == "EditMAS") {
 		if (safe($_POST['option']) == "CUSNO") {
 			$result = SearchCUSMAS(safe($_POST['CUSNO']));
 			if (is_array($result)) {
-				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADDNO_1' => $result['ADDNO_1'], 'ADDNO_2' => $result['ADDNO_2'], 'ADDNO_3' => $result['ADDNO_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID']));
+				echo json_encode(array('state' => 0, 'CUSNM' => $result['CUSNM'], 'ADD_1' => $result['ADD_1'], 'ADD_2' => $result['ADD_2'], 'ADD_3' => $result['ADD_3'], 'CITY' => $result['CITY'], 'COUNTY' => $result['COUNTY'], 'COUNTRY' => $result['COUNTRY'], 'ZCODE' => $result['ZCODE'], 'CNTPER' => $result['CNTPER'], 'TEL' => $result['TEL'], 'FAX' => $result['FAX'], 'EMAIL' => $result['EMAIL'], 'WSITE' => $result['WSITE'], 'SALPERNO' => $result['SALPERNO'], 'SPEINS' => $result['SPEINS'], 'CREDITSTAT' => $result['CREDITSTAT'], 'TAXID' => $result['TAXID']));
 				return;
 			}
 			else {
@@ -74,28 +74,23 @@ if (safe($_POST['module']) == "EditMAS") {
 				return;
 			}
 		}
-		if (safe($_POST['option']) == "SALPERNO") {
-			$result = check_SALPERNO_exist(safe($_POST['SALPERNO']));
-			echo json_encode(array('state' => $result));
-			return;
-		}
 		elseif (safe($_POST['option']) == "CUSNM") {
 			$result = check_50_notnull(safe($_POST['CUSNM']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_1") {
-			$result = check_ADDNO_1(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_1") {
+			$result = check_50_notnull(safe($_POST['ADD_1']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_2") {
-			$result = check_ADDNO_2(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_2") {
+			$result = check_50(safe($_POST['ADD_2']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
-		elseif (safe($_POST['option']) == "ADDNO_3") {
-			$result = check_ADDNO_3(safe($_POST['ADDNO_1']), safe($_POST['ADDNO_2']), safe($_POST['ADDNO_3']));
+		elseif (safe($_POST['option']) == "ADD_3") {
+			$result = check_50(safe($_POST['ADD_3']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -144,6 +139,33 @@ if (safe($_POST['module']) == "EditMAS") {
 			echo json_encode(array('state' => $result));
 			return;
 		}
+		elseif (safe($_POST['option']) == "SALPERNO") {
+			$result = check_SALPERNO_exist(safe($_POST['SALPERNO']));
+			echo json_encode(array('state' => $result));
+			return;
+		}
+		elseif (safe($_POST['option']) == "DFSHIPNO") {
+			$result = SearchCUSADD(safe($_POST['CUSNO']), safe($_POST['DFSHIPNO']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
+		elseif (safe($_POST['option']) == "DFBILLNO") {
+			$result = SearchCUSADD(safe($_POST['CUSNO']), safe($_POST['DFBILLNO']));
+			if (is_array($result)) {
+				echo json_encode(array('state' => 0));
+				return;
+			}
+			else {
+				echo json_encode(array('state' => $result));
+				return;
+			}
+		}
 		elseif (safe($_POST['option']) == "SPEINS") {
 			$result = check_50(safe($_POST['SPEINS']));
 			echo json_encode(array('state' => $result));
@@ -158,9 +180,9 @@ if (safe($_POST['module']) == "EditMAS") {
 			$SALPERNO = safe($_POST['SALPERNO']);
 			$CUSNO = safe($_POST['CUSNO']);
 			$CUSNM = safe($_POST['CUSNM']);
-			$ADDNO_1 = safe($_POST['ADDNO_1']);
-			$ADDNO_2 = safe($_POST['ADDNO_2']);
-			$ADDNO_3 = safe($_POST['ADDNO_3']);
+			$ADD_1 = safe($_POST['ADD_1']);
+			$ADD_2 = safe($_POST['ADD_2']);
+			$ADD_3 = safe($_POST['ADD_3']);
 			$CITY = safe($_POST['CITY']);
 			$COUNTY = safe($_POST['COUNTY']);
 			$COUNTRY = safe($_POST['COUNTRY']);
@@ -176,9 +198,9 @@ if (safe($_POST['module']) == "EditMAS") {
 			$result1 = check_SALPERNO_exist($SALPERNO);
 			$result2 = is_array(SearchCUSMAS($CUSNO))? 0 : SearchCUSMAS($CUSNO);
 			$result3 = check_50_notnull($CUSNM);
-			$result4 = check_ADDNO_1($ADDNO_1, $ADDNO_2, $ADDNO_3);
-			$result5 = check_ADDNO_2($ADDNO_1, $ADDNO_2, $ADDNO_3);
-			$result6 = check_ADDNO_3($ADDNO_1, $ADDNO_2, $ADDNO_3);
+			$result4 = check_50_notnull($ADD_1);
+			$result5 = check_50($ADD_2);
+			$result6 = check_50($ADD_3);
 			$result7 = check_50($CITY);
 			$result8 = check_50($COUNTY);
 			$result9 = check_50($COUNTRY);
@@ -194,11 +216,16 @@ if (safe($_POST['module']) == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSMAS SET CUSNM='$CUSNM', ADDNO_1='$ADDNO_1', ADDNO_2='$ADDNO_2', ADDNO_3='$ADDNO_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', WSITE='$WSITE', SALPERNO='$SALPERNO', SPEINS='$SPEINS', CREDITSTAT='$CREDITSTAT', TAXID='$TAXID', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
+				$sql = "UPDATE CUSMAS SET CUSNM='$CUSNM', ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', WSITE='$WSITE', SALPERNO='$SALPERNO', SPEINS='$SPEINS', CREDITSTAT='$CREDITSTAT', TAXID='$TAXID', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
 				if (mysql_query($sql)) {
+					$editCUSADD = "UPDATE CUSADD SET ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO' AND ADDNO='1'";
 					$editCUSADDCITY = "UPDATE CUSADDCITY SET CUSNM='$CUSNM', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO'";
-					if (!mysql_query($editCUSADDCITY)) {
+					if (!mysql_query($editCUSADD)) {
 						echo json_encode(array('state' => -3));
+						return;
+					}
+					elseif (!mysql_query($editCUSADDCITY)) {
+						echo json_encode(array('state' => -4));
 						return;
 					}
 					else {
@@ -329,7 +356,7 @@ if (safe($_POST['module']) == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSADD SET ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
+				$sql = "UPDATE CUSADD SET ADD_1='$ADD_1', ADD_2='$ADD_2', ADD_3='$ADD_3', CITY='$CITY', COUNTY='$COUNTY', COUNTRY='$COUNTRY', ZCODE='$ZCODE', CNTPER='$CNTPER', TEL='$TEL', FAX='$FAX', EMAIL='$EMAIL', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;
@@ -519,7 +546,7 @@ if (safe($_POST['module']) == "EditMAS") {
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
 				$UPDATEDATE = date("Y-m-d H:i:s");
-				$sql = "UPDATE CUSADDCITY SET CITYNO='$CITYNO' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
+				$sql = "UPDATE CUSADDCITY SET CITYNO='$CITYNO', UPDATEDATE='$UPDATEDATE' WHERE CUSNO='$CUSNO' AND ADDNO='$ADDNO'";
 				if (mysql_query($sql)) {
 					echo json_encode(array('state' => 0));
 					return;

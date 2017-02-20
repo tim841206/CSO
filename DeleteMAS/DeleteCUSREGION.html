@@ -76,6 +76,10 @@
 					document.getElementById("REGIONNO").classList.add("violate");
 					alert("此顧客地區已刪除");
 				}
+				else if (data.state == -3) {
+					document.getElementById("SALPERNO").classList.add("violate");
+					alert("此顧客地區有待執行或執行中之訂單，故無法刪除");
+				}
 			}
 		}
 	}

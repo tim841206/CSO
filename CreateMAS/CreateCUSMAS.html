@@ -18,9 +18,9 @@
 			<tr><td>所屬銷售員編號</td><td><input type="text" name="SALPERNO" id="SALPERNO" onchange="SALPERNO()"></td></tr>
 			<tr><td>顧客編號</td><td><input type="text" name="CUSNO" id="CUSNO" onchange="CUSNO()" style="visibility: hidden;"></td></tr>
 			<tr><td>顧客名稱</td><td><input type="text" name="CUSNM" id="CUSNM" onchange="CUSNM()" style="visibility: hidden;"></td></tr>
-			<tr><td>地址編號 1</td><td><input type="text" name="ADDNO_1" id="ADDNO_1" onchange="ADDNO_1()" style="visibility: hidden;"></td></tr>
-			<tr><td>地址編號 2</td><td><input type="text" name="ADDNO_2" id="ADDNO_2" onchange="ADDNO_2()" style="visibility: hidden;"></td></tr>
-			<tr><td>地址編號 3</td><td><input type="text" name="ADDNO_3" id="ADDNO_3" onchange="ADDNO_3()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址 1</td><td><input type="text" name="ADD_1" id="ADD_1" onchange="ADD_1()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址 2</td><td><input type="text" name="ADD_2" id="ADD_2" onchange="ADD_2()" style="visibility: hidden;"></td></tr>
+			<tr><td>地址 3</td><td><input type="text" name="ADD_3" id="ADD_3" onchange="ADD_3()" style="visibility: hidden;"></td></tr>
 			<tr><td>所屬城市</td><td><input type="text" name="CITY" id="CITY" onchange="CITY()" style="visibility: hidden;"></td></tr>
 			<tr><td>所屬縣市</td><td><input type="text" name="COUNTY" id="COUNTY" onchange="COUNTY()" style="visibility: hidden;"></td></tr>
 			<tr><td>所屬國家</td><td><input type="text" name="COUNTRY" id="COUNTRY" onchange="COUNTRY()" style="visibility: hidden;"></td></tr>
@@ -43,9 +43,9 @@
 			<tr><td>所屬銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
 			<tr><td>顧客編號</td><td><span id="LastCUSNO"></span></td></tr>
 			<tr><td>顧客名稱</td><td><span id="LastCUSNM"></span></td></tr>
-			<tr><td>地址編號 1</td><td><span id="LastADDNO_1"></span></td></tr>
-			<tr><td>地址編號 2</td><td><span id="LastADDNO_2"></span></td></tr>
-			<tr><td>地址編號 3</td><td><span id="LastADDNO_3"></span></td></tr>
+			<tr><td>地址 1</td><td><span id="LastADD_1"></span></td></tr>
+			<tr><td>地址 2</td><td><span id="LastADD_2"></span></td></tr>
+			<tr><td>地址 3</td><td><span id="LastADD_3"></span></td></tr>
 			<tr><td>所屬城市</td><td><span id="LastCITY"></span></td></tr>
 			<tr><td>所屬縣市</td><td><span id="LastCOUNTY"></span></td></tr>
 			<tr><td>所屬國家</td><td><span id="LastCOUNTRY"></span></td></tr>
@@ -106,9 +106,9 @@
 						document.getElementById("SALPERNO").readOnly = true;
 						document.getElementById("CUSNO").style.visibility = 'visible';
 						document.getElementById("CUSNM").style.visibility = 'visible';
-						document.getElementById("ADDNO_1").style.visibility = 'visible';
-						document.getElementById("ADDNO_2").style.visibility = 'visible';
-						document.getElementById("ADDNO_3").style.visibility = 'visible';
+						document.getElementById("ADD_1").style.visibility = 'visible';
+						document.getElementById("ADD_2").style.visibility = 'visible';
+						document.getElementById("ADD_3").style.visibility = 'visible';
 						document.getElementById("CITY").style.visibility = 'visible';
 						document.getElementById("COUNTY").style.visibility = 'visible';
 						document.getElementById("COUNTRY").style.visibility = 'visible';
@@ -192,10 +192,10 @@
 			}
 		}
 	}
-	function ADDNO_1() {
+	function ADD_1() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADDNO_1&ADDNO_1=" + document.getElementById("ADDNO_1").value + "&ADDNO_2=" + document.getElementById("ADDNO_2").value + "&ADDNO_3=" + document.getElementById("ADDNO_3").value;
+		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADD_1&ADD_1=" + document.getElementById("ADD_1").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -203,27 +203,23 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("ADDNO_1").classList.remove("violate");
+					document.getElementById("ADD_1").classList.remove("violate");
 				}
 				else if (data.state == -1) {
-					document.getElementById("ADDNO_1").classList.add("violate");
-					alert("地址編號 1 為必填欄位");
+					document.getElementById("ADD_1").classList.add("violate");
+					alert("地址 1 為必填欄位");
 				}
 				else if (data.state == -2) {
-					document.getElementById("ADDNO_1").classList.add("violate");
-					alert("地址編號 1 不可超過15字元");
-				}
-				else if (data.state == -3) {
-					document.getElementById("ADDNO_1").classList.add("violate");
-					alert("此地址編號已存在");
+					document.getElementById("ADD_1").classList.add("violate");
+					alert("地址 1 不可超過50字元");
 				}
 			}
 		}
 	}
-	function ADDNO_2() {
+	function ADD_2() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADDNO_2&ADDNO_1=" + document.getElementById("ADDNO_1").value + "&ADDNO_2=" + document.getElementById("ADDNO_2").value + "&ADDNO_3=" + document.getElementById("ADDNO_3").value;
+		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADD_2&ADD_2=" + document.getElementById("ADD_2").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -231,23 +227,19 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("ADDNO_2").classList.remove("violate");
+					document.getElementById("ADD_2").classList.remove("violate");
 				}
 				else if (data.state == -1) {
-					document.getElementById("ADDNO_2").classList.add("violate");
-					alert("地址編號 2 不可超過15字元");
-				}
-				else if (data.state == -2) {
-					document.getElementById("ADDNO_2").classList.add("violate");
-					alert("此地址編號已存在");
+					document.getElementById("ADD_2").classList.add("violate");
+					alert("地址 2 不可超過50字元");
 				}
 			}
 		}
 	}
-	function ADDNO_3() {
+	function ADD_3() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADDNO_3&ADDNO_1=" + document.getElementById("ADDNO_1").value + "&ADDNO_2=" + document.getElementById("ADDNO_2").value + "&ADDNO_3=" + document.getElementById("ADDNO_3").value;
+		var data = "module=CreateMAS&event=CreateCUSMAS&option=ADD_3&ADD_3=" + document.getElementById("ADD_3").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -255,15 +247,11 @@
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
 				if (data.state == 0) {
-					document.getElementById("ADDNO_3").classList.remove("violate");
+					document.getElementById("ADD_3").classList.remove("violate");
 				}
 				else if (data.state == -1) {
-					document.getElementById("ADDNO_3").classList.add("violate");
-					alert("地址編號 3 不可超過15字元");
-				}
-				else if (data.state == -2) {
-					document.getElementById("ADDNO_3").classList.add("violate");
-					alert("此地址編號已存在");
+					document.getElementById("ADD_3").classList.add("violate");
+					alert("地址 3 不可超過50字元");
 				}
 			}
 		}
@@ -491,7 +479,7 @@
 	function Create() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "CreateMAS.php");
-		var data = "module=CreateMAS&event=CreateCUSMAS&option=Create&SALPERNO=" + document.getElementById("SALPERNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&CUSNM=" + document.getElementById("CUSNM").value + "&ADDNO_1=" + document.getElementById("ADDNO_1").value + "&ADDNO_2=" + document.getElementById("ADDNO_2").value + "&ADDNO_3=" + document.getElementById("ADDNO_3").value + "&CITY=" + document.getElementById("CITY").value + "&COUNTY=" + document.getElementById("COUNTY").value + "&COUNTRY=" + document.getElementById("COUNTRY").value + "&ZCODE=" + document.getElementById("ZCODE").value + "&CNTPER=" + document.getElementById("CNTPER").value + "&TEL=" + document.getElementById("TEL").value + "&FAX=" + document.getElementById("FAX").value + "&EMAIL=" + document.getElementById("EMAIL").value + "&WSITE=" + document.getElementById("WSITE").value + "&SPEINS=" + document.getElementById("SPEINS").value + "&CREDITSTAT=" + document.getElementById("CREDITSTAT").value + "&TAXID=" + document.getElementById("TAXID").value;
+		var data = "module=CreateMAS&event=CreateCUSMAS&option=Create&SALPERNO=" + document.getElementById("SALPERNO").value + "&CUSNO=" + document.getElementById("CUSNO").value + "&CUSNM=" + document.getElementById("CUSNM").value + "&ADD_1=" + document.getElementById("ADD_1").value + "&ADD_2=" + document.getElementById("ADD_2").value + "&ADD_3=" + document.getElementById("ADD_3").value + "&CITY=" + document.getElementById("CITY").value + "&COUNTY=" + document.getElementById("COUNTY").value + "&COUNTRY=" + document.getElementById("COUNTRY").value + "&ZCODE=" + document.getElementById("ZCODE").value + "&CNTPER=" + document.getElementById("CNTPER").value + "&TEL=" + document.getElementById("TEL").value + "&FAX=" + document.getElementById("FAX").value + "&EMAIL=" + document.getElementById("EMAIL").value + "&WSITE=" + document.getElementById("WSITE").value + "&SPEINS=" + document.getElementById("SPEINS").value + "&CREDITSTAT=" + document.getElementById("CREDITSTAT").value + "&TAXID=" + document.getElementById("TAXID").value;
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(data);
 
@@ -503,9 +491,9 @@
 					document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").value;
 					document.getElementById("LastCUSNO").innerHTML = document.getElementById("CUSNO").value;
 					document.getElementById("LastCUSNM").innerHTML = document.getElementById("CUSNM").value;
-					document.getElementById("LastADDNO_1").innerHTML = document.getElementById("ADDNO_1").value;
-					document.getElementById("LastADDNO_2").innerHTML = document.getElementById("ADDNO_2").value;
-					document.getElementById("LastADDNO_3").innerHTML = document.getElementById("ADDNO_3").value;
+					document.getElementById("LastADD_1").innerHTML = document.getElementById("ADD_1").value;
+					document.getElementById("LastADD_2").innerHTML = document.getElementById("ADD_2").value;
+					document.getElementById("LastADD_3").innerHTML = document.getElementById("ADD_3").value;
 					document.getElementById("LastCITY").innerHTML = document.getElementById("CITY").value;
 					document.getElementById("LastCOUNTY").innerHTML = document.getElementById("COUNTY").value;
 					document.getElementById("LastCOUNTRY").innerHTML = document.getElementById("COUNTRY").value;
@@ -521,9 +509,9 @@
 					document.getElementById("Last").style.visibility = 'visible';
 					document.getElementById("CUSNO").value = null;
 					document.getElementById("CUSNM").value = null;
-					document.getElementById("ADDNO_1").value = null;
-					document.getElementById("ADDNO_2").value = null;
-					document.getElementById("ADDNO_3").value = null;
+					document.getElementById("ADD_1").value = null;
+					document.getElementById("ADD_2").value = null;
+					document.getElementById("ADD_3").value = null;
 					document.getElementById("CITY").value = null;
 					document.getElementById("COUNTY").value = null;
 					document.getElementById("COUNTRY").value = null;
@@ -543,6 +531,9 @@
 				else if (data.state == -2) {
 					alert("請重新檢查以上欄位");
 				}
+				else if (data.state == -3) {
+					alert("連帶新增顧客地址失敗");
+				}
 			}
 		}
 	}
@@ -550,9 +541,9 @@
 		document.getElementById("SALPERNO").readOnly = false;
 		document.getElementById("CUSNO").style.visibility = 'hidden';
 		document.getElementById("CUSNM").style.visibility = 'hidden';
-		document.getElementById("ADDNO_1").style.visibility = 'hidden';
-		document.getElementById("ADDNO_2").style.visibility = 'hidden';
-		document.getElementById("ADDNO_3").style.visibility = 'hidden';
+		document.getElementById("ADD_1").style.visibility = 'hidden';
+		document.getElementById("ADD_2").style.visibility = 'hidden';
+		document.getElementById("ADD_3").style.visibility = 'hidden';
 		document.getElementById("CITY").style.visibility = 'hidden';
 		document.getElementById("COUNTY").style.visibility = 'hidden';
 		document.getElementById("COUNTRY").style.visibility = 'hidden';
@@ -569,9 +560,9 @@
 		document.getElementById("SALPERNO").value = null;
 		document.getElementById("CUSNO").value = null;
 		document.getElementById("CUSNM").value = null;
-		document.getElementById("ADDNO_1").value = null;
-		document.getElementById("ADDNO_2").value = null;
-		document.getElementById("ADDNO_3").value = null;
+		document.getElementById("ADD_1").value = null;
+		document.getElementById("ADD_2").value = null;
+		document.getElementById("ADD_3").value = null;
 		document.getElementById("CITY").value = null;
 		document.getElementById("COUNTY").value = null;
 		document.getElementById("COUNTRY").value = null;

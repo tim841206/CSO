@@ -166,9 +166,9 @@ INSERT INTO `CUSCITY` (`CITYNO`, `CITYNM`, `REGIONNO`, `CREATEDATE`, `UPDATEDATE
 CREATE TABLE `CUSMAS` (
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `CUSNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ADDNO_1` varchar(15) COLLATE utf8_bin NOT NULL,
-  `ADDNO_2` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `ADDNO_3` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `ADD_1` varchar(50) COLLATE utf8_bin NOT NULL,
+  `ADD_2` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ADD_3` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `CITY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `COUNTY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `COUNTRY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
@@ -201,14 +201,14 @@ CREATE TABLE `CUSMAS` (
 -- 資料表的匯出資料 `CUSMAS`
 --
 
-INSERT INTO `CUSMAS` (`CUSNO`, `CUSNM`, `ADDNO_1`, `ADDNO_2`, `ADDNO_3`, `CITY`, `COUNTY`, `COUNTRY`, `ZCODE`, `CNTPER`, `TEL`, `FAX`, `EMAIL`, `WSITE`, `SALPERNO`, `DFSHIPNO`, `DFBILLNO`, `SALEAMTYTD`, `SALEAMTSTD`, `SALEAMTMTD`, `CURAR`, `AR30_60`, `AR60_90`, `AR90_120`, `M120AR`, `SPEINS`, `CREDITSTAT`, `TAXID`, `CREATEDATE`, `UPDATEDATE`, `ACTCODE`) VALUES
-('100001', 'Excellent Choice Corporation', '1', '2', '3', 'Richardson', 'TX', 'US', '75081', 'Sarah Miller', '(214) 479-6666', '(214) 479-1422', 'Exch@aol.com', 'http://Excell_Choice.com', '1', '1', '1', 45240, 45240, 45240, 0, 0, 0, 0, 0, 'Inform Customer after shipping orders.', 'C', '', '2017-01-31 21:26:38', '2017-02-01 02:59:53', 1),
-('200001', 'ACA Technology Inc.', '1', '2', '3', 'Dallas', 'TX', 'US', '75007', 'Meggy Kelly', '(972) 236-7128', '(972) 236-7142', 'ACA@aol.com', 'http://ACA_tech.com', '2', '1', '1', 28882, 28882, 28882, 0, 0, 0, 0, 0, 'Inform Customer Shortage and Delay.', 'C', '', '2017-01-31 21:28:07', '2017-02-01 03:00:28', 1),
-('300001', 'Microage Inc.', '1', '2', '3', 'Dallas', 'TX', 'US', '75041', 'Ethen Pan', '(972) 428-6523', '(972) 428-6511', 'Microage@aol.com', 'http://microage.com', '3', '1', '1', 4000, 4000, 4000, 0, 0, 0, 0, 0, 'Customer needs new item information.', 'B', '', '2017-01-31 21:29:17', '2017-01-31 21:29:17', 1),
-('300002', 'Great Angle Technology, Inc.', '1', '2', '3', 'Carrollton', 'TX', 'US', '75007', 'Lisa Howard', '(972) 267-1327', '(972) 267-1448', 'Great_Angle@aol.com', 'http://Great_Angle.com', '3', '1', '1', 24590, 24590, 24590, 0, 0, 0, 0, 0, 'Pay within 1 week after the order shipped.', 'A', '', '2017-01-31 21:30:11', '2017-01-31 21:30:11', 1),
-('400001', '創意電腦科技股份有限公司', '1', '2', '3', '中山區', '台北市', '臺灣', '104', '李文利', '(02) 2336-1247', '(02) 2336-4211', 'Creative@SeedNet.com.tw', 'http://creative.com.tw', '4', '1', '1', 13070, 13070, 13070, 0, 0, 0, 0, 0, '請與顧客多接觸並介紹新產品', 'B', '', '2017-01-31 21:31:34', '2017-01-31 21:31:34', 1),
-('400002', '雷鳥科技股份有限公司', '1', '2', '3', '中山區', '台北市', '臺灣', '104', '吳昭和', '(02) 2366-7244', '(02) 2366-7422', 'Wu@ThunderBird.com.tw', 'http://ThunderBird.com.tw', '4', '1', '1', 52000, 52000, 52000, 0, 0, 0, 0, 0, '30天內交貨', 'A', '', '2017-01-31 21:32:26', '2017-01-31 21:32:26', 1),
-('500001', '環宇國際科技股份有限公司', '1', '2', '3', '大安區', '台北市', '臺灣', '106', '陳逸麟', '(02) 2369-7722', '(02) 2369-5126', 'Chen@universal.com.tw', 'http://Universal Tech.com.tw', '5', '1', '1', 52590, 52590, 52590, 0, 0, 0, 0, 0, '訂貨後三十天內送貨與付款', 'A', '', '2017-01-31 21:33:27', '2017-01-31 21:33:27', 1);
+INSERT INTO `CUSMAS` (`CUSNO`, `CUSNM`, `ADD_1`, `ADD_2`, `ADD_3`, `CITY`, `COUNTY`, `COUNTRY`, `ZCODE`, `CNTPER`, `TEL`, `FAX`, `EMAIL`, `WSITE`, `SALPERNO`, `DFSHIPNO`, `DFBILLNO`, `SALEAMTYTD`, `SALEAMTSTD`, `SALEAMTMTD`, `CURAR`, `AR30_60`, `AR60_90`, `AR90_120`, `M120AR`, `SPEINS`, `CREDITSTAT`, `TAXID`, `CREATEDATE`, `UPDATEDATE`, `ACTCODE`) VALUES
+('100001', 'Excellent Choice Corporation', '9112 E. Arapaho Road Suite 1001', '', '', 'Richardson', 'TX', 'US', '75081', 'Sarah Miller', '(214) 479-6666', '(214) 479-1422', 'Exch@aol.com', 'http://Excell_Choice.com', '1', '1', '1', 45240, 45240, 45240, 0, 0, 0, 0, 0, 'Inform Customer after shipping orders.', 'C', '', '2017-01-31 21:26:38', '2017-02-01 02:59:53', 1),
+('200001', 'ACA Technology Inc.', '4268 Campbell Road Suite 3401', '', '', 'Dallas', 'TX', 'US', '75007', 'Meggy Kelly', '(972) 236-7128', '(972) 236-7142', 'ACA@aol.com', 'http://ACA_tech.com', '2', '1', '1', 28882, 28882, 28882, 0, 0, 0, 0, 0, 'Inform Customer Shortage and Delay.', 'C', '', '2017-01-31 21:28:07', '2017-02-01 03:00:28', 1),
+('300001', 'Microage Inc.', '4268 Floyd Road Suite 901', '', '', 'Dallas', 'TX', 'US', '75041', 'Ethen Pan', '(972) 428-6523', '(972) 428-6511', 'Microage@aol.com', 'http://microage.com', '3', '1', '1', 4000, 4000, 4000, 0, 0, 0, 0, 0, 'Customer needs new item information.', 'B', '', '2017-01-31 21:29:17', '2017-01-31 21:29:17', 1),
+('300002', 'Great Angle Technology, Inc.', '670 Water Front Street Suite 2119', '', '', 'Carrollton', 'TX', 'US', '75007', 'Lisa Howard', '(972) 267-1327', '(972) 267-1448', 'Great_Angle@aol.com', 'http://Great_Angle.com', '3', '1', '1', 24590, 24590, 24590, 0, 0, 0, 0, 0, 'Pay within 1 week after the order shipped.', 'A', '', '2017-01-31 21:30:11', '2017-01-31 21:30:11', 1),
+('400001', '創意電腦科技股份有限公司', '忠孝東路三段210號2樓之4', '', '', '中山區', '台北市', '臺灣', '104', '李文利', '(02) 2336-1247', '(02) 2336-4211', 'Creative@SeedNet.com.tw', 'http://creative.com.tw', '4', '1', '1', 13070, 13070, 13070, 0, 0, 0, 0, 0, '請與顧客多接觸並介紹新產品', 'B', '', '2017-01-31 21:31:34', '2017-01-31 21:31:34', 1),
+('400002', '雷鳥科技股份有限公司', '羅斯福路三段40號7樓之8', '', '', '中山區', '台北市', '臺灣', '104', '吳昭和', '(02) 2366-7244', '(02) 2366-7422', 'Wu@ThunderBird.com.tw', 'http://ThunderBird.com.tw', '4', '1', '1', 52000, 52000, 52000, 0, 0, 0, 0, 0, '30天內交貨', 'A', '', '2017-01-31 21:32:26', '2017-01-31 21:32:26', 1),
+('500001', '環宇國際科技股份有限公司', '新生南路二段320號6樓之3', '', '', '大安區', '台北市', '臺灣', '106', '陳逸麟', '(02) 2369-7722', '(02) 2369-5126', 'Chen@universal.com.tw', 'http://Universal Tech.com.tw', '5', '1', '1', 52590, 52590, 52590, 0, 0, 0, 0, 0, '訂貨後三十天內送貨與付款', 'A', '', '2017-01-31 21:33:27', '2017-01-31 21:33:27', 1);
 
 -- --------------------------------------------------------
 

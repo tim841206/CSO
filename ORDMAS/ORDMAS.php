@@ -526,7 +526,7 @@ function check_DATE_REQ($value) {
 			return 0; // ok
 		}
 		else {
-			return -2; // ok
+			return -2;
 		}
 	}
 }

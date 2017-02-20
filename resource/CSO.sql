@@ -97,9 +97,9 @@ CREATE TABLE `CUSCITY` (
 CREATE TABLE `CUSMAS` (
   `CUSNO` varchar(15) COLLATE utf8_bin NOT NULL,
   `CUSNM` varchar(50) COLLATE utf8_bin NOT NULL,
-  `ADDNO_1` varchar(15) COLLATE utf8_bin NOT NULL,
-  `ADDNO_2` varchar(15) COLLATE utf8_bin DEFAULT NULL,
-  `ADDNO_3` varchar(15) COLLATE utf8_bin DEFAULT NULL,
+  `ADD_1` varchar(50) COLLATE utf8_bin NOT NULL,
+  `ADD_2` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `ADD_3` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `CITY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `COUNTY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
   `COUNTRY` varchar(50) COLLATE utf8_bin DEFAULT NULL,
