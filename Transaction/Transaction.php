@@ -42,14 +42,9 @@ if (safe($_POST['module']) == "Transaction") {
 			return;
 		}
 		elseif (safe($_POST['option']) == "DATE_TRAN") {
-			if (empty(safe($_POST['option']))) {
-				echo json_encode(array('state' => -1));
-				return;
-			}
-			else {
-				echo json_encode(array('state' => 0));
-				return;
-			}
+			$result = check_DATE_TRAN(safe($_POST['DATE_TRAN']));
+			echo json_encode(array('state' => $result));
+			return;
 		}
 		elseif (safe($_POST['option']) == "Create") {
 			$PCKLSTNO = safe($_POST['PCKLSTNO']);
@@ -64,7 +59,7 @@ if (safe($_POST['module']) == "Transaction") {
 			$result3 = check_ITEMNO($PCKLSTNO, $ITEMNO);
 			$result4 = check_LOCNO($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO);
 			$result5 = check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN);
-			$result6 = empty($DATE_TRAN)? -1 : 0;
+			$result6 = check_DATE_TRAN($DATE_TRAN);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
 			if ($result == 0) {
 				$queryORDMAT = mysql_query("SELECT * FROM ORDMAT WHERE ORDNO='$ORDNO' AND ITEMNO='$ITEMNO'");
@@ -420,6 +415,21 @@ function check_QTYTRAN($PCKLSTNO, $ITEMNO, $REV_CODE, $LOCNO, $QTYTRAN) {
 	}
 	else {
 		return 0;
+	}
+}
+
+function check_DATE_TRAN($DATE_TRAN) {
+	if (empty($DATE_TRAN)) {
+		return -1;
+	}
+	else {
+		$date = explode('-', $DATE_TRAN);
+		if (checkdate($date[1], $date[2], $date[0])) {
+			return 0;
+		}
+		else {
+			return -2;
+		}
 	}
 }
 

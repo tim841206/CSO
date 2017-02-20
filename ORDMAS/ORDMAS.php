@@ -35,7 +35,7 @@ if (safe($_POST['module']) == "ORDMAS") {
 			return;
 		}
 		elseif (safe($_POST['option']) == "DATE_REQ") {
-			$result = check_notnull(safe($_POST['DATE_REQ']));
+			$result = check_DATE_REQ(safe($_POST['DATE_REQ']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -54,7 +54,7 @@ if (safe($_POST['module']) == "ORDMAS") {
 			$result4 = check_ADDNO_exist($CUSNO, $SHIP_ADD_NO);
 			$result5 = check_ADDNO_exist($CUSNO, $BILL_ADD_NO);
 			$result6 = check_50($ORD_INST);
-			$result7 = check_notnull($DATE_REQ);
+			$result7 = check_DATE_REQ($DATE_REQ);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6 + $result7;
 			if ($result == 0) {
 				$ORDNO = query_ORDNO($ORDTYPE);
@@ -223,7 +223,7 @@ if (safe($_POST['module']) == "ORDMAS") {
 			return;
 		}
 		elseif (safe($_POST['option']) == "DATE_REQ") {
-			$result = check_notnull(safe($_POST['DATE_REQ']));
+			$result = check_DATE_REQ(safe($_POST['DATE_REQ']));
 			echo json_encode(array('state' => $result));
 			return;
 		}
@@ -240,7 +240,7 @@ if (safe($_POST['module']) == "ORDMAS") {
 			$result3 = check_ADDNO_exist($query['CUSNO'], $SHIP_ADD_NO);
 			$result4 = check_ADDNO_exist($query['CUSNO'], $BILL_ADD_NO);
 			$result5 = check_50($ORD_INST);
-			$result6 = check_notnull($DATE_REQ);
+			$result6 = check_DATE_REQ($DATE_REQ);
 			$result = $result1 + $result2 + $result3 + $result4 + $result5 + $result6;
 			if ($result == 0) {
 				date_default_timezone_set('Asia/Taipei');
@@ -516,12 +516,18 @@ else {
 	echo "Invalid Access!";
 }
 
-function check_notnull($value) {
+function check_DATE_REQ($value) {
 	if (empty($value)) {
 		return -1; // 無輸入
 	}
 	else {
-		return 0; // ok
+		$date = explode('-', $value);
+		if (checkdate($date[1], $date[2], $date[0])) {
+			return 0; // ok
+		}
+		else {
+			return -2; // ok
+		}
 	}
 }
 

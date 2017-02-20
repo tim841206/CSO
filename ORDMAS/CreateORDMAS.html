@@ -5,7 +5,15 @@
 	<meta name="description" content="顧客與銷售訂單系統">
 	<meta name="author" content="冷俊瑩">
 	<script src="../resource/attachment.js"></script>
+	<script src="../resource/jquery.min.js"></script>
+	<script src="../resource/jquery-ui.js"></script>
 	<link href="../resource/attachment.css" rel="stylesheet">
+	<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+	<script>
+	$( function() {
+		$( "#DATE_REQ" ).datepicker();
+	} );
+	</script>
 	<title>新增訂單主檔</title>
 	<header>
 		<h1>新增訂單主檔</h1>
@@ -22,7 +30,7 @@
 			<tr><td>運送地編號</td><td><input type="text" name="SHIP_ADD_NO" id="SHIP_ADD_NO" onchange="SHIP_ADD_NO()" style="visibility: hidden;"></td></tr>
 			<tr><td>帳單地編號</td><td><input type="text" name="BILL_ADD_NO" id="BILL_ADD_NO" onchange="BILL_ADD_NO()" style="visibility: hidden;"></td></tr>
 			<tr><td>訂單額外附加指令</td><td><input type="text" name="ORD_INST" id="ORD_INST" onchange="ORD_INST()" style="visibility: hidden;"></td></tr>
-			<tr><td>訂單要求完成日期</td><td><input type="date" name="DATE_REQ" id="DATE_REQ" onchange="DATE_REQ()" style="visibility: hidden;"></td></tr>
+			<tr><td>訂單要求完成日期</td><td><input type="text" name="DATE_REQ" id="DATE_REQ" onchange="DATE_REQ()" style="visibility: hidden;"></td></tr>
 		</table>
 		<button id="Create" onclick="Create()">新增</button>
 		<button id="Refresh" onclick="Refresh()">重新整理</button>
@@ -283,6 +291,10 @@
 				else if (data.state == -1) {
 					document.getElementById("DATE_REQ").classList.add("violate");
 					alert("訂單要求完成日期為必填欄位");
+				}
+				else if (data.state == -2) {
+					document.getElementById("DATE_REQ").classList.add("violate");
+					alert("請輸入正確的日期格式");
 				}
 			}
 		}
