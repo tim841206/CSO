@@ -96,10 +96,10 @@ function Print_INVOICE($INVOICENO) {
         $fetchADDRESS2 = mysql_fetch_array($queryADDRESS);
         $tbl = '<br><table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS1['ADD_1'].'</td></tr><tr><td>帳單地址</td><td>'.$fetchADDRESS2['ADD_1'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>-------------------------------------------------------------------------------------------------------------------------------</p>';
         $pdf->writeHTML($tbl, true, false, false, false, '');
-        $tbl = '<table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+        $tbl = '<table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th><th>交易日期</th></tr>';
       }
       $count += 1;
-      $tbl .= '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_CNT'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td></tr>';
+      $tbl .= '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td><td>'.$fetch['DATE_TRAN'].'</td></tr>';
     }
     $tbl .= '</table>';
     $pdf->writeHTML($tbl, true, false, false, false, '');
@@ -182,10 +182,10 @@ function Reprint_INVOICE($INVOICENO) {
         $fetchADDRESS2 = mysql_fetch_array($queryADDRESS);
         $tbl = '<br><table><tr><td>發票編號</td><td>'.$fetch['INVOICENO'].'</td></tr><tr><td>揀貨單編號</td><td>'.$fetch['PCKLSTNO'].'</td></tr><tr><td>訂單編號</td><td>'.$fetch['ORDNO'].'</td></tr><tr><td>顧客編號</td><td>'.$fetch['CUSNO'].'</td></tr><tr><td>運送地址</td><td>'.$fetchADDRESS1['ADD_1'].'</td></tr><tr><td>帳單地址</td><td>'.$fetchADDRESS2['ADD_1'].'</td></tr><tr><td>要求完成日期</td><td>'.$fetch['DATE_REQ'].'</td></tr><tr><td>最後更新日期</td><td>'.$fetch['DATE_L_MNT'].'</td></tr><tr><td>印製次數</td><td>'.$fetch['PRINTAG'].'</td></tr></table><p>-------------------------------------------------------------------------------------------------------------------------------</p>';
         $pdf->writeHTML($tbl, true, false, false, false, '');
-        $tbl = '<table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>簽約基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th></tr>';
+        $tbl = '<table><tr><th>物料編號</th><th>物料分類</th><th>基本價格</th><th>賣出價格</th><th>交易數量</th><th>總銷售額</th><th>含稅狀態</th><th>倒置狀態</th><th>交易日期</th></tr>';
       }
       $count += 1;
-      $tbl .= '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_CNT'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td></tr>';
+      $tbl .= '<tr><td>'.$fetch['ITEMNO'].'</td><td>'.$fetch['ITEMCLASS'].'</td><td>'.$fetch['BASE_PRICE'].'</td><td>'.$fetch['PRICE_SELL'].'</td><td>'.$fetch['QTYTRAN'].'</td><td>'.$fetch['NET_SALES'].'</td><td>'.$fetch['TAX_CODE'].'</td><td>'.$fetch['REV_CODE'].'</td><td>'.$fetch['DATE_TRAN'].'</td></tr>';
     }
     $tbl .= '</table>';
     $pdf->writeHTML($tbl, true, false, false, false, '');

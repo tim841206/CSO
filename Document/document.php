@@ -124,6 +124,7 @@
 	</select>
 	<? } ?>
 </form>
+<p id="title"></p>
 <p id="content"></p>
 <? call_content($_POST['type'], $_POST['event']); ?>
 <?
@@ -169,11 +170,12 @@ function call_content($type, $event) {
 		request.onreadystatechange = function() {
 			if (request.readyState === 4 && request.status === 200) {
 				var data = JSON.parse(request.responseText);
-				if (data.msg == 'ok') {
+				if (data.msg == 'ok' && data.content != 'unknown request event') {
+					document.getElementById("title").innerHTML = data.title;
 					document.getElementById("content").innerHTML = data.content;
 				}
 				else {
-					// error content feedback
+					alert("Invalid Access!");
 				}
 			}
 		}

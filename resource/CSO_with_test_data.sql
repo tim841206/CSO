@@ -39,8 +39,8 @@ CREATE TABLE `CSO_setup` (
 INSERT INTO `CSO_setup` (`TYPENO`, `DESCRIPTS`, `VALUE`) VALUES
 ('OG', '下一筆正常訂單編號', 100001),
 ('OS', '下一筆特殊訂單編號', 900001),
-('PG', '下一筆正常訂單揀貨單編號', 1000020),
-('PS', '下一筆特殊訂單揀貨單編號', 9000002),
+('PG', '下一筆正常訂單揀貨單編號', 1000001),
+('PS', '下一筆特殊訂單揀貨單編號', 9000001),
 ('IG', '下一筆正常發票編號', 10000001),
 ('IS', '下一筆特殊發票編號', 90000001);
 
@@ -1705,7 +1705,7 @@ ALTER TABLE `CUSADD`
 -- 資料表索引 `CUSADDCITY`
 --
 ALTER TABLE `CUSADDCITY`
-  ADD PRIMARY KEY (`CUSNO`,`ADDNO`,`CITYNO`);
+  ADD PRIMARY KEY (`CUSNO`,`ADDNO`);
 
 --
 -- 資料表索引 `CUSCITY`

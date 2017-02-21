@@ -26,6 +26,9 @@
 			<tr><td>銷售員編號</td><td><span id="SALPERNO"></span></td></tr>
 			<tr><td>訂單總值</td><td><span id="TO_ORD_AMT"></span></td></tr>
 			<tr><td>運送總值</td><td><span id="TO_SHP_AMT"></span></td></tr>
+			<tr><td>年結帳至今期間之銷售額</td><td><span id="SALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今期間之銷售額</td><td><span id="SALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今期間之銷售額</td><td><span id="SALEAMTMTD"></span></td></tr>
 			<tr><td>訂單額外附加指令</td><td><span id="ORD_INST"></span></td></tr>
 			<tr><td>原始訂單開啟日期</td><td><span id="DATEORDORG"></span></td></tr>
 			<tr><td>訂單完成百分比</td><td><span id="ORDCOMPER"></span></td></tr>
@@ -51,6 +54,9 @@
 			<tr><td>銷售員編號</td><td><span id="LastSALPERNO"></span></td></tr>
 			<tr><td>訂單總值</td><td><span id="LastTO_ORD_AMT"></span></td></tr>
 			<tr><td>運送總值</td><td><span id="LastTO_SHP_AMT"></span></td></tr>
+			<tr><td>年結帳至今期間之銷售額</td><td><span id="LastSALEAMTYTD"></span></td></tr>
+			<tr><td>季結帳至今期間之銷售額</td><td><span id="LastSALEAMTSTD"></span></td></tr>
+			<tr><td>月結帳至今期間之銷售額</td><td><span id="LastSALEAMTMTD"></span></td></tr>
 			<tr><td>訂單額外附加指令</td><td><span id="LastORD_INST"></span></td></tr>
 			<tr><td>原始訂單開啟日期</td><td><span id="LastDATEORDORG"></span></td></tr>
 			<tr><td>訂單完成百分比</td><td><span id="LastORDCOMPER"></span></td></tr>
@@ -85,6 +91,9 @@
 					document.getElementById("SALPERNO").innerHTML = data.SALPERNO;
 					document.getElementById("TO_ORD_AMT").innerHTML = data.TO_ORD_AMT;
 					document.getElementById("TO_SHP_AMT").innerHTML = data.TO_SHP_AMT;
+					document.getElementById("SALEAMTYTD").innerHTML = data.SALEAMTYTD;
+					document.getElementById("SALEAMTSTD").innerHTML = data.SALEAMTSTD;
+					document.getElementById("SALEAMTMTD").innerHTML = data.SALEAMTMTD;
 					document.getElementById("ORD_INST").innerHTML = data.ORD_INST;
 					document.getElementById("DATEORDORG").innerHTML = data.DATEORDORG;
 					document.getElementById("ORDCOMPER").innerHTML = data.ORDCOMPER;
@@ -114,6 +123,9 @@
 		document.getElementById("LastSALPERNO").innerHTML = document.getElementById("SALPERNO").innerHTML;
 		document.getElementById("LastTO_ORD_AMT").innerHTML = document.getElementById("TO_ORD_AMT").innerHTML;
 		document.getElementById("LastTO_SHP_AMT").innerHTML = document.getElementById("TO_SHP_AMT").innerHTML;
+		document.getElementById("LastSALEAMTYTD").innerHTML = document.getElementById("SALEAMTYTD").innerHTML;
+		document.getElementById("LastSALEAMTSTD").innerHTML = document.getElementById("SALEAMTSTD").innerHTML;
+		document.getElementById("LastSALEAMTMTD").innerHTML = document.getElementById("SALEAMTMTD").innerHTML;
 		document.getElementById("LastORD_INST").innerHTML = document.getElementById("ORD_INST").innerHTML;
 		document.getElementById("LastDATEORDORG").innerHTML = document.getElementById("DATEORDORG").innerHTML;
 		document.getElementById("LastORDCOMPER").innerHTML = document.getElementById("ORDCOMPER").innerHTML;
@@ -132,6 +144,9 @@
 		document.getElementById("SALPERNO").innerHTML = null;
 		document.getElementById("TO_ORD_AMT").innerHTML = null;
 		document.getElementById("TO_SHP_AMT").innerHTML = null;
+		document.getElementById("SALEAMTYTD").innerHTML = null;
+		document.getElementById("SALEAMTSTD").innerHTML = null;
+		document.getElementById("SALEAMTMTD").innerHTML = null;
 		document.getElementById("ORD_INST").innerHTML = null;
 		document.getElementById("DATEORDORG").innerHTML = null;
 		document.getElementById("ORDCOMPER").innerHTML = null;
