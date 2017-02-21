@@ -54,7 +54,10 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$SALPERNM = ($result2 < 0) ? -1 : 0;
+				$EMPNO = ($result3 < 0) ? -1 : 0;
+				$COMRATE = ($result4 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'SALPERNM' => $SALPERNM, 'EMPNO' => $EMPNO, 'COMRATE' => $COMRATE));
 				return;
 			}
 		}
@@ -239,7 +242,23 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$SALPERNO = ($result1 < 0) ? -1 : 0;
+				$CUSNM = ($result3 < 0) ? -1 : 0;
+				$ADD_1 = ($result4 < 0) ? -1 : 0;
+				$ADD_2 = ($result5 < 0) ? -1 : 0;
+				$ADD_3 = ($result6 < 0) ? -1 : 0;
+				$CITY = ($result7 < 0) ? -1 : 0;
+				$COUNTY = ($result8 < 0) ? -1 : 0;
+				$COUNTRY = ($result9 < 0) ? -1 : 0;
+				$ZCODE = ($result10 < 0) ? -1 : 0;
+				$CNTPER = ($result11 < 0) ? -1 : 0;
+				$TEL = ($result12 < 0) ? -1 : 0;
+				$FAX = ($result13 < 0) ? -1 : 0;
+				$EMAIL = ($result14 < 0) ? -1 : 0;
+				$WSITE = ($result15 < 0) ? -1 : 0;
+				$SPEINS = ($result16 < 0) ? -1 : 0;
+				$TAXID = ($result17 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'SALPERNO' => $SALPERNO, 'CUSNM' => $CUSNM, 'ADD_1' => $ADD_1, 'ADD_2' => $ADD_2, 'ADD_3' => $ADD_3, 'CITY' => $CITY, 'COUNTY' => $COUNTY, 'COUNTRY' => $COUNTRY, 'ZCODE' => $ZCODE, 'CNTPER' => $CNTPER, 'TEL' => $TEL, 'FAX' => $FAX, 'EMAIL' => $EMAIL, 'WSITE' => $WSITE, 'SPEINS' => $SPEINS, 'TAXID' => $TAXID));
 				return;
 			}
 		}
@@ -367,7 +386,18 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$ADD_1 = ($result3 < 0) ? -1 : 0;
+				$ADD_2 = ($result4 < 0) ? -1 : 0;
+				$ADD_3 = ($result5 < 0) ? -1 : 0;
+				$CITY = ($result6 < 0) ? -1 : 0;
+				$COUNTY = ($result7 < 0) ? -1 : 0;
+				$COUNTRY = ($result8 < 0) ? -1 : 0;
+				$ZCODE = ($result9 < 0) ? -1 : 0;
+				$CNTPER = ($result10 < 0) ? -1 : 0;
+				$TEL = ($result11 < 0) ? -1 : 0;
+				$FAX = ($result12 < 0) ? -1 : 0;
+				$EMAIL = ($result13 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'ADD_1' => $ADD_1, 'ADD_2' => $ADD_2, 'ADD_3' => $ADD_3, 'CITY' => $CITY, 'COUNTY' => $COUNTY, 'COUNTRY' => $COUNTRY, 'ZCODE' => $ZCODE, 'CNTPER' => $CNTPER, 'TEL' => $TEL, 'FAX' => $FAX, 'EMAIL' => $EMAIL));
 				return;
 			}
 		}
@@ -447,7 +477,13 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$CHANNELNO = ($result2 < 0) ? -1 : 0;
+				$CHANNELNM = ($result3 < 0) ? -1 : 0;
+				$COMPANYNO = ($result4 < 0) ? -1 : 0;
+				$COMPANYNM = ($result5 < 0) ? -1 : 0;
+				$DISTRICTNO = ($result6 < 0) ? -1 : 0;
+				$DESCRIPTION = ($result7 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'CHANNELNO' => $CHANNELNO, 'CHANNELNM' => $CHANNELNM, 'COMPANYNO' => $COMPANYNO, 'COMPANYNM' => $COMPANYNM, 'DISTRICTNO' => $DISTRICTNO, 'DESCRIPTION' => $DESCRIPTION));
 				return;
 			}
 		}
@@ -499,7 +535,9 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$REGIONNO = ($result1 < 0) ? -1 : 0;
+				$CITYNM = ($result3 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'REGIONNO' => $REGIONNO, 'CITYNM' => $CITYNM));
 				return;
 			}
 		}
@@ -557,7 +595,8 @@ if (safe($_POST['module']) == "EditMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$CITYNO = ($result3 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'CITYNO' => $CITYNO));
 				return;
 			}
 		}

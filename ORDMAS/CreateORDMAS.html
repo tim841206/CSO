@@ -332,6 +332,12 @@
 					alert("資料庫新增失敗");
 				}
 				else if (data.state == -2) {
+					if (data.CUSNO < 0) document.getElementById("CUSNO").classList.add("violate");
+					if (data.CUS_PO_NO < 0) document.getElementById("CUS_PO_NO").classList.add("violate");
+					if (data.SHIP_ADD_NO < 0) document.getElementById("SHIP_ADD_NO").classList.add("violate");
+					if (data.BILL_ADD_NO < 0) document.getElementById("BILL_ADD_NO").classList.add("violate");
+					if (data.ORD_INST < 0) document.getElementById("ORD_INST").classList.add("violate");
+					if (data.DATE_REQ < 0) document.getElementById("DATE_REQ").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

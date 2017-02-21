@@ -162,6 +162,10 @@
 					alert("資料庫新增失敗");
 				}
 				else if (data.state == -2) {
+					if (data.SALPERNO < 0) document.getElementById("SALPERNO").classList.add("violate");
+					if (data.SALPERNM < 0) document.getElementById("SALPERNM").classList.add("violate");
+					if (data.EMPNO < 0) document.getElementById("EMPNO").classList.add("violate");
+					if (data.COMRATE < 0) document.getElementById("COMRATE").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

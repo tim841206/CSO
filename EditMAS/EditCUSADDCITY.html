@@ -185,6 +185,7 @@
 					alert("資料庫修改失敗");
 				}
 				else if (data.state == -2) {
+					if (data.CITYNO < 0) document.getElementById("CITYNO").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

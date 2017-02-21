@@ -169,6 +169,9 @@
 					alert("資料庫新增失敗");
 				}
 				else if (data.state == -2) {
+					if (data.REGIONNO < 0) document.getElementById("REGIONNO").classList.add("violate");
+					if (data.CITYNO < 0) document.getElementById("CITYNO").classList.add("violate");
+					if (data.CITYNM < 0) document.getElementById("CITYNM").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

@@ -196,6 +196,9 @@
 					alert("資料庫新增失敗");
 				}
 				else if (data.state == -2) {
+					if (data.CUSNO < 0) document.getElementById("CUSNO").classList.add("violate");
+					if (data.ADDNO < 0) document.getElementById("ADDNO").classList.add("violate");
+					if (data.CITYNO < 0) document.getElementById("CITYNO").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

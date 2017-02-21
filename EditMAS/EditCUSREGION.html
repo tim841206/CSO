@@ -246,6 +246,12 @@
 					alert("資料庫修改失敗");
 				}
 				else if (data.state == -2) {
+					if (data.CHANNELNO < 0) document.getElementById("CHANNELNO").classList.add("violate");
+					if (data.CHANNELNM < 0) document.getElementById("CHANNELNM").classList.add("violate");
+					if (data.COMPANYNO < 0) document.getElementById("COMPANYNO").classList.add("violate");
+					if (data.COMPANYNM < 0) document.getElementById("COMPANYNM").classList.add("violate");
+					if (data.DISTRICTNO < 0) document.getElementById("DISTRICTNO").classList.add("violate");
+					if (data.DESCRIPTION < 0) document.getElementById("DESCRIPTION").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

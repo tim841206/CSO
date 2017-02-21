@@ -78,7 +78,13 @@ if (safe($_POST['module']) == "ORDMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$CUSNO = ($result2 < 0) ? -1 : 0;
+				$CUS_PO_NO = ($result3 < 0) ? -1 : 0;
+				$SHIP_ADD_NO = ($result4 < 0) ? -1 : 0;
+				$BILL_ADD_NO = ($result5 < 0) ? -1 : 0;
+				$ORD_INST = ($result6 < 0) ? -1 : 0;
+				$DATE_REQ = ($result7 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'CUSNO' => $CUSNO, 'CUS_PO_NO' => $CUS_PO_NO, 'SHIP_ADD_NO' => $SHIP_ADD_NO, 'BILL_ADD_NO' => $BILL_ADD_NO, 'ORD_INST' => $ORD_INST, 'DATE_REQ' => $DATE_REQ));
 				return;
 			}
 		}
@@ -180,7 +186,10 @@ if (safe($_POST['module']) == "ORDMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$QTYORD = ($result4 < 0) ? -1 : 0;
+				$PRICE_CNT = ($result5 < 0) ? -1 : 0;
+				$PERCENTDIS = ($result6 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'QTYORD' => $QTYORD, 'PRICE_CNT' => $PRICE_CNT, 'PERCENTDIS' => $PERCENTDIS));
 				return;
 			}
 		}
@@ -256,7 +265,12 @@ if (safe($_POST['module']) == "ORDMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$CUS_PO_NO = ($result2 < 0) ? -1 : 0;
+				$SHIP_ADD_NO = ($result3 < 0) ? -1 : 0;
+				$BILL_ADD_NO = ($result4 < 0) ? -1 : 0;
+				$ORD_INST = ($result5 < 0) ? -1 : 0;
+				$DATE_REQ = ($result6 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'CUS_PO_NO' => $CUS_PO_NO, 'SHIP_ADD_NO' => $SHIP_ADD_NO, 'BILL_ADD_NO' => $BILL_ADD_NO, 'ORD_INST' => $ORD_INST, 'DATE_REQ' => $DATE_REQ));
 				return;
 			}
 		}
@@ -347,7 +361,10 @@ if (safe($_POST['module']) == "ORDMAS") {
 				}
 			}
 			else {
-				echo json_encode(array('state' => -2));
+				$QTYORD = ($result3 < 0) ? -1 : 0;
+				$PRICE_CNT = ($result4 < 0) ? -1 : 0;
+				$PERCENTDIS = ($result5 < 0) ? -1 : 0;
+				echo json_encode(array('state' => -2, 'QTYORD' => $QTYORD, 'PRICE_CNT' => $PRICE_CNT, 'PERCENTDIS' => $PERCENTDIS));
 				return;
 			}
 		}

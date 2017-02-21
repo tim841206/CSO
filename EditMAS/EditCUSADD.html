@@ -412,6 +412,17 @@
 					alert("資料庫修改失敗");
 				}
 				else if (data.state == -2) {
+					if (data.ADD_1 < 0) document.getElementById("ADD_1").classList.add("violate");
+					if (data.ADD_2 < 0) document.getElementById("ADD_2").classList.add("violate");
+					if (data.ADD_3 < 0) document.getElementById("ADD_3").classList.add("violate");
+					if (data.CITY < 0) document.getElementById("CITY").classList.add("violate");
+					if (data.COUNTY < 0) document.getElementById("COUNTY").classList.add("violate");
+					if (data.COUNTRY < 0) document.getElementById("COUNTRY").classList.add("violate");
+					if (data.ZCODE < 0) document.getElementById("ZCODE").classList.add("violate");
+					if (data.CNTPER < 0) document.getElementById("CNTPER").classList.add("violate");
+					if (data.TEL < 0) document.getElementById("TEL").classList.add("violate");
+					if (data.FAX < 0) document.getElementById("FAX").classList.add("violate");
+					if (data.EMAIL < 0) document.getElementById("EMAIL").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}

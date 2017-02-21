@@ -325,6 +325,9 @@
 					alert("資料庫新增失敗");
 				}
 				else if (data.state == -2) {
+					if (data.QTYORD < 0) document.getElementById("QTYORD").classList.add("violate");
+					if (data.PRICE_CNT < 0) document.getElementById("PRICE_CNT").classList.add("violate");
+					if (data.PERCENTDIS < 0) document.getElementById("PERCENTDIS").classList.add("violate");
 					alert("請重新檢查以上欄位");
 				}
 			}
