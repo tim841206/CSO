@@ -176,28 +176,4 @@ function check_selected($index, $value) {
 		echo "selected";
 	}
 }
-function call_content($type, $event) {
-	?>
-	<script>
-		var request = new XMLHttpRequest();
-		request.open("POST", "document_service.php");
-		var data = "type=<? echo $type; ?>&event=<? echo $event; ?>";
-		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		request.send(data);
-
-		request.onreadystatechange = function() {
-			if (request.readyState === 4 && request.status === 200) {
-				var data = JSON.parse(request.responseText);
-				if (data.msg == 'ok' && data.content != 'unknown request event') {
-					document.getElementById("title").innerHTML = data.title;
-					document.getElementById("content").innerHTML = data.content;
-				}
-				else {
-					alert("<? echo $event; ?>");
-				}
-			}
-		}
-	</script>
-	<?
-}
 ?>
