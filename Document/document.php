@@ -1,6 +1,6 @@
 <? init(); ?>
-<form id="form" action="document.php" method="post" >
-	<select class="" name="type" onchange="document.getElementById('form').submit();">
+<form id="form" action="document.php" method="post">
+	<select class="" id="type" name="type" onchange="document.getElementById('form').submit();">
 		<option value="CreateMAS" <? check_selected('type', 'CreateMAS') ?>>新增主檔維護</option>
 		<option value="EditMAS" <? check_selected('type', 'EditMAS') ?>>修改主檔維護</option>
 		<option value="DeleteMAS" <? check_selected('type', 'DeleteMAS') ?>>刪除主檔維護</option>
@@ -13,7 +13,7 @@
 		<option value="Transaction" <? check_selected('type', 'Transaction') ?>>交易檔維護</option>
 	</select>
 	<? if ($_POST['type'] == 'CreateMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="CreateSLSMAS" <? check_selected('event', 'CreateSLSMAS') ?>>新增銷售員</option>
 		<option value="CreateCUSMAS" <? check_selected('event', 'CreateCUSMAS') ?>>新增顧客</option>
 		<option value="CreateCUSADD" <? check_selected('event', 'CreateCUSADD') ?>>新增顧客地址</option>
@@ -23,7 +23,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'EditMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="EditSLSMAS" <? check_selected('event', 'EditSLSMAS') ?>>修改銷售員</option>
 		<option value="EditCUSMAS" <? check_selected('event', 'EditCUSMAS') ?>>修改顧客</option>
 		<option value="EditCUSADD" <? check_selected('event', 'EditCUSADD') ?>>修改顧客地址</option>
@@ -33,7 +33,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'DeleteMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="DeleteSLSMAS" <? check_selected('event', 'DeleteSLSMAS') ?>>刪除銷售員</option>
 		<option value="DeleteCUSMAS" <? check_selected('event', 'DeleteCUSMAS') ?>>刪除顧客</option>
 		<option value="DeleteCUSADD" <? check_selected('event', 'DeleteCUSADD') ?>>刪除顧客地址</option>
@@ -43,7 +43,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'RecoverMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="RecoverSLSMAS" <? check_selected('event', 'RecoverSLSMAS') ?>>恢復銷售員</option>
 		<option value="RecoverCUSMAS" <? check_selected('event', 'RecoverCUSMAS') ?>>恢復顧客</option>
 		<option value="RecoverCUSADD" <? check_selected('event', 'RecoverCUSADD') ?>>恢復顧客地址</option>
@@ -53,7 +53,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'ExportMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="ExportSLSMAS" <? check_selected('event', 'ExportSLSMAS') ?>>輸出銷售員</option>
 		<option value="ExportCUSMAS" <? check_selected('event', 'ExportCUSMAS') ?>>輸出顧客</option>
 		<option value="ExportCUSADD" <? check_selected('event', 'ExportCUSADD') ?>>輸出顧客地址</option>
@@ -62,7 +62,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'SearchMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="SearchSLSMAS" <? check_selected('event', 'SearchSLSMAS') ?>>查詢銷售員</option>
 		<option value="SearchCUSMAS" <? check_selected('event', 'SearchCUSMAS') ?>>查詢顧客</option>
 		<option value="SearchCUSADD" <? check_selected('event', 'SearchCUSADD') ?>>查詢顧客地址</option>
@@ -72,15 +72,15 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'CrossSearchMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="SLSMASSearchCUSMAS" <? check_selected('event', 'SLSMASSearchCUSMAS') ?>>銷售員查詢顧客</option>
-		<option value="CUSMASSearchCUSCITY" <? check_selected('event', 'CUSMASSearchCUSADD') ?>>顧客查詢顧客地址</option>
+		<option value="CUSMASSearchCUSADD" <? check_selected('event', 'CUSMASSearchCUSADD') ?>>顧客查詢顧客地址</option>
 		<option value="CUSREGIONSearchCUSCITY" <? check_selected('event', 'CUSREGIONSearchCUSCITY') ?>>顧客地區查詢顧客城市</option>
-		<option value="CUSCITYSearchRELATION" <? check_selected('event', 'CUSCITYSearchCUSADDCITY') ?>>顧客城市查詢顧客地址城市關聯</option>
+		<option value="CUSCITYSearchCUSADDCITY" <? check_selected('event', 'CUSCITYSearchCUSADDCITY') ?>>顧客城市查詢顧客地址城市關聯</option>
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'ORDMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="CreateORDMAS" <? check_selected('event', 'CreateORDMAS') ?>>新增訂單主檔</option>
 		<option value="EditORDMAS" <? check_selected('event', 'EditORDMAS') ?>>修改訂單主檔</option>
 		<option value="DeleteORDMAS" <? check_selected('event', 'DeleteORDMAS') ?>>刪除訂單主檔</option>
@@ -92,7 +92,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'SearchORDMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="SLSMASSearchORDMAS" <? check_selected('event', 'SLSMASSearchORDMAS') ?>>銷售員查詢訂單主檔</option>
 		<option value="ORDNOSearchORDMAT" <? check_selected('event', 'ORDNOSearchORDMAT') ?>>訂單編號查詢訂單物料</option>
 		<option value="ORDNOSearchORDMAS" <? check_selected('event', 'ORDNOSearchORDMAS') ?>>訂單編號查詢訂單主檔</option>
@@ -100,7 +100,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'PublishORDMAS'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="R_ORDMAS" <? check_selected('event', 'R_ORDMAS') ?>>發佈訂單</option>
 		<option value="C_ORDMAS" <? check_selected('event', 'C_ORDMAS') ?>>正常關閉訂單</option>
 		<option value="F_ORDMAS" <? check_selected('event', 'F_ORDMAS') ?>>強制關閉訂單</option>
@@ -108,7 +108,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'Transaction'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="PrintPCK" <? check_selected('event', 'PrintPCK') ?>>列印揀貨單</option>
 		<option value="SearchPCK" <? check_selected('event', 'SearchPCK') ?>>查詢揀貨單</option>
 		<option value="PergePCK" <? check_selected('event', 'PergePCK') ?>>作廢揀貨單</option>
@@ -118,7 +118,7 @@
 	</select>
 	<? } ?>
 	<? if ($_POST['type'] == 'BI'){ ?>
-	<select class="" name="event" onchange="document.getElementById('form').submit();">
+	<select class="" id="event" name="event" onchange="document.getElementById('form').submit();">
 		<option value="REG-CITY-ADD" <? check_selected('event', 'REG-CITY-ADD') ?>>地區-城市-地址</option>
 		<option value="SLS-CUS-ADD" <? check_selected('event', 'SLS-CUS-ADD') ?>>銷售員-顧客-地址</option>
 	</select>
@@ -126,28 +126,46 @@
 </form>
 <p id="title"></p>
 <p id="content"></p>
-<? call_content($_POST['type'], $_POST['event']); ?>
+<script>
+	var request = new XMLHttpRequest();
+	request.open("POST", "document_service.php");
+	var data = "type=" + document.getElementById('type').value + "&event=" + document.getElementById('event').value;
+	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	request.send(data);
+
+	request.onreadystatechange = function() {
+		if (request.readyState === 4 && request.status === 200) {
+			var data = JSON.parse(request.responseText);
+			if (data.msg == 'ok' && data.content != 'unknown request event') {
+				document.getElementById("title").innerHTML = data.title;
+				document.getElementById("content").innerHTML = data.content;
+			}
+			else {
+				alert(data.content);
+			}
+		}
+	}
+</script>
+
 <?
 function init() {
 	if (!isset($_POST['type'])){
 		$_POST['type'] = 'CreateMAS';
 	}
-	else {
-		if (!isset($_POST['event'])){
-			if ($_POST['type'] == 'CreateMAS') $_POST['event'] = 'CreateSLSMAS';
-			elseif ($_POST['type'] == 'EditMAS') $_POST['event'] = 'EditSLSMAS';
-			elseif ($_POST['type'] == 'DeleteMAS') $_POST['event'] = 'DeleteSLSMAS';
-			elseif ($_POST['type'] == 'RecoverMAS') $_POST['event'] = 'RecoverSLSMAS';
-			elseif ($_POST['type'] == 'ExportMAS') $_POST['event'] = 'ExportSLSMAS';
-			elseif ($_POST['type'] == 'SearchMAS') $_POST['event'] = 'SearchSLSMAS';
-			elseif ($_POST['type'] == 'CrossSearchMAS') $_POST['event'] = 'SLSMASSearchCUSMAS';
-			elseif ($_POST['type'] == 'ORDMAS') $_POST['event'] = 'CreateORDMAS';
-			elseif ($_POST['type'] == 'SearchORDMAS') $_POST['event'] = 'SLSMASSearchORDMAS';
-			elseif ($_POST['type'] == 'PublishORDMAS') $_POST['event'] = 'R_ORDMAS';
-			elseif ($_POST['type'] == 'Transaction') $_POST['event'] = 'PrintPCK';
-			elseif ($_POST['type'] == 'BI') $_POST['event'] = 'REG-CITY-ADD';
-			else exit("unknown request type");
-		}
+	if (!isset($_POST['event'])){
+		if ($_POST['type'] == 'CreateMAS') $_POST['event'] = 'CreateSLSMAS';
+		elseif ($_POST['type'] == 'EditMAS') $_POST['event'] = 'EditSLSMAS';
+		elseif ($_POST['type'] == 'DeleteMAS') $_POST['event'] = 'DeleteSLSMAS';
+		elseif ($_POST['type'] == 'RecoverMAS') $_POST['event'] = 'RecoverSLSMAS';
+		elseif ($_POST['type'] == 'ExportMAS') $_POST['event'] = 'ExportSLSMAS';
+		elseif ($_POST['type'] == 'SearchMAS') $_POST['event'] = 'SearchSLSMAS';
+		elseif ($_POST['type'] == 'CrossSearchMAS') $_POST['event'] = 'SLSMASSearchCUSMAS';
+		elseif ($_POST['type'] == 'ORDMAS') $_POST['event'] = 'CreateORDMAS';
+		elseif ($_POST['type'] == 'SearchORDMAS') $_POST['event'] = 'SLSMASSearchORDMAS';
+		elseif ($_POST['type'] == 'PublishORDMAS') $_POST['event'] = 'R_ORDMAS';
+		elseif ($_POST['type'] == 'Transaction') $_POST['event'] = 'PrintPCK';
+		elseif ($_POST['type'] == 'BI') $_POST['event'] = 'REG-CITY-ADD';
+		else exit("unknown request type");
 	}
 }
 function check_selected($index, $value) {
@@ -175,7 +193,7 @@ function call_content($type, $event) {
 					document.getElementById("content").innerHTML = data.content;
 				}
 				else {
-					alert("Invalid Access!");
+					alert("<? echo $event; ?>");
 				}
 			}
 		}
