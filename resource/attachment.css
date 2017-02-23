@@ -16,6 +16,7 @@
   width: auto;
   height: auto;
   border-radius: 10px;
+  padding: 10px;
   transform: translate(-50%);
   background: white;
   display: none;
@@ -44,6 +45,15 @@
 
 .violate {
   border: 1px solid red;
+}
+
+.wildcard {
+  border-collapse: collapse;
+}
+
+.wildcard th, .wildcard td {
+  border: 1px solid black;
+  text-align: center;
 }
 
 input {
